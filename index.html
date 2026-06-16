@@ -1,374 +1,719 @@
-
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Aprende Español! — Práctica</title>
+<style>
+  :root{
+    --bg:#0f1226; --panel:#1a1f3d; --panel2:#232a52; --line:rgba(255,255,255,.1);
+    --txt:#f3f4fb; --muted:#a6acd6; --accent:#ff5d8f; --accent2:#5b8cff;
+    --good:#3ddc97; --bad:#ff6b6b; --warn:#ffcf5c; --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:
+    radial-gradient(1200px 600px at 10% -10%,#2a2160 0%,transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%,#1d3a6e 0%,transparent 55%),
+    var(--bg);color:var(--txt);min-height:100vh;line-height:1.5}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
+  .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+  .brand .logo{font-size:30px}
+  .brand h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
+  .brand p{font-size:12px;color:var(--muted)}
+  .pill{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--muted);display:flex;gap:14px;align-items:center}
+  .pill b{color:var(--txt)}
+  .hide{display:none!important}
 
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sepehr Aflatounian</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Sepehr Portfolio" />
-        <meta name="keywords" content="Software, Portfolio, HTML, Clean, Modern" />
-        <meta name="author" content="Sepehr Aflatounian" />
-        <meta name="email" content="sepehrafla@gmail.com" />
-        <meta name="website" content="http://www.3per.info" />
-        <meta name="Version" content="v2.5.1" />
-        <!-- favicon -->
-        <link rel="shortcut icon" href="images/favicon.ico">
-        <!-- Bootstrap -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- Magnific -->
-        <link href="css/magnific-popup.css" rel="stylesheet" type="text/css" />
-        <!-- Slider -->               
-        <link rel="stylesheet" href="css/owl.carousel.min.css"/> 
-        <link rel="stylesheet" href="css/owl.theme.default.min.css"/> 
-        <!-- Icons -->
-        <link href="css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
-        <!-- Main Css -->
-        <link href="css/style.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <link href="css/colors/default.css" rel="stylesheet" id="color-opt">
+  /* HOME */
+  .hero{background:linear-gradient(135deg,#ff5d8f22,#5b8cff22);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:26px}
+  .hero h2{font-size:24px;margin-bottom:6px}
+  .hero p{color:var(--muted);font-size:15px}
+  .section-title{font-size:14px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:26px 4px 14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+  .card:hover{transform:translateY(-4px);border-color:var(--accent2)}
+  .card .emoji{font-size:34px;display:block;margin-bottom:10px}
+  .card h3{font-size:18px;margin-bottom:5px}
+  .card p{font-size:13px;color:var(--muted)}
+  .card .bar{height:6px;border-radius:999px;background:var(--panel2);margin-top:14px;overflow:hidden}
+  .card .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--good),var(--accent2));width:0}
+  .card .tag{position:absolute;top:14px;right:14px;font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted)}
+  .card.special{background:linear-gradient(135deg,#ff5d8f33,#7b5bff33);border-color:#ff5d8f55}
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:11px 18px;font-size:15px;cursor:pointer;transition:.15s;font-family:inherit}
+  .btn:hover{border-color:var(--accent2)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff7eaa);border:none;font-weight:600}
+  .btn.ghost{background:transparent}
+  .btn:active{transform:scale(.97)}
+  .back{color:var(--muted);font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;margin-bottom:18px}
+  .back:hover{color:var(--txt)}
 
-        <!-- ==== Font Awesome ==== -->
-        <link href="css-copy/font-awesome.min.css" rel="stylesheet">
-        
-        <!-- ==== Bootstrap ==== -->
-        <link href="css-copy/bootstrap.min.css" rel="stylesheet">
-        
-        <!-- ==== jQuery UI ==== -->
-        <link href="css-copy/jquery-ui.min.css" rel="stylesheet">
-        
-        <!-- ==== Owl Carousel Plugin ==== -->
-        <link href="css-copy/owl.carousel.min.css" rel="stylesheet">
-        
-        <!-- ====Main Stylesheet==== -->
-        <link href="css-copy/style.css" rel="stylesheet">
-        
-        <!-- ====Custom Stylesheet==== -->
-        <link href="css-copy/custom-style.css" rel="stylesheet">
-        <!-- Calendly badge widget begin -->
-        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-        <style>
-            .image-container_acc {
-              display: flex;
-              justify-content: space-evenly;
-              flex-wrap: wrap;
-            }
-            .image-container_acc img {
-              width: 300px;
-              height: 300px;
-            }
-            .video-responsive {
-                overflow:hidden;
-                padding-bottom:56.25%;
-                position:relative;
-                height:0;
-            }
-                .video-responsive iframe {
-                left:0;
-                top:0;
-                height:100%;
-                width:100%;
-                position:absolute;
-            }
-          </style>
+  /* MODE SELECT */
+  .modes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:18px}
+  .mode{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;cursor:pointer;transition:.15s;text-align:center}
+  .mode:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .mode .ic{font-size:30px;margin-bottom:8px}
+  .mode h4{font-size:16px;margin-bottom:4px}
+  .mode p{font-size:12px;color:var(--muted)}
 
-<!-- Calendly badge widget end -->
+  /* QUIZ */
+  .quizbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;margin-top:8px}
+  .progressrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .progressrow .track{flex:1;height:8px;background:var(--panel2);border-radius:999px;overflow:hidden}
+  .progressrow .track i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}
+  .progressrow .qn{font-size:13px;color:var(--muted);white-space:nowrap}
+  .context{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:10px}
+  .prompt{font-size:24px;font-weight:600;margin-bottom:8px;line-height:1.4}
+  .translation{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:22px}
+  .blank{display:inline-block;min-width:120px;border-bottom:3px solid var(--accent2);color:var(--accent2);text-align:center;padding:0 6px}
+  input.answer{font-size:20px;font-family:inherit;background:var(--panel2);border:2px solid var(--line);border-radius:12px;color:var(--txt);padding:12px 16px;width:100%;max-width:340px;outline:none}
+  input.answer:focus{border-color:var(--accent2)}
+  input.answer.correct{border-color:var(--good);color:var(--good)}
+  input.answer.wrong{border-color:var(--bad);color:var(--bad)}
+  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .opt{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:15px;font-size:17px;cursor:pointer;text-align:center;transition:.12s;font-family:inherit;color:var(--txt)}
+  .opt:hover:not(:disabled){border-color:var(--accent2)}
+  .opt.correct{border-color:var(--good);background:#3ddc9722;color:var(--good)}
+  .opt.wrong{border-color:var(--bad);background:#ff6b6b22;color:var(--bad)}
+  .opt:disabled{cursor:default}
+  .feedback{min-height:26px;margin:20px 0 4px;font-size:16px;font-weight:600}
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+  .qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}
+  .swatch{width:100%;height:90px;border-radius:12px;margin-bottom:20px;border:1px solid var(--line)}
 
-    </head>
+  /* MATCH */
+  .matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:10px}
+  .mcol{display:flex;flex-direction:column;gap:10px}
+  .mitem{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:14px;font-size:16px;cursor:pointer;text-align:center;transition:.12s}
+  .mitem:hover{border-color:var(--accent2)}
+  .mitem.sel{border-color:var(--accent);background:#ff5d8f22}
+  .mitem.done{border-color:var(--good);background:#3ddc9722;color:var(--good);cursor:default;opacity:.65}
+  .mitem.flash{border-color:var(--bad);background:#ff6b6b22}
 
-    <body>
-        
-        <!-- Loader -->
-        <!-- <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
-        </div> -->
-        <!-- Loader -->
-        
-        <!-- Navbar STart -->
-        <header id="topnav" class="defaultscroll sticky">
-            <div class="container text-center">
-                <!-- Logo container-->
-                <div>
-                    <a class="logo" href="index.html">
-                        <img src="images/logo-dark.png" height="30" alt="">
-                    </a>
-                </div>             
-            </div><!--end container-->
-        </header><!--end header-->
-        <!-- Navbar End -->
-        
-        <!-- Hero Start -->
-        <section class="bg-half-170 d-table w-100 overflow-hidden" id="home">
-            <div class="container">
-                <div class="row align-items-center pt-5">
-                    <div class="col-lg-7 col-md-6">
-                        <div class="title-heading mt-4">
-                            <h1 class="display-3 font-weight-bold mb-3">Hi I'm <br> <span class="element" data-elements="Sepehr Aflatounian, Software Engineer, Aspiring Entrepreneur"></span> </h1>
-                            <p class="para-desc text-muted"></p>
-                            <div class="mt-4 pt-2">
-                                <a href="https://www.linkedin.com/in/saflatounian/" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-linkedin"></i> Linkedin</a>
-                                <a href="https://github.com/sepehrafla" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-github"></i> Github</a>
-                                <a href="img/Resume_iOS-2.pdf" class="btn btn-outline-primary mt-2 mouse-down"><i class="mdi mdi-cloud-download"></i> Resume</a>
-                            </div>
-                            <!-- <div class="mt-4 pt-2">
-                                <a href="https://www.craft.do/s/yuBuxTm3FUVGd7" class="btn btn-outline-primary mt-2 mouse-down"><i class="mdi mdi-star"></i> Know More About Me :) </a>
-                            </div> -->
-                        </div>
-                    </div><!--end col-->
-                    
-                </div><!--end row-->
-            </div><!--end container-->
-        </section><!--end section-->
+  /* RESULTS */
+  .results{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:40px 26px}
+  .results .big{font-size:64px;margin-bottom:8px}
+  .results h2{font-size:26px;margin-bottom:6px}
+  .results .score{font-size:46px;font-weight:700;background:linear-gradient(135deg,var(--good),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:10px 0}
+  .results p{color:var(--muted);margin-bottom:24px}
+  .rbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-        <div class="image-container_acc">
-            <img src="images/saas/7FD012BD-A94C-428F-8AD1-EBBD3834A560_1_105_c-modified.png" alt="Image 1"> 
+  /* confetti */
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
 
-            <img src="images/University_of_Waterloo_seal.svg.png" alt="Image 2"> 
-
-          </div>            <br><br>
-            
-          
-        <!-- Hero End -->
-        <div id="gallery">
-
-            <div class="container">
-                <!-- Section Title Start -->
-
-
-
-                <div class="section--title">
-                    <img><h2><strong>Selected Works and Projects</strong></h2>
-                </div>
-                <!-- Section Title End -->
-                <div class="gallery-filter-menu">
-                    <ul>
-                        <li class="active"><a href="*" class="btn--default">ALL</a></li>                        
-                        <li><a href="iOS-item" class="btn--default">iOS</a></li>                                                    
-                        <li><a href="Android-item" class="btn--default">Android</a></li>
-                        <li><a href="React-item" class="btn--default">Web / Dashboards</a></li> 
-                        <li><a href="Data-item" class="btn--default">Data Analytics</a></li> 
-                        <li><a href="MachineLearning-item" class="btn--default">Machine Learning / AI</a></li> 
-                        <li><a href="Autonomous-item" class="btn--default">Embedded Systems</a></li>  
-                        <li><a href="Aviation-item" class="btn--default">Aviation</a></li>  
-                    </ul>
-                    <ul>
-                        <li><a href="saas-item" class="btn--default">SaaS</a></li> 
-                        <li><a href="Dental-item" class="btn--default">Dental</a></li>                                                    
-                        <li><a href="automotive-item" class="btn--default">Automotive</a></li> 
-                        <li><a href="realestate-item" class="btn--default">Real Estate</a></li>  
-                        <li><a href="gaming-item" class="btn--default">Gaming</a></li>  
-                        <li><a href="Security-item" class="btn--default">Cyber Security</a></li>  
-                        <li><a href="Satellite-item" class="btn--default">Satellite</a></li>  
-                    </ul>
-                </div>
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12 reset-padding post-title">
-                
-                    <div class="row gallery-items">
-                    <div class="col-md-6 gallery-item" data-cat="iOS-item Android-item Dental-item saas-item">
-                        <div class="video-responsive">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/5TVFCCePp9w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        </div>
-                       
-                        <h3>Smile Link</h3>
-                        <h4 style="margin-bottom: 30px; line-height: 1.5em;">Designed, architected and executed the first virtual dental office app with over 40+ integrations with dental PMS (San Antonio, Texas)</h4>
-
-                        <a href="https://apps.apple.com/us/app/blueteeth-app/id1645696642" class="btn btn-primary mt-2 mr-2"><i class="mdi mdi-apple"></i> App Store</a>
-                        <a href="https://play.google.com/store/apps/details?id=app.blueteeth" class="btn btn-outline-primary mt-2"><i class="mdi mdi-google-play"></i> Play Store</a><br>
-                        <a href="https://smilelink.app" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Dentists' Management Dashboard</a>
-                    </div>
-                        
-                    <div class="col-md-6 gallery-item" data-cat="Dental-item React-item Data-item">
-                        
-                        <img src="images/emerg.jpeg" alt="" class="img-responsive">
-                            <h3>Emergclinic</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Emergclinic connects patients to nearby dental clinics for prompt and dependable care during dental emergencies. (Toronto, ON)</h4>
-
-                            <a width="560" height="315"href="https://www.emergclinic.com" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Learn More</a>
-                    </div>
-    
-                    </div>
-
-                    
-
-                <div class="row gallery-items">
-                    <div class="col-md-6 gallery-item" data-cat="iOS-item automotive-item">
-                        
-                        <img src="img/new/fordpass.jpg" alt="" class="img-responsive">
-                            <h3>FordPass iOS App</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Worked on FordPass iOS app as part of the Accenture team and developed the comprehensive status feature for door lock/unlock and worked on manual charging for EV Vehicle. (Dearborn, MI)</h4>
-
-                        <a href="https://apps.apple.com/us/app/fordpass/id1095418609" class="btn btn-primary mt-2 mr-2"><i class="mdi mdi-apple"></i> App Store</a>
-                        
-                    </div>
-                    
-                    <div class="col-md-6 gallery-item" data-cat="iOS-item Android-item gaming-item">
-                        
-                        <img src="img/new/pokerstars.jpg" alt="" class="img-responsive">
-                            <h3>PokerStars App</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Worked on both Android and iOS app and built new features and internal tools for better testing the app. (Toronto, ON)</h4>
-
-                            <a href="https://apps.apple.com/ca/app/pokerstars-online-poker-games/id497361777" class="btn btn-primary mt-2 mr-2"><i class="mdi mdi-apple"></i> App Store</a>
-                            <a href="https://play.google.com/store/apps/details?id=com.pyrsoftware.pokerstars.net&hl=en_CA&gl=US" class="btn btn-outline-primary mt-2"><i class="mdi mdi-google-play"></i> Play Store</a>
-                    </div>
-
-                </div>
-
-                <br><br><br>
-
-                <div class="row gallery-items">
-                    <div class="col-md-6 gallery-item" data-cat="MachineLearning-item React-item saas-item realestate-item">
-                        
-                        <img src="images/crelhub.png" alt="" class="img-responsive">
-                            <h3>Crelhub (Real Estate Listing Hub) </h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Senior Developer for Crelhub and developed custom intellignet machine learning solutioned to analyze real estate images to enhance filtering and also historical price to predict future prices. (in fund raising stage) (Toronto, ON)</h4>
-
-                            <a href="https://vimeo.com/493207274" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Team Intro</a>
-                    </div>
-                    
-                    <div class="col-md-6 gallery-item" data-cat="Autonomous-item Satellite-item">
-                        
-                        <img src="images/watsat.jpg" alt="" class="img-responsive">
-                            <h3>WATSAT : Waterloo Satelite Design Team</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Firmware and Control Lead for the cubical satellite to monitor and interact with different sensors on the PCB board (Waterloo, ON)</h4>
-                            
-                            <a href="https://www.uworbital.com" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Learn More</a>
-
-                    </div>
-
-                </div>
-                <br><br><br>
-                <!-- Works Info End -->
-                <div class="row gallery-items">
-                    <div class="col-md-6 gallery-item" data-cat="MachineLearning-item React-item saas-item">
-                        
-                        <img src="img/new/seedci.png" alt="" class="img-responsive">
-                            <h3>SeedCI : Automating machine learning pipeline</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Cofounded SeedCI , I Designed and developed a MVP which user can create a VM from a dashboard or based on a config file in a git repository (Kitchener, ON)</h4>
-
-                            <a href="https://seedci.github.io" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Learn More</a>
-
-                    </div>
-                    
-                    <div class="col-md-6 gallery-item" data-cat="MachineLearning-item Security-item Data-item saas-item">
-                        
-                        <img src="img/new/ezsec.png" alt="" class="img-responsive">
-                            <h3>EzSec EVA:  Security Virtual Analyst</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Machine learning engineer for EzSec and Developed data pipelines to automate the collection of data from a simulated cyberattack. This helped the overal product to automate the generation of security analysis reports. (Kitchener, ON)</h4>
-                            <a href="https://eva.ezsec.org" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Learn More</a>
-
-                    </div>
-
-                </div>
-                <br><br><br>
-                <!-- Works Info End -->
-                <div class="row gallery-items">
-                    <div class="col-md-6 gallery-item" data-cat="iOS-item Android-item automotive-item">
-                        
-                        <img src="img/new/bigroad.png" alt="" class="img-responsive">
-                            <h3>Bigroad App</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Worked on both Android and iOS app and developed data diagnatics page for drivers to show malfunctions and detect any suspicious activity. (Waterloo, ON)</h4>
-
-                            <a href="https://apps.apple.com/ca/app/bigroad-truck-driver-log-book/id674704833" class="btn btn-primary mt-2 mr-2"><i class="mdi mdi-apple"></i> App Store</a>
-                            <a href="https://play.google.com/store/apps/details?id=com.bigroad.ttb.android&hl=en_CA&gl=US" class="btn btn-outline-primary mt-2"><i class="mdi mdi-google-play"></i> Play Store</a>
-                    </div>
-                    
-                    <div class="col-md-6 gallery-item" data-cat="Autonomous-item automotive-item">
-                        
-                        <img src="img/new/watonomous.png" alt="" class="img-responsive">
-                            <h3>Watonomous : SAE Autodrive Competition</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Lead a team of 150+ people into a 4 year autodrive design challenge. Worked on Path Planning and simulation with CARLA during the 2 years of involvement. Achieved 1st place in simulation and Technical design (Waterloo, ON)</h4>
-                            
-                            <a href="https://watonomous.ca" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Learn More</a>
-
-                    </div>
-
-                </div>
-                <br><br><br>
-                <!-- Works Info End -->
-                <div class="row gallery-items">
-                    
-                    <div class="col-md-6 gallery-item" data-cat="Aviation-item">
-                        
-                        <img src="img/38d15670-69c1-4159-84cd-e1a17977a318 2-2.jpg" alt="" class="img-responsive">
-                            <h3>Leyoxa</h3>
-                            <h4 style="margin-bottom: 30px; line-height: 1.5em;">Founder at Leyoxa Software and IT Consulting Services.</h4>
-
-                            <a href="https://leyoxa.com" class="btn btn-primary mt-2 mr-2"><i class="mdi "></i> Learn More</a>
-                    </div>
-                    
-
-                </div>
-
-            </div>
-        </div>
+  /* verbs tense pills */
+  .tenses{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tbtn{font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer}
+  .tbtn.active{background:var(--accent);color:#fff;border-color:transparent}
+  @media(max-width:560px){.matchgrid{gap:14px}.prompt{font-size:20px}.brand p{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand" onclick="go('home')">
+      <span class="logo">🌮</span>
+      <div><h1>¡Aprende Español!</h1><p>Practice from your own lessons</p></div>
     </div>
-</div>
-        </div>
-        <!-- Works Area End -->
-        
-        <br><br><br> 
+    <div class="pill">🔥 <b id="hdr-streak">0</b> &nbsp; ⭐ <b id="hdr-xp">0</b> XP</div>
+  </header>
 
-                
-        <!-- javascript -->
-        <script src="js/jquery-3.5.1.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/scrollspy.min.js"></script>
-        <script src="js/isotope-docs.min.js"></script>
-    
-        <!-- ==== jQuery Form Plugin ==== -->
-        <script src="js/jquery.form.min.js"></script>
-        
-        <!-- ==== jQuery Validation Plugin ==== -->
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="js/animatescroll.min.js"></script>
-        <!-- Magnific -->
-        <script src="js/isotope.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/portfolio.init.js"></script>
-        <script src="js/jquery.counterup.min.js"></script>
-        <script src="js/parallax.min.js"></script>
-    
-        <!-- ==== jQuery Tubular Plugin ==== -->
-        <script src="js/jquery.tubular.1.0.js"></script>
-        
-        <!-- ==== RetinaJS Plugin ==== -->
-        <script src="js/retina.min.js"></script>
-    
-        <!-- ==== Main Script ==== -->
-        <script src="js/main.js"></script>
-    
-        <!-- ==== Txttype Script ==== -->
-        <script src="js/txttype.js"></script>
-    
-        <!-- ==== jQuery Nice Scroll Plugin ==== -->
-        <script src="js/jquery.nicescroll.min.js"></script>
-        <!-- SLIDER -->
-        <script src="js/owl.carousel.min.js "></script>
-        <script src="js/owl.init.js "></script> 
-        <!-- Contact -->
-        <script src="js/contact.js "></script>
-        <!-- Typed -->
-        <script src="js/typed.js"></script>
-        <script src="js/typed.init.js"></script>
-        <!-- Icons -->
-        <script src="js/feather.min.js"></script>
-        <script src="https://unicons.iconscout.com/release/v2.1.9/script/monochrome/bundle.js"></script>
-        <!-- Main Js -->
-        <script src="js/app.js"></script>
-        <script src="js/calendly-widget.js" type="text/javascript" async></script>
-        <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/saflatounian', text: 'Coffee Chat', color: '#0069ff', textColor: '#ffffff', branding: true }); }</script>
-    </body>
+  <!-- HOME -->
+  <section id="view-home"></section>
+
+  <!-- LESSON MODE SELECT -->
+  <section id="view-lesson" class="hide"></section>
+
+  <!-- QUIZ -->
+  <section id="view-quiz" class="hide"></section>
+
+  <!-- MATCH -->
+  <section id="view-match" class="hide"></section>
+
+  <!-- RESULTS -->
+  <section id="view-results" class="hide"></section>
+
+  <!-- VERBS -->
+  <section id="view-verbs" class="hide"></section>
+</div>
+
+<script>
+/* ============ NUMBER -> SPANISH ============ */
+function numToSpanish(n){
+  const u=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+  const tens={30:'treinta',40:'cuarenta',50:'cincuenta',60:'sesenta',70:'setenta',80:'ochenta',90:'noventa'};
+  const hund={100:'cien',200:'doscientos',300:'trescientos',400:'cuatrocientos',500:'quinientos',600:'seiscientos',700:'setecientos',800:'ochocientos',900:'novecientos',1000:'mil'};
+  if(n<=29) return u[n];
+  if(n<100){const t=Math.floor(n/10)*10,r=n%10;return r===0?tens[t]:tens[t]+' y '+u[r];}
+  if(n===100) return 'cien';
+  if(n<1000){const h=Math.floor(n/100)*100,r=n%100;const hw=h===100?'ciento':hund[h];return r===0?hund[h]:hw+' '+numToSpanish(r);}
+  return 'mil';
+}
+
+/* ============ LESSON DATA ============ */
+const LESSONS = [
+  {
+    id:'dias', emoji:'📅', title:'Días, Meses y Estaciones',
+    desc:'Days, months, seasons & dates',
+    modes:['fill','mc','match'],
+    match:[
+      {a:'Monday',b:'lunes'},{a:'Tuesday',b:'martes'},{a:'Wednesday',b:'miércoles'},
+      {a:'Thursday',b:'jueves'},{a:'Friday',b:'viernes'},{a:'Saturday',b:'sábado'},{a:'Sunday',b:'domingo'},
+      {a:'winter',b:'invierno'},{a:'spring',b:'primavera'},{a:'summer',b:'verano'},{a:'fall',b:'otoño'},
+      {a:'January',b:'enero'},{a:'July',b:'julio'},{a:'December',b:'diciembre'},
+      {a:'today',b:'hoy'},{a:'yesterday',b:'ayer'},{a:'tomorrow',b:'mañana'}
+    ],
+    bank:[
+      {p:'Hoy es martes, mañana es ___.', t:'tomorrow after Tuesday', a:'miércoles'},
+      {p:'Hoy es viernes, ayer fue ___.', t:'the day before Friday', a:'jueves'},
+      {p:'Los días del fin de semana son el sábado y el ___.', t:'the weekend', a:'domingo'},
+      {p:'El primer mes del año es ___.', t:'the first month', a:'enero'},
+      {p:'La estación de la nieve es el ___.', t:'season of snow', a:'invierno'},
+      {p:'La estación de las flores es la ___.', t:'season of flowers', a:'primavera'},
+      {p:'La estación del sol y el calor es el ___.', t:'season of sun & heat', a:'verano'},
+      {p:'La estación de las hojas que caen es el ___.', t:'season of falling leaves', a:'otoño'},
+      {p:'"Thursday" en español es ___.', t:'translate', a:'jueves'},
+      {p:'"September" en español es ___.', t:'translate', a:'septiembre'},
+      {p:'Hoy es 20 ___ marzo ___ 2024.', t:'preposition for dates', a:'de'},
+      {p:'¿Qué día es la clase? La clase es ___ lunes.', t:'article before days', a:'el'},
+      {p:'Después de mañana es pasado ___.', t:'day after tomorrow', a:'mañana'},
+      {p:'El mes después de junio es ___.', t:'after June', a:'julio'},
+      {p:'Año Nuevo es en ___.', t:'New Year month', a:'enero'}
+    ]
+  },
+  {
+    id:'numeros', emoji:'🔢', title:'Números y Colores',
+    desc:'Numbers 1–1000 & colors',
+    modes:['numbers','mc','match','swatch'],
+    match:[
+      {a:'green',b:'verde'},{a:'blue',b:'azul'},{a:'yellow',b:'amarillo'},{a:'red',b:'rojo'},
+      {a:'pink',b:'rosa'},{a:'orange',b:'naranja'},{a:'black',b:'negro'},{a:'white',b:'blanco'},
+      {a:'gray',b:'gris'},{a:'brown',b:'marrón'},{a:'purple',b:'violeta'}
+    ],
+    swatches:[
+      {hex:'#2ecc40',a:'verde'},{hex:'#0074d9',a:'azul'},{hex:'#ffdc00',a:'amarillo'},
+      {hex:'#ff4136',a:'rojo'},{hex:'#ff80cc',a:'rosa'},{hex:'#ff851b',a:'naranja'},
+      {hex:'#111111',a:'negro'},{hex:'#ffffff',a:'blanco'},{hex:'#aaaaaa',a:'gris'},
+      {hex:'#8b5a2b',a:'marrón'},{hex:'#b10dc9',a:'violeta'}
+    ],
+    bank:[
+      {p:'500 en español se escribe ___.', t:'number', a:'quinientos'},
+      {p:'1000 en español se escribe ___.', t:'number', a:'mil'},
+      {p:'200 en español se escribe ___.', t:'number', a:'doscientos'},
+      {p:'700 en español se escribe ___.', t:'number', a:'setecientos'},
+      {p:'100 en español se escribe ___.', t:'number', a:'cien'},
+      {p:'El color de la nieve es ___.', t:'color of snow', a:'blanco'},
+      {p:'El color del sol es ___.', t:'color of the sun', a:'amarillo'},
+      {p:'El color de la sangre es ___.', t:'color of blood', a:'rojo'}
+    ]
+  },
+  {
+    id:'pronombres', emoji:'🙋', title:'Pronombres Personales',
+    desc:'Subject pronouns & pronoun math',
+    modes:['fill','mc'],
+    bank:[
+      {p:'Yo + tú = ___', t:'pronoun math', a:'nosotros', opts:['nosotros','vosotros','ellos','ustedes']},
+      {p:'Él + ella = ___', t:'pronoun math', a:'ellos', opts:['ellos','ellas','nosotros','vosotros']},
+      {p:'Ella + ella = ___', t:'pronoun math', a:'ellas', opts:['ellas','ellos','nosotras','vosotras']},
+      {p:'Tú + tú = ___ (en España)', t:'pronoun math', a:'vosotros', opts:['vosotros','ustedes','nosotros','ellos']},
+      {p:'Usted + usted = ___', t:'pronoun math', a:'ustedes', opts:['ustedes','vosotros','nosotros','ellos']},
+      {p:'Mis amigos + yo = ___', t:'pronoun math', a:'nosotros', opts:['nosotros','ellos','vosotros','ustedes']},
+      {p:'___ trabajo todos los días.', t:'1st person singular', a:'yo', opts:['yo','tú','él','usted']},
+      {p:'___ bailan mucho. (2ª pl, España)', t:'you-all (Spain)', a:'vosotros', opts:['vosotros','ellos','nosotros','ustedes']},
+      {p:'¿Hablas ___ español?', t:'2nd person singular', a:'tú', opts:['tú','usted','yo','él']},
+      {p:'___ necesitamos vacaciones.', t:'1st person plural', a:'nosotros', opts:['nosotros','ellos','vosotros','ustedes']},
+      {p:'___ es hermana de Rosa.', t:'3rd sing. feminine', a:'ella', opts:['ella','él','usted','tú']},
+      {p:'___ puede entrar, por favor.', t:'formal you (singular)', a:'usted', opts:['usted','tú','él','vosotros']},
+      {p:'___ va a ser ingeniero.', t:'3rd sing. masculine', a:'él', opts:['él','ella','usted','yo']}
+    ]
+  },
+  {
+    id:'serestar', emoji:'⚖️', title:'Ser vs Estar',
+    desc:'Choose the right verb + conjugation',
+    modes:['mc','fill'],
+    bank:[
+      {p:'Medellín ___ en Colombia.', t:'location', a:'está', opts:['es','está']},
+      {p:'Rubén ___ peruano.', t:'nationality', a:'es', opts:['es','está']},
+      {p:'Rubén es peruano, pero ahora ___ en Buenos Aires.', t:'location', a:'está', opts:['es','está']},
+      {p:'¿Qué hora es? ___ las 2:00.', t:'telling time', a:'Son', opts:['Son','Están']},
+      {p:'Yo ___ periodista.', t:'profession', a:'soy', opts:['soy','estoy']},
+      {p:'Lucía ___ una chica muy alegre.', t:'permanent trait', a:'es', opts:['es','está']},
+      {p:'...pero últimamente ___ triste.', t:'temporary mood', a:'está', opts:['es','está']},
+      {p:'Este tiramisú ___ muy bien hecho.', t:'opinion/condition', a:'está', opts:['es','está']},
+      {p:'¡Cómo vuela el tiempo! Ya ___ en mayo.', t:'months', a:'estamos', opts:['somos','estamos']},
+      {p:'El banco ___ cerrado a esta hora.', t:'condition', a:'está', opts:['es','está']},
+      {p:'La charla ___ el martes en la sala Botero.', t:'event time', a:'es', opts:['es','está']},
+      {p:'El cuarto de Tula ___ azul.', t:'characteristic', a:'es', opts:['es','está']},
+      {p:'Esta manzana ___ mala, no voy a comerla.', t:'condition now', a:'está', opts:['es','está']},
+      {p:'Los zapatos ___ de mi hermano.', t:'possession', a:'son', opts:['son','están']},
+      {p:'Mañana ___ festivo. ¿Hay que trabajar?', t:'date', a:'es', opts:['es','está']},
+      {p:'Manu ___ muy nerviosa por su entrevista.', t:'emotion', a:'está', opts:['es','está']},
+      {p:'Pablo y yo ___ muy felices.', t:'mood', a:'estamos', opts:['somos','estamos']},
+      {p:'Los profesores ___ muy cansados hoy.', t:'physical state', a:'están', opts:['son','están']},
+      {p:'¿Dónde ___ el concierto de Shakira?', t:'event location', a:'es', opts:['es','está']},
+      {p:'(ser) Yo ___ de Uruguay.', t:'conjugate ser', a:'soy'},
+      {p:'(ser) Ana y yo ___ arquitectas.', t:'conjugate ser', a:'somos'},
+      {p:'(ser) Tú ___ inteligente.', t:'conjugate ser', a:'eres'},
+      {p:'(estar) Yo ___ cansado.', t:'conjugate estar', a:'estoy'},
+      {p:'(estar) Clara ___ en el trabajo.', t:'conjugate estar', a:'está'},
+      {p:'(estar) Ellos ___ de vacaciones.', t:'conjugate estar', a:'están'}
+    ]
+  },
+  {
+    id:'adjetivos', emoji:'🎨', title:'Ser + Adjetivos',
+    desc:'Describe people with adjectives',
+    modes:['fill','mc','match'],
+    match:[
+      {a:'tall',b:'alto'},{a:'short',b:'bajo'},{a:'good-looking',b:'guapo'},{a:'big',b:'grande'},
+      {a:'intelligent',b:'inteligente'},{a:'nice',b:'simpático'},{a:'good',b:'bueno'},
+      {a:'interesting',b:'interesante'},{a:'young',b:'joven'},{a:'old',b:'viejo'},
+      {a:'pretty',b:'bonita'},{a:'hard-working',b:'trabajadora'},{a:'thin',b:'delgado'}
+    ],
+    bank:[
+      {p:'Yo soy ___ (short, masc.) y simpático.', t:'short', a:'bajo'},
+      {p:'Tú eres ___ (interesting) y joven.', t:'interesting', a:'interesante'},
+      {p:'Ella es ___ (pretty) y trabajadora.', t:'pretty (fem.)', a:'bonita'},
+      {p:'Nosotros somos ___ (intelligent) y buenos.', t:'intelligent (pl.)', a:'inteligentes'},
+      {p:'El perro es ___ (black) y grande.', t:'black (masc.)', a:'negro'},
+      {p:'Mis padres son ___ (thin) y jóvenes.', t:'thin (pl.)', a:'delgados'},
+      {p:'La casa es ___ (big) y bonita.', t:'big (fem.)', a:'grande'},
+      {p:'Mi hermano es ___ (good-looking).', t:'good-looking (masc.)', a:'guapo'}
+    ]
+  },
+  {
+    id:'conversa', emoji:'💬', title:'Conversación',
+    desc:'Common questions & answers',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'¿Cómo te llamas?',b:'Yo me llamo Alicia'},
+      {a:'¿Cuántos años tienes?',b:'Tengo 28 años'},
+      {a:'¿De dónde eres?',b:'Soy de Venezuela'},
+      {a:'¿Dónde trabajas?',b:'Trabajo en el banco'},
+      {a:'¿A qué te dedicas?',b:'Soy tutora de español'},
+      {a:'¿Cuál es tu comida favorita?',b:'Es la arepa'},
+      {a:'¿Cuáles son tus aficiones?',b:'Cantar y bailar salsa'},
+      {a:'¿Dónde vives?',b:'Vivo en Caracas'}
+    ],
+    bank:[
+      {p:'¿___ te llamas?', t:'what (name)', a:'Cómo', opts:['Cómo','Qué','Dónde','Cuál']},
+      {p:'¿___ años tienes?', t:'how many', a:'Cuántos', opts:['Cuántos','Cómo','Qué','Cuál']},
+      {p:'¿De ___ eres?', t:'where from', a:'dónde', opts:['dónde','qué','cómo','cuál']},
+      {p:'¿___ es tu comida favorita?', t:'which', a:'Cuál', opts:['Cuál','Cómo','Dónde','Quién']},
+      {p:'¿___ trabajas?', t:'where', a:'Dónde', opts:['Dónde','Qué','Cómo','Cuál']},
+      {p:'Respuesta: Yo me ___ Alicia.', t:'I am called', a:'llamo'},
+      {p:'Respuesta: Yo ___ de Venezuela.', t:'I am from', a:'soy'},
+      {p:'Respuesta: Yo ___ 28 años.', t:'I have ... years', a:'tengo'},
+      {p:'Respuesta: Yo ___ en Caracas.', t:'I live', a:'vivo'}
+    ]
+  }
+];
+
+/* ============ VERB GAME DATA ============ */
+const VERBS={
+  hablar:{m:'to speak',present:{yo:'hablo',tú:'hablas',él:'habla',nosotros:'hablamos',ellos:'hablan'},preterite:{yo:'hablé',tú:'hablaste',él:'habló',nosotros:'hablamos',ellos:'hablaron'},imperfect:{yo:'hablaba',tú:'hablabas',él:'hablaba',nosotros:'hablábamos',ellos:'hablaban'},future:{yo:'hablaré',tú:'hablarás',él:'hablará',nosotros:'hablaremos',ellos:'hablarán'},conditional:{yo:'hablaría',tú:'hablarías',él:'hablaría',nosotros:'hablaríamos',ellos:'hablarían'}},
+  comer:{m:'to eat',present:{yo:'como',tú:'comes',él:'come',nosotros:'comemos',ellos:'comen'},preterite:{yo:'comí',tú:'comiste',él:'comió',nosotros:'comimos',ellos:'comieron'},imperfect:{yo:'comía',tú:'comías',él:'comía',nosotros:'comíamos',ellos:'comían'},future:{yo:'comeré',tú:'comerás',él:'comerá',nosotros:'comeremos',ellos:'comerán'},conditional:{yo:'comería',tú:'comerías',él:'comería',nosotros:'comeríamos',ellos:'comerían'}},
+  vivir:{m:'to live',present:{yo:'vivo',tú:'vives',él:'vive',nosotros:'vivimos',ellos:'viven'},preterite:{yo:'viví',tú:'viviste',él:'vivió',nosotros:'vivimos',ellos:'vivieron'},imperfect:{yo:'vivía',tú:'vivías',él:'vivía',nosotros:'vivíamos',ellos:'vivían'},future:{yo:'viviré',tú:'vivirás',él:'vivirá',nosotros:'viviremos',ellos:'vivirán'},conditional:{yo:'viviría',tú:'vivirías',él:'viviría',nosotros:'viviríamos',ellos:'vivirían'}},
+  ser:{m:'to be (permanent)',present:{yo:'soy',tú:'eres',él:'es',nosotros:'somos',ellos:'son'},preterite:{yo:'fui',tú:'fuiste',él:'fue',nosotros:'fuimos',ellos:'fueron'},imperfect:{yo:'era',tú:'eras',él:'era',nosotros:'éramos',ellos:'eran'},future:{yo:'seré',tú:'serás',él:'será',nosotros:'seremos',ellos:'serán'},conditional:{yo:'sería',tú:'serías',él:'sería',nosotros:'seríamos',ellos:'serían'}},
+  estar:{m:'to be (temporary)',present:{yo:'estoy',tú:'estás',él:'está',nosotros:'estamos',ellos:'están'},preterite:{yo:'estuve',tú:'estuviste',él:'estuvo',nosotros:'estuvimos',ellos:'estuvieron'},imperfect:{yo:'estaba',tú:'estabas',él:'estaba',nosotros:'estábamos',ellos:'estaban'},future:{yo:'estaré',tú:'estarás',él:'estará',nosotros:'estaremos',ellos:'estarán'},conditional:{yo:'estaría',tú:'estarías',él:'estaría',nosotros:'estaríamos',ellos:'estarían'}},
+  tener:{m:'to have',present:{yo:'tengo',tú:'tienes',él:'tiene',nosotros:'tenemos',ellos:'tienen'},preterite:{yo:'tuve',tú:'tuviste',él:'tuvo',nosotros:'tuvimos',ellos:'tuvieron'},imperfect:{yo:'tenía',tú:'tenías',él:'tenía',nosotros:'teníamos',ellos:'tenían'},future:{yo:'tendré',tú:'tendrás',él:'tendrá',nosotros:'tendremos',ellos:'tendrán'},conditional:{yo:'tendría',tú:'tendrías',él:'tendría',nosotros:'tendríamos',ellos:'tendrían'}},
+  ir:{m:'to go',present:{yo:'voy',tú:'vas',él:'va',nosotros:'vamos',ellos:'van'},preterite:{yo:'fui',tú:'fuiste',él:'fue',nosotros:'fuimos',ellos:'fueron'},imperfect:{yo:'iba',tú:'ibas',él:'iba',nosotros:'íbamos',ellos:'iban'},future:{yo:'iré',tú:'irás',él:'irá',nosotros:'iremos',ellos:'irán'},conditional:{yo:'iría',tú:'irías',él:'iría',nosotros:'iríamos',ellos:'irían'}},
+  poder:{m:'to be able / can',present:{yo:'puedo',tú:'puedes',él:'puede',nosotros:'podemos',ellos:'pueden'},preterite:{yo:'pude',tú:'pudiste',él:'pudo',nosotros:'pudimos',ellos:'pudieron'},imperfect:{yo:'podía',tú:'podías',él:'podía',nosotros:'podíamos',ellos:'podían'},future:{yo:'podré',tú:'podrás',él:'podrá',nosotros:'podremos',ellos:'podrán'},conditional:{yo:'podría',tú:'podrías',él:'podría',nosotros:'podríamos',ellos:'podrían'}},
+  querer:{m:'to want / love',present:{yo:'quiero',tú:'quieres',él:'quiere',nosotros:'queremos',ellos:'quieren'},preterite:{yo:'quise',tú:'quisiste',él:'quiso',nosotros:'quisimos',ellos:'quisieron'},imperfect:{yo:'quería',tú:'querías',él:'quería',nosotros:'queríamos',ellos:'querían'},future:{yo:'querré',tú:'querrás',él:'querrá',nosotros:'querremos',ellos:'querrán'},conditional:{yo:'querría',tú:'querrías',él:'querría',nosotros:'querríamos',ellos:'querrían'}},
+  hacer:{m:'to do / make',present:{yo:'hago',tú:'haces',él:'hace',nosotros:'hacemos',ellos:'hacen'},preterite:{yo:'hice',tú:'hiciste',él:'hizo',nosotros:'hicimos',ellos:'hicieron'},imperfect:{yo:'hacía',tú:'hacías',él:'hacía',nosotros:'hacíamos',ellos:'hacían'},future:{yo:'haré',tú:'harás',él:'hará',nosotros:'haremos',ellos:'harán'},conditional:{yo:'haría',tú:'harías',él:'haría',nosotros:'haríamos',ellos:'harían'}}
+};
+const VERB_SENTENCES=[
+  {verb:'hablar',subject:'tú',context:'texting a friend',en:'You speak really fast, slow down.',es:'___ muy rápido, baja un poco.'},
+  {verb:'hablar',subject:'yo',context:'at a party',en:"I'll talk to him later.",es:'___ con él después, no te preocupes.'},
+  {verb:'comer',subject:'yo',context:'turning down food',en:'I already ate, thanks though.',es:'Ya ___, gracias igual.'},
+  {verb:'comer',subject:'nosotros',context:'making plans',en:"Let's grab something to eat.",es:'Vamos a ___ algo, me muero de hambre.',skip:true,answer:'comer'},
+  {verb:'vivir',subject:'tú',context:'small talk',en:'Do you live around here?',es:'¿___ por aquí?'},
+  {verb:'vivir',subject:'yo',context:'explaining',en:'I live five minutes from the metro.',es:'___ a cinco minutos del metro.'},
+  {verb:'ser',subject:'tú',context:'meeting someone',en:'Are you from here originally?',es:'¿___ de aquí?'},
+  {verb:'ser',subject:'él',context:'describing someone',en:"He's not mean, he's just like that.",es:'No ___ malo, es que es así.'},
+  {verb:'estar',subject:'tú',context:'worried',en:'Are you okay? You seem off.',es:'¿___ bien? Hoy te noto raro.'},
+  {verb:'estar',subject:'yo',context:'declining',en:"I can't, I'm at work late.",es:'No puedo, ___ en el trabajo hasta tarde.'},
+  {verb:'tener',subject:'tú',context:'pushing a friend',en:"Come on, you've got the time.",es:'Venga, ___ tiempo, no me mientas.'},
+  {verb:'tener',subject:'él',context:'gossip',en:'He has a new girlfriend apparently.',es:'___ novia nueva, al parecer.'},
+  {verb:'ir',subject:'tú',context:'invite',en:'Are you going to the party tonight?',es:'¿___ a la fiesta esta noche?'},
+  {verb:'ir',subject:'nosotros',context:'plans',en:'We\'re going whether you like it or not.',es:'___ nos guste o no.'},
+  {verb:'poder',subject:'tú',context:'asking a favour',en:'Can you send me that link again?',es:'¿Me ___ mandar ese link otra vez?'},
+  {verb:'querer',subject:'yo',context:'being honest',en:'I just want some peace and quiet.',es:'Solo ___ un poco de tranquilidad.'},
+  {verb:'hacer',subject:'tú',context:'checking progress',en:'What are you doing? We were leaving!',es:'¿Qué ___? Teníamos que salir hace una hora.'},
+  {verb:'hacer',subject:'yo',context:'offering help',en:"I'll handle dinner, you relax.",es:'___ la cena, tú descansa.'}
+];
+
+/* ============ STATE & HELPERS ============ */
+let xp=0, globalStreak=0;
+const $=s=>document.querySelector(s);
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g,' ');
+function bump(good){ if(good){xp+=10;globalStreak++;} else {globalStreak=0;} $('#hdr-xp').textContent=xp; $('#hdr-streak').textContent=globalStreak; }
+
+function go(view){
+  ['home','lesson','quiz','match','results','verbs'].forEach(v=>$('#view-'+v).classList.add('hide'));
+  $('#view-'+view).classList.remove('hide');
+  window.scrollTo(0,0);
+}
+
+/* ============ HOME ============ */
+function renderHome(){
+  let cards=LESSONS.map(l=>`
+    <div class="card" onclick="openLesson('${l.id}')">
+      <span class="tag">${l.modes.length} modes</span>
+      <span class="emoji">${l.emoji}</span>
+      <h3>${l.title}</h3>
+      <p>${l.desc}</p>
+    </div>`).join('');
+  $('#view-home').innerHTML=`
+    <div class="hero">
+      <h2>Pick a lesson and start practicing 🎯</h2>
+      <p>Each lesson has fill-in-the-blank, multiple choice and matching games — built from your class notes.</p>
+    </div>
+    <div class="section-title">Your lessons</div>
+    <div class="grid">${cards}</div>
+    <div class="section-title">Extra</div>
+    <div class="grid">
+      <div class="card special" onclick="startVerbs()">
+        <span class="emoji">⚡</span>
+        <h3>Practice Verbs</h3>
+        <p>Conjugate verbs inside real, conversational sentences across 5 tenses.</p>
+      </div>
+    </div>`;
+}
+
+/* ============ LESSON MODE SELECT ============ */
+const MODE_INFO={
+  fill:{ic:'✍️',h:'Fill in the blank',p:'Type the missing word'},
+  mc:{ic:'🔘',h:'Multiple choice',p:'Pick the right answer'},
+  match:{ic:'🔗',h:'Matching game',p:'Connect the pairs'},
+  numbers:{ic:'🎲',h:'Number quiz',p:'Endless number challenge'},
+  swatch:{ic:'🌈',h:'Color quiz',p:'Name the color you see'}
+};
+let curLesson=null;
+function openLesson(id){
+  curLesson=LESSONS.find(l=>l.id===id);
+  let modes=curLesson.modes.map(m=>`
+    <div class="mode" onclick="startMode('${m}')">
+      <div class="ic">${MODE_INFO[m].ic}</div>
+      <h4>${MODE_INFO[m].h}</h4>
+      <p>${MODE_INFO[m].p}</p>
+    </div>`).join('');
+  $('#view-lesson').innerHTML=`
+    <div class="back" onclick="go('home')">← All lessons</div>
+    <div class="hero"><h2>${curLesson.emoji} ${curLesson.title}</h2><p>${curLesson.desc} — choose how you want to practice.</p></div>
+    <div class="modes">${modes}</div>`;
+  go('lesson');
+}
+function startMode(m){
+  if(m==='match') startMatch(curLesson);
+  else if(m==='numbers') startNumbers();
+  else if(m==='swatch') startSwatch(curLesson);
+  else startQuiz(curLesson,m);
+}
+
+/* ============ QUIZ ENGINE (fill / mc) ============ */
+let quiz=null;
+function buildOpts(item,bank){
+  if(item.opts) return shuffle(item.opts.slice());
+  let pool=[...new Set(bank.map(b=>b.a).filter(a=>a!==item.a))];
+  let distract=shuffle(pool).slice(0,3);
+  return shuffle([item.a,...distract]);
+}
+function startQuiz(lesson,mode){
+  let items=shuffle(lesson.bank.slice()).slice(0,Math.min(10,lesson.bank.length));
+  quiz={lesson,mode,items,i:0,correct:0,answered:false};
+  go('quiz'); renderQ();
+}
+function renderQ(){
+  let {items,i,mode,lesson}=quiz;
+  let item=items[i];
+  quiz.answered=false;
+  let pct=Math.round(i/items.length*100);
+  let promptHtml=item.p.replace('___',`<span class="blank">?</span>`);
+  let body;
+  if(mode==='mc'){
+    let opts=buildOpts(item,lesson.bank);
+    body=`<div class="opts">${opts.map(o=>`<button class="opt" onclick="answerMC(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>`;
+  } else {
+    body=`<input class="answer" id="ans" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="type here…">`;
+  }
+  $('#view-quiz').innerHTML=`
+    <div class="back" onclick="openLesson('${lesson.id}')">← Back</div>
+    <div class="quizbox">
+      <div class="progressrow"><div class="track"><i style="width:${pct}%"></i></div><div class="qn">${i+1} / ${items.length}</div></div>
+      <div class="context">${item.t||lesson.title}</div>
+      <div class="prompt">${promptHtml}</div>
+      <div class="translation">${mode==='fill'?'Hint: '+(item.t||''):''}</div>
+      ${body}
+      <div class="feedback" id="fb"></div>
+      <div class="qfoot">
+        <span class="qn">🔥 ${globalStreak} streak</span>
+        <button class="btn primary" id="next" onclick="checkOrNext()">Check</button>
+      </div>
+    </div>`;
+  if(mode==='fill'){ let a=$('#ans'); a.focus(); a.addEventListener('keydown',e=>{if(e.key==='Enter')checkOrNext();}); }
+}
+function showResult(good,ans){
+  quiz.answered=true;
+  let fb=$('#fb');
+  if(good){ quiz.correct++; fb.className='feedback good'; fb.textContent=rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Muy bien! 👏','¡Perfecto! 🌟']); }
+  else{ fb.className='feedback bad'; fb.textContent='Answer: '+ans; }
+  bump(good);
+  // reflect blank
+  let blank=$('.prompt .blank'); if(blank){blank.textContent=ans; blank.style.color=good?'var(--good)':'var(--bad)'; blank.style.borderColor=good?'var(--good)':'var(--bad)';}
+  $('#next').textContent = (quiz.i+1>=quiz.items.length)?'See results →':'Next →';
+}
+function answerMC(btn,val){
+  if(quiz.answered) return;
+  let item=quiz.items[quiz.i];
+  let good=val===item.a;
+  document.querySelectorAll('.opt').forEach(b=>{
+    if(b.textContent===item.a) b.classList.add('correct');
+    else if(b===btn) b.classList.add('wrong');
+    b.disabled=true;
+  });
+  showResult(good,item.a);
+}
+function checkOrNext(){
+  let item=quiz.items[quiz.i];
+  if(!quiz.answered){
+    if(quiz.mode==='fill'){
+      let a=$('#ans'); if(!a.value.trim())return;
+      let good=norm(a.value)===norm(item.a);
+      a.classList.add(good?'correct':'wrong'); a.disabled=true;
+      showResult(good,item.a);
+    }
+    return; // mc handled by click
+  }
+  // next
+  quiz.i++;
+  if(quiz.i>=quiz.items.length) showResults(quiz.correct,quiz.items.length,()=>startQuiz(quiz.lesson,quiz.mode),quiz.lesson.id);
+  else renderQ();
+}
+
+/* ============ NUMBER QUIZ (endless) ============ */
+let numState=null;
+function startNumbers(){ numState={correct:0,total:0,answered:false}; go('quiz'); renderNum(); }
+function renderNum(){
+  numState.answered=false;
+  let big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1;
+  let answer=numToSpanish(big);
+  // distractors
+  let opts=new Set([answer]);
+  while(opts.size<4){
+    let d = big<=100 ? Math.max(0,big+rand([-5,-3,-2,2,3,7,10,-10])) : rand([100,200,300,400,500,600,700,800,900,1000]).valueOf()+rand([0,0,0,1,2]);
+    let w=numToSpanish(Math.min(1000,Math.max(0,d))); opts.add(w);
+  }
+  numState.answer=answer;
+  let list=shuffle([...opts]);
+  $('#view-quiz').innerHTML=`
+    <div class="back" onclick="openLesson('numeros')">← Back</div>
+    <div class="quizbox">
+      <div class="context">¿Qué número es?</div>
+      <div class="prompt" style="font-size:56px;text-align:center;letter-spacing:1px">${big}</div>
+      <div class="opts">${list.map(o=>`<button class="opt" onclick="answerNum(this,'${o}')">${o}</button>`).join('')}</div>
+      <div class="feedback" id="fb"></div>
+      <div class="qfoot"><span class="qn">✅ ${numState.correct} / ${numState.total}</span><button class="btn primary" id="next" onclick="renderNum()">Next number →</button></div>
+    </div>`;
+}
+function answerNum(btn,val){
+  if(numState.answered)return; numState.answered=true; numState.total++;
+  let good=val===numState.answer;
+  if(good)numState.correct++;
+  document.querySelectorAll('.opt').forEach(b=>{
+    if(b.textContent===numState.answer)b.classList.add('correct');
+    else if(b===btn)b.classList.add('wrong');
+    b.disabled=true;
+  });
+  let fb=$('#fb'); fb.className='feedback '+(good?'good':'bad'); fb.textContent=good?rand(['¡Correcto! 🎉','¡Exacto! ✨']):'Answer: '+numState.answer;
+  bump(good);
+}
+
+/* ============ COLOR SWATCH QUIZ ============ */
+let swState=null;
+function startSwatch(lesson){ swState={lesson,correct:0,total:0,answered:false}; go('quiz'); renderSwatch(); }
+function renderSwatch(){
+  swState.answered=false;
+  let sw=rand(swState.lesson.swatches);
+  let pool=swState.lesson.swatches.map(s=>s.a).filter(a=>a!==sw.a);
+  let opts=shuffle([sw.a,...shuffle(pool).slice(0,3)]);
+  swState.answer=sw.a;
+  $('#view-quiz').innerHTML=`
+    <div class="back" onclick="openLesson('numeros')">← Back</div>
+    <div class="quizbox">
+      <div class="context">¿De qué color es?</div>
+      <div class="swatch" style="background:${sw.hex};height:120px"></div>
+      <div class="opts">${opts.map(o=>`<button class="opt" onclick="answerSwatch(this,'${o}')">${o}</button>`).join('')}</div>
+      <div class="feedback" id="fb"></div>
+      <div class="qfoot"><span class="qn">✅ ${swState.correct} / ${swState.total}</span><button class="btn primary" onclick="renderSwatch()">Next color →</button></div>
+    </div>`;
+}
+function answerSwatch(btn,val){
+  if(swState.answered)return; swState.answered=true; swState.total++;
+  let good=val===swState.answer; if(good)swState.correct++;
+  document.querySelectorAll('.opt').forEach(b=>{ if(b.textContent===swState.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
+  let fb=$('#fb'); fb.className='feedback '+(good?'good':'bad'); fb.textContent=good?'¡Correcto! 🎨':'Answer: '+swState.answer;
+  bump(good);
+}
+
+/* ============ MATCHING GAME ============ */
+let match=null;
+function startMatch(lesson){
+  let pairs=shuffle(lesson.match.slice()).slice(0,Math.min(8,lesson.match.length));
+  match={lesson,pairs,selLeft:null,done:0};
+  let left=pairs.map((p,idx)=>`<div class="mitem" data-i="${idx}" onclick="pickLeft(${idx})">${p.a}</div>`).join('');
+  let rights=shuffle(pairs.map((p,idx)=>({idx,b:p.b})));
+  let right=rights.map(r=>`<div class="mitem" data-i="${r.idx}" onclick="pickRight(${r.idx})">${r.b}</div>`).join('');
+  $('#view-match').innerHTML=`
+    <div class="back" onclick="openLesson('${lesson.id}')">← Back</div>
+    <div class="quizbox">
+      <div class="context">${lesson.title} — connect the pairs</div>
+      <div class="prompt" style="font-size:18px">Tap a word on the left, then its match on the right 🔗</div>
+      <div class="matchgrid">
+        <div class="mcol" id="mleft">${left}</div>
+        <div class="mcol" id="mright">${right}</div>
+      </div>
+      <div class="feedback" id="fb"></div>
+    </div>`;
+  go('match');
+}
+function pickLeft(i){
+  let el=document.querySelector(`#mleft .mitem[data-i="${i}"]`);
+  if(el.classList.contains('done'))return;
+  document.querySelectorAll('#mleft .mitem').forEach(m=>m.classList.remove('sel'));
+  el.classList.add('sel'); match.selLeft=i;
+}
+function pickRight(i){
+  if(match.selLeft===null)return;
+  let r=document.querySelector(`#mright .mitem[data-i="${i}"]`);
+  let l=document.querySelector(`#mleft .mitem[data-i="${match.selLeft}"]`);
+  if(r.classList.contains('done'))return;
+  if(i===match.selLeft){
+    l.classList.remove('sel'); l.classList.add('done'); r.classList.add('done');
+    match.selLeft=null; match.done++; bump(true);
+    if(match.done===match.pairs.length){
+      $('#fb').className='feedback good'; $('#fb').textContent='¡Completado! 🎉';
+      setTimeout(()=>showResults(match.pairs.length,match.pairs.length,()=>startMatch(match.lesson),match.lesson.id),700);
+    }
+  } else {
+    r.classList.add('flash'); l.classList.remove('sel'); match.selLeft=null; bump(false);
+    let fb=$('#fb'); fb.className='feedback bad'; fb.textContent='Not a match, try again';
+    setTimeout(()=>{r.classList.remove('flash'); fb.textContent='';},500);
+  }
+}
+
+/* ============ RESULTS ============ */
+function showResults(correct,total,retry,lessonId){
+  let pct=Math.round(correct/total*100);
+  let emoji = pct===100?'🏆':pct>=70?'🎉':pct>=40?'💪':'📚';
+  let msg = pct===100?'Perfect score!':pct>=70?'Great job!':pct>=40?'Keep practicing!':'Don\'t give up!';
+  $('#view-results').innerHTML=`
+    <div class="results">
+      <div class="big">${emoji}</div>
+      <h2>${msg}</h2>
+      <div class="score">${correct} / ${total}</div>
+      <p>You earned ${correct*10} XP this round.</p>
+      <div class="rbtns">
+        <button class="btn primary" onclick="(${retry.toString()})()">Try again 🔄</button>
+        <button class="btn" onclick="openLesson('${lessonId}')">Other modes</button>
+        <button class="btn ghost" onclick="go('home')">Home</button>
+      </div>
+    </div>`;
+  go('results');
+  if(pct>=70) confetti();
+}
+function confetti(){
+  const colors=['#ff5d8f','#5b8cff','#3ddc97','#ffcf5c','#b10dc9'];
+  for(let i=0;i<60;i++){
+    let c=document.createElement('div'); c.className='confetti';
+    c.style.left=Math.random()*100+'vw'; c.style.background=rand(colors);
+    c.style.transform='rotate('+Math.random()*360+'deg)';
+    let dur=2+Math.random()*2;
+    c.animate([{top:'-10px',opacity:1},{top:'100vh',opacity:.9}],{duration:dur*1000,easing:'cubic-bezier(.3,.6,.7,1)'});
+    document.body.appendChild(c); setTimeout(()=>c.remove(),dur*1000);
+  }
+}
+
+/* ============ VERB GAME ============ */
+let vg=null;
+function startVerbs(){ vg={tense:'present',mode:'fill',used:[],answered:false}; go('verbs'); renderVerbShell(); nextVerb(); }
+function renderVerbShell(){
+  $('#view-verbs').innerHTML=`
+    <div class="back" onclick="go('home')">← Home</div>
+    <div class="hero"><h2>⚡ Practice Verbs</h2><p>Conjugate the verb inside a real, everyday sentence. Subjects are often dropped — just like people actually talk.</p></div>
+    <div class="tenses" id="tenses">
+      ${['present','preterite','imperfect','future','conditional'].map(t=>`<div class="tbtn ${t==='present'?'active':''}" onclick="setTense('${t}')">${t}</div>`).join('')}
+      <div class="tbtn" id="vmode" onclick="toggleVMode()" style="margin-left:auto">mode: type</div>
+    </div>
+    <div id="vbox"></div>`;
+}
+function setTense(t){ vg.tense=t; document.querySelectorAll('#tenses .tbtn').forEach(b=>{if(b.id!=='vmode')b.classList.toggle('active',b.textContent===t);}); nextVerb(); }
+function toggleVMode(){ vg.mode=vg.mode==='fill'?'mc':'fill'; $('#vmode').textContent='mode: '+(vg.mode==='fill'?'type':'choose'); nextVerb(); }
+function nextVerb(){
+  vg.answered=false;
+  if(vg.used.length>=VERB_SENTENCES.length) vg.used=[];
+  let idx; do{ idx=Math.floor(Math.random()*VERB_SENTENCES.length);}while(vg.used.includes(idx));
+  vg.used.push(idx);
+  let row=VERB_SENTENCES[idx]; vg.row=row;
+  let conj=VERBS[row.verb][vg.tense][row.subject];
+  vg.answer=row.answer||conj;
+  let parts=row.es.split('___');
+  let mid, body;
+  if(vg.mode==='mc'){
+    let forms=Object.values(VERBS[row.verb][vg.tense]);
+    let pool=[...new Set(forms.filter(f=>f!==vg.answer))];
+    let opts=shuffle([vg.answer,...shuffle(pool).slice(0,3)]);
+    mid=`<span class="blank">?</span>`;
+    body=`<div class="opts" style="margin-top:18px">${opts.map(o=>`<button class="opt" onclick="vAnswerMC(this,'${o}')">${o}</button>`).join('')}</div>`;
+  } else {
+    mid=`<input class="answer" id="vans" style="max-width:220px;display:inline-block;width:auto;font-size:18px;padding:6px 12px" autocomplete="off" spellcheck="false" placeholder="…">`;
+    body='';
+  }
+  $('#vbox').innerHTML=`
+    <div class="quizbox">
+      <div class="context">💬 ${row.context} &nbsp;·&nbsp; <b style="color:var(--txt)">${row.verb}</b> (${VERBS[row.verb].m})</div>
+      <div class="translation" style="margin-bottom:18px">"${row.en}"</div>
+      <div class="prompt" style="font-size:22px">${parts[0]}${mid}${parts[1]||''}</div>
+      ${body}
+      <div class="feedback" id="vfb"></div>
+      <div class="qfoot">
+        <button class="btn ghost" onclick="vHint()">💡 hint</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn" onclick="vReveal()">show answer</button>
+          <button class="btn primary" id="vnext" onclick="vNextOrCheck()">Check</button>
+        </div>
+      </div>
+    </div>`;
+  if(vg.mode==='fill'){ let a=$('#vans'); a.focus(); a.addEventListener('keydown',e=>{if(e.key==='Enter')vNextOrCheck();}); }
+}
+function vSet(good){
+  vg.answered=true; let fb=$('#vfb');
+  if(good){fb.className='feedback good';fb.textContent=rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Muy bien! 👏']);}
+  else{fb.className='feedback bad';fb.textContent='Answer: '+vg.answer;}
+  let blank=$('#vbox .blank'); if(blank){blank.textContent=vg.answer;blank.style.color=good?'var(--good)':'var(--bad)';blank.style.borderColor=good?'var(--good)':'var(--bad)';}
+  bump(good); $('#vnext').textContent='Next →';
+}
+function vAnswerMC(btn,val){
+  if(vg.answered)return; let good=val===vg.answer;
+  document.querySelectorAll('#vbox .opt').forEach(b=>{if(b.textContent===vg.answer)b.classList.add('correct');else if(b===btn)b.classList.add('wrong');b.disabled=true;});
+  vSet(good);
+}
+function vNextOrCheck(){
+  if(!vg.answered){
+    if(vg.mode==='fill'){let a=$('#vans');if(!a.value.trim())return;let good=norm(a.value)===norm(vg.answer);a.classList.add(good?'correct':'wrong');a.disabled=true;vSet(good);}
+    return;
+  }
+  nextVerb();
+}
+function vHint(){ let fb=$('#vfb'); fb.className='feedback'; fb.style.color='var(--muted)'; fb.textContent=`subject: ${vg.row.subject} · tense: ${vg.tense} · starts with "${vg.answer[0]}"`; }
+function vReveal(){ if(vg.answered)return; if(vg.mode==='fill'){let a=$('#vans');if(a){a.value=vg.answer;a.classList.add('wrong');a.disabled=true;}} vSet(false); }
+
+/* ============ INIT ============ */
+renderHome();
+</script>
+</body>
 </html>
