@@ -109,6 +109,38 @@
   .tbtn{font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer}
   .tbtn.active{background:var(--accent);color:#fff;border-color:transparent}
   @media(max-width:560px){.matchgrid{gap:14px}.prompt{font-size:20px}.brand p{display:none}}
+
+  /* ===== REELS ===== */
+  #reels-overlay{position:fixed;inset:0;z-index:1000;background:#000;display:none}
+  #reels-overlay.on{display:block}
+  .reel-scroll{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .reel-scroll::-webkit-scrollbar{display:none}
+  .reel{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:70px 22px 96px;position:relative;color:#fff;text-align:center}
+  .reel-cat{position:absolute;top:58px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;opacity:.9;font-weight:600}
+  .reel-en{font-size:16px;opacity:.92;font-style:italic;margin-bottom:16px;max-width:440px;line-height:1.4}
+  .reel-prompt{font-size:30px;font-weight:700;line-height:1.35;margin-bottom:30px;max-width:500px;text-shadow:0 2px 16px rgba(0,0,0,.3)}
+  .reel-big{font-size:74px}
+  .reel-blank{display:inline-block;min-width:80px;border-bottom:4px solid rgba(255,255,255,.9);padding:0 8px}
+  .reel-swatch{width:150px;height:150px;border-radius:26px;margin-bottom:26px;box-shadow:0 10px 36px rgba(0,0,0,.35);border:3px solid rgba(255,255,255,.6)}
+  .reel-opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:380px}
+  .reel-opt{background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.4);color:#fff;border-radius:16px;padding:16px;font-size:19px;font-weight:600;cursor:pointer;transition:.13s;font-family:inherit;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .reel-opt:hover:not(:disabled){background:rgba(255,255,255,.3);transform:scale(1.02)}
+  .reel-opt:active{transform:scale(.97)}
+  .reel-opt.correct{background:#fff;color:#168a48;border-color:#fff}
+  .reel-opt.wrong{background:rgba(0,0,0,.28);border-color:rgba(255,255,255,.5);opacity:.55;text-decoration:line-through}
+  .reel-opt:disabled{cursor:default}
+  .reel-fb{min-height:30px;height:30px;margin-top:18px;font-size:21px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .reel-up{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:14px;opacity:0;transition:.3s;font-weight:600}
+  .reel-up.show{opacity:.95;animation:bob 1.3s infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .reel-top{position:absolute;top:0;left:0;right:0;z-index:1002;display:flex;justify-content:space-between;align-items:center;padding:16px 18px;color:#fff;font-size:16px;font-weight:700}
+  .reel-x{font-size:22px;cursor:pointer;background:rgba(0,0,0,.25);border:none;color:#fff;width:38px;height:38px;border-radius:50%;line-height:1}
+  .reel-rail{position:absolute;right:14px;bottom:104px;z-index:1002;display:flex;flex-direction:column;gap:22px;align-items:center;color:#fff}
+  .reel-rail .ra{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-size:12px;font-weight:700}
+  .reel-rail .ra .ic{font-size:30px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+  .reel-xpfloat{position:absolute;right:26px;bottom:160px;color:#fff;font-size:30px;font-weight:800;z-index:1003;pointer-events:none;text-shadow:0 2px 10px rgba(0,0,0,.4);animation:floatup 1s ease-out forwards}
+  @keyframes floatup{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
+  @media(max-width:560px){.reel-prompt{font-size:25px}.reel-big{font-size:60px}}
 </style>
 </head>
 <body>
@@ -139,6 +171,9 @@
   <!-- VERBS -->
   <section id="view-verbs" class="hide"></section>
 </div>
+
+<!-- REELS (full-screen overlay) -->
+<div id="reels-overlay"></div>
 
 <script>
 /* ============ NUMBER -> SPANISH ============ */
@@ -476,7 +511,9 @@ const $=s=>document.querySelector(s);
 const rand=a=>a[Math.floor(Math.random()*a.length)];
 const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
 const norm=s=>s.trim().toLowerCase().replace(/\s+/g,' ');
-function bump(good){ if(good){xp+=10;globalStreak++;} else {globalStreak=0;} $('#hdr-xp').textContent=xp; $('#hdr-streak').textContent=globalStreak; }
+function bump(good){ if(good){xp+=10;globalStreak++;} else {globalStreak=0;} $('#hdr-xp').textContent=xp; $('#hdr-streak').textContent=globalStreak;
+  let rs=document.getElementById('reel-streak'); if(rs)rs.textContent=globalStreak;
+  let rx=document.getElementById('reel-xp'); if(rx)rx.textContent=xp; }
 
 function go(view){
   ['home','lesson','quiz','match','results','verbs'].forEach(v=>$('#view-'+v).classList.add('hide'));
@@ -502,6 +539,12 @@ function renderHome(){
     <div class="grid">${cards}</div>
     <div class="section-title">Extra</div>
     <div class="grid">
+      <div class="card" onclick="startReels()" style="background:linear-gradient(135deg,#e1306c33,#f7773733,#5b8cff33);border-color:#e1306c66">
+        <span class="tag">📱 new</span>
+        <span class="emoji">📲</span>
+        <h3>Spanish Reels</h3>
+        <p>Doomscroll, but make it Spanish. Swipe up for an endless feed of bite-size challenges.</p>
+      </div>
       <div class="card special" onclick="startVerbs()">
         <span class="emoji">⚡</span>
         <h3>Practice Verbs</h3>
@@ -836,6 +879,111 @@ function vNextOrCheck(){
 }
 function vHint(){ let fb=$('#vfb'); fb.className='feedback'; fb.style.color='var(--muted)'; fb.textContent=`subject: ${vg.row.subject} · tense: ${vg.tense} · starts with "${vg.answer[0]}"`; }
 function vReveal(){ if(vg.answered)return; if(vg.mode==='fill'){let a=$('#vans');if(a){a.value=vg.answer;a.classList.add('wrong');a.disabled=true;}} vSet(false); }
+
+/* ============ SPANISH REELS ============ */
+const REEL_BG=[
+  'linear-gradient(160deg,#ff5d8f,#7b2ff7)','linear-gradient(160deg,#5b8cff,#2bd2ff)',
+  'linear-gradient(160deg,#ff8a00,#ff5d8f)','linear-gradient(160deg,#11998e,#38ef7d)',
+  'linear-gradient(160deg,#fc466b,#3f5efb)','linear-gradient(160deg,#8e2de2,#4a00e0)',
+  'linear-gradient(160deg,#f7971e,#ffd200)','linear-gradient(160deg,#00b09b,#96c93d)',
+  'linear-gradient(160deg,#e1306c,#f77737)','linear-gradient(160deg,#1f4037,#99f2c8)'
+];
+const TENSES=['present','preterite','imperfect','future','conditional'];
+function mcDistract(answer,pool,n=3){ pool=[...new Set(pool.filter(x=>x!==answer))]; return shuffle(pool).slice(0,n); }
+function card_verb(){
+  let row=rand(VERB_SENTENCES), tense=rand(TENSES);
+  let conj=VERBS[row.verb][tense][row.subject], answer=row.answer||conj;
+  let forms=Object.values(VERBS[row.verb][tense]);
+  return {cat:`${row.verb} · ${tense}`,emoji:'⚡',en:'“'+row.en+'”',prompt:row.es,opts:shuffle([answer,...mcDistract(answer,forms)]),answer};
+}
+function card_bank(){
+  let ls=LESSONS.filter(l=>l.bank&&l.bank.length), lesson=rand(ls), item=rand(lesson.bank);
+  let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,lesson.bank.map(b=>b.a))];
+  if(opts.length<2) return card_verb();
+  return {cat:lesson.title,emoji:lesson.emoji,en:item.t||'',prompt:item.p,opts:shuffle(opts),answer:item.a};
+}
+function card_vocab(){
+  let vid=rand(['dias','numeros','adjetivos','descripcion']);
+  let lesson=LESSONS.find(l=>l.id===vid);
+  let p=rand(lesson.match);
+  return {cat:lesson.title,emoji:lesson.emoji,en:'How do you say…',prompt:'“'+p.a+'”',opts:shuffle([p.b,...mcDistract(p.b,lesson.match.map(x=>x.b))]),answer:p.b};
+}
+function card_number(){
+  let big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1;
+  let answer=numToSpanish(big), set=new Set([answer]);
+  while(set.size<4){ let d = big<=100 ? Math.min(100,Math.max(0,big+rand([-7,-5,-3,-2,2,3,5,7,10]))) : rand([100,200,300,400,500,600,700,800,900,1000]); set.add(numToSpanish(d)); }
+  return {cat:'Números',emoji:'🔢',en:'What number is this?',prompt:String(big),opts:shuffle([...set]),answer,big:true};
+}
+function card_color(){
+  let lesson=LESSONS.find(l=>l.id==='numeros'), sw=rand(lesson.swatches);
+  return {cat:'Colores',emoji:'🌈',en:'¿De qué color es?',prompt:'',opts:shuffle([sw.a,...mcDistract(sw.a,lesson.swatches.map(s=>s.a))]),answer:sw.a,swatch:sw.hex};
+}
+function makeReelCard(){
+  let r=Math.random(), c;
+  if(r<0.34) c=card_verb(); else if(r<0.62) c=card_bank(); else if(r<0.82) c=card_vocab();
+  else if(r<0.93) c=card_number(); else c=card_color();
+  c.bg=rand(REEL_BG); return c;
+}
+let reelIdx=0; const reelData={}; let reelIO=null, activeReelEl=null;
+function reelCardHTML(cid,c){
+  let promptHtml = c.prompt && c.prompt.includes('___') ? c.prompt.replace('___','<span class="reel-blank">?</span>') : c.prompt;
+  let esc=o=>(''+o).replace(/'/g,"\\'");
+  return `<div class="reel" data-cid="${cid}" style="background:${c.bg}">
+    <div class="reel-cat">${c.emoji} ${c.cat}</div>
+    ${c.en?`<div class="reel-en">${c.en}</div>`:''}
+    ${c.swatch?`<div class="reel-swatch" style="background:${c.swatch}"></div>`:''}
+    ${promptHtml?`<div class="reel-prompt${c.big?' reel-big':''}">${promptHtml}</div>`:''}
+    <div class="reel-opts">${c.opts.map(o=>`<button class="reel-opt" onclick="reelAnswer('${cid}',this,'${esc(o)}')">${o}</button>`).join('')}</div>
+    <div class="reel-fb" id="fb-${cid}"></div>
+    <div class="reel-up" id="up-${cid}">swipe up for more ⬆</div>
+  </div>`;
+}
+function appendReels(n){
+  let scroll=document.getElementById('reel-scroll'), html='';
+  for(let i=0;i<n;i++){ let cid='r'+(reelIdx++); reelData[cid]=makeReelCard(); html+=reelCardHTML(cid,reelData[cid]); }
+  scroll.insertAdjacentHTML('beforeend',html);
+  scroll.querySelectorAll('.reel:not([data-obs])').forEach(el=>{ el.setAttribute('data-obs','1'); reelIO.observe(el); });
+}
+function startReels(){
+  let ov=$('#reels-overlay');
+  ov.innerHTML=`
+    <div class="reel-top"><div>📲 Spanish Reels</div><button class="reel-x" onclick="exitReels()">✕</button></div>
+    <div class="reel-rail">
+      <div class="ra"><span class="ic">🔥</span><span id="reel-streak">${globalStreak}</span></div>
+      <div class="ra"><span class="ic">⭐</span><span id="reel-xp">${xp}</span></div>
+      <div class="ra" onclick="reelSkip()"><span class="ic">⏭️</span>skip</div>
+    </div>
+    <div class="reel-scroll" id="reel-scroll"></div>`;
+  reelIdx=0; for(let k in reelData) delete reelData[k];
+  reelIO=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6){
+      activeReelEl=e.target;
+      let reels=[...document.querySelectorAll('.reel')];
+      if(reels.indexOf(e.target)>=reels.length-2) appendReels(5);
+    }});
+  },{root:document.getElementById('reel-scroll'),threshold:[0.6]});
+  ov.classList.add('on'); document.body.style.overflow='hidden';
+  appendReels(6);
+}
+function exitReels(){ let ov=$('#reels-overlay'); ov.classList.remove('on'); ov.innerHTML=''; document.body.style.overflow=''; if(reelIO){reelIO.disconnect();reelIO=null;} activeReelEl=null; renderHome(); go('home'); }
+function reelNext(reel){ let nx=reel&&reel.nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); }
+function reelSkip(){ if(activeReelEl) reelNext(activeReelEl); }
+function reelXPFloat(){ let ov=$('#reels-overlay'); let f=document.createElement('div'); f.className='reel-xpfloat'; f.textContent='+10'; ov.appendChild(f); setTimeout(()=>f.remove(),1000); }
+function reelAnswer(cid,btn,val){
+  let c=reelData[cid]; if(!c||c.done) return; c.done=true;
+  let reel=document.querySelector(`.reel[data-cid="${cid}"]`), good=val===c.answer;
+  reel.querySelectorAll('.reel-opt').forEach(b=>{ if(b.textContent===c.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
+  let blank=reel.querySelector('.reel-blank'); if(blank)blank.textContent=c.answer;
+  let fb=document.getElementById('fb-'+cid); fb.textContent = good ? rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Eso es! 🔥','¡Muy bien! 👏']) : '✗  '+c.answer;
+  bump(good);
+  if(good){ reelXPFloat(); setTimeout(()=>reelNext(reel),850); }
+  else { document.getElementById('up-'+cid).classList.add('show'); }
+}
+document.addEventListener('keydown',e=>{
+  if(!$('#reels-overlay').classList.contains('on')) return;
+  if(e.key==='ArrowDown'){ e.preventDefault(); reelSkip(); }
+  else if(['1','2','3','4'].includes(e.key)){ let opts=activeReelEl&&activeReelEl.querySelectorAll('.reel-opt'); let i=+e.key-1; if(opts&&opts[i]&&!opts[i].disabled) opts[i].click(); }
+});
 
 /* ============ INIT ============ */
 renderHome();
