@@ -28,6 +28,54 @@
   .card .big{font-size:42px;line-height:1}
   .tag{position:absolute;top:14px;right:14px;font-size:11px;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:#fff}
   .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:30px;line-height:1.7}
+  .section-title{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;color:var(--muted);margin:34px 4px 14px;font-weight:700}
+
+  /* ===== Lecciones ===== */
+  .hide{display:none}
+  .back{display:inline-block;color:var(--muted);cursor:pointer;font-size:14px;margin:4px 0 6px;font-weight:600}
+  .back:hover{color:var(--txt)}
+  .modes{display:grid;gap:14px;margin-top:18px}
+  .mode{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:16px}
+  .mode:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.28)}
+  .mode .ic{font-size:30px}
+  .mode h4{margin:0 0 2px;font-size:18px}
+  .mode p{margin:0;color:var(--muted);font-size:13px}
+  .study{display:grid;gap:11px;margin-top:8px}
+  .scard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+  .scard .es{color:var(--muted);font-size:14px}
+  .scard .fi{font-size:21px;font-weight:800;margin-top:2px}
+  .scard .fa{font-size:25px;font-weight:700;direction:rtl;opacity:.95;text-align:right}
+  .qbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;margin-top:8px}
+  .prow{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .track{flex:1;height:8px;background:var(--panel2);border-radius:999px;overflow:hidden}
+  .track i{display:block;height:100%;background:linear-gradient(90deg,#ff5d8f,#7b2ff7);transition:.3s}
+  .qn{font-size:13px;color:var(--muted);font-weight:700}
+  .ctx{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:8px}
+  .q-prompt{font-size:30px;font-weight:850;margin-bottom:22px;line-height:1.25}
+  .opts{display:grid;gap:11px}
+  .opt{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:15px;font-size:18px;font-weight:700;cursor:pointer;text-align:center;color:var(--txt);transition:.12s;font-family:inherit}
+  .opt:hover:not(:disabled){border-color:rgba(255,255,255,.4)}
+  .opt.correct{background:#168a48;border-color:#168a48;color:#fff}
+  .opt.wrong{background:#7a1f33;border-color:#7a1f33;color:#fff;opacity:.8}
+  .opt:disabled{cursor:default}
+  .fb{min-height:26px;margin-top:14px;font-size:17px;font-weight:800}
+  .fb.good{color:#5be59a}.fb.bad{color:#ff8aa6}
+  .qfoot{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+  .btn{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+  .btn:hover{border-color:rgba(255,255,255,.3)}
+  .btn.primary{background:linear-gradient(135deg,#ff5d8f,#7b2ff7);border:none;color:#fff}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+  .mcol{display:grid;gap:10px;align-content:start}
+  .mitem{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;transition:.12s}
+  .mitem.sel{border-color:var(--pink);background:#3a1d3a}
+  .mitem.done{opacity:.35;cursor:default;border-color:#168a48}
+  .mitem.flash{border-color:var(--pink);animation:shake .3s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .results{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:42px 24px;margin-top:20px}
+  .results .big{font-size:60px}
+  .results .score{font-size:34px;font-weight:850;margin:8px 0}
+  .rbtns{display:grid;gap:10px;max-width:280px;margin:22px auto 0}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;border-radius:2px;z-index:2000;pointer-events:none}
 
   /* ===== Reels ===== */
   #ov{position:fixed;inset:0;z-index:1000;background:#000;display:none}
@@ -52,8 +100,6 @@
   .r-fa{font-size:34px;font-weight:700;direction:rtl;margin-bottom:6px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
   .r-tip{font-size:13.5px;opacity:.9;background:rgba(0,0,0,.22);border-radius:12px;padding:8px 13px;display:inline-block}
   .r-show{margin-top:8px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.45);color:#fff;border-radius:14px;padding:13px 26px;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px)}
-  .r-spk{background:rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:999px;padding:8px 18px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
-  .r-spk:active{transform:scale(.95)}
   .r-up{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:14px;opacity:0;transition:.3s;font-weight:600}
   .r-up.show{opacity:.95;animation:bob 1.3s infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -74,11 +120,16 @@
     <div class="pill"><span>⭐ <b id="xp">0</b></span><span>🔥 <b id="streak">0</b></span></div>
   </div>
 
+  <section id="home">
   <div class="hero">
     <h1>Aprende persa, کلمه به کلمه 💕</h1>
-    <p>En finglish — lees el farsi con letras normales.<br>Desliza como en TikTok y aprende jugando.</p>
+    <p>En finglish — lees el farsi con letras normales.<br>Estudia las lecciones o desliza los reels.</p>
   </div>
 
+  <div class="section-title">📚 Lecciones — aprende paso a paso</div>
+  <div class="grid" id="lesson-grid"></div>
+
+  <div class="section-title">📲 Reels — desliza y practica</div>
   <div class="grid">
     <div class="card" onclick="startReels('day')" style="background:linear-gradient(135deg,#5b8cff33,#2bd2ff22,#11998e22);border-color:#5b8cff77">
       <span class="tag">📱 reel</span>
@@ -110,6 +161,12 @@
     Hecho con cariño 💗 · El farsi se escribe de derecha a izquierda,<br>
     pero aquí lo lees en finglish para que sea fácil empezar.
   </div>
+  </section>
+
+  <section id="lesson" class="hide"></section>
+  <section id="quiz" class="hide"></section>
+  <section id="match" class="hide"></section>
+  <section id="results" class="hide"></section>
 </div>
 
 <div id="ov"></div>
@@ -255,27 +312,178 @@ const NIGHT=[
   {es:'Mañana te veo, te quiero', fi:'Farda mibinamet, dooset daram', fa:'فردا می‌بینمت، دوستت دارم', e:'💖'},
 ];
 
-/* ===== Text-to-speech (voz del navegador) ===== */
-function pickVoice(){
-  let vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
-  return vs.find(x=>/fa|persian|iran/i.test(x.lang+' '+x.name))||null;
-}
-if(window.speechSynthesis) speechSynthesis.onvoiceschanged=pickVoice;
-function say(cid){
-  if(!window.speechSynthesis) return;
-  let c=data[cid]; if(!c) return;
-  let v=pickVoice();
-  let u=new SpeechSynthesisUtterance(v ? c.fa : c.fi);
-  u.lang = v ? 'fa-IR' : 'es-ES';   // sin voz persa, leemos el finglish con fonética española
-  u.rate = .8; if(v) u.voice=v;
-  speechSynthesis.cancel(); speechSynthesis.speak(u);
-}
-
 function pronTip(fi){
   let s=fi.toLowerCase();
   if(s.includes('kh')) return 'kh suena como la <b>J</b> española (jamón) 🗣️';
   if(s.includes('gh')) return 'gh = una <b>G</b> gutural, desde la garganta 🗣️';
   return '';
+}
+
+/* ===================================================================
+   LECCIONES — estudiar + quiz + emparejar (como en el sitio de español)
+   =================================================================== */
+function byCat(c){ return DAY.filter(x=>x.cat===c); }
+function dedupe(arr){ let seen=new Set(); return arr.filter(x=>{ if(seen.has(x.fi))return false; seen.add(x.fi); return true; }); }
+const LESSONS=[
+  {id:'saludos', emoji:'👋', title:'Saludos', desc:'Hola, gracias, ¿cómo estás?', items:dedupe(byCat('Saludos')), modes:['study','quiz','match']},
+  {id:'dia',     emoji:'☕', title:'Día a Día', desc:'Comida, casa y palabras útiles', items:dedupe(byCat('Día a día')), modes:['study','quiz','match']},
+  {id:'numeros', emoji:'🔢', title:'Números 1–10', desc:'Aprende a contar en persa', items:dedupe(byCat('Números')), modes:['study','quiz','match']},
+  {id:'familia', emoji:'👨‍👩‍👧', title:'Familia', desc:'Mamá, papá, amigos', items:dedupe(byCat('Familia')), modes:['study','quiz','match']},
+  {id:'amor',    emoji:'💕', title:'Amor & Coqueteo', desc:'Palabras dulces y coquetas', items:dedupe(LOVE), modes:['study','quiz','match']},
+  {id:'frases',  emoji:'💗', title:'Frases del Corazón', desc:'Frases románticas completas', items:dedupe(LOVE_PHRASES), modes:['study','quiz']},
+];
+const MODE_INFO={
+  study:{ic:'📖', h:'Estudiar', p:'Mira cada palabra con su escritura persa real.'},
+  quiz: {ic:'✅', h:'Quiz',     p:'Elige la respuesta correcta y gana XP.'},
+  match:{ic:'🔗', h:'Emparejar',p:'Conecta cada palabra con su significado.'},
+};
+
+const V=id=>document.getElementById(id);
+function go(view){
+  ['home','lesson','quiz','match','results'].forEach(id=>V(id).classList.toggle('hide',id!==view));
+  window.scrollTo(0,0);
+}
+function renderLessons(){
+  V('lesson-grid').innerHTML=LESSONS.map(l=>`
+    <div class="card" onclick="openLesson('${l.id}')">
+      <span class="tag">${l.items.length} 📝</span>
+      <div class="big">${l.emoji}</div>
+      <h3>${l.title}</h3>
+      <p>${l.desc}</p>
+    </div>`).join('');
+}
+let curL=null;
+function openLesson(id){
+  curL=LESSONS.find(l=>l.id===id);
+  let modes=curL.modes.map(m=>`
+    <div class="mode" onclick="startMode('${m}')">
+      <div class="ic">${MODE_INFO[m].ic}</div>
+      <div><h4>${MODE_INFO[m].h}</h4><p>${MODE_INFO[m].p}</p></div>
+    </div>`).join('');
+  V('lesson').innerHTML=`
+    <div class="back" onclick="go('home')">← Todas las lecciones</div>
+    <div class="hero" style="margin:10px 0 4px"><h1>${curL.emoji} ${curL.title}</h1><p>${curL.desc} — elige cómo practicar.</p></div>
+    <div class="modes">${modes}</div>`;
+  go('lesson');
+}
+function startMode(m){ if(m==='study')startStudy(); else if(m==='match')startMatch(); else startQuiz(); }
+
+/* ----- Estudiar ----- */
+function startStudy(){
+  let rows=curL.items.map(it=>`
+    <div class="scard">
+      <div><div class="es">${it.es}</div><div class="fi">${it.fi}</div></div>
+      <div class="fa">${it.fa}</div>
+    </div>`).join('');
+  V('lesson').innerHTML=`
+    <div class="back" onclick="openLesson('${curL.id}')">← Atrás</div>
+    <div class="hero" style="margin:10px 0 14px"><h1>${curL.emoji} ${curL.title}</h1><p>Léelas en voz alta y memoriza. Cuando estés lista, prueba el quiz.</p></div>
+    <div class="study">${rows}</div>
+    <div style="margin-top:22px;text-align:center"><button class="btn primary" onclick="startQuiz()">Practicar ahora ✅</button></div>`;
+  go('lesson');
+}
+
+/* ----- Quiz (opción múltiple, ambos sentidos) ----- */
+let quiz=null;
+function startQuiz(){
+  let items=shuffle(curL.items.slice()).slice(0,Math.min(10,curL.items.length));
+  quiz={items,i:0,correct:0,answered:false};
+  go('quiz'); renderQ();
+}
+function renderQ(){
+  let it=quiz.items[quiz.i]; quiz.answered=false;
+  let toFi=Math.random()<0.6, pool=curL.items, ask, answer, opts;
+  if(toFi){ ask=it.es; answer=it.fi; opts=shuffle([answer,...distract(answer,pool.map(x=>x.fi))]); }
+  else    { ask=it.fi; answer=it.es; opts=shuffle([answer,...distract(answer,pool.map(x=>x.es))]); }
+  quiz.answer=answer;
+  let pct=Math.round(quiz.i/quiz.items.length*100);
+  V('quiz').innerHTML=`
+    <div class="back" onclick="openLesson('${curL.id}')">← Atrás</div>
+    <div class="qbox">
+      <div class="prow"><div class="track"><i style="width:${pct}%"></i></div><div class="qn">${quiz.i+1} / ${quiz.items.length}</div></div>
+      <div class="ctx">${toFi?'¿Cómo se dice en persa?':'¿Qué significa?'}</div>
+      <div class="q-prompt">${ask}</div>
+      <div class="opts">${opts.map(o=>`<button class="opt" onclick="answerQ(this,'${(''+o).replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+      <div class="fb" id="qfb"></div>
+      <div class="qfoot"><span class="qn">🔥 ${streak}</span><button class="btn primary" id="qnext" onclick="nextQ()" style="display:none">Siguiente →</button></div>
+    </div>`;
+}
+function answerQ(btn,val){
+  if(quiz.answered)return; quiz.answered=true;
+  let good=val===quiz.answer;
+  document.querySelectorAll('#quiz .opt').forEach(b=>{ if(b.textContent===quiz.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
+  let fb=V('qfb');
+  if(good){ quiz.correct++; fb.className='fb good'; fb.textContent=rand(['¡Correcto! 🎉','¡Exacto! ✨','Afarin! 🌟','¡Muy bien! 👏']); }
+  else    { fb.className='fb bad'; fb.textContent='Respuesta: '+quiz.answer; }
+  bump(good);
+  let n=V('qnext'); n.style.display='inline-block'; n.textContent=(quiz.i+1>=quiz.items.length)?'Ver resultados →':'Siguiente →';
+}
+function nextQ(){ if(!quiz.answered)return; quiz.i++; if(quiz.i>=quiz.items.length) showResults(quiz.correct,quiz.items.length,startQuiz); else renderQ(); }
+
+/* ----- Emparejar ----- */
+let match=null;
+function startMatch(){
+  let pairs=shuffle(curL.items.slice()).slice(0,Math.min(6,curL.items.length));
+  match={pairs,sel:null,done:0};
+  let left=pairs.map((p,idx)=>`<div class="mitem" data-i="${idx}" onclick="pickL(${idx})">${p.es}</div>`).join('');
+  let right=shuffle(pairs.map((p,idx)=>({idx,fi:p.fi}))).map(r=>`<div class="mitem" data-i="${r.idx}" onclick="pickR(${r.idx})">${r.fi}</div>`).join('');
+  V('match').innerHTML=`
+    <div class="back" onclick="openLesson('${curL.id}')">← Atrás</div>
+    <div class="qbox">
+      <div class="ctx">${curL.title} — conecta los pares 🔗</div>
+      <div class="q-prompt" style="font-size:17px;margin-bottom:16px">Toca una palabra en español, luego su pareja en persa.</div>
+      <div class="mgrid"><div class="mcol" id="ml">${left}</div><div class="mcol" id="mr">${right}</div></div>
+      <div class="fb" id="mfb"></div>
+    </div>`;
+  go('match');
+}
+function pickL(i){
+  let el=document.querySelector(`#ml .mitem[data-i="${i}"]`); if(el.classList.contains('done'))return;
+  document.querySelectorAll('#ml .mitem').forEach(m=>m.classList.remove('sel')); el.classList.add('sel'); match.sel=i;
+}
+function pickR(i){
+  if(match.sel===null)return;
+  let r=document.querySelector(`#mr .mitem[data-i="${i}"]`), l=document.querySelector(`#ml .mitem[data-i="${match.sel}"]`);
+  if(r.classList.contains('done'))return;
+  if(i===match.sel){
+    l.classList.remove('sel'); l.classList.add('done'); r.classList.add('done'); match.sel=null; match.done++; bump(true);
+    if(match.done===match.pairs.length){ let fb=V('mfb'); fb.className='fb good'; fb.textContent='¡Completado! 🎉'; setTimeout(()=>showResults(match.pairs.length,match.pairs.length,startMatch),700); }
+  } else {
+    r.classList.add('flash'); l.classList.remove('sel'); match.sel=null; bump(false);
+    let fb=V('mfb'); fb.className='fb bad'; fb.textContent='No coincide, intenta otra vez';
+    setTimeout(()=>{ r.classList.remove('flash'); fb.textContent=''; },500);
+  }
+}
+
+/* ----- Resultados ----- */
+function showResults(correct,total,retry){
+  let pct=Math.round(correct/total*100);
+  let emoji=pct===100?'🏆':pct>=70?'🎉':pct>=40?'💪':'📚';
+  let msg=pct===100?'¡Puntuación perfecta!':pct>=70?'¡Muy bien!':pct>=40?'¡Sigue practicando!':'¡No te rindas!';
+  V('results').innerHTML=`
+    <div class="results">
+      <div class="big">${emoji}</div>
+      <h2>${msg}</h2>
+      <div class="score">${correct} / ${total}</div>
+      <p>Ganaste ${correct*10} XP 💫</p>
+      <div class="rbtns">
+        <button class="btn primary" onclick="(${retry.name})()">Otra vez 🔄</button>
+        <button class="btn" onclick="openLesson('${curL.id}')">Otros modos</button>
+        <button class="btn" onclick="go('home')">Inicio</button>
+      </div>
+    </div>`;
+  go('results'); if(pct>=70)confetti();
+}
+function confetti(){
+  const colors=['#ff5d8f','#5b8cff','#3ddc97','#ffcf5c','#b10dc9'];
+  for(let i=0;i<60;i++){
+    let c=document.createElement('div'); c.className='confetti';
+    c.style.left=Math.random()*100+'vw'; c.style.background=rand(colors);
+    c.style.transform='rotate('+Math.random()*360+'deg)';
+    let dur=2+Math.random()*2;
+    c.animate([{top:'-10px',opacity:1},{top:'100vh',opacity:.9}],{duration:dur*1000,easing:'cubic-bezier(.3,.6,.7,1)'});
+    document.body.appendChild(c); setTimeout(()=>c.remove(),dur*1000);
+  }
 }
 
 /* ===== generadores de tarjetas ===== */
@@ -326,7 +534,6 @@ function cardHTML(cid,c){
   let esc=o=>(''+o).replace(/'/g,"\\'");
   let bg = (reelMode==='love'||reelMode==='night') ? rand(LOVE_BG) : rand(BG);
   c.bg=bg;
-  let speakBtn=`<button class="r-spk" onclick="say('${cid}')">🔊 Escuchar</button>`;
   if(c.type==='flash'){
     return `<div class="reel" data-cid="${cid}" style="background:${bg}">
       <div class="r-cat">${c.e} ${c.cat}</div>
@@ -335,9 +542,8 @@ function cardHTML(cid,c){
       <button class="r-show" onclick="flashReveal('${cid}')">Ver en persa 👀</button>
       <div class="r-reveal" id="rv-${cid}">
         <div class="r-fa">${c.fa}</div>
-        <div style="font-size:24px;font-weight:800;margin-bottom:10px">${c.fi}</div>
-        ${speakBtn}
-        ${c.tip?`<div class="r-tip" style="margin-top:8px">${c.tip}</div>`:''}
+        <div style="font-size:24px;font-weight:800;margin-bottom:6px">${c.fi}</div>
+        ${c.tip?`<div class="r-tip" style="margin-top:6px">${c.tip}</div>`:''}
       </div>
       <div class="r-up" id="up-${cid}">desliza para más ⬆</div>
     </div>`;
@@ -350,8 +556,7 @@ function cardHTML(cid,c){
     <div class="r-fb" id="fb-${cid}"></div>
     <div class="r-reveal" id="rv-${cid}">
       <div class="r-fa">${c.fa}</div>
-      ${speakBtn}
-      ${c.tip?`<div class="r-tip" style="margin-top:8px">${c.tip}</div>`:''}
+      ${c.tip?`<div class="r-tip" style="margin-top:6px">${c.tip}</div>`:''}
     </div>
     <div class="r-up" id="up-${cid}">desliza para más ⬆</div>
   </div>`;
@@ -385,7 +590,7 @@ function startReels(mode){
   ov.classList.add('on'); document.body.style.overflow='hidden';
   append(6);
 }
-function exitReels(){ let ov=$('#ov'); ov.classList.remove('on'); ov.innerHTML=''; document.body.style.overflow=''; if(io){io.disconnect();io=null;} active=null; }
+function exitReels(){ let ov=$('#ov'); ov.classList.remove('on'); ov.innerHTML=''; document.body.style.overflow=''; if(io){io.disconnect();io=null;} active=null; go('home'); }
 function next(reel){ let nx=reel&&reel.nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); }
 function skip(){ if(active) next(active); }
 function xpFloat(){ let ov=$('#ov'); let f=document.createElement('div'); f.className='xpf'; f.textContent='+10'; ov.appendChild(f); setTimeout(()=>f.remove(),1000); }
@@ -412,6 +617,10 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'){ e.preventDefault(); skip(); }
   else if(['1','2','3','4'].includes(e.key)){ let opts=active&&active.querySelectorAll('.r-opt'); let i=+e.key-1; if(opts&&opts[i]&&!opts[i].disabled) opts[i].click(); }
 });
+
+/* ===== INIT ===== */
+renderLessons();
+go('home');
 </script>
 </body>
 </html>
