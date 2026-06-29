@@ -52,6 +52,8 @@
   .r-fa{font-size:34px;font-weight:700;direction:rtl;margin-bottom:6px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
   .r-tip{font-size:13.5px;opacity:.9;background:rgba(0,0,0,.22);border-radius:12px;padding:8px 13px;display:inline-block}
   .r-show{margin-top:8px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.45);color:#fff;border-radius:14px;padding:13px 26px;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px)}
+  .r-spk{background:rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:999px;padding:8px 18px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+  .r-spk:active{transform:scale(.95)}
   .r-up{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:14px;opacity:0;transition:.3s;font-weight:600}
   .r-up.show{opacity:.95;animation:bob 1.3s infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -89,6 +91,12 @@
       <div class="big">💕</div>
       <h3>Amor &amp; Coqueteo</h3>
       <p>Cosas tiernas y coquetas para decirle a tu persona favorita 😏</p>
+    </div>
+    <div class="card" onclick="startReels('night')" style="background:linear-gradient(135deg,#240b3666,#7b2ff733,#5b8cff22);border-color:#7b2ff788">
+      <span class="tag">📱 reel</span>
+      <div class="big">🌙</div>
+      <h3>Mensajes de Noche</h3>
+      <p>Frases dulces y coquetas para mandarle a Sepehr antes de dormir 😴💗</p>
     </div>
     <div class="card" onclick="startReels('mix')" style="background:linear-gradient(135deg,#f7971e33,#ffd20033,#ff5d8f22);border-color:#f7971e77">
       <span class="tag">📱 reel</span>
@@ -219,6 +227,50 @@ const LOVE_PHRASES=[
   {es:'Mi corazón es tuyo', fi:'Ghalbam male toe', fa:'قلبم مال توئه', e:'💘'},
 ];
 
+/* Nombres reales 💞 */
+const NAME_HER='Suzanne', NAME_HIM='Sepehr', FA_HER='سوزان', FA_HIM='سپهر';
+
+/* Frases personalizadas para Suzanne & Sepehr (flashcards) */
+const PERSONAL=[
+  {es:`${NAME_HER}, te amo`, fi:`${NAME_HER}, dooset daram`, fa:`${FA_HER}، دوستت دارم`, e:'❤️'},
+  {es:`Buenas noches, ${NAME_HER}`, fi:`Shab bekheir ${NAME_HER}`, fa:`شب بخیر ${FA_HER}`, e:'🌙'},
+  {es:`${NAME_HER}, eres mi todo`, fi:`${NAME_HER}, to hamechize mani`, fa:`${FA_HER}، تو همه‌چیز منی`, e:'🌍'},
+  {es:`${NAME_HER}, eres preciosa`, fi:`${NAME_HER}, kheili khoshgeli`, fa:`${FA_HER}، خیلی خوشگلی`, e:'😍'},
+  {es:`Soy ${NAME_HIM} y te quiero`, fi:`Man ${NAME_HIM}-am, va dooset daram`, fa:`من ${FA_HIM}م، و دوستت دارم`, e:'💗'},
+  {es:`${NAME_HIM} ❤️ ${NAME_HER}`, fi:`${NAME_HIM} asheghe ${NAME_HER}-e`, fa:`${FA_HIM} عاشق ${FA_HER}ه`, e:'💞'},
+  {es:`Te extraño, ${NAME_HER}`, fi:`${NAME_HER}, delam barat tang shode`, fa:`${FA_HER}، دلم برات تنگ شده`, e:'🥺'},
+];
+
+/* 🌙 Mensajes de noche (flashcards, dulces y coquetos) */
+const NIGHT=[
+  {es:'Buenas noches, mi amor', fi:'Shab bekheir eshgham', fa:'شب بخیر عشقم', e:'🌙'},
+  {es:'Sueña conmigo', fi:'Khabe mano bebin', fa:'خواب منو ببین', e:'💫'},
+  {es:'Ojalá estuvieras aquí', fi:'Kash inja boodi', fa:'کاش اینجا بودی', e:'🥺'},
+  {es:'Te extraño esta noche', fi:'Emshab delam barat tang shode', fa:'امشب دلم برات تنگ شده', e:'🌌'},
+  {es:'No puedo dormir sin ti', fi:'Bedoone to khabam nemibare', fa:'بدون تو خوابم نمی‌بره', e:'😴'},
+  {es:'Eres mi último pensamiento antes de dormir', fi:'Akharin fekram ghable khab toyi', fa:'آخرین فکرم قبل خواب تویی', e:'💭'},
+  {es:'Un beso de buenas noches', fi:'Ye boose shab bekheir', fa:'یه بوس شب بخیر', e:'😘'},
+  {es:'Duerme bien, hermosa', fi:'Khoob bekhab khoshgelam', fa:'خوب بخواب خوشگلم', e:'🛌'},
+  {es:'Te abrazaría ahora mismo', fi:'Alan baghalet mikardam', fa:'الان بغلت می‌کردم', e:'🤗'},
+  {es:'Mañana te veo, te quiero', fi:'Farda mibinamet, dooset daram', fa:'فردا می‌بینمت، دوستت دارم', e:'💖'},
+];
+
+/* ===== Text-to-speech (voz del navegador) ===== */
+function pickVoice(){
+  let vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  return vs.find(x=>/fa|persian|iran/i.test(x.lang+' '+x.name))||null;
+}
+if(window.speechSynthesis) speechSynthesis.onvoiceschanged=pickVoice;
+function say(cid){
+  if(!window.speechSynthesis) return;
+  let c=data[cid]; if(!c) return;
+  let v=pickVoice();
+  let u=new SpeechSynthesisUtterance(v ? c.fa : c.fi);
+  u.lang = v ? 'fa-IR' : 'es-ES';   // sin voz persa, leemos el finglish con fonética española
+  u.rate = .8; if(v) u.voice=v;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+
 function pronTip(fi){
   let s=fi.toLowerCase();
   if(s.includes('kh')) return 'kh suena como la <b>J</b> española (jamón) 🗣️';
@@ -240,21 +292,31 @@ function cardMC(pool, label){
       prompt:`<b>${it.fi}</b>`, opts, answer:it.es, fa:it.fa, tip:pronTip(it.fi)};
   }
 }
-function cardFlash(){
-  let it=rand(LOVE_PHRASES);
-  return {type:'flash', cat:'Frase del corazón', e:it.e||'💕', sub:'En español',
+function cardFlash(pool, cat){
+  let it=rand(pool||LOVE_PHRASES);
+  return {type:'flash', cat:cat||'Frase del corazón', e:it.e||'💕', sub:'En español',
     prompt:`<b>${it.es}</b>`, fi:it.fi, fa:it.fa, tip:pronTip(it.fi)};
 }
 
 let reelMode='day';
 function makeCard(){
   if(reelMode==='love'){
-    return Math.random()<0.45 ? cardFlash() : cardMC(LOVE,'Amor');
+    let r=Math.random();
+    if(r<0.18) return cardFlash(PERSONAL,'Para Suzanne 💞');
+    if(r<0.5)  return cardFlash(LOVE_PHRASES);
+    return cardMC(LOVE,'Amor');
+  } else if(reelMode==='night'){
+    let r=Math.random();
+    if(r<0.7) return cardFlash(NIGHT,'Mensaje de noche 🌙');
+    if(r<0.85) return cardFlash(PERSONAL,'Para Suzanne 💞');
+    return cardMC(LOVE,'Amor');
   } else if(reelMode==='mix'){
     let r=Math.random();
-    if(r<0.55) return cardMC(DAY,'Día a día');
-    if(r<0.8) return cardMC(LOVE,'Amor');
-    return cardFlash();
+    if(r<0.5) return cardMC(DAY,'Día a día');
+    if(r<0.72) return cardMC(LOVE,'Amor');
+    if(r<0.85) return cardFlash(PERSONAL,'Para Suzanne 💞');
+    if(r<0.93) return cardFlash(NIGHT,'Mensaje de noche 🌙');
+    return cardFlash(LOVE_PHRASES);
   }
   return cardMC(DAY,'Día a día');
 }
@@ -262,8 +324,9 @@ function makeCard(){
 let idx=0; const data={}; let io=null, active=null;
 function cardHTML(cid,c){
   let esc=o=>(''+o).replace(/'/g,"\\'");
-  let bg = reelMode==='love' ? rand(LOVE_BG) : rand(BG);
+  let bg = (reelMode==='love'||reelMode==='night') ? rand(LOVE_BG) : rand(BG);
   c.bg=bg;
+  let speakBtn=`<button class="r-spk" onclick="say('${cid}')">🔊 Escuchar</button>`;
   if(c.type==='flash'){
     return `<div class="reel" data-cid="${cid}" style="background:${bg}">
       <div class="r-cat">${c.e} ${c.cat}</div>
@@ -272,8 +335,9 @@ function cardHTML(cid,c){
       <button class="r-show" onclick="flashReveal('${cid}')">Ver en persa 👀</button>
       <div class="r-reveal" id="rv-${cid}">
         <div class="r-fa">${c.fa}</div>
-        <div style="font-size:24px;font-weight:800;margin-bottom:8px">${c.fi}</div>
-        ${c.tip?`<div class="r-tip">${c.tip}</div>`:''}
+        <div style="font-size:24px;font-weight:800;margin-bottom:10px">${c.fi}</div>
+        ${speakBtn}
+        ${c.tip?`<div class="r-tip" style="margin-top:8px">${c.tip}</div>`:''}
       </div>
       <div class="r-up" id="up-${cid}">desliza para más ⬆</div>
     </div>`;
@@ -286,7 +350,8 @@ function cardHTML(cid,c){
     <div class="r-fb" id="fb-${cid}"></div>
     <div class="r-reveal" id="rv-${cid}">
       <div class="r-fa">${c.fa}</div>
-      ${c.tip?`<div class="r-tip">${c.tip}</div>`:''}
+      ${speakBtn}
+      ${c.tip?`<div class="r-tip" style="margin-top:8px">${c.tip}</div>`:''}
     </div>
     <div class="r-up" id="up-${cid}">desliza para más ⬆</div>
   </div>`;
@@ -299,7 +364,7 @@ function append(n){
 }
 function startReels(mode){
   reelMode=mode;
-  let title = mode==='love'?'💕 Amor & Coqueteo': mode==='mix'?'🎲 Sorpréndeme':'💬 Día a Día';
+  let title = mode==='love'?'💕 Amor & Coqueteo': mode==='night'?'🌙 Mensajes de Noche': mode==='mix'?'🎲 Sorpréndeme':'💬 Día a Día';
   let ov=$('#ov');
   ov.innerHTML=`
     <div class="r-top"><div>${title}</div><button class="r-x" onclick="exitReels()">✕</button></div>
