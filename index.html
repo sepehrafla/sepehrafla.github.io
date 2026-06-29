@@ -385,6 +385,59 @@ const LESSONS = [
     ]
   },
   {
+    id:'objetos', emoji:'🏠', title:'Objetos Comunes',
+    desc:'Everyday objects: house, city & country',
+    modes:['match','mc','fill'],
+    match:[
+      {a:'chair',b:'silla'},{a:'table',b:'mesa'},{a:'bed',b:'cama'},{a:'sofa',b:'sofá'},
+      {a:'lamp',b:'lámpara'},{a:'window',b:'ventana'},{a:'door',b:'puerta'},{a:'book',b:'libro'},
+      {a:'phone',b:'teléfono'},{a:'television',b:'televisión'},
+      {a:'car',b:'carro'},{a:'building',b:'edificio'},{a:'street',b:'calle'},{a:'shop',b:'tienda'},
+      {a:'park',b:'parque'},{a:'bus',b:'autobús'},{a:'traffic light',b:'semáforo'},{a:'bank',b:'banco'},
+      {a:'hospital',b:'hospital'},{a:'school',b:'escuela'},
+      {a:'flag',b:'bandera'},{a:'map',b:'mapa'},{a:'mountain',b:'montaña'},{a:'river',b:'río'},
+      {a:'beach',b:'playa'},{a:'government',b:'gobierno'},{a:'city',b:'ciudad'},{a:'border',b:'frontera'},
+      {a:'capital',b:'capital'},{a:'airport',b:'aeropuerto'}
+    ],
+    bank:[
+      {p:'En la sala ___ un sofá y una mesa.', t:'there is / there are', a:'hay', opts:['hay','es','son','está']},
+      {p:'Hay ___ lámpara en el escritorio.', t:'a (feminine)', a:'una', opts:['una','un','unos','unas']},
+      {p:'Hay ___ libros en la mesa.', t:'some (masculine)', a:'unos', opts:['unos','unas','un','una']},
+      {p:'Hay ___ ventanas en la sala.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
+      {p:'En la ciudad ___ muchos edificios.', t:'there are', a:'hay', opts:['hay','son','están','es']},
+      {p:'Hay ___ semáforo en la calle.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
+      {p:'El ___ está en el centro de la ciudad. (bank)', t:'the bank', a:'banco'},
+      {p:'La capital tiene ___ aeropuerto grande. (a, masc)', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']}
+    ]
+  },
+  {
+    id:'lugares', emoji:'🏨', title:'Lugares y Haber',
+    desc:'Places + hay + un / una / unos / unas',
+    modes:['mc','fill','match'],
+    match:[
+      {a:'desk',b:'escritorio'},{a:'computer',b:'computadora'},{a:'printer',b:'impresora'},
+      {a:'document',b:'documento'},{a:'calculator',b:'calculadora'},{a:'agenda',b:'agenda'},
+      {a:'animal',b:'animal'},{a:'elephant',b:'elefante'},{a:'tiger',b:'tigre'},{a:'lion',b:'león'},
+      {a:'giraffe',b:'jirafa'},{a:'kangaroo',b:'canguro'},{a:'crocodile',b:'cocodrilo'},{a:'statue',b:'estatua'},
+      {a:'cocktail',b:'cóctel'},{a:'beer',b:'cerveza'},{a:'wine',b:'vino'},{a:'glass',b:'vaso'},
+      {a:'bottle',b:'botella'},{a:'menu',b:'menú'},{a:'napkin',b:'servilleta'},{a:'client',b:'cliente'},
+      {a:'machine',b:'máquina'},{a:'bicycle',b:'bicicleta'},{a:'weight',b:'pesa'},{a:'muscle',b:'músculo'},
+      {a:'energy',b:'energía'},{a:'protein',b:'proteína'},{a:'treadmill',b:'cinta'}
+    ],
+    bank:[
+      {p:'¿Qué hay en la oficina? — ___ unas computadoras.', t:'there are', a:'Hay', opts:['Hay','Son','Están','Es']},
+      {p:'En el zoológico hay ___ elefante.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
+      {p:'En el bar hay ___ botellas.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
+      {p:'En el gimnasio hay ___ máquinas.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
+      {p:'Hay ___ león en la exhibición.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
+      {p:'En la oficina hay ___ impresora.', t:'a (feminine)', a:'una', opts:['una','un','unos','unas']},
+      {p:'¿___ un menú en la mesa?', t:'is there', a:'Hay', opts:['Hay','Es','Son','Está']},
+      {p:'En el gimnasio hay ___ bicicletas.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
+      {p:'En el bar hay ___ cliente esperando.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
+      {p:'Hay ___ estatuas en el parque.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']}
+    ]
+  },
+  {
     id:'conversa', emoji:'💬', title:'Conversación',
     desc:'Common questions & answers',
     modes:['match','fill','mc'],
@@ -537,16 +590,25 @@ function renderHome(){
     </div>
     <div class="section-title">Your lessons</div>
     <div class="grid">${cards}</div>
+    <div class="section-title">📲 Reels — swipe to learn</div>
+    <div class="grid">
+      <div class="card" onclick="startReels('vocab')" style="background:linear-gradient(135deg,#11998e33,#38ef7d33,#5b8cff33);border-color:#11998e88">
+        <span class="tag">📱 reel</span>
+        <span class="emoji">📚</span>
+        <h3>Vocab Reels</h3>
+        <p>Words from every lesson — people, places, objects & conversation. Swipe up for an endless flow.</p>
+      </div>
+      <div class="card" onclick="startReels('grammar')" style="background:linear-gradient(135deg,#e1306c33,#f7773733,#7b2ff733);border-color:#e1306c88">
+        <span class="tag">📱 reel</span>
+        <span class="emoji">⚡</span>
+        <h3>Grammar Reels</h3>
+        <p>Verbs, ser/estar, articles, haber & pronouns — all the grammar you've learned, one swipe at a time.</p>
+      </div>
+    </div>
     <div class="section-title">Extra</div>
     <div class="grid">
-      <div class="card" onclick="startReels()" style="background:linear-gradient(135deg,#e1306c33,#f7773733,#5b8cff33);border-color:#e1306c66">
-        <span class="tag">📱 new</span>
-        <span class="emoji">📲</span>
-        <h3>Spanish Reels</h3>
-        <p>Doomscroll, but make it Spanish. Swipe up for an endless feed of bite-size challenges.</p>
-      </div>
       <div class="card special" onclick="startVerbs()">
-        <span class="emoji">⚡</span>
+        <span class="emoji">🎯</span>
         <h3>Practice Verbs</h3>
         <p>Conjugate verbs inside real, conversational sentences across 5 tenses.</p>
       </div>
@@ -896,17 +958,61 @@ function card_verb(){
   let forms=Object.values(VERBS[row.verb][tense]);
   return {cat:`${row.verb} · ${tense}`,emoji:'⚡',en:'“'+row.en+'”',prompt:row.es,opts:shuffle([answer,...mcDistract(answer,forms)]),answer};
 }
-function card_bank(){
-  let ls=LESSONS.filter(l=>l.bank&&l.bank.length), lesson=rand(ls), item=rand(lesson.bank);
-  let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,lesson.bank.map(b=>b.a))];
-  if(opts.length<2) return card_verb();
-  return {cat:lesson.title,emoji:lesson.emoji,en:item.t||'',prompt:item.p,opts:shuffle(opts),answer:item.a};
+/* Extra conversation/description vocabulary beyond the lessons */
+const EXTRA_VOCAB=[
+  {a:'friendly',b:'amable',cat:'Personalidad'},{a:'funny',b:'gracioso',cat:'Personalidad'},
+  {a:'shy',b:'tímido',cat:'Personalidad'},{a:'talkative',b:'hablador',cat:'Personalidad'},
+  {a:'serious',b:'serio',cat:'Personalidad'},{a:'kind',b:'bueno',cat:'Personalidad'},
+  {a:'lazy',b:'perezoso',cat:'Personalidad'},{a:'hard-working',b:'trabajador',cat:'Personalidad'},
+  {a:'clever',b:'listo',cat:'Personalidad'},{a:'boring',b:'aburrido',cat:'Personalidad'},
+  {a:'restaurant',b:'restaurante',cat:'En la ciudad'},{a:'supermarket',b:'supermercado',cat:'En la ciudad'},
+  {a:'pharmacy',b:'farmacia',cat:'En la ciudad'},{a:'library',b:'biblioteca',cat:'En la ciudad'},
+  {a:'market',b:'mercado',cat:'En la ciudad'},{a:'cinema',b:'cine',cat:'En la ciudad'},
+  {a:'square',b:'plaza',cat:'En la ciudad'},{a:'church',b:'iglesia',cat:'En la ciudad'},
+  {a:'station',b:'estación',cat:'En la ciudad'},{a:'museum',b:'museo',cat:'En la ciudad'},
+  {a:'money',b:'dinero',cat:'Objetos'},{a:'key',b:'llave',cat:'Objetos'},
+  {a:'wallet',b:'cartera',cat:'Objetos'},{a:'watch',b:'reloj',cat:'Objetos'},
+  {a:'bag',b:'bolso',cat:'Objetos'},{a:'umbrella',b:'paraguas',cat:'Objetos'},
+  {a:'mirror',b:'espejo',cat:'En la casa'},{a:'plate',b:'plato',cat:'En la casa'},
+  {a:'cup',b:'taza',cat:'En la casa'},{a:'fork',b:'tenedor',cat:'En la casa'},
+  {a:'knife',b:'cuchillo',cat:'En la casa'},{a:'spoon',b:'cuchara',cat:'En la casa'},
+  {a:'water',b:'agua',cat:'Comida'},{a:'bread',b:'pan',cat:'Comida'},
+  {a:'coffee',b:'café',cat:'Comida'},{a:'food',b:'comida',cat:'Comida'},
+  {a:'friend',b:'amigo',cat:'Personas'},{a:'family',b:'familia',cat:'Personas'},
+  {a:'neighbour',b:'vecino',cat:'Personas'},{a:'boss',b:'jefe',cat:'Personas'}
+];
+/* Pools assembled at init from all lessons + extras */
+let VOCAB_POOL=[], GRAMMAR_POOL=[];
+function buildPools(){
+  VOCAB_POOL=[]; GRAMMAR_POOL=[];
+  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares'];
+  vocabLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(l&&l.match) l.match.forEach(p=>VOCAB_POOL.push({a:p.a,b:p.b,cat:l.title})); });
+  EXTRA_VOCAB.forEach(v=>VOCAB_POOL.push(v));
+  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','conversa'];
+  grammarLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(!l||!l.bank) return;
+    l.bank.forEach(item=>{
+      let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,l.bank.map(b=>b.a))];
+      if(opts.length<2) return;
+      GRAMMAR_POOL.push({cat:l.title,emoji:l.emoji,en:item.t||'',prompt:item.p,opts,answer:item.a});
+    });
+  });
 }
 function card_vocab(){
-  let vid=rand(['dias','numeros','adjetivos','descripcion']);
-  let lesson=LESSONS.find(l=>l.id===vid);
-  let p=rand(lesson.match);
-  return {cat:lesson.title,emoji:lesson.emoji,en:'How do you say…',prompt:'“'+p.a+'”',opts:shuffle([p.b,...mcDistract(p.b,lesson.match.map(x=>x.b))]),answer:p.b};
+  let v=rand(VOCAB_POOL);
+  let askEs = Math.random()<0.6; // 60% EN->ES, 40% ES->EN
+  if(askEs){
+    let opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.b))]);
+    if(opts.length<4) opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.map(x=>x.b))]);
+    return {cat:v.cat,emoji:'📚',en:'How do you say…',prompt:'“'+v.a+'”',opts,answer:v.b};
+  } else {
+    let opts=shuffle([v.a,...mcDistract(v.a,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.a))]);
+    if(opts.length<4) opts=shuffle([v.a,...mcDistract(v.a,VOCAB_POOL.map(x=>x.a))]);
+    return {cat:v.cat,emoji:'📚',en:'What does this mean?',prompt:'“'+v.b+'”',opts,answer:v.a};
+  }
+}
+function card_grammar(){
+  let item=rand(GRAMMAR_POOL);
+  return {cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,opts:shuffle(item.opts.slice()),answer:item.answer};
 }
 function card_number(){
   let big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1;
@@ -920,11 +1026,14 @@ function card_color(){
 }
 function makeReelCard(){
   let r=Math.random(), c;
-  if(r<0.34) c=card_verb(); else if(r<0.62) c=card_bank(); else if(r<0.82) c=card_vocab();
-  else if(r<0.93) c=card_number(); else c=card_color();
+  if(reelMode==='vocab'){
+    if(r<0.74) c=card_vocab(); else if(r<0.88) c=card_number(); else c=card_color();
+  } else {
+    if(r<0.50) c=card_verb(); else c=card_grammar();
+  }
   c.bg=rand(REEL_BG); return c;
 }
-let reelIdx=0; const reelData={}; let reelIO=null, activeReelEl=null;
+let reelIdx=0; const reelData={}; let reelIO=null, activeReelEl=null, reelMode='vocab';
 function reelCardHTML(cid,c){
   let promptHtml = c.prompt && c.prompt.includes('___') ? c.prompt.replace('___','<span class="reel-blank">?</span>') : c.prompt;
   let esc=o=>(''+o).replace(/'/g,"\\'");
@@ -944,10 +1053,12 @@ function appendReels(n){
   scroll.insertAdjacentHTML('beforeend',html);
   scroll.querySelectorAll('.reel:not([data-obs])').forEach(el=>{ el.setAttribute('data-obs','1'); reelIO.observe(el); });
 }
-function startReels(){
+function startReels(mode){
+  reelMode = mode==='grammar' ? 'grammar' : 'vocab';
+  let title = reelMode==='grammar' ? '⚡ Grammar Reels' : '📚 Vocab Reels';
   let ov=$('#reels-overlay');
   ov.innerHTML=`
-    <div class="reel-top"><div>📲 Spanish Reels</div><button class="reel-x" onclick="exitReels()">✕</button></div>
+    <div class="reel-top"><div>${title}</div><button class="reel-x" onclick="exitReels()">✕</button></div>
     <div class="reel-rail">
       <div class="ra"><span class="ic">🔥</span><span id="reel-streak">${globalStreak}</span></div>
       <div class="ra"><span class="ic">⭐</span><span id="reel-xp">${xp}</span></div>
@@ -986,6 +1097,7 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ============ INIT ============ */
+buildPools();
 renderHome();
 </script>
 </body>
