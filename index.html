@@ -438,6 +438,41 @@ const LESSONS = [
     ]
   },
   {
+    id:'preguntas', emoji:'❓', title:'Las Preguntas',
+    desc:'Question words + asking for personal info',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'¿Quién?',b:'who (singular)'},{a:'¿Quiénes?',b:'who (plural)'},
+      {a:'¿Dónde?',b:'where'},{a:'¿Cuándo?',b:'when'},
+      {a:'¿Por qué?',b:'why'},{a:'¿Qué?',b:'what'},
+      {a:'¿Cuál?',b:'which (sing.)'},{a:'¿Cuáles?',b:'which (pl.)'},
+      {a:'¿Cómo?',b:'how'},{a:'¿A qué hora?',b:'at what time'},
+      {a:'¿Cuánto?',b:'how much (masc.)'},{a:'¿Cuánta?',b:'how much (fem.)'},
+      {a:'¿Cuántos?',b:'how many (masc.)'},{a:'¿Cuántas?',b:'how many (fem.)'},
+      {a:'¿Cuál es tu apellido?',b:'Mi apellido es ___'},
+      {a:'¿De dónde eres?',b:'Soy de ___'},
+      {a:'¿Cuál es tu profesión?',b:'Soy ___'},
+      {a:'¿Cuál es tu correo?',b:'Mi correo es ___'}
+    ],
+    bank:[
+      {p:'¿___ es el presidente?', t:'who (person)', a:'Quién', opts:['Quién','Qué','Cuál','Cómo']},
+      {p:'¿___ son ellas?', t:'who (plural)', a:'Quiénes', opts:['Quiénes','Quién','Cuáles','Qué']},
+      {p:'¿___ toma ella?', t:'what (thing)', a:'Qué', opts:['Qué','Cuál','Quién','Cómo']},
+      {p:'¿___ deporte es tu favorito?', t:'which + noun', a:'Cuál', opts:['Cuál','Qué','Quién','Cómo']},
+      {p:'¿___ están ellos?', t:'where', a:'Dónde', opts:['Dónde','Cuándo','Cómo','Qué']},
+      {p:'¿___ es la fiesta?', t:'when', a:'Cuándo', opts:['Cuándo','Dónde','Por qué','Qué']},
+      {p:'¿___ hora es?', t:'what time', a:'Qué', opts:['Qué','Cuál','Cómo','Cuándo']},
+      {p:'¿___ años tienes?', t:'how many (masc.)', a:'Cuántos', opts:['Cuántos','Cuántas','Cuánto','Cuánta']},
+      {p:'¿___ personas vendrán?', t:'how many (fem.)', a:'Cuántas', opts:['Cuántas','Cuántos','Cuánto','Cuánta']},
+      {p:'¿___ dinero tienes?', t:'how much (masc.)', a:'Cuánto', opts:['Cuánto','Cuánta','Cuántos','Cuántas']},
+      {p:'¿___ gente vive aquí?', t:'how much (fem.)', a:'Cuánta', opts:['Cuánta','Cuánto','Cuántas','Cuántos']},
+      {p:'¿___ te llamas?', t:'what (name)', a:'Cómo', opts:['Cómo','Qué','Dónde','Cuál']},
+      {p:'¿___ es tu apellido?', t:'which + noun', a:'Cuál', opts:['Cuál','Qué','Cuáles','Cómo']},
+      {p:'¿___ estás enojada?', t:'why', a:'Por qué', opts:['Por qué','Cómo','Cuándo','Dónde']},
+      {p:'¿___ vives?', t:'where (asking address)', a:'Dónde', opts:['Dónde','Cuándo','Qué','Cómo']}
+    ]
+  },
+  {
     id:'conversa', emoji:'💬', title:'Conversación',
     desc:'Common questions & answers',
     modes:['match','fill','mc'],
@@ -988,7 +1023,7 @@ function buildPools(){
   const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares'];
   vocabLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(l&&l.match) l.match.forEach(p=>VOCAB_POOL.push({a:p.a,b:p.b,cat:l.title})); });
   EXTRA_VOCAB.forEach(v=>VOCAB_POOL.push(v));
-  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','conversa'];
+  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','conversa'];
   grammarLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(!l||!l.bank) return;
     l.bank.forEach(item=>{
       let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,l.bank.map(b=>b.a))];
