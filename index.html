@@ -1046,8 +1046,17 @@ const REEL_BG=[
 ];
 const TENSES=['present','preterite','imperfect','future','conditional'];
 function mcDistract(answer,pool,n=3){ pool=[...new Set(pool.filter(x=>x!==answer))]; return shuffle(pool).slice(0,n); }
+/* Avoid picking the same item twice in a row (retries a few times, then gives up on tiny pools) */
+function randAvoid(arr,lastKey,keyFn){
+  if(arr.length<=1) return rand(arr);
+  let item,tries=0;
+  do{ item=rand(arr); tries++; } while(keyFn(item)===lastKey && tries<8);
+  return item;
+}
+let lastVerbKey=null, lastVocabKey=null, lastGrammarKey=null, lastNumberKey=null, lastColorKey=null;
 function card_verb(){
-  let row=rand(VERB_SENTENCES), tense=rand(TENSES);
+  let row=randAvoid(VERB_SENTENCES,lastVerbKey,r=>r.es), tense=rand(TENSES);
+  lastVerbKey=row.es;
   let conj=VERBS[row.verb][tense][row.subject], answer=row.answer||conj;
   let forms=Object.values(VERBS[row.verb][tense]);
   return {cat:`${row.verb} · ${tense}`,emoji:'⚡',en:'“'+row.en+'”',prompt:row.es,opts:shuffle([answer,...mcDistract(answer,forms)]),answer};
@@ -1092,7 +1101,8 @@ function buildPools(){
   });
 }
 function card_vocab(){
-  let v=rand(VOCAB_POOL);
+  let v=randAvoid(VOCAB_POOL,lastVocabKey,x=>x.a+'|'+x.b);
+  lastVocabKey=v.a+'|'+v.b;
   let askEs = Math.random()<0.6; // 60% EN->ES, 40% ES->EN
   if(askEs){
     let opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.b))]);
@@ -1105,17 +1115,22 @@ function card_vocab(){
   }
 }
 function card_grammar(){
-  let item=rand(GRAMMAR_POOL);
+  let item=randAvoid(GRAMMAR_POOL,lastGrammarKey,x=>x.prompt);
+  lastGrammarKey=item.prompt;
   return {cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,opts:shuffle(item.opts.slice()),answer:item.answer};
 }
 function card_number(){
-  let big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1;
+  let big,tries=0;
+  do{ big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1; tries++; }
+  while(big===lastNumberKey && tries<8);
+  lastNumberKey=big;
   let answer=numToSpanish(big), set=new Set([answer]);
   while(set.size<4){ let d = big<=100 ? Math.min(100,Math.max(0,big+rand([-7,-5,-3,-2,2,3,5,7,10]))) : rand([100,200,300,400,500,600,700,800,900,1000]); set.add(numToSpanish(d)); }
   return {cat:'Números',emoji:'🔢',en:'What number is this?',prompt:String(big),opts:shuffle([...set]),answer,big:true};
 }
 function card_color(){
-  let lesson=LESSONS.find(l=>l.id==='numeros'), sw=rand(lesson.swatches);
+  let lesson=LESSONS.find(l=>l.id==='numeros'), sw=randAvoid(lesson.swatches,lastColorKey,s=>s.a);
+  lastColorKey=sw.a;
   return {cat:'Colores',emoji:'🌈',en:'¿De qué color es?',prompt:'',opts:shuffle([sw.a,...mcDistract(sw.a,lesson.swatches.map(s=>s.a))]),answer:sw.a,swatch:sw.hex};
 }
 function makeReelCard(){
