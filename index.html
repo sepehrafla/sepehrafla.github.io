@@ -473,6 +473,65 @@ const LESSONS = [
     ]
   },
   {
+    id:'presente', emoji:'🌱', title:'Presente Simple: Regulares',
+    desc:'-ar / -er / -ir endings + the al / del contractions',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'to learn',b:'aprender'},{a:'to buy',b:'comprar'},{a:'to answer',b:'contestar'},
+      {a:'to have breakfast',b:'desayunar'},{a:'to rest',b:'descansar'},{a:'to send',b:'enviar'},
+      {a:'to call',b:'llamar'},{a:'to look / watch',b:'mirar'},{a:'to ask',b:'preguntar'},
+      {a:'to prepare',b:'preparar'},{a:'to return',b:'regresar'},{a:'to use',b:'usar'},
+      {a:'to sweep',b:'barrer'},{a:'to drink',b:'beber'},{a:'to believe',b:'creer'},
+      {a:'to owe / must',b:'deber'},{a:'to read',b:'leer'},{a:'to sell',b:'vender'},
+      {a:'to open',b:'abrir'},{a:'to write',b:'escribir'},{a:'to receive',b:'recibir'},
+      {a:'to go up',b:'subir'},{a:'to discuss',b:'discutir'},{a:'to attend',b:'asistir'}
+    ],
+    bank:[
+      {p:'(aprender) Yo ___ español todos los días.', t:'yo — er verb', a:'aprendo'},
+      {p:'(comprar) ¿Tú ___ ropa aquí?', t:'tú — ar verb', a:'compras'},
+      {p:'(leer) Ella ___ un libro.', t:'ella — er verb', a:'lee'},
+      {p:'(escribir) Ellos ___ correos.', t:'ellos — ir verb', a:'escriben'},
+      {p:'(desayunar) Yo ___ fruta cada mañana.', t:'yo — ar verb', a:'desayuno'},
+      {p:'(vender) Mi papá ___ carros.', t:'él — er verb', a:'vende'},
+      {p:'(recibir) Yo ___ muchos regalos.', t:'yo — ir verb', a:'recibo'},
+      {p:'(preguntar) ¿Por qué ___ tanto?', t:'tú — ar verb', a:'preguntas'},
+      {p:'(subir) Nosotros ___ las escaleras.', t:'nosotros — ir verb', a:'subimos'},
+      {p:'(beber) Nosotros ___ agua.', t:'nosotros — er verb', a:'bebemos'},
+      {p:'Voy ___ gimnasio.', t:'a + el = al', a:'al', opts:['al','del','a la','de la']},
+      {p:'Vengo ___ trabajo.', t:'de + el = del', a:'del', opts:['del','al','de la','a la']},
+      {p:'Voy ___ iglesia.', t:'a + la (feminine, no contraction)', a:'a la', opts:['a la','al','de la','del']},
+      {p:'Vengo ___ panadería.', t:'de + la (feminine, no contraction)', a:'de la', opts:['de la','del','a la','al']},
+      {p:'Voy ___ colegio.', t:'a + el = al', a:'al', opts:['al','a la','del','de la']},
+      {p:'Vengo ___ aeropuerto.', t:'de + el = del', a:'del', opts:['del','de la','al','a la']}
+    ]
+  },
+  {
+    id:'frecuencia', emoji:'⏰', title:'Adverbios de Frecuencia',
+    desc:'Siempre, a menudo, a veces, nunca… + word order',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'siempre',b:'always (100%)'},{a:'casi siempre',b:'almost always (95%)'},
+      {a:'a menudo',b:'often (75%)'},{a:'a veces',b:'sometimes (50%)'},
+      {a:'de vez en cuando',b:'once in a while (25%)'},{a:'rara vez',b:'rarely'},
+      {a:'casi nunca',b:'almost never (5%)'},{a:'nunca',b:'never (0%)'},
+      {a:'todos los días',b:'every day'},{a:'todas las semanas',b:'every week'},
+      {a:'cada mes',b:'each month'},{a:'una vez al mes',b:'once a month'},
+      {a:'dos veces a la semana',b:'twice a week'}
+    ],
+    bank:[
+      {p:'Juan ___ se afeita por la mañana. (subject present: goes between subject + verb)', t:'always', a:'siempre', opts:['siempre','nunca','a veces','a menudo']},
+      {p:'Medellín ___ es una ciudad bonita.', t:'always (100%)', a:'siempre', opts:['siempre','nunca','a veces','rara vez']},
+      {p:'Ellos chatean ___.', t:'often (75%) — no subject before verb, goes after', a:'a menudo', opts:['a menudo','nunca','siempre','casi nunca']},
+      {p:'Adriana bebe café ___.', t:'sometimes (50%)', a:'a veces', opts:['a veces','siempre','nunca','casi siempre']},
+      {p:'Yo ___ hago ejercicio.', t:'rarely', a:'rara vez', opts:['rara vez','siempre','a menudo','todos los días']},
+      {p:'Ellas ___ fuman.', t:'never (0%)', a:'nunca', opts:['nunca','siempre','a veces','a menudo']},
+      {p:'Yo ___ uso el coche.', t:'almost never (5%)', a:'casi nunca', opts:['casi nunca','siempre','a menudo','de vez en cuando']},
+      {p:'Estudio español ___.', t:'once a week', a:'una vez a la semana', opts:['una vez a la semana','todos los días','nunca','a veces']},
+      {p:'Visito a mis padres ___.', t:'twice a month', a:'dos veces al mes', opts:['dos veces al mes','una vez al año','todos los días','nunca']},
+      {p:'___ se maquilla despacio. (no subject: adverb goes before the verb)', t:'almost always', a:'Casi siempre', opts:['Casi siempre','Casi nunca','A veces','Nunca']}
+    ]
+  },
+  {
     id:'conversa', emoji:'💬', title:'Conversación',
     desc:'Common questions & answers',
     modes:['match','fill','mc'],
@@ -1020,10 +1079,10 @@ const EXTRA_VOCAB=[
 let VOCAB_POOL=[], GRAMMAR_POOL=[];
 function buildPools(){
   VOCAB_POOL=[]; GRAMMAR_POOL=[];
-  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares'];
+  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares','presente','frecuencia'];
   vocabLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(l&&l.match) l.match.forEach(p=>VOCAB_POOL.push({a:p.a,b:p.b,cat:l.title})); });
   EXTRA_VOCAB.forEach(v=>VOCAB_POOL.push(v));
-  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','conversa'];
+  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','presente','frecuencia','conversa'];
   grammarLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(!l||!l.bank) return;
     l.bank.forEach(item=>{
       let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,l.bank.map(b=>b.a))];
