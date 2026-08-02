@@ -1069,9 +1069,16 @@ function srsGrade(id,correct){
   srsDB[id] = Object.assign({},c,{due:c.due.toISOString(), last_review:c.last_review?c.last_review.toISOString():null});
   srsSave();
 }
+/* "Due today" badge = items already studied at least once that are now overdue —
+   NOT unseen material (which would make a brand-new user's first visit say
+   "800 due today", which is really just "everything is new"). */
+function srsSeenAndDue(id){
+  let raw=srsDB[id];
+  return !!raw && new Date(raw.due)<=new Date();
+}
 function srsDueCount(pool,idFn){
   if(!srsReady) return 0;
-  return pool.filter(x=>srsIsDue(idFn(x))).length;
+  return pool.filter(x=>srsSeenAndDue(idFn(x))).length;
 }
 
 function go(view){
@@ -1084,7 +1091,7 @@ function go(view){
 function verbDueCount(){
   if(!srsReady) return 0;
   let n=0;
-  VERB_SENTENCES.forEach(row=>TENSES.forEach(t=>{ if(srsIsDue(verbCardId(row,t))) n++; }));
+  VERB_SENTENCES.forEach(row=>TENSES.forEach(t=>{ if(srsSeenAndDue(verbCardId(row,t))) n++; }));
   return n;
 }
 function renderHome(){
@@ -1097,8 +1104,9 @@ function renderHome(){
     </button>`).join('');
   let vocabDue=srsDueCount(VOCAB_POOL,vocabCardId);
   let grammarDue=srsDueCount(GRAMMAR_POOL,grammarCardId)+verbDueCount();
-  let vocabFoot = srsReady ? (vocabDue>0?`${vocabDue} due today`:'All caught up ✨') : 'Start a quick session';
-  let grammarFoot = srsReady ? (grammarDue>0?`${grammarDue} due today`:'All caught up ✨') : 'Train your instincts';
+  let hasHistory = Object.keys(srsDB).length>0;
+  let vocabFoot = srsReady ? (vocabDue>0?`${vocabDue} due today`: hasHistory?'All caught up ✨':'Start a quick session') : 'Start a quick session';
+  let grammarFoot = srsReady ? (grammarDue>0?`${grammarDue} due today`: hasHistory?'All caught up ✨':'Train your instincts') : 'Train your instincts';
   let totalDue = vocabDue+grammarDue;
   $('#view-home').innerHTML=`
     <div class="hero home-hero">
