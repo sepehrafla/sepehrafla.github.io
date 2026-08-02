@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f3e9">
+<meta name="description" content="A playful, personal Spanish practice space for vocabulary, grammar, verbs, and everyday conversation.">
 <title>¡Aprende Español! — Práctica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] } } }
+  };
+</script>
 <style>
   :root{
     --bg:#0f1226; --panel:#1a1f3d; --panel2:#232a52; --line:rgba(255,255,255,.1);
@@ -142,15 +153,235 @@
   @keyframes floatup{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
   @media(max-width:560px){.reel-prompt{font-size:25px}.reel-big{font-size:60px}}
 </style>
+<style>
+  /* 2026 visual refresh — warm, tactile, and focused */
+  :root{
+    --bg:#f7f3e9;--panel:#fffdf8;--panel2:#f1ecdf;--line:#ddd6c7;
+    --txt:#19352f;--muted:#6d7c75;--accent:#ed654b;--accent2:#176b5b;
+    --good:#16866f;--bad:#c9483c;--warn:#f3b742;--radius:22px;
+    --ink:#19352f;--cream:#f7f3e9;--coral:#ed654b;--green:#176b5b;
+    --lime:#c8da72;--sun:#f7c95c;--blue:#7ec9c3;
+    --shadow:0 18px 55px rgba(25,53,47,.09);--shadow-sm:0 8px 24px rgba(25,53,47,.07);
+  }
+  *{-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{font-family:"DM Sans",sans-serif;background:
+    radial-gradient(circle at 2% 1%,rgba(247,201,92,.22),transparent 22rem),
+    radial-gradient(circle at 98% 18%,rgba(126,201,195,.17),transparent 26rem),var(--bg);
+    color:var(--txt);overflow-x:hidden}
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;z-index:-1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E")}
+  button,input{font:inherit}
+  .wrap{max-width:1180px;padding:22px 28px 96px}
+
+  header.top{margin:0 0 34px;padding:10px 0 18px;border-bottom:1px solid rgba(25,53,47,.12);position:relative;z-index:20}
+  .brand{gap:11px}
+  .brand .logo{display:grid;place-items:center;width:44px;height:44px;background:var(--green);border-radius:14px;font-size:23px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12);transform:rotate(-3deg);transition:.25s ease}
+  .brand:hover .logo{transform:rotate(5deg) scale(1.05)}
+  .brand h1{font-family:"Fraunces",serif;font-size:21px;letter-spacing:-.45px}
+  .brand p{font-size:11px;text-transform:uppercase;letter-spacing:1.3px;color:var(--muted);font-weight:700}
+  .top-actions{display:flex;align-items:center;gap:12px}
+  .nav-link{border:0;background:transparent;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;padding:9px 6px;transition:.2s}
+  .nav-link:hover{color:var(--green)}
+  .pill{background:rgba(255,253,248,.78);border:1px solid var(--line);box-shadow:0 5px 16px rgba(25,53,47,.05);padding:8px 13px;color:var(--muted);gap:10px;font-size:12px;backdrop-filter:blur(12px)}
+  .pill b{color:var(--ink)}
+  .stat-sep{width:1px;height:17px;background:var(--line)}
+
+  .hero{position:relative;background:var(--green);border:0;border-radius:32px;padding:0;min-height:390px;margin:0 0 46px;overflow:hidden;box-shadow:var(--shadow);color:#fff}
+  .hero:before{content:"";position:absolute;width:440px;height:440px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-85px;top:-170px;box-shadow:0 0 0 55px rgba(255,255,255,.035),0 0 0 110px rgba(255,255,255,.025)}
+  .home-hero{display:grid;grid-template-columns:1.06fr .94fr;align-items:stretch}
+  .hero-copy{padding:52px 24px 48px 54px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.09);border-radius:999px;text-transform:uppercase;letter-spacing:1.6px;font-size:10px;font-weight:700;margin-bottom:20px}
+  .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(200,218,114,.15)}
+  .hero h2{font-family:"Fraunces",serif;font-size:clamp(40px,5vw,66px);line-height:.98;letter-spacing:-2.7px;max-width:660px;margin:0 0 20px;font-weight:600}
+  .hero h2 em{color:var(--lime);font-style:italic}
+  .hero p{font-size:16px;line-height:1.65;color:rgba(255,255,255,.74);max-width:520px;margin:0}
+  .hero-actions{display:flex;align-items:center;gap:13px;margin-top:28px;flex-wrap:wrap}
+  .hero .btn.primary{background:var(--lime);color:var(--ink);box-shadow:inset 0 -3px 0 rgba(25,53,47,.18),0 10px 28px rgba(0,0,0,.16)}
+  .hero .btn.ghost{border-color:rgba(255,255,255,.25);color:#fff}
+  .hero .btn.ghost:hover{background:rgba(255,255,255,.08)}
+  .hero-visual{position:relative;min-height:390px;display:grid;place-items:center;z-index:2}
+  .study-orbit{width:280px;height:280px;border-radius:50%;background:var(--sun);position:relative;display:grid;place-items:center;box-shadow:0 25px 70px rgba(0,0,0,.23);animation:softFloat 5.5s ease-in-out infinite}
+  .study-orbit:before{content:"";position:absolute;inset:19px;border-radius:50%;border:1px dashed rgba(25,53,47,.28);animation:slowSpin 28s linear infinite}
+  .study-face{font-size:105px;filter:drop-shadow(0 11px 6px rgba(25,53,47,.14));transform:rotate(-4deg)}
+  .word-chip{position:absolute;background:var(--panel);color:var(--ink);border:1px solid rgba(25,53,47,.12);border-radius:14px;padding:10px 13px;box-shadow:0 10px 26px rgba(0,0,0,.14);font-size:12px;font-weight:800;white-space:nowrap;animation:chipFloat 4s ease-in-out infinite}
+  .word-chip small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+  .chip-one{top:39px;left:-38px;transform:rotate(-7deg)}
+  .chip-two{right:-42px;top:95px;animation-delay:-1.4s;transform:rotate(6deg)}
+  .chip-three{bottom:23px;left:-19px;animation-delay:-2.8s;transform:rotate(3deg)}
+  .spark{position:absolute;color:var(--lime);font-size:27px;animation:twinkle 2.5s ease-in-out infinite}.spark.s1{right:5%;top:14%}.spark.s2{left:5%;bottom:18%;animation-delay:-1.2s;font-size:18px}
+  @keyframes softFloat{50%{transform:translateY(-9px) rotate(1deg)}}
+  @keyframes chipFloat{50%{translate:0 -8px}}
+  @keyframes slowSpin{to{transform:rotate(360deg)}}
+  @keyframes twinkle{50%{transform:scale(.65) rotate(18deg);opacity:.45}}
+
+  .home-section{margin-top:46px}
+  .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 4px 18px}
+  .section-title{margin:0;color:var(--ink);font-family:"Fraunces",serif;font-size:29px;line-height:1;text-transform:none;letter-spacing:-.7px;font-weight:600}
+  .section-kicker{display:block;color:var(--coral);font-family:"DM Sans",sans-serif;text-transform:uppercase;letter-spacing:1.8px;font-size:10px;font-weight:800;margin-bottom:9px}
+  .section-note{font-size:13px;color:var(--muted)}
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+  .card{background:rgba(255,253,248,.88);border:1px solid var(--line);border-radius:22px;padding:21px;min-height:210px;box-shadow:0 1px 0 rgba(255,255,255,.9);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;isolation:isolate;text-align:left;color:inherit;font:inherit;width:100%}
+  .card:before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,transparent 45%,rgba(255,255,255,.75) 52%,transparent 59%);transform:translateX(-120%);transition:transform .65s;z-index:-1}
+  .card:hover{transform:translateY(-7px);border-color:rgba(23,107,91,.38);box-shadow:var(--shadow-sm)}
+  .card:hover:before{transform:translateX(120%)}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:26px}
+  .card .emoji{display:grid;place-items:center;width:54px;height:54px;border-radius:17px;background:#e8f2e9;font-size:26px;margin:0;box-shadow:inset 0 -2px 0 rgba(25,53,47,.07);transition:.25s}
+  .card:nth-child(3n+2) .emoji{background:#fff0d2}.card:nth-child(3n+3) .emoji{background:#f8ded7}
+  .card:hover .emoji{transform:rotate(-6deg) scale(1.08)}
+  .card h3{font-family:"Fraunces",serif;font-size:20px;line-height:1.14;letter-spacing:-.25px;margin-bottom:7px}
+  .card p{font-size:12px;line-height:1.55;color:var(--muted);max-width:29ch}
+  .card .tag{position:static;background:transparent;border:0;padding:3px 0;color:var(--green);font-size:9px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px;margin-top:18px;font-size:11px;color:var(--muted);font-weight:700}
+  .card-arrow{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--panel2);color:var(--green);transition:.2s}
+  .card:hover .card-arrow{background:var(--green);color:#fff;transform:translateX(3px)}
+  .feature-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px}
+  .feature-card{min-height:255px;border:0;color:#fff;padding:27px;display:flex;flex-direction:column;justify-content:space-between}
+  .feature-card:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-65px;bottom:-80px;border:35px solid rgba(255,255,255,.08);z-index:-1}
+  .feature-card.vocab{background:#277f70}.feature-card.grammar{background:#d65b44}
+  .feature-card h3{font-size:29px;color:#fff;max-width:11ch}.feature-card p{color:rgba(255,255,255,.72);max-width:43ch}
+  .feature-card .emoji{background:rgba(255,255,255,.15)}
+  .feature-card .tag{color:#fff;border:1px solid rgba(255,255,255,.25);padding:5px 8px;border-radius:99px}
+  .feature-card .card-foot{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.8)}
+  .feature-card .card-arrow{background:rgba(255,255,255,.16);color:#fff}
+  .verb-banner{background:var(--sun);border:1px solid rgba(25,53,47,.14);border-radius:24px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;cursor:pointer;transition:.25s;box-shadow:var(--shadow-sm)}
+  .verb-banner:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .verb-banner .emoji{font-size:38px}.verb-banner h3{font-family:"Fraunces",serif;font-size:24px;margin-bottom:4px}.verb-banner p{color:#59665e;font-size:13px}.verb-banner .btn{background:var(--ink);color:#fff;border:0}
+
+  .lesson-hero{min-height:230px;padding:42px 44px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+  .lesson-hero h2{font-size:45px;letter-spacing:-1.7px}.lesson-hero p{max-width:600px}
+  .back{color:var(--green);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:17px;padding:8px 0}
+  .back:hover{color:var(--coral);transform:translateX(-2px)}
+  .modes{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
+  .mode{background:var(--panel);border-color:var(--line);border-radius:20px;padding:24px;min-height:185px;text-align:left;box-shadow:0 1px 0 #fff;display:flex;flex-direction:column;align-items:flex-start}
+  .mode:hover{border-color:var(--green);transform:translateY(-5px);box-shadow:var(--shadow-sm)}
+  .mode .ic{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;background:#e5f0e9;font-size:24px;margin-bottom:23px}.mode h4{font-family:"Fraunces",serif;font-size:19px}.mode p{line-height:1.5}
+
+  .quizbox,.results{background:var(--panel);border-color:var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow);max-width:840px;margin:8px auto 0}
+  .progressrow .track{height:9px;background:var(--panel2)}
+  .progressrow .track i{background:linear-gradient(90deg,var(--green),var(--lime));border-radius:99px}
+  .context{color:var(--coral);font-weight:800;letter-spacing:1.4px}
+  .prompt{font-family:"Fraunces",serif;font-size:28px;letter-spacing:-.5px}
+  .blank{border-color:var(--green);color:var(--green)}
+  input.answer{background:#faf7ef;border-color:var(--line);color:var(--ink)}input.answer:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(23,107,91,.08)}
+  .opts{gap:10px}.opt{background:#faf7ef;border:1px solid var(--line);color:var(--ink);font-weight:700}.opt:hover:not(:disabled){border-color:var(--green);background:#f0f5ed;transform:translateY(-2px)}
+  .opt.correct{border-color:var(--good);background:#e3f4ed;color:var(--good)}.opt.wrong{border-color:var(--bad);background:#fae7e2;color:var(--bad)}
+  .btn{border-radius:12px;font-weight:800;font-size:13px;padding:12px 17px}.btn.primary{background:var(--coral);box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}.btn:hover{border-color:var(--green);transform:translateY(-1px)}
+  .mitem{background:#faf7ef;border:1px solid var(--line);color:var(--ink);font-weight:700}.mitem:hover{border-color:var(--green)}.mitem.sel{border-color:var(--coral);background:#fae8e0}.mitem.done{background:#e3f4ed}
+  .tbtn{background:var(--panel);border-color:var(--line);color:var(--muted);font-weight:700}.tbtn.active{background:var(--green)}
+  .results .score{font-family:"Fraunces",serif;background:linear-gradient(135deg,var(--green),#5dac8d);-webkit-background-clip:text;background-clip:text}
+
+  .reel{font-family:"DM Sans",sans-serif}.reel-prompt{font-family:"Fraunces",serif}.reel-opt{backdrop-filter:blur(12px)}
+
+  @media(max-width:900px){
+    .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-hero{grid-template-columns:1fr}.hero-copy{padding:44px}.hero-visual{min-height:340px}.hero{min-height:auto}.feature-grid{grid-template-columns:1fr 1fr}.study-orbit{width:245px;height:245px}.study-face{font-size:90px}
+  }
+  @media(max-width:640px){
+    .wrap{padding:14px 15px 72px}.top{margin-bottom:22px}.nav-link{display:none}.pill{gap:7px;padding:7px 10px}.brand h1{font-size:18px}.brand .logo{width:40px;height:40px}
+    .hero{border-radius:25px;margin-bottom:34px}.hero-copy{padding:37px 25px 30px}.hero h2{font-size:42px;letter-spacing:-1.8px}.hero p{font-size:14px}.hero-visual{min-height:300px}.study-orbit{width:205px;height:205px}.study-face{font-size:76px}.chip-one{left:-30px}.chip-two{right:-28px}.word-chip{font-size:10px;padding:8px 10px}
+    .section-head{align-items:start}.section-title{font-size:25px}.section-note{display:none}.grid,.feature-grid{grid-template-columns:1fr}.card{min-height:185px}.feature-card{min-height:230px}.verb-banner{grid-template-columns:auto 1fr;padding:20px}.verb-banner .btn{grid-column:1/-1;justify-content:center}.home-section{margin-top:36px}
+    .lesson-hero{padding:32px 26px;min-height:210px}.lesson-hero h2{font-size:36px}.modes{grid-template-columns:1fr 1fr}.mode{min-height:155px;padding:18px}.mode .ic{margin-bottom:16px}
+    .quizbox,.results{padding:24px 18px;border-radius:22px}.qfoot{align-items:flex-end}.matchgrid{gap:10px}.mitem{padding:12px 8px;font-size:14px}.prompt{font-size:23px}
+  }
+  @media(max-width:390px){.modes{grid-template-columns:1fr}.hero h2{font-size:37px}.brand p{display:none}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+<style>
+  /* Full-screen entrance hero */
+  .landing-shell{font-family:"Inter",sans-serif;isolation:isolate}
+  .landing-shell [data-reveal]{opacity:0;transform:translateY(18px);animation:landingReveal .72s cubic-bezier(.22,1,.36,1) forwards;animation-delay:var(--delay,0ms)}
+  @keyframes landingReveal{to{opacity:1;transform:translateY(0)}}
+  .landing-video{filter:saturate(.82) contrast(1.04)}
+  .landing-logo img{max-width:112px;max-height:20px;width:auto;object-fit:contain}
+  .landing-mobile-menu{opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s ease,transform .25s ease,visibility .25s ease}
+  .landing-mobile-menu.is-open{opacity:1;visibility:visible;transform:translateY(0)}
+  .landing-hamburger span{transition:transform .25s ease,opacity .2s ease}
+  .landing-hamburger.is-open span:first-child{transform:translateY(5px) rotate(45deg)}
+  .landing-hamburger.is-open span:nth-child(2){opacity:0}
+  .landing-hamburger.is-open span:last-child{transform:translateY(-5px) rotate(-45deg)}
+  @media(max-width:767px){
+    .hero-line{display:inline}
+    .hero-line:not(:last-child):after{content:" "}
+  }
+  @media(prefers-reduced-motion:reduce){.landing-shell [data-reveal]{opacity:1;transform:none;animation:none}}
+</style>
 </head>
 <body>
-<div class="wrap">
+<section class="landing-shell relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-black text-white" aria-label="Introduction">
+  <video class="landing-video absolute inset-0 -z-20 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="https://cdn.sceneai.art/Hero Section Video/c0429648-6382-40e5-977a-be50ff2af8d5.mp4" type="video/mp4">
+  </video>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 to-black/60" aria-hidden="true"></div>
+
+  <header class="relative z-30 mx-auto flex w-full max-w-[1440px] items-center justify-between px-5 py-6 sm:px-8 lg:px-12" data-reveal style="--delay:80ms">
+    <a href="#" class="text-[14px] font-medium tracking-[-0.02em] text-white" aria-label="Relevance home">RELEVANCE®</a>
+    <nav class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" aria-label="Main navigation">
+      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-app">How It Works</a>
+      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-modes">Use Cases</a>
+      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-app">Pricing</a>
+      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-app">Research Feed</a>
+    </nav>
+    <div class="hidden items-center gap-6 md:flex">
+      <button class="text-[13px] font-normal text-white/85 transition-colors hover:text-white" onclick="enterPractice()">Sign Up</button>
+      <button class="rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-[13px] font-medium text-white backdrop-blur-md transition hover:border-white/50 hover:bg-white/15" onclick="enterPractice()">Log In</button>
+    </div>
+    <button class="landing-hamburger flex h-10 w-10 flex-col items-center justify-center gap-[3px] rounded-full border border-white/20 bg-white/10 backdrop-blur-md md:hidden" aria-label="Open menu" aria-expanded="false" onclick="toggleLandingMenu(this)">
+      <span class="block h-px w-4 bg-white"></span><span class="block h-px w-4 bg-white"></span><span class="block h-px w-4 bg-white"></span>
+    </button>
+    <div id="landing-mobile-menu" class="landing-mobile-menu absolute left-5 right-5 top-[76px] rounded-2xl border border-white/15 bg-black/65 p-5 shadow-2xl backdrop-blur-xl md:hidden">
+      <nav class="flex flex-col gap-1" aria-label="Mobile navigation">
+        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-app" onclick="closeLandingMenu()">How It Works</a>
+        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-modes" onclick="closeLandingMenu()">Use Cases</a>
+        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-app" onclick="closeLandingMenu()">Pricing</a>
+        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-app" onclick="closeLandingMenu()">Research Feed</a>
+      </nav>
+      <div class="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
+        <button class="flex-1 py-2.5 text-[13px] text-white/85" onclick="enterPractice()">Sign Up</button>
+        <button class="flex-1 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-[13px] font-medium backdrop-blur-md" onclick="enterPractice()">Log In</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto flex w-full max-w-[1440px] flex-1 items-center px-5 pb-24 pt-8 sm:px-8 lg:px-12 lg:pb-28 lg:pt-0">
+    <div class="-mt-8 max-w-[720px] sm:-mt-12">
+      <h1 class="mb-1 text-[46px] font-medium leading-[1.02] tracking-[-0.045em] sm:text-[56px]" data-reveal style="--delay:180ms">Relevance AI</h1>
+      <p class="mb-5 text-[24px] font-light leading-tight text-[#b0b0b0] sm:text-[28px]" data-reveal style="--delay:280ms">Designed for seekers.</p>
+      <p class="mb-9 max-w-[650px] text-[14px] font-light leading-[1.7] text-white/65" data-reveal style="--delay:380ms">
+        <span class="hero-line block">We connect the dots for you, using the full picture to deliver insight</span>
+        <span class="hero-line block">that's thoughtful, because the best discoveries don't</span>
+        <span class="hero-line block">come from more data - they come from better understanding.</span>
+      </p>
+      <div class="flex items-center gap-7" data-reveal style="--delay:480ms">
+        <button class="rounded-full bg-white px-7 py-3.5 text-[13px] font-normal text-black transition duration-300 hover:-translate-y-0.5 hover:bg-white/90" onclick="enterPractice()">Ask a Question</button>
+        <a class="group inline-flex items-center gap-2 text-[13px] font-medium text-white" href="#practice-app">Learn More <span class="transition-transform group-hover:translate-x-1">→</span></a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="relative z-10 mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12" data-reveal style="--delay:580ms">
+    <div class="flex flex-col gap-5 border-t border-white/10 py-6 md:flex-row md:items-center md:justify-between">
+      <p class="text-[13px] font-light text-white/55">Some of the companies that use our product</p>
+      <div class="flex flex-wrap items-center gap-x-7 gap-y-4 sm:gap-x-9">
+        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/67179a5f-501b-48c1-a6b6-8f4f3c676ba4.png" alt="Tesla">
+        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/5360e43f-332b-40b0-84de-db847c00fae6.png" alt="Perplexity">
+        <img class="h-5 w-auto opacity-70" src="https://cdn.sceneai.art/logos/9a17d5b4-0ad2-44b6-832f-b46153f7b156.png" alt="NASA">
+        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/23385a15-55a1-405a-accd-51abf2f987cf.png" alt="NVIDIA">
+        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/bdb8a52e-00a4-4fb1-8ab2-c07977e5dc72.png" alt="Google">
+      </div>
+    </div>
+  </footer>
+</section>
+
+<div class="wrap" id="practice-app">
   <header class="top">
     <div class="brand" onclick="go('home')">
-      <span class="logo">🌮</span>
-      <div><h1>¡Aprende Español!</h1><p>Practice from your own lessons</p></div>
+      <span class="logo">ñ</span>
+      <div><h1>Mi Español</h1><p>Your daily language studio</p></div>
     </div>
-    <div class="pill">🔥 <b id="hdr-streak">0</b> &nbsp; ⭐ <b id="hdr-xp">0</b> XP</div>
+    <div class="top-actions">
+      <button class="nav-link" onclick="startVerbs()">Verb studio</button>
+      <button class="nav-link" onclick="startReels('vocab')">Quick practice</button>
+      <div class="pill"><span>🔥 <b id="hdr-streak">0</b></span><i class="stat-sep"></i><span>✦ <b id="hdr-xp">0</b> XP</span></div>
+    </div>
   </header>
 
   <!-- HOME -->
@@ -532,6 +763,216 @@ const LESSONS = [
     ]
   },
   {
+    id:'irregulares', emoji:'🔀', title:'Verbos Irregulares en Presente',
+    desc:'Yo-form irregulars + fully irregular verbs',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'to fall',b:'caer'},{a:'to be worth',b:'valer'},{a:'to put',b:'poner'},{a:'to leave / go out',b:'salir'},
+      {a:'to bring',b:'traer'},{a:'to know (a fact)',b:'saber'},{a:'to give',b:'dar'},{a:'to see',b:'ver'},
+      {a:'to know (person/place)',b:'conocer'},{a:'to pick up',b:'recoger'},{a:'to hear',b:'oír'},{a:'to follow',b:'seguir'}
+    ],
+    bank:[
+      {p:'(caer) Yo me ___ mucho cuando patino.', t:'yo — irregular in yo', a:'caigo'},
+      {p:'(poner) Yo ___ la mesa todos los días.', t:'yo — irregular in yo', a:'pongo'},
+      {p:'(salir) Yo ___ de casa a las 8.', t:'yo — irregular in yo', a:'salgo'},
+      {p:'(hacer) Yo ___ ejercicio por la mañana.', t:'yo — irregular in yo', a:'hago'},
+      {p:'(traer) Yo ___ mi diccionario a clase.', t:'yo — irregular in yo', a:'traigo'},
+      {p:'(saber) Yo no ___ tu número de teléfono.', t:'yo — irregular', a:'sé'},
+      {p:'(dar) Yo te ___ un regalo.', t:'yo — irregular', a:'doy'},
+      {p:'(ver) Yo ___ la televisión por la noche.', t:'yo — irregular', a:'veo'},
+      {p:'(conocer) Yo ___ a tu hermano.', t:'yo — irregular (zc)', a:'conozco'},
+      {p:'(recoger) Yo ___ mis libros.', t:'yo — irregular (j)', a:'recojo'},
+      {p:'(oír) Yo no ___ nada, creo que estoy sorda.', t:'yo — irregular', a:'oigo'},
+      {p:'(seguir) Yo ___ las noticias todos los días.', t:'yo — irregular (i + g)', a:'sigo'},
+      {p:'(oír) ¿Tú ___ música mientras trabajas?', t:'tú', a:'oyes', opts:['oyes','oigo','oye','oímos']},
+      {p:'(ver) Ellas nunca ___ televisión nacional.', t:'ellas', a:'ven', opts:['ven','veo','ve','vemos']},
+      {p:'(saber) Nosotros no ___ la respuesta.', t:'nosotros', a:'sabemos', opts:['sabemos','sé','sabe','saben']},
+      {p:'(venir) Mi abuela ___ a verme mañana.', t:'ella', a:'viene', opts:['viene','vengo','vienen','venimos']}
+    ]
+  },
+  {
+    id:'raiz', emoji:'🌳', title:'Verbos con Cambio de Raíz',
+    desc:'"Boot verbs": e→ie, e→i, o→ue, u→ue',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'to close',b:'cerrar'},{a:'to begin',b:'empezar'},{a:'to ask for / order',b:'pedir'},
+      {a:'to repeat',b:'repetir'},{a:'to serve',b:'servir'},{a:'to play (a game)',b:'jugar'},
+      {a:'to find',b:'encontrar'},{a:'to count / tell',b:'contar'},{a:'to return',b:'volver'},
+      {a:'to remember',b:'recordar'},{a:'to understand',b:'entender'},{a:'to lose',b:'perder'},
+      {a:'to prefer',b:'preferir'},{a:'to feel',b:'sentir'},{a:'to smell',b:'oler'}
+    ],
+    bank:[
+      {p:'(empezar) La película ___ a las 7:00 p.m.', t:'e→ie', a:'empieza'},
+      {p:'(cerrar) El aeropuerto ___ por las elecciones.', t:'e→ie', a:'cierra'},
+      {p:'(pedir) Kike ___ una licencia no remunerada.', t:'e→i', a:'pide'},
+      {p:'(servir) La empleada nos ___ el desayuno.', t:'e→i', a:'sirve'},
+      {p:'(poder) ¿Ustedes no ___ ir a Cartagena?', t:'o→ue', a:'pueden'},
+      {p:'(volver) Los turistas ___ en bus al hotel.', t:'o→ue', a:'vuelven'},
+      {p:'(contar) Nosotros le ___ todo a mamá.', t:'o→ue', a:'contamos'},
+      {p:'(jugar) Mi hermano ___ con su perro en el parque.', t:'u→ue', a:'juega'},
+      {p:'(entender) Esos estudiantes no ___ este tema.', t:'e→ie', a:'entienden'},
+      {p:'(perder) Mi hermano ___ dinero a menudo.', t:'e→ie', a:'pierde'},
+      {p:'(oler) Las flores ___ muy bien.', t:'o→hue (irregular boot)', a:'huelen', opts:['huelen','olen','oyen','olan']},
+      {p:'(preferir) Yo ___ las verduras.', t:'e→ie', a:'prefiero'},
+      {p:'Nosotros (pedir) ___ pizza los viernes.', t:'nosotros — no stem change', a:'pedimos', opts:['pedimos','pidemos','piden','pedís']}
+    ]
+  },
+  {
+    id:'progresivo', emoji:'⏩', title:'Presente Progresivo & Futuro con IR',
+    desc:'estar + gerundio  ·  ir + a + infinitivo',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'estar + gerundio (-ando/-iendo)',b:'presente progresivo'},
+      {a:'ir + a + infinitivo',b:'futuro con ir'},
+      {a:'looking for (gerund of buscar)',b:'buscando'},
+      {a:'eating (gerund of comer)',b:'comiendo'},
+      {a:'writing (gerund of escribir)',b:'escribiendo'},
+      {a:'I am studying',b:'estoy estudiando'},
+      {a:'I am going to travel',b:'voy a viajar'}
+    ],
+    bank:[
+      {p:'(buscar, yo) Estoy ___ un veterinario para mi perro.', t:'gerundio -ar → -ando', a:'buscando'},
+      {p:'(comprar, tú) Estás ___ muebles nuevos.', t:'gerundio -ar → -ando', a:'comprando'},
+      {p:'(escribir, nosotras) Estamos ___ recetas para el libro.', t:'gerundio -ir → -iendo', a:'escribiendo'},
+      {p:'Mañana yo ___ a viajar a Guatapé.', t:'ir presente — yo', a:'voy', opts:['voy','vas','va','van']},
+      {p:'Andrea ___ a ganar el concurso.', t:'ir presente — ella', a:'va', opts:['va','voy','van','vamos']},
+      {p:'Sus hermanos ___ a estudiar historia.', t:'ir presente — ellos', a:'van', opts:['van','va','vamos','voy']},
+      {p:'El agua (hervir) ___ a 100 grados.', t:'general truth — presente simple', a:'hierve'},
+      {p:'Colón (descubrir) ___ América en 1492.', t:'presente histórico', a:'descubre'}
+    ]
+  },
+  {
+    id:'reflexivos', emoji:'🪞', title:'Verbos Reflexivos y Rutina Diaria',
+    desc:'despertarse, ducharse, vestirse… + daily routine',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'to wake up',b:'despertarse'},{a:'to get up',b:'levantarse'},{a:'to shower',b:'ducharse'},
+      {a:'to dry off',b:'secarse'},{a:'to get dressed',b:'vestirse'},{a:'to brush (teeth)',b:'cepillarse'},
+      {a:'to put on makeup',b:'maquillarse'},{a:'to shave',b:'afeitarse'},{a:'to go to bed',b:'acostarse'},
+      {a:'to fall asleep',b:'dormirse'},{a:'to sit down',b:'sentarse'},{a:"to comb one's hair",b:'peinarse'},
+      {a:'to have fun',b:'divertirse'}
+    ],
+    bank:[
+      {p:'(despertarse) Yo me ___ a las 6:15 de la mañana.', t:'yo — reflexive e→ie', a:'despierto'},
+      {p:'(levantarse) Yo me ___ y voy directo al baño.', t:'yo — reflexive', a:'levanto'},
+      {p:'(ducharse) Yo me ___ y luego me seco.', t:'yo — reflexive', a:'ducho'},
+      {p:'(vestirse) Yo me ___ después de peinarme.', t:'yo — reflexive e→i', a:'visto'},
+      {p:'(acostarse) Mi esposo y yo nos ___ más temprano.', t:'nosotros — reflexive o→ue', a:'acostamos'},
+      {p:'(cepillarse) Yo me ___ los dientes después de comer.', t:'yo — reflexive', a:'cepillo'},
+      {p:'Juan siempre ___ la cara antes de salir.', t:'reflexive pronoun + verb (afeitarse)', a:'se afeita', opts:['se afeita','me afeito','te afeitas','nos afeitamos']},
+      {p:'Ella ___ despacio.', t:'reflexive: 3rd person (maquillarse)', a:'se maquilla', opts:['se maquilla','me maquillo','te maquillas','se maquillan']},
+      {p:'¿A qué hora ___ (tú) normalmente?', t:'tú — reflexive (despertarse)', a:'te despiertas', opts:['te despiertas','se despierta','me despierto','nos despertamos']}
+    ]
+  },
+  {
+    id:'gustar', emoji:'😍', title:'Gustar y Verbos Similares',
+    desc:'me gusta, te gusta, le gusta… + encantar, interesar, molestar',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'I like it',b:'me gusta'},{a:'you like it',b:'te gusta'},{a:'he/she likes it',b:'le gusta'},
+      {a:'we like it',b:'nos gusta'},{a:'they like it',b:'les gusta'},{a:'I like them',b:'me gustan'},
+      {a:'to love / be delighted by',b:'encantar'},{a:'to interest',b:'interesar'},{a:'to bother',b:'molestar'},
+      {a:'to be missing / need',b:'faltar'}
+    ],
+    bank:[
+      {p:'A mí ___ la música clásica.', t:'gusta + singular noun', a:'me gusta', opts:['me gusta','me gustan','te gusta','le gusta']},
+      {p:'A ella ___ los perros.', t:'gustan + plural noun', a:'le gustan', opts:['le gustan','le gusta','me gustan','les gustan']},
+      {p:'A nosotros ___ viajar.', t:'gusta + infinitive', a:'nos gusta', opts:['nos gusta','nos gustan','os gusta','les gusta']},
+      {p:'A mis padres ___ las películas de acción.', t:'gustan + plural noun', a:'les gustan', opts:['les gustan','les gusta','le gustan','nos gustan']},
+      {p:'A mí ___ mucho este restaurante.', t:'encantar (loves) — like gustar', a:'me encanta', opts:['me encanta','me encantan','me gusta','me interesa']},
+      {p:'A ti ___ la política.', t:'interesar — like gustar', a:'te interesa', opts:['te interesa','te interesan','te gusta','te molesta']},
+      {p:'A él ___ el ruido.', t:'molestar — like gustar', a:'le molesta', opts:['le molesta','le molestan','le gusta','le interesa']},
+      {p:'A mí ___ dinero.', t:'faltar (missing) — like gustar', a:'me falta', opts:['me falta','me faltan','me queda','me gusta']}
+    ]
+  },
+  {
+    id:'posesivos', emoji:'👉', title:'Posesivos y Demostrativos',
+    desc:'mi/tu/su… + este/ese/aquel…',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'my',b:'mi / mis'},{a:'your (informal)',b:'tu / tus'},{a:'his / her / your (formal)',b:'su / sus'},
+      {a:'our',b:'nuestro / nuestra'},{a:'this (masc.)',b:'este'},{a:'this (fem.)',b:'esta'},
+      {a:'these (masc.)',b:'estos'},{a:'that (masc.)',b:'ese'},{a:'that (fem.)',b:'esa'},
+      {a:'that over there (masc.)',b:'aquel'},{a:'this (neutral / unknown thing)',b:'esto'}
+    ],
+    bank:[
+      {p:'___ casa es muy grande. (my)', t:'possessive — mi', a:'Mi', opts:['Mi','Mis','Tu','Su']},
+      {p:'Estos son ___ libros. (my, plural)', t:'possessive — mis', a:'mis', opts:['mis','mi','sus','su']},
+      {p:'¿Dónde están ___ llaves? (your, informal)', t:'possessive — tus', a:'tus', opts:['tus','tu','sus','su']},
+      {p:'Es ___ carro. (his/her)', t:'possessive — su', a:'su', opts:['su','sus','tu','mi']},
+      {p:'___ familia vive en Bogotá. (our)', t:'possessive — nuestra', a:'Nuestra', opts:['Nuestra','Nuestro','Nuestras','Nuestros']},
+      {p:'___ libro (this, close to me) es interesante.', t:'demonstrative — este', a:'Este', opts:['Este','Esta','Ese','Aquel']},
+      {p:'___ mesa (this, close to me) es nueva.', t:'demonstrative — esta', a:'Esta', opts:['Esta','Este','Esa','Aquella']},
+      {p:'___ casa (that, near you) es bonita.', t:'demonstrative — esa', a:'Esa', opts:['Esa','Esta','Ese','Aquella']},
+      {p:'___ montañas (those, far away) son altas.', t:'demonstrative — aquellas', a:'Aquellas', opts:['Aquellas','Estas','Esas','Aquellos']},
+      {p:'¿Qué es ___? (neutral, unknown object)', t:'demonstrative neutral', a:'esto', opts:['esto','este','esta','eso']}
+    ]
+  },
+  {
+    id:'objeto', emoji:'🎯', title:'Pronombres de Objeto',
+    desc:'me, te, lo, la, le, nos, los, las, les',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'me (direct/indirect)',b:'me'},{a:'you, informal (direct/indirect)',b:'te'},
+      {a:'him / it, masc. (direct)',b:'lo'},{a:'her / it, fem. (direct)',b:'la'},
+      {a:'to him / her / you formal (indirect)',b:'le'},{a:'us (direct/indirect)',b:'nos'},
+      {a:'them, masc. (direct)',b:'los'},{a:'them, fem. (direct)',b:'las'},{a:'to them / you plural (indirect)',b:'les'}
+    ],
+    bank:[
+      {p:'¿Ves a Juan? Sí, ___ veo.', t:'lo = him (direct object)', a:'lo', opts:['lo','la','le','los']},
+      {p:'¿Compras la fruta? Sí, ___ compro.', t:'la = it, fem. (direct object)', a:'la', opts:['la','lo','le','las']},
+      {p:'___ doy un regalo a mi madre.', t:'le = to her/him (indirect)', a:'Le', opts:['Le','La','Lo','Les']},
+      {p:'Mis amigas ___ escriben correos a nosotros.', t:'nos = to us (indirect)', a:'nos', opts:['nos','les','os','me']},
+      {p:'¿Tienes las llaves? Sí, ___ tengo.', t:'las = them, fem. (direct)', a:'las', opts:['las','los','le','les']},
+      {p:'¿Conoces a mis padres? Sí, ___ conozco.', t:'los = them, masc. (direct)', a:'los', opts:['los','las','les','le']},
+      {p:'Voy a comprar___ mañana. (attached to infinitive, it = masc.)', t:'attached pronoun', a:'lo', opts:['lo','la','le','los']},
+      {p:'¿Me quieres? Sí, ___ quiero.', t:'te = you (direct)', a:'te', opts:['te','le','me','lo']}
+    ]
+  },
+  {
+    id:'comparativos', emoji:'📊', title:'Comparativos y Superlativos',
+    desc:'más...que, tan...como, mejor, peor, mayor, menor',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'more...than',b:'más...que'},{a:'less...than',b:'menos...que'},{a:'as...as',b:'tan...como'},
+      {a:'as much as',b:'tanto como'},{a:'the most',b:'el/la más'},{a:'better',b:'mejor'},
+      {a:'worse',b:'peor'},{a:'older',b:'mayor'},{a:'younger',b:'menor'}
+    ],
+    bank:[
+      {p:'Ella es ___ alta ___ su hermano. (more...than)', t:'comparative superiority', a:'más', opts:['más','menos','tan','tanto']},
+      {p:'Este carro es ___ caro ___ aquel. (less...than)', t:'comparative inferiority', a:'menos', opts:['menos','más','tan','tanto']},
+      {p:'Mi casa es ___ grande ___ la tuya. (as...as)', t:'comparative equality', a:'tan', opts:['tan','más','menos','tanto']},
+      {p:'Juan es ___ que yo. (better)', t:'irregular comparative', a:'mejor', opts:['mejor','más bueno','peor','más malo']},
+      {p:'Esta comida es ___ que la de ayer. (worse)', t:'irregular comparative', a:'peor', opts:['peor','mejor','más mala','menos mala']},
+      {p:'Mi hermano ___ tiene 20 años, yo tengo 17. (older)', t:'irregular comparative — mayor', a:'mayor', opts:['mayor','menor','más viejo','más grande']},
+      {p:'Este es el restaurante ___ bueno de la ciudad. (the most)', t:'superlative', a:'más', opts:['más','menos','tan','muy']},
+      {p:'"Riquísimo" significa "muy ___".', t:'-ísimo = very (absolute superlative)', a:'rico', opts:['rico','pobre','feo','malo']}
+    ]
+  },
+  {
+    id:'mandatos', emoji:'📢', title:'Mandatos (Imperativo)',
+    desc:'Commands: tú affirmative/negative + usted',
+    modes:['match','fill','mc'],
+    match:[
+      {a:'Speak! (tú)',b:'¡Habla!'},{a:'Eat! (tú)',b:'¡Come!'},{a:'Write! (tú)',b:'¡Escribe!'},
+      {a:"Don't speak! (tú)",b:'¡No hables!'},{a:'Speak! (usted)',b:'¡Hable!'},{a:'Come here! (tú)',b:'¡Ven aquí!'},
+      {a:'Go! (tú)',b:'¡Ve!'},{a:'Do it! (tú)',b:'¡Hazlo!'},{a:'Wait! (tú)',b:'¡Espera!'},
+      {a:'Sit down! (tú)',b:'¡Siéntate!'},{a:'Be careful! (tú)',b:'¡Ten cuidado!'}
+    ],
+    bank:[
+      {p:'(hablar, tú — affirmative) ¡___ más despacio!', t:'tú command — regular', a:'Habla'},
+      {p:'(comer, tú — affirmative) ¡___ las verduras!', t:'tú command — regular', a:'Come'},
+      {p:'(escribir, tú — affirmative) ¡___ tu nombre aquí!', t:'tú command — regular', a:'Escribe'},
+      {p:'(hablar, tú — negative) ¡No ___ tan fuerte!', t:'tú negative command', a:'hables'},
+      {p:'(ir, tú — irregular) ¡___ a la tienda!', t:'irregular tú command', a:'Ve'},
+      {p:'(hacer, tú — irregular) ¡___ la tarea!', t:'irregular tú command', a:'Haz'},
+      {p:'(venir, tú — irregular) ¡___ aquí ahora!', t:'irregular tú command', a:'Ven'},
+      {p:'(tener, tú — irregular) ¡___ cuidado!', t:'irregular tú command', a:'Ten'},
+      {p:'(poner, tú — irregular) ¡___ la mesa!', t:'irregular tú command', a:'Pon'},
+      {p:'(hablar, usted — formal) ¡___ con el gerente!', t:'usted command', a:'Hable'}
+    ]
+  },
+  {
     id:'conversa', emoji:'💬', title:'Conversación',
     desc:'Common questions & answers',
     modes:['match','fill','mc'],
@@ -668,45 +1109,89 @@ function go(view){
   window.scrollTo(0,0);
 }
 
+function toggleLandingMenu(button){
+  const menu=document.getElementById('landing-mobile-menu');
+  const open=!menu.classList.contains('is-open');
+  menu.classList.toggle('is-open',open);
+  button.classList.toggle('is-open',open);
+  button.setAttribute('aria-expanded',String(open));
+  button.setAttribute('aria-label',open?'Close menu':'Open menu');
+}
+function closeLandingMenu(){
+  const menu=document.getElementById('landing-mobile-menu');
+  const button=document.querySelector('.landing-hamburger');
+  menu.classList.remove('is-open');
+  button.classList.remove('is-open');
+  button.setAttribute('aria-expanded','false');
+  button.setAttribute('aria-label','Open menu');
+}
+function enterPractice(){
+  closeLandingMenu();
+  document.getElementById('practice-app').scrollIntoView({behavior:'smooth'});
+}
+
 /* ============ HOME ============ */
 function renderHome(){
-  let cards=LESSONS.map(l=>`
-    <div class="card" onclick="openLesson('${l.id}')">
-      <span class="tag">${l.modes.length} modes</span>
-      <span class="emoji">${l.emoji}</span>
+  let cards=LESSONS.map((l,i)=>`
+    <button class="card" onclick="openLesson('${l.id}')" aria-label="Open ${l.title}">
+      <div class="card-top"><span class="emoji">${l.emoji}</span><span class="tag">${l.modes.length} modes</span></div>
       <h3>${l.title}</h3>
       <p>${l.desc}</p>
-    </div>`).join('');
+      <div class="card-foot"><span>Lesson ${String(i+1).padStart(2,'0')}</span><span class="card-arrow">→</span></div>
+    </button>`).join('');
   $('#view-home').innerHTML=`
-    <div class="hero">
-      <h2>Pick a lesson and start practicing 🎯</h2>
-      <p>Each lesson has fill-in-the-blank, multiple choice and matching games — built from your class notes.</p>
+    <div class="hero home-hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><i></i> Your personal study space</span>
+        <h2>Make Spanish<br><em>feel natural.</em></h2>
+        <p>Short, focused practice built from your own lessons. Learn the words, notice the patterns, and build confidence one answer at a time.</p>
+        <div class="hero-actions">
+          <button class="btn primary" onclick="openLesson('${LESSONS[0].id}')">Start today’s practice <span>→</span></button>
+          <button class="btn ghost" onclick="startReels('vocab')">Quick vocab</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <span class="spark s1">✦</span><span class="spark s2">✦</span>
+        <div class="study-orbit">
+          <div class="word-chip chip-one"><small>greeting</small>¡Buenos días!</div>
+          <div class="word-chip chip-two"><small>feeling</small>con confianza</div>
+          <div class="word-chip chip-three"><small>today</small>un poco mejor</div>
+          <span class="study-face">🧑‍🎓</span>
+        </div>
+      </div>
     </div>
-    <div class="section-title">Your lessons</div>
-    <div class="grid">${cards}</div>
-    <div class="section-title">📲 Reels — swipe to learn</div>
-    <div class="grid">
-      <div class="card" onclick="startReels('vocab')" style="background:linear-gradient(135deg,#11998e33,#38ef7d33,#5b8cff33);border-color:#11998e88">
-        <span class="tag">📱 reel</span>
-        <span class="emoji">📚</span>
+    <section class="home-section" id="practice-modes">
+      <div class="section-head"><div><span class="section-kicker">Build your foundation</span><h2 class="section-title">Choose a lesson</h2></div><span class="section-note">${LESSONS.length} topics · multiple ways to practice</span></div>
+      <div class="grid">${cards}</div>
+    </section>
+    <section class="home-section">
+      <div class="section-head"><div><span class="section-kicker">Small moments, real progress</span><h2 class="section-title">Practice in a flash</h2></div><span class="section-note">Swipe, answer, repeat</span></div>
+      <div class="feature-grid">
+      <button class="card feature-card vocab" onclick="startReels('vocab')" aria-label="Start Vocab Reels">
+        <div class="card-top"><span class="emoji">📚</span><span class="tag">Swipe mode</span></div>
+        <div>
         <h3>Vocab Reels</h3>
-        <p>Words from every lesson — people, places, objects & conversation. Swipe up for an endless flow.</p>
-      </div>
-      <div class="card" onclick="startReels('grammar')" style="background:linear-gradient(135deg,#e1306c33,#f7773733,#7b2ff733);border-color:#e1306c88">
-        <span class="tag">📱 reel</span>
-        <span class="emoji">⚡</span>
+        <p>Everyday words from all your lessons, served one at a time in an endless practice flow.</p>
+        </div>
+        <div class="card-foot"><span>Start a quick session</span><span class="card-arrow">→</span></div>
+      </button>
+      <button class="card feature-card grammar" onclick="startReels('grammar')" aria-label="Start Grammar Reels">
+        <div class="card-top"><span class="emoji">⚡</span><span class="tag">Swipe mode</span></div>
+        <div>
         <h3>Grammar Reels</h3>
-        <p>Verbs, ser/estar, articles, haber & pronouns — all the grammar you've learned, one swipe at a time.</p>
+        <p>Fast questions on verbs, ser vs. estar, articles, haber, and pronouns.</p>
+        </div>
+        <div class="card-foot"><span>Train your instincts</span><span class="card-arrow">→</span></div>
+      </button>
       </div>
-    </div>
-    <div class="section-title">Extra</div>
-    <div class="grid">
-      <div class="card special" onclick="startVerbs()">
+    </section>
+    <section class="home-section">
+      <div class="verb-banner" onclick="startVerbs()">
         <span class="emoji">🎯</span>
-        <h3>Practice Verbs</h3>
-        <p>Conjugate verbs inside real, conversational sentences across 5 tenses.</p>
+        <div><span class="section-kicker" style="color:#765317;margin-bottom:5px">Deep practice</span><h3>Step into the Verb Studio</h3><p>Conjugate verbs inside real, conversational sentences across five tenses.</p></div>
+        <button class="btn">Open studio →</button>
       </div>
-    </div>`;
+    </section>`;
 }
 
 /* ============ LESSON MODE SELECT ============ */
@@ -728,7 +1213,7 @@ function openLesson(id){
     </div>`).join('');
   $('#view-lesson').innerHTML=`
     <div class="back" onclick="go('home')">← All lessons</div>
-    <div class="hero"><h2>${curLesson.emoji} ${curLesson.title}</h2><p>${curLesson.desc} — choose how you want to practice.</p></div>
+    <div class="hero lesson-hero"><span class="eyebrow"><i></i> Lesson practice</span><h2>${curLesson.emoji} ${curLesson.title}</h2><p>${curLesson.desc} — choose the kind of challenge that feels right today.</p></div>
     <div class="modes">${modes}</div>`;
   go('lesson');
 }
@@ -1088,10 +1573,10 @@ const EXTRA_VOCAB=[
 let VOCAB_POOL=[], GRAMMAR_POOL=[];
 function buildPools(){
   VOCAB_POOL=[]; GRAMMAR_POOL=[];
-  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares','presente','frecuencia'];
+  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos'];
   vocabLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(l&&l.match) l.match.forEach(p=>VOCAB_POOL.push({a:p.a,b:p.b,cat:l.title})); });
   EXTRA_VOCAB.forEach(v=>VOCAB_POOL.push(v));
-  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','presente','frecuencia','conversa'];
+  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos','conversa'];
   grammarLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(!l||!l.bank) return;
     l.bank.forEach(item=>{
       let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,l.bank.map(b=>b.a))];
