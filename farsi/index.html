@@ -126,6 +126,13 @@
     <p>En finglish — lees el farsi con letras normales.<br>Estudia las lecciones o desliza los reels.</p>
   </div>
 
+  <div class="card" onclick="renderPronGuide()" style="background:linear-gradient(135deg,#ffd36e33,#ff5d8f22,#7b2ff722);border-color:#ffd36e77;margin-bottom:26px">
+    <span class="tag">📖 guía</span>
+    <div class="big">🗣️</div>
+    <h3>Guía de Pronunciación</h3>
+    <p>Los sonidos del persa que no existen en español, explicados fácil — para que suenes natural. 🇮🇷</p>
+  </div>
+
   <div class="section-title">📚 Lecciones — aprende paso a paso</div>
   <div class="grid" id="lesson-grid"></div>
 
@@ -268,6 +275,17 @@ const LOVE=[
   {es:'Pienso en ti', fi:'Behet fekr mikonam', fa:'بهت فکر می‌کنم', cat:'Amor', e:'💭'},
   {es:'Me haces feliz', fi:'Khoshhalam mikoni', fa:'خوشحالم می‌کنی', cat:'Amor', e:'😊'},
   {es:'Te quiero', fi:'Dooset daram', fa:'دوستت دارم', cat:'Amor', e:'💗'},
+  /* Apodos cariñosos persas — cómo llamarse el uno al otro todos los días */
+  {es:'Mi vida / mi alma (muy común, se dice todo el tiempo)', fi:'Janam', fa:'جانم', cat:'Apodos', e:'💖'},
+  {es:'Mi vida (literal: "mi existencia")', fi:'Omram', fa:'عمرم', cat:'Apodos', e:'✨'},
+  {es:'Mi vida / mi cielo (informal, muy cercano)', fi:'Jigaram', fa:'جیگرم', cat:'Apodos', e:'🫀'},
+  {es:'Mi encanto / mi adorable', fi:'Nazaninam', fa:'نازنینم', cat:'Apodos', e:'🌸'},
+  {es:'Mi flor', fi:'Golam', fa:'گلم', cat:'Apodos', e:'🌷'},
+  {es:'Mi miel', fi:'Asalam', fa:'عسلم', cat:'Apodos', e:'🍯'},
+  {es:'Mi aliento (muy romántico)', fi:'Nafasam', fa:'نفسم', cat:'Apodos', e:'💨'},
+  {es:'Mi cautivadora / robacorazones', fi:'Delbaram', fa:'دلبرم', cat:'Apodos', e:'💘'},
+  {es:'Mi señora (cariñoso, para tu pareja)', fi:'Khanoomam', fa:'خانومم', cat:'Apodos', e:'👸'},
+  {es:'Querida de mi corazón (más intenso que azizam)', fi:'Aziz-e delam', fa:'عزیز دلم', cat:'Apodos', e:'💞'},
 ];
 
 /* Frases largas de amor (flashcard — toca para revelar) */
@@ -282,6 +300,8 @@ const LOVE_PHRASES=[
   {es:'Dame un beso', fi:'Ye boos bede', fa:'یه بوس بده', e:'😘'},
   {es:'Eres la mejor', fi:'To behtarini', fa:'تو بهترینی', e:'🏆'},
   {es:'Mi corazón es tuyo', fi:'Ghalbam male toe', fa:'قلبم مال توئه', e:'💘'},
+  {es:'Me muero por ti (expresión persa muy común e icónica de cariño)', fi:'Ghorbunet beram', fa:'قربونت برم', e:'🥹'},
+  {es:'Que tengas un buen día, mi vida', fi:'Rooze khoobi dashte bashi janam', fa:'روز خوبی داشته باشی جانم', e:'🌞'},
 ];
 
 /* Nombres reales 💞 */
@@ -314,9 +334,55 @@ const NIGHT=[
 
 function pronTip(fi){
   let s=fi.toLowerCase();
-  if(s.includes('kh')) return 'kh suena como la <b>J</b> española (jamón) 🗣️';
-  if(s.includes('gh')) return 'gh = una <b>G</b> gutural, desde la garganta 🗣️';
+  if(s.includes('kh')) return 'kh suena como la <b>J</b> española (jamón, ojo) 🗣️';
+  if(s.includes('gh')) return 'gh = sonido gutural desde el fondo de la garganta, como gárgaras — no existe en español 🗣️';
+  if(s.includes('zh')) return 'zh = como la "y/ll" del Río de la Plata (yo → "sho") 🗣️';
+  if(/(^|[aeiou])h([aeiou]|$)/.test(s)) return 'Ojo: la H se pronuncia SIEMPRE en persa (como en inglés "hello"), no es muda como en español 🗣️';
   return '';
+}
+
+/* ===================================================================
+   GUÍA DE PRONUNCIACIÓN — sonidos persas explicados con referencias
+   en español, para que Suzanne entienda cómo sonar natural.
+   =================================================================== */
+const PRON_GUIDE=[
+  {letra:'خ', fi:'kh', color:'#ff5d8f',
+   exp:'Como la <b>J</b> española en "jamón" o "ojo" — un sonido raspado, desde la garganta.',
+   ej:{fi:'khoshgeli',es:'"eres hermosa"',fa:'خوشگلی'}},
+  {letra:'غ / ق', fi:'gh', color:'#7b2ff7',
+   exp:'No existe en español. Es más profundo que la J: imagina que haces <b>gárgaras</b> suavemente, desde el fondo de la garganta.',
+   ej:{fi:'eshgham',es:'"mi amor"',fa:'عشقم'}},
+  {letra:'ح / ه', fi:'h', color:'#5b8cff',
+   exp:'A diferencia del español (donde la H es muda), en persa la H <b>siempre se pronuncia</b> — como la H del inglés "hello".',
+   ej:{fi:'behet fekr mikonam',es:'"pienso en ti"',fa:'بهت فکر می‌کنم'}},
+  {letra:'ر', fi:'r', color:'#ffd36e',
+   exp:'¡Buenas noticias! Suena casi igual que la R suave del español ("pero", no "perro"). Ya sabes hacer este sonido.',
+   ej:{fi:'dooset daram',es:'"te quiero"',fa:'دوستت دارم'}},
+  {letra:'ژ', fi:'zh', color:'#3ddc97',
+   exp:'Como la "y/ll" que se usa en Argentina y Uruguay (rioplatense) — "yo" suena como "sho". No aparece mucho, pero existe.',
+   ej:{fi:'zhaket',es:'"chaqueta" (ejemplo)',fa:'ژاکت'}},
+  {letra:'vocales', fi:'a·e·i·o·u', color:'#ff8a00',
+   exp:'Las vocales persas son muy parecidas a las del español — cortas y claras, sin diptongos raros. Si lo lees como si fuera español, suena casi correcto.',
+   ej:{fi:'azizam',es:'"cariño"',fa:'عزیزم'}},
+];
+function renderPronGuide(){
+  let cards=PRON_GUIDE.map(g=>`
+    <div class="scard" style="flex-direction:column;align-items:stretch;gap:10px;border-left:4px solid ${g.color}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:26px;font-weight:800">${g.letra} <span style="font-size:16px;color:var(--muted);font-weight:600">→ "${g.fi}"</span></div>
+      </div>
+      <div style="font-size:14.5px;line-height:1.55">${g.exp}</div>
+      <div style="background:var(--panel2);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div><div style="font-size:12px;color:var(--muted)">${g.ej.es}</div><div style="font-weight:700">${g.ej.fi}</div></div>
+        <div style="font-size:20px;direction:rtl">${g.ej.fa}</div>
+      </div>
+    </div>`).join('');
+  V('lesson').innerHTML=`
+    <div class="back" onclick="go('home')">← Inicio</div>
+    <div class="hero" style="margin:10px 0 14px"><h1>🗣️ Guía de Pronunciación</h1><p>El persa tiene un par de sonidos que no existen en español — aquí te los explico con referencias que ya conoces. No necesitas memorizar esto, solo tenlo a mano cuando practiques.</p></div>
+    <div class="study">${cards}</div>
+    <div style="margin-top:22px;text-align:center"><button class="btn primary" onclick="go('home')">Volver a practicar →</button></div>`;
+  go('lesson');
 }
 
 /* ===================================================================
@@ -329,7 +395,8 @@ const LESSONS=[
   {id:'dia',     emoji:'☕', title:'Día a Día', desc:'Comida, casa y palabras útiles', items:dedupe(byCat('Día a día')), modes:['study','quiz','match']},
   {id:'numeros', emoji:'🔢', title:'Números 1–10', desc:'Aprende a contar en persa', items:dedupe(byCat('Números')), modes:['study','quiz','match']},
   {id:'familia', emoji:'👨‍👩‍👧', title:'Familia', desc:'Mamá, papá, amigos', items:dedupe(byCat('Familia')), modes:['study','quiz','match']},
-  {id:'amor',    emoji:'💕', title:'Amor & Coqueteo', desc:'Palabras dulces y coquetas', items:dedupe(LOVE), modes:['study','quiz','match']},
+  {id:'amor',    emoji:'💕', title:'Amor & Coqueteo', desc:'Palabras dulces y coquetas', items:dedupe(LOVE.filter(x=>x.cat!=='Apodos')), modes:['study','quiz','match']},
+  {id:'apodos',  emoji:'🐻', title:'Apodos Cariñosos', desc:'Cómo llamarlo con cariño cada día: janam, azizam, golam…', items:dedupe(LOVE.filter(x=>x.cat==='Apodos')), modes:['study','quiz','match']},
   {id:'frases',  emoji:'💗', title:'Frases del Corazón', desc:'Frases románticas completas', items:dedupe(LOVE_PHRASES), modes:['study','quiz']},
 ];
 const MODE_INFO={
