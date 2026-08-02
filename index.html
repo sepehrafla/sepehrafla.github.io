@@ -9,12 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] } } }
-  };
-</script>
 <style>
   :root{
     --bg:#0f1226; --panel:#1a1f3d; --panel2:#232a52; --line:rgba(255,255,255,.1);
@@ -285,92 +279,8 @@
   @media(max-width:390px){.modes{grid-template-columns:1fr}.hero h2{font-size:37px}.brand p{display:none}}
   @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
-<style>
-  /* Full-screen entrance hero */
-  .landing-shell{font-family:"Inter",sans-serif;isolation:isolate}
-  .landing-shell [data-reveal]{opacity:0;transform:translateY(18px);animation:landingReveal .72s cubic-bezier(.22,1,.36,1) forwards;animation-delay:var(--delay,0ms)}
-  @keyframes landingReveal{to{opacity:1;transform:translateY(0)}}
-  .landing-video{filter:saturate(.82) contrast(1.04)}
-  .landing-logo img{max-width:112px;max-height:20px;width:auto;object-fit:contain}
-  .landing-mobile-menu{opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s ease,transform .25s ease,visibility .25s ease}
-  .landing-mobile-menu.is-open{opacity:1;visibility:visible;transform:translateY(0)}
-  .landing-hamburger span{transition:transform .25s ease,opacity .2s ease}
-  .landing-hamburger.is-open span:first-child{transform:translateY(5px) rotate(45deg)}
-  .landing-hamburger.is-open span:nth-child(2){opacity:0}
-  .landing-hamburger.is-open span:last-child{transform:translateY(-5px) rotate(-45deg)}
-  @media(max-width:767px){
-    .hero-line{display:inline}
-    .hero-line:not(:last-child):after{content:" "}
-  }
-  @media(prefers-reduced-motion:reduce){.landing-shell [data-reveal]{opacity:1;transform:none;animation:none}}
-</style>
 </head>
 <body>
-<section class="landing-shell relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-black text-white" aria-label="Introduction">
-  <video class="landing-video absolute inset-0 -z-20 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="https://cdn.sceneai.art/Hero Section Video/c0429648-6382-40e5-977a-be50ff2af8d5.mp4" type="video/mp4">
-  </video>
-  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 to-black/60" aria-hidden="true"></div>
-
-  <header class="relative z-30 mx-auto flex w-full max-w-[1440px] items-center justify-between px-5 py-6 sm:px-8 lg:px-12" data-reveal style="--delay:80ms">
-    <a href="#" class="text-[14px] font-medium tracking-[-0.02em] text-white" aria-label="Relevance home">RELEVANCE®</a>
-    <nav class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" aria-label="Main navigation">
-      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-app">How It Works</a>
-      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-modes">Use Cases</a>
-      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-app">Pricing</a>
-      <a class="text-[13px] font-normal text-white/75 transition-colors hover:text-white" href="#practice-app">Research Feed</a>
-    </nav>
-    <div class="hidden items-center gap-6 md:flex">
-      <button class="text-[13px] font-normal text-white/85 transition-colors hover:text-white" onclick="enterPractice()">Sign Up</button>
-      <button class="rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-[13px] font-medium text-white backdrop-blur-md transition hover:border-white/50 hover:bg-white/15" onclick="enterPractice()">Log In</button>
-    </div>
-    <button class="landing-hamburger flex h-10 w-10 flex-col items-center justify-center gap-[3px] rounded-full border border-white/20 bg-white/10 backdrop-blur-md md:hidden" aria-label="Open menu" aria-expanded="false" onclick="toggleLandingMenu(this)">
-      <span class="block h-px w-4 bg-white"></span><span class="block h-px w-4 bg-white"></span><span class="block h-px w-4 bg-white"></span>
-    </button>
-    <div id="landing-mobile-menu" class="landing-mobile-menu absolute left-5 right-5 top-[76px] rounded-2xl border border-white/15 bg-black/65 p-5 shadow-2xl backdrop-blur-xl md:hidden">
-      <nav class="flex flex-col gap-1" aria-label="Mobile navigation">
-        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-app" onclick="closeLandingMenu()">How It Works</a>
-        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-modes" onclick="closeLandingMenu()">Use Cases</a>
-        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-app" onclick="closeLandingMenu()">Pricing</a>
-        <a class="rounded-lg px-3 py-3 text-[13px] text-white/80 hover:bg-white/10 hover:text-white" href="#practice-app" onclick="closeLandingMenu()">Research Feed</a>
-      </nav>
-      <div class="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
-        <button class="flex-1 py-2.5 text-[13px] text-white/85" onclick="enterPractice()">Sign Up</button>
-        <button class="flex-1 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-[13px] font-medium backdrop-blur-md" onclick="enterPractice()">Log In</button>
-      </div>
-    </div>
-  </header>
-
-  <main class="mx-auto flex w-full max-w-[1440px] flex-1 items-center px-5 pb-24 pt-8 sm:px-8 lg:px-12 lg:pb-28 lg:pt-0">
-    <div class="-mt-8 max-w-[720px] sm:-mt-12">
-      <h1 class="mb-1 text-[46px] font-medium leading-[1.02] tracking-[-0.045em] sm:text-[56px]" data-reveal style="--delay:180ms">Relevance AI</h1>
-      <p class="mb-5 text-[24px] font-light leading-tight text-[#b0b0b0] sm:text-[28px]" data-reveal style="--delay:280ms">Designed for seekers.</p>
-      <p class="mb-9 max-w-[650px] text-[14px] font-light leading-[1.7] text-white/65" data-reveal style="--delay:380ms">
-        <span class="hero-line block">We connect the dots for you, using the full picture to deliver insight</span>
-        <span class="hero-line block">that's thoughtful, because the best discoveries don't</span>
-        <span class="hero-line block">come from more data - they come from better understanding.</span>
-      </p>
-      <div class="flex items-center gap-7" data-reveal style="--delay:480ms">
-        <button class="rounded-full bg-white px-7 py-3.5 text-[13px] font-normal text-black transition duration-300 hover:-translate-y-0.5 hover:bg-white/90" onclick="enterPractice()">Ask a Question</button>
-        <a class="group inline-flex items-center gap-2 text-[13px] font-medium text-white" href="#practice-app">Learn More <span class="transition-transform group-hover:translate-x-1">→</span></a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="relative z-10 mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12" data-reveal style="--delay:580ms">
-    <div class="flex flex-col gap-5 border-t border-white/10 py-6 md:flex-row md:items-center md:justify-between">
-      <p class="text-[13px] font-light text-white/55">Some of the companies that use our product</p>
-      <div class="flex flex-wrap items-center gap-x-7 gap-y-4 sm:gap-x-9">
-        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/67179a5f-501b-48c1-a6b6-8f4f3c676ba4.png" alt="Tesla">
-        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/5360e43f-332b-40b0-84de-db847c00fae6.png" alt="Perplexity">
-        <img class="h-5 w-auto opacity-70" src="https://cdn.sceneai.art/logos/9a17d5b4-0ad2-44b6-832f-b46153f7b156.png" alt="NASA">
-        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/23385a15-55a1-405a-accd-51abf2f987cf.png" alt="NVIDIA">
-        <img class="h-4 w-auto opacity-70" src="https://cdn.sceneai.art/logos/bdb8a52e-00a4-4fb1-8ab2-c07977e5dc72.png" alt="Google">
-      </div>
-    </div>
-  </footer>
-</section>
-
 <div class="wrap" id="practice-app">
   <header class="top">
     <div class="brand" onclick="go('home')">
@@ -1107,27 +1017,6 @@ function go(view){
   ['home','lesson','quiz','match','results','verbs'].forEach(v=>$('#view-'+v).classList.add('hide'));
   $('#view-'+view).classList.remove('hide');
   window.scrollTo(0,0);
-}
-
-function toggleLandingMenu(button){
-  const menu=document.getElementById('landing-mobile-menu');
-  const open=!menu.classList.contains('is-open');
-  menu.classList.toggle('is-open',open);
-  button.classList.toggle('is-open',open);
-  button.setAttribute('aria-expanded',String(open));
-  button.setAttribute('aria-label',open?'Close menu':'Open menu');
-}
-function closeLandingMenu(){
-  const menu=document.getElementById('landing-mobile-menu');
-  const button=document.querySelector('.landing-hamburger');
-  menu.classList.remove('is-open');
-  button.classList.remove('is-open');
-  button.setAttribute('aria-expanded','false');
-  button.setAttribute('aria-label','Open menu');
-}
-function enterPractice(){
-  closeLandingMenu();
-  document.getElementById('practice-app').scrollIntoView({behavior:'smooth'});
 }
 
 /* ============ HOME ============ */
