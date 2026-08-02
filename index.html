@@ -114,6 +114,8 @@
   .tbtn{font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer}
   .tbtn.active{background:var(--accent);color:#fff;border-color:transparent}
   @media(max-width:560px){.matchgrid{gap:14px}.prompt{font-size:20px}.brand p{display:none}}
+  .reel-speak-inline{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:999px;width:26px;height:26px;font-size:13px;cursor:pointer;vertical-align:middle;margin-left:4px}
+  .reel-speak-inline:hover{background:var(--accent2)}
 
   /* ===== REELS ===== */
   #reels-overlay{position:fixed;inset:0;z-index:1000;background:#000;display:none}
@@ -122,6 +124,8 @@
   .reel-scroll::-webkit-scrollbar{display:none}
   .reel{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:70px 22px 96px;position:relative;color:#fff;text-align:center}
   .reel-cat{position:absolute;top:58px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;opacity:.9;font-weight:600}
+  .reel-speak{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;width:46px;height:46px;font-size:20px;cursor:pointer;margin-bottom:14px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .reel-speak:active{transform:scale(.92)}
   .reel-en{font-size:16px;opacity:.92;font-style:italic;margin-bottom:16px;max-width:440px;line-height:1.4}
   .reel-prompt{font-size:30px;font-weight:700;line-height:1.35;margin-bottom:30px;max-width:500px;text-shadow:0 2px 16px rgba(0,0,0,.3)}
   .reel-big{font-size:74px}
@@ -242,10 +246,11 @@
   .card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px;margin-top:18px;font-size:11px;color:var(--muted);font-weight:700}
   .card-arrow{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--panel2);color:var(--green);transition:.2s}
   .card:hover .card-arrow{background:var(--green);color:#fff;transform:translateX(3px)}
-  .feature-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px}
+  .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:17px}
   .feature-card{min-height:255px;border:0;color:#fff;padding:27px;display:flex;flex-direction:column;justify-content:space-between}
   .feature-card:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-65px;bottom:-80px;border:35px solid rgba(255,255,255,.08);z-index:-1}
   .feature-card.vocab{background:#277f70}.feature-card.grammar{background:#d65b44}
+  .feature-card.sprint{background:#b9791a}.feature-card.shadow{background:#3f6b9e}.feature-card.write{background:#6b4fa0}
   .feature-card h3{font-size:29px;color:#fff;max-width:11ch}.feature-card p{color:rgba(255,255,255,.72);max-width:43ch}
   .feature-card .emoji{background:rgba(255,255,255,.15)}
   .feature-card .tag{color:#fff;border:1px solid rgba(255,255,255,.25);padding:5px 8px;border-radius:99px}
@@ -325,6 +330,12 @@
 
   <!-- VERBS -->
   <section id="view-verbs" class="hide"></section>
+
+  <!-- WRITING -->
+  <section id="view-writing" class="hide"></section>
+
+  <!-- SHADOWING -->
+  <section id="view-shadow" class="hide"></section>
 </div>
 
 <!-- REELS (full-screen overlay) -->
@@ -1080,9 +1091,42 @@ function srsDueCount(pool,idFn){
   if(!srsReady) return 0;
   return pool.filter(x=>srsSeenAndDue(idFn(x))).length;
 }
+/* "Mature" = reviewed at least twice — the pool Fluency Sprint draws from,
+   so it's testing speed on things you already know, not new material. */
+function srsIsMature(id){
+  let raw=srsDB[id];
+  return !!raw && raw.reps>=2;
+}
+
+/* ============ AUDIO (Web Speech API — free, no key, no backend) ============ */
+const jsEsc=s=>(''+s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
+let esVoice=null;
+function pickSpanishVoice(){
+  if(!window.speechSynthesis) return null;
+  let voices=speechSynthesis.getVoices();
+  if(!voices.length) return null;
+  const pref=['Mónica','Monica','Paulina','Jorge','Google español','Microsoft Elvira','Microsoft Alvaro','Microsoft Álvaro','Helena','Sabina','Diego'];
+  for(const name of pref){ let v=voices.find(v=>v.name.includes(name)); if(v) return v; }
+  return voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('es')) || null;
+}
+if(window.speechSynthesis){
+  esVoice=pickSpanishVoice();
+  speechSynthesis.onvoiceschanged=()=>{ esVoice=pickSpanishVoice(); };
+}
+const audioReady = !!window.speechSynthesis;
+function speakEs(text,rate){
+  if(!audioReady || !text) return;
+  try{
+    speechSynthesis.cancel();
+    let u=new SpeechSynthesisUtterance((''+text).replace(/[“”]/g,'').replace(/___/g,'...'));
+    u.lang='es-ES'; u.rate=rate||0.94;
+    if(esVoice) u.voice=esVoice;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
 
 function go(view){
-  ['home','lesson','quiz','match','results','verbs'].forEach(v=>$('#view-'+v).classList.add('hide'));
+  ['home','lesson','quiz','match','results','verbs','writing','shadow'].forEach(v=>{ let el=$('#view-'+v); if(el) el.classList.add('hide'); });
   $('#view-'+view).classList.remove('hide');
   window.scrollTo(0,0);
 }
@@ -1092,6 +1136,14 @@ function verbDueCount(){
   if(!srsReady) return 0;
   let n=0;
   VERB_SENTENCES.forEach(row=>TENSES.forEach(t=>{ if(srsSeenAndDue(verbCardId(row,t))) n++; }));
+  return n;
+}
+function matureTotalCount(){
+  if(!srsReady) return 0;
+  let n=0;
+  n+=VOCAB_POOL.filter(x=>srsIsMature(vocabCardId(x))).length;
+  n+=GRAMMAR_POOL.filter(x=>srsIsMature(grammarCardId(x))).length;
+  VERB_SENTENCES.forEach(row=>TENSES.forEach(t=>{ if(srsIsMature(verbCardId(row,t))) n++; }));
   return n;
 }
 function renderHome(){
@@ -1108,6 +1160,9 @@ function renderHome(){
   let vocabFoot = srsReady ? (vocabDue>0?`${vocabDue} due today`: hasHistory?'All caught up ✨':'Start a quick session') : 'Start a quick session';
   let grammarFoot = srsReady ? (grammarDue>0?`${grammarDue} due today`: hasHistory?'All caught up ✨':'Train your instincts') : 'Train your instincts';
   let totalDue = vocabDue+grammarDue;
+  let matureCount = srsReady ? matureTotalCount() : 0;
+  let sprintFoot = matureCount>=8 ? `${matureCount} mastered words ready` : 'Warms up as you practice';
+  let shadowCount = ls_get('es_shadow_count',0);
   $('#view-home').innerHTML=`
     <div class="hero home-hero">
       <div class="hero-copy">
@@ -1132,7 +1187,7 @@ function renderHome(){
       </div>
     </div>
     <section class="home-section">
-      <div class="section-head"><div><span class="section-kicker">Small moments, real progress</span><h2 class="section-title">Practice in a flash</h2></div><span class="section-note">Swipe, answer, repeat — mixes multiple-choice, typed answers, and verb drills</span></div>
+      <div class="section-head"><div><span class="section-kicker">Small moments, real progress</span><h2 class="section-title">Practice in a flash</h2></div><span class="section-note">Swipe, answer, repeat — mixes multiple-choice, typed answers, real sentences, and verb drills</span></div>
       <div class="feature-grid">
       <button class="card feature-card vocab" onclick="startReels('vocab')" aria-label="Start Vocab Reels">
         <div class="card-top"><span class="emoji">📚</span><span class="tag">Swipe mode</span></div>
@@ -1150,6 +1205,14 @@ function renderHome(){
         </div>
         <div class="card-foot"><span>${grammarFoot}</span><span class="card-arrow">→</span></div>
       </button>
+      <button class="card feature-card sprint" onclick="startReels('sprint')" aria-label="Start Fluency Sprint">
+        <div class="card-top"><span class="emoji">🏃</span><span class="tag">60 sec</span></div>
+        <div>
+        <h3>Fluency Sprint</h3>
+        <p>A timed speed round using only the words and verbs you've already mastered — builds automatic recall, not just correctness.</p>
+        </div>
+        <div class="card-foot"><span>${sprintFoot}</span><span class="card-arrow">→</span></div>
+      </button>
       </div>
     </section>
     <section class="home-section" id="practice-modes">
@@ -1157,9 +1220,30 @@ function renderHome(){
       <div class="grid">${cards}</div>
     </section>
     <section class="home-section">
+      <div class="section-head"><div><span class="section-kicker">Beyond flashcards</span><h2 class="section-title">Speak &amp; write it</h2></div><span class="section-note">Recognizing words isn't the same as producing them</span></div>
+      <div class="feature-grid">
+      <button class="card feature-card shadow" onclick="startShadowing()" aria-label="Start Shadowing">
+        <div class="card-top"><span class="emoji">🎙️</span><span class="tag">Speaking</span></div>
+        <div>
+        <h3>Shadowing</h3>
+        <p>Listen to a real Spanish sentence, repeat it out loud, then record yourself and compare — this is what actually builds pronunciation and rhythm.</p>
+        </div>
+        <div class="card-foot"><span>${shadowCount>0?`${shadowCount} practiced`:'Try it'}</span><span class="card-arrow">→</span></div>
+      </button>
+      <button class="card feature-card write" onclick="startWriting()" aria-label="Start Free Writing">
+        <div class="card-top"><span class="emoji">✍️</span><span class="tag">Writing</span></div>
+        <div>
+        <h3>Escritura Libre</h3>
+        <p>Write a few original sentences on a prompt and get instant grammar feedback — the step that reveals what drills can't.</p>
+        </div>
+        <div class="card-foot"><span>Free · graded instantly</span><span class="card-arrow">→</span></div>
+      </button>
+      </div>
+    </section>
+    <section class="home-section">
       <div class="verb-banner" onclick="startVerbs()">
         <span class="emoji">🎯</span>
-        <div><span class="section-kicker" style="color:#765317;margin-bottom:5px">Deep practice</span><h3>Step into the Verb Studio</h3><p>Conjugate verbs inside real, conversational sentences across five tenses.</p></div>
+        <div><span class="section-kicker" style="color:#765317;margin-bottom:5px">Deep practice</span><h3>Step into the Verb Studio</h3><p>Conjugate verbs inside real, conversational sentences across five tenses — now with mixed-tense mode for real interleaved practice.</p></div>
         <button class="btn">Open studio →</button>
       </div>
     </section>`;
@@ -1426,12 +1510,12 @@ function renderVerbShell(){
     <div class="back" onclick="go('home')">← Home</div>
     <div class="hero"><h2>⚡ Practice Verbs</h2><p>Conjugate the verb inside a real, everyday sentence. Subjects are often dropped — just like people actually talk.</p></div>
     <div class="tenses" id="tenses">
-      ${['present','preterite','imperfect','future','conditional'].map(t=>`<div class="tbtn ${t==='present'?'active':''}" onclick="setTense('${t}')">${t}</div>`).join('')}
+      ${['present','preterite','imperfect','future','conditional','mixed'].map(t=>`<div class="tbtn ${t==='present'?'active':''}" data-tense="${t}" onclick="setTense('${t}')">${t==='mixed'?'🔀 mixed':t}</div>`).join('')}
       <div class="tbtn" id="vmode" onclick="toggleVMode()" style="margin-left:auto">mode: type</div>
     </div>
     <div id="vbox"></div>`;
 }
-function setTense(t){ vg.tense=t; document.querySelectorAll('#tenses .tbtn').forEach(b=>{if(b.id!=='vmode')b.classList.toggle('active',b.textContent===t);}); nextVerb(); }
+function setTense(t){ vg.tense=t; document.querySelectorAll('#tenses .tbtn[data-tense]').forEach(b=>b.classList.toggle('active',b.dataset.tense===t)); nextVerb(); }
 function toggleVMode(){ vg.mode=vg.mode==='fill'?'mc':'fill'; $('#vmode').textContent='mode: '+(vg.mode==='fill'?'type':'choose'); nextVerb(); }
 function nextVerb(){
   vg.answered=false;
@@ -1439,12 +1523,14 @@ function nextVerb(){
   let idx; do{ idx=Math.floor(Math.random()*VERB_SENTENCES.length);}while(vg.used.includes(idx));
   vg.used.push(idx);
   let row=VERB_SENTENCES[idx]; vg.row=row;
-  let conj=VERBS[row.verb][vg.tense][row.subject];
+  let tense = vg.tense==='mixed' ? rand(TENSES) : vg.tense;
+  vg.activeTense=tense;
+  let conj=VERBS[row.verb][tense][row.subject];
   vg.answer=row.answer||conj;
   let parts=row.es.split('___');
   let mid, body;
   if(vg.mode==='mc'){
-    let forms=Object.values(VERBS[row.verb][vg.tense]);
+    let forms=Object.values(VERBS[row.verb][tense]);
     let pool=[...new Set(forms.filter(f=>f!==vg.answer))];
     let opts=shuffle([vg.answer,...shuffle(pool).slice(0,3)]);
     mid=`<span class="blank">?</span>`;
@@ -1453,13 +1539,15 @@ function nextVerb(){
     mid=`<input class="answer" id="vans" style="max-width:220px;display:inline-block;width:auto;font-size:18px;padding:6px 12px" autocomplete="off" spellcheck="false" placeholder="…">`;
     body='';
   }
+  let tenseTag = vg.tense==='mixed' ? ` &nbsp;·&nbsp; <span style="opacity:.65">${tense}</span>` : '';
   $('#vbox').innerHTML=`
     <div class="quizbox">
-      <div class="context">💬 ${row.context} &nbsp;·&nbsp; <b style="color:var(--txt)">${row.verb}</b> (${VERBS[row.verb].m})</div>
+      <div class="context">💬 ${row.context} &nbsp;·&nbsp; <b style="color:var(--txt)">${row.verb}</b> (${VERBS[row.verb].m})${tenseTag}</div>
       <div class="translation" style="margin-bottom:18px">"${row.en}"</div>
       <div class="prompt" style="font-size:22px">${parts[0]}${mid}${parts[1]||''}</div>
       ${body}
       <div class="feedback" id="vfb"></div>
+      <div id="vspk"></div>
       <div class="qfoot">
         <button class="btn ghost" onclick="vHint()">💡 hint</button>
         <div style="display:flex;gap:8px">
@@ -1475,6 +1563,7 @@ function vSet(good){
   if(good){fb.className='feedback good';fb.textContent=rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Muy bien! 👏']);}
   else{fb.className='feedback bad';fb.textContent='Answer: '+vg.answer;}
   let blank=$('#vbox .blank'); if(blank){blank.textContent=vg.answer;blank.style.color=good?'var(--good)':'var(--bad)';blank.style.borderColor=good?'var(--good)':'var(--bad)';}
+  let spk=$('#vspk'); if(spk&&audioReady) spk.innerHTML=`<button class="reel-speak-inline" style="width:auto;padding:4px 12px;margin-left:0;margin-top:8px" onclick="speakEs('${jsEsc(vg.row.es.replace('___',vg.answer))}')">🔊 Escuchar</button>`;
   bump(good); $('#vnext').textContent='Next →';
 }
 function vAnswerMC(btn,val){
@@ -1489,8 +1578,147 @@ function vNextOrCheck(){
   }
   nextVerb();
 }
-function vHint(){ let fb=$('#vfb'); fb.className='feedback'; fb.style.color='var(--muted)'; fb.textContent=`subject: ${vg.row.subject} · tense: ${vg.tense} · starts with "${vg.answer[0]}"`; }
+function vHint(){ let fb=$('#vfb'); fb.className='feedback'; fb.style.color='var(--muted)'; fb.textContent=`subject: ${vg.row.subject} · tense: ${vg.activeTense||vg.tense} · starts with "${vg.answer[0]}"`; }
 function vReveal(){ if(vg.answered)return; if(vg.mode==='fill'){let a=$('#vans');if(a){a.value=vg.answer;a.classList.add('wrong');a.disabled=true;}} vSet(false); }
+
+/* ============ SHADOWING (listen · repeat · record · compare) ============ */
+const canRecord = !!(navigator.mediaDevices && window.MediaRecorder);
+let shadowState=null;
+function shadowSentences(){
+  // Prefer real mined sentences once loaded; fall back to the built-in verb-practice bank.
+  if(CLOZE_SENTENCES.length) return CLOZE_SENTENCES.map(c=>({es:c.es,en:c.en,cat:'Oración real'}));
+  return VERB_SENTENCES.map(row=>{
+    let answer=row.answer||VERBS[row.verb].present[row.subject];
+    return {es:row.es.replace('___',answer),en:row.en,cat:row.context};
+  });
+}
+function startShadowing(){
+  let pool=shadowSentences();
+  shadowState={order:shuffle(pool.map((_,i)=>i)),idx:0,pool,recording:false,recorder:null,chunks:[],practiced:ls_get('es_shadow_count',0)};
+  go('shadow'); renderShadow();
+}
+function renderShadow(){
+  let s=shadowState, item=s.pool[s.order[s.idx % s.order.length]];
+  s.current=item;
+  $('#view-shadow').innerHTML=`
+    <div class="back" onclick="stopShadowStream();go('home')">← Home</div>
+    <div class="hero"><h2>🎙️ Shadowing</h2><p>Listen, say it out loud along with the audio, then record yourself and compare. This is what actually builds pronunciation and rhythm — not just vocabulary.</p></div>
+    <div class="quizbox">
+      <div class="context">💬 ${item.cat}</div>
+      <div class="prompt" style="font-size:24px;margin:10px 0 6px">${item.es}</div>
+      <div class="translation" style="margin-bottom:18px">"${item.en}"</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" onclick="speakEs(shadowState.current.es,0.94)">🔊 Escuchar</button>
+        <button class="btn" onclick="speakEs(shadowState.current.es,0.62)">🐌 Despacio</button>
+        ${canRecord?`<button class="btn" id="shadow-rec-btn" onclick="toggleShadowRecord()">🎙️ Grabar mi voz</button>`:''}
+      </div>
+      <div id="shadow-playback" style="margin-top:16px"></div>
+      <div class="qfoot"><span class="qn">🗣️ ${s.practiced} practicadas</span><button class="btn primary" onclick="nextShadow()">Siguiente →</button></div>
+    </div>`;
+}
+function nextShadow(){
+  let s=shadowState; s.idx++; s.practiced++; ls_set('es_shadow_count',s.practiced);
+  stopShadowStream();
+  renderShadow();
+}
+function stopShadowStream(){
+  let s=shadowState; if(!s) return;
+  if(s.stream) s.stream.getTracks().forEach(t=>t.stop());
+  s.recording=false; s.recorder=null; s.stream=null;
+}
+async function toggleShadowRecord(){
+  let s=shadowState, btn=$('#shadow-rec-btn');
+  if(s.recording){ s.recorder.stop(); return; }
+  try{
+    let stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    s.stream=stream; s.chunks=[];
+    let rec=new MediaRecorder(stream);
+    s.recorder=rec; s.recording=true;
+    if(btn){ btn.textContent='⏹ Detener'; btn.classList.add('primary'); }
+    rec.ondataavailable=e=>{ if(e.data.size>0) s.chunks.push(e.data); };
+    rec.onstop=()=>{
+      s.recording=false; if(btn){ btn.textContent='🎙️ Grabar mi voz'; btn.classList.remove('primary'); }
+      let blob=new Blob(s.chunks,{type:'audio/webm'}), url=URL.createObjectURL(blob);
+      let pb=$('#shadow-playback');
+      if(pb) pb.innerHTML=`<div style="font-size:13px;color:var(--muted);margin-bottom:6px">Tu grabación — compárala con el audio original:</div><audio controls src="${url}" style="width:100%"></audio>`;
+      stream.getTracks().forEach(t=>t.stop());
+    };
+    rec.start();
+  }catch(e){
+    let pb=$('#shadow-playback');
+    if(pb) pb.innerHTML=`<div style="font-size:13px;color:var(--muted)">No se pudo acceder al micrófono — puedes seguir practicando escuchando y repitiendo en voz alta.</div>`;
+  }
+}
+
+/* ============ FREE WRITING (graded by the free LanguageTool API) ============
+   Output practice: Swain's Output Hypothesis says input alone plateaus —
+   producing original language is what forces you to notice your own gaps. */
+const WRITING_PROMPTS=[
+  'Describe tu rutina diaria: ¿qué haces cada mañana?',
+  'Habla de tu familia: ¿cuántos son y cómo son?',
+  '¿Qué te gusta hacer los fines de semana?',
+  'Describe tu comida favorita y por qué te gusta.',
+  '¿Dónde vives? Describe tu casa o apartamento.',
+  '¿Con qué frecuencia haces ejercicio? Explica tu rutina.',
+  'Describe a tu mejor amigo o amiga.',
+  '¿Qué planes tienes para el próximo fin de semana?',
+  'Habla de un lugar que quieres visitar y por qué.',
+  '¿Cómo es un día normal en tu trabajo o escuela?',
+  'Describe el clima de hoy y qué ropa llevas.',
+  '¿Qué hiciste ayer? Cuenta tu día.'
+];
+let writingState=null;
+function startWriting(){
+  writingState={prompt:rand(WRITING_PROMPTS),checking:false};
+  go('writing'); renderWriting();
+}
+function renderWriting(){
+  $('#view-writing').innerHTML=`
+    <div class="back" onclick="go('home')">← Home</div>
+    <div class="hero"><h2>✍️ Escritura Libre</h2><p>Write a few sentences of your own. This is the step vocabulary drills skip — producing original Spanish is what actually reveals what you don't know yet.</p></div>
+    <div class="quizbox">
+      <div class="context">💬 ${writingState.prompt}</div>
+      <textarea id="writing-input" rows="7" style="width:100%;margin-top:14px;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--panel2);color:var(--txt);font-family:inherit;font-size:16px;resize:vertical" placeholder="Escribe aquí en español…"></textarea>
+      <div class="qfoot">
+        <button class="btn ghost" onclick="startWriting()">🔀 Otro tema</button>
+        <button class="btn primary" id="writing-check-btn" onclick="checkWriting()">Revisar ✓</button>
+      </div>
+      <div id="writing-result"></div>
+    </div>`;
+}
+async function checkWriting(){
+  let ta=$('#writing-input'), text=ta.value.trim();
+  if(!text || writingState.checking) return;
+  writingState.checking=true;
+  let btn=$('#writing-check-btn'), result=$('#writing-result');
+  btn.disabled=true; btn.textContent='Revisando…';
+  result.innerHTML=`<div style="color:var(--muted);margin-top:16px">Comprobando con LanguageTool…</div>`;
+  try{
+    let res=await fetch('https://api.languagetool.org/v2/check',{
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:'text='+encodeURIComponent(text)+'&language=es'
+    });
+    let data=await res.json();
+    let matches=(data.matches||[]);
+    bump(true);
+    if(!matches.length){
+      result.innerHTML=`<div class="feedback good" style="margin-top:16px">¡Perfecto! 🎉 LanguageTool no encontró ningún error. ¡Muy buen trabajo!</div>`;
+    } else {
+      let cards=matches.slice(0,12).map(m=>{
+        let snippet=text.slice(m.offset,m.offset+m.length);
+        let repl=(m.replacements||[]).slice(0,3).map(r=>r.value).filter(Boolean);
+        return `<div style="background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px">
+          <div><span style="background:rgba(255,109,109,.25);padding:1px 6px;border-radius:6px;font-weight:700">${snippet||'(…)'}</span> ${repl.length?`→ <b style="color:var(--good)">${repl.join(', ')}</b>`:''}</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">${m.message}</div>
+        </div>`;
+      }).join('');
+      result.innerHTML=`<div style="margin-top:16px"><div class="feedback" style="color:var(--warn)">${matches.length} sugerencia${matches.length===1?'':'s'} encontrada${matches.length===1?'':'s'}:</div>${cards}</div>`;
+    }
+  }catch(e){
+    result.innerHTML=`<div class="feedback bad" style="margin-top:16px">No se pudo conectar con el corrector — inténtalo de nuevo en un momento.</div>`;
+  }
+  writingState.checking=false; btn.disabled=false; btn.textContent='Revisar ✓';
+}
 
 /* ============ SPANISH REELS ============ */
 const REEL_BG=[
@@ -1511,18 +1739,26 @@ function randAvoid(arr,lastKey,keyFn){
 }
 let lastVerbKey=null, lastVocabKey=null, lastGrammarKey=null, lastNumberKey=null, lastColorKey=null;
 const verbCardId=(row,tense)=>'r|'+row.verb+'|'+tense+'|'+row.subject+'|'+row.es;
+let sprintMode=false;
 function card_verb(){
   let row=randAvoid(VERB_SENTENCES,lastVerbKey,r=>r.es);
   lastVerbKey=row.es;
-  let dueTenses=TENSES.filter(t=>srsIsDue(verbCardId(row,t)));
-  let tense=rand(dueTenses.length?dueTenses:TENSES);
+  let tense;
+  if(sprintMode){
+    let matureTenses=TENSES.filter(t=>srsIsMature(verbCardId(row,t)));
+    tense=rand(matureTenses.length?matureTenses:TENSES);
+  } else {
+    let dueTenses=TENSES.filter(t=>srsIsDue(verbCardId(row,t)));
+    tense=rand(dueTenses.length?dueTenses:TENSES);
+  }
   let id=verbCardId(row,tense);
   let conj=VERBS[row.verb][tense][row.subject], answer=row.answer||conj;
-  if(Math.random()<0.3){
-    return {type:'type',cat:`${row.verb} · ${tense}`,emoji:'✍️',en:'“'+row.en+'” — type the conjugated verb',prompt:row.es,answer,srsId:id};
+  let es=row.es.replace('___',answer);
+  if(!sprintMode && Math.random()<0.3){
+    return {type:'type',cat:`${row.verb} · ${tense}`,emoji:'✍️',en:'“'+row.en+'” — type the conjugated verb',prompt:row.es,answer,srsId:id,es};
   }
   let forms=Object.values(VERBS[row.verb][tense]);
-  return {cat:`${row.verb} · ${tense}`,emoji:'⚡',en:'“'+row.en+'”',prompt:row.es,opts:shuffle([answer,...mcDistract(answer,forms)]),answer,srsId:id};
+  return {cat:`${row.verb} · ${tense}`,emoji:'⚡',en:'“'+row.en+'”',prompt:row.es,opts:shuffle([answer,...mcDistract(answer,forms)]),answer,srsId:id,es};
 }
 /* Extra conversation/description vocabulary beyond the lessons */
 const EXTRA_VOCAB=[
@@ -1548,7 +1784,17 @@ const EXTRA_VOCAB=[
   {a:'neighbour',b:'vecino',cat:'Personas'},{a:'boss',b:'jefe',cat:'Personas'}
 ];
 /* Pools assembled at init from all lessons + extras */
-let VOCAB_POOL=[], GRAMMAR_POOL=[];
+let VOCAB_POOL=[], GRAMMAR_POOL=[], CLOZE_SENTENCES=[];
+/* Real Spanish sentences mined from Tatoeba (CC BY 2.0 FR), curated for
+   beginner length + vocabulary overlap with this site's own lessons.
+   Loaded lazily so a slow/offline connection never blocks the app —
+   reels and shadowing both fall back gracefully to their existing pools
+   until this resolves. */
+function loadClozeData(){
+  fetch('data/cloze_sentences.json').then(r=>r.ok?r.json():[]).then(data=>{
+    CLOZE_SENTENCES=Array.isArray(data)?data:[];
+  }).catch(()=>{ CLOZE_SENTENCES=[]; });
+}
 function buildPools(){
   VOCAB_POOL=[]; GRAMMAR_POOL=[];
   const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos'];
@@ -1565,34 +1811,39 @@ function buildPools(){
 }
 const vocabCardId=v=>'v|'+v.cat+'|'+v.a+'|'+v.b;
 function card_vocab(){
-  let due=VOCAB_POOL.filter(x=>srsIsDue(vocabCardId(x)));
-  let v=randAvoid(due.length?due:VOCAB_POOL,lastVocabKey,x=>x.a+'|'+x.b);
+  let source;
+  if(sprintMode){ let mature=VOCAB_POOL.filter(x=>srsIsMature(vocabCardId(x))); source=mature.length?mature:VOCAB_POOL; }
+  else { let due=VOCAB_POOL.filter(x=>srsIsDue(vocabCardId(x))); source=due.length?due:VOCAB_POOL; }
+  let v=randAvoid(source,lastVocabKey,x=>x.a+'|'+x.b);
   lastVocabKey=v.a+'|'+v.b;
   let id=vocabCardId(v);
-  if(Math.random()<0.22){
-    return {type:'type',cat:v.cat,emoji:'✍️',en:'Type it in Spanish',prompt:'“'+v.a+'”',answer:v.b,srsId:id};
+  if(!sprintMode && Math.random()<0.22){
+    return {type:'type',cat:v.cat,emoji:'✍️',en:'Type it in Spanish',prompt:'“'+v.a+'”',answer:v.b,srsId:id,es:v.b};
   }
   let askEs = Math.random()<0.6; // 60% EN->ES, 40% ES->EN
   if(askEs){
     let opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.b))]);
     if(opts.length<4) opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.map(x=>x.b))]);
-    return {cat:v.cat,emoji:'📚',en:'How do you say…',prompt:'“'+v.a+'”',opts,answer:v.b,srsId:id};
+    return {cat:v.cat,emoji:'📚',en:'How do you say…',prompt:'“'+v.a+'”',opts,answer:v.b,srsId:id,es:v.b};
   } else {
     let opts=shuffle([v.a,...mcDistract(v.a,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.a))]);
     if(opts.length<4) opts=shuffle([v.a,...mcDistract(v.a,VOCAB_POOL.map(x=>x.a))]);
-    return {cat:v.cat,emoji:'📚',en:'What does this mean?',prompt:'“'+v.b+'”',opts,answer:v.a,srsId:id};
+    return {cat:v.cat,emoji:'📚',en:'What does this mean?',prompt:'“'+v.b+'”',opts,answer:v.a,srsId:id,es:v.b};
   }
 }
 const grammarCardId=item=>'g|'+item.cat+'|'+item.prompt;
 function card_grammar(){
-  let due=GRAMMAR_POOL.filter(x=>srsIsDue(grammarCardId(x)));
-  let item=randAvoid(due.length?due:GRAMMAR_POOL,lastGrammarKey,x=>x.prompt);
+  let source;
+  if(sprintMode){ let mature=GRAMMAR_POOL.filter(x=>srsIsMature(grammarCardId(x))); source=mature.length?mature:GRAMMAR_POOL; }
+  else { let due=GRAMMAR_POOL.filter(x=>srsIsDue(grammarCardId(x))); source=due.length?due:GRAMMAR_POOL; }
+  let item=randAvoid(source,lastGrammarKey,x=>x.prompt);
   lastGrammarKey=item.prompt;
   let id=grammarCardId(item);
-  if(Math.random()<0.3){
-    return {type:'type',cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,answer:item.answer,srsId:id};
+  let es=item.prompt.includes('___') ? item.prompt.replace('___',item.answer) : item.prompt;
+  if(!sprintMode && Math.random()<0.3){
+    return {type:'type',cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,answer:item.answer,srsId:id,es};
   }
-  return {cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,opts:shuffle(item.opts.slice()),answer:item.answer,srsId:id};
+  return {cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,opts:shuffle(item.opts.slice()),answer:item.answer,srsId:id,es};
 }
 function card_number(){
   let big,tries=0;
@@ -1601,19 +1852,43 @@ function card_number(){
   lastNumberKey=big;
   let answer=numToSpanish(big), set=new Set([answer]);
   while(set.size<4){ let d = big<=100 ? Math.min(100,Math.max(0,big+rand([-7,-5,-3,-2,2,3,5,7,10]))) : rand([100,200,300,400,500,600,700,800,900,1000]); set.add(numToSpanish(d)); }
-  return {cat:'Números',emoji:'🔢',en:'What number is this?',prompt:String(big),opts:shuffle([...set]),answer,big:true};
+  return {cat:'Números',emoji:'🔢',en:'What number is this?',prompt:String(big),opts:shuffle([...set]),answer,big:true,es:answer};
 }
 function card_color(){
   let lesson=LESSONS.find(l=>l.id==='numeros'), sw=randAvoid(lesson.swatches,lastColorKey,s=>s.a);
   lastColorKey=sw.a;
-  return {cat:'Colores',emoji:'🌈',en:'¿De qué color es?',prompt:'',opts:shuffle([sw.a,...mcDistract(sw.a,lesson.swatches.map(s=>s.a))]),answer:sw.a,swatch:sw.hex};
+  return {cat:'Colores',emoji:'🌈',en:'¿De qué color es?',prompt:'',opts:shuffle([sw.a,...mcDistract(sw.a,lesson.swatches.map(s=>s.a))]),answer:sw.a,swatch:sw.hex,es:sw.a};
+}
+let lastClozeKey=null;
+const clozeCardId=item=>'z|'+item.id;
+function card_cloze(){
+  let source;
+  if(sprintMode){ let mature=CLOZE_SENTENCES.filter(x=>srsIsMature(clozeCardId(x))); source=mature.length?mature:CLOZE_SENTENCES; }
+  else { let due=CLOZE_SENTENCES.filter(x=>srsIsDue(clozeCardId(x))); source=due.length?due:CLOZE_SENTENCES; }
+  let item=randAvoid(source,lastClozeKey,x=>x.id);
+  lastClozeKey=item.id;
+  let id=clozeCardId(item);
+  let esc=item.blank.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  let promptEs=item.es.replace(new RegExp('\\b'+esc+'\\b','i'),'___');
+  if(promptEs===item.es) promptEs=item.es.replace(item.blank,'___'); // fallback if the regex didn't match
+  if(!sprintMode && Math.random()<0.45){
+    return {type:'type',cat:'Oración real',emoji:'📖',en:'"'+item.en+'" — fill in the missing word',prompt:promptEs,answer:item.blank,srsId:id,es:item.es};
+  }
+  let pool=CLOZE_SENTENCES.map(x=>x.blank).filter(w=>w.toLowerCase()!==item.blank.toLowerCase());
+  let opts=shuffle([item.blank,...mcDistract(item.blank,pool)]);
+  if(opts.length<4){ let extra=VOCAB_POOL.map(v=>v.b).filter(w=>w!==item.blank); opts=shuffle([item.blank,...mcDistract(item.blank,[...pool,...extra])]); }
+  return {cat:'Oración real',emoji:'📖',en:'"'+item.en+'"',prompt:promptEs,opts,answer:item.blank,srsId:id,es:item.es};
 }
 function makeReelCard(){
-  let r=Math.random(), c;
-  if(reelMode==='vocab'){
-    if(r<0.74) c=card_vocab(); else if(r<0.88) c=card_number(); else c=card_color();
+  let r=Math.random(), c, hasCloze=CLOZE_SENTENCES.length>0;
+  if(reelMode==='sprint'){
+    if(r<0.38) c=card_vocab(); else if(r<0.72) c=card_verb(); else c=card_grammar();
+  } else if(reelMode==='vocab'){
+    if(hasCloze && r<0.16) c=card_cloze();
+    else if(r<0.74) c=card_vocab(); else if(r<0.88) c=card_number(); else c=card_color();
   } else {
-    if(r<0.50) c=card_verb(); else c=card_grammar();
+    if(hasCloze && r<0.18) c=card_cloze();
+    else if(r<0.59) c=card_verb(); else c=card_grammar();
   }
   c.bg=rand(REEL_BG); return c;
 }
@@ -1636,8 +1911,14 @@ function reelCardHTML(cid,c){
     ${promptHtml?`<div class="reel-prompt${c.big?' reel-big':''}">${promptHtml}</div>`:''}
     ${body}
     <div class="reel-fb" id="fb-${cid}"></div>
+    <div id="spk-${cid}"></div>
     <div class="reel-up" id="up-${cid}">swipe up for more ⬆</div>
   </div>`;
+}
+function reelSpeakBtn(cid,es){
+  if(!audioReady || !es) return '';
+  let box=document.getElementById('spk-'+cid); if(!box) return '';
+  box.innerHTML=`<button class="reel-speak" style="width:auto;height:auto;padding:8px 18px;font-size:15px;margin-top:14px;margin-bottom:0" onclick="speakEs('${jsEsc(es)}')">🔊 Escuchar</button>`;
 }
 function insertAccent(inputId,ch){
   let el=document.getElementById(inputId); if(!el||el.disabled) return;
@@ -1657,6 +1938,7 @@ function reelCheckType(cid){
   if(good && exact) fb.textContent=rand(['¡Perfecto! 🎉','¡Exacto! ✨','¡Eso es! 🔥']);
   else if(good) fb.textContent='¡Casi! Ojo con el acento: '+c.answer+' ✏️';
   else fb.textContent='✗  '+c.answer;
+  reelSpeakBtn(cid,c.es);
   srsGrade(c.srsId,good); bump(good);
   if(good){ reelXPFloat(); setTimeout(()=>reelNext(reel),1100); }
   else { document.getElementById('up-'+cid).classList.add('show'); }
@@ -1667,13 +1949,18 @@ function appendReels(n){
   scroll.insertAdjacentHTML('beforeend',html);
   scroll.querySelectorAll('.reel:not([data-obs])').forEach(el=>{ el.setAttribute('data-obs','1'); reelIO.observe(el); });
 }
+let sprintState=null, sprintTimer=null;
+const SPRINT_SECONDS=60;
 function startReels(mode){
-  reelMode = mode==='grammar' ? 'grammar' : 'vocab';
-  let title = reelMode==='grammar' ? '⚡ Grammar Reels' : '📚 Vocab Reels';
+  reelMode = mode==='grammar' ? 'grammar' : mode==='sprint' ? 'sprint' : 'vocab';
+  sprintMode = reelMode==='sprint';
+  let title = reelMode==='grammar' ? '⚡ Grammar Reels' : reelMode==='sprint' ? '🏃 Fluency Sprint' : '📚 Vocab Reels';
   let ov=$('#reels-overlay');
+  let timerHTML = sprintMode ? `<div class="ra"><span class="ic">⏱️</span><span id="sprint-clock">${SPRINT_SECONDS}</span></div>` : '';
   ov.innerHTML=`
     <div class="reel-top"><div>${title}</div><button class="reel-x" onclick="exitReels()">✕</button></div>
     <div class="reel-rail">
+      ${timerHTML}
       <div class="ra"><span class="ic">🔥</span><span id="reel-streak">${globalStreak}</span></div>
       <div class="ra"><span class="ic">⭐</span><span id="reel-xp">${xp}</span></div>
       <div class="ra" onclick="reelSkip()"><span class="ic">⏭️</span>skip</div>
@@ -1689,8 +1976,47 @@ function startReels(mode){
   },{root:document.getElementById('reel-scroll'),threshold:[0.6]});
   ov.classList.add('on'); document.body.style.overflow='hidden';
   appendReels(6);
+  if(sprintMode){
+    sprintState={correct:0,total:0,timeLeft:SPRINT_SECONDS};
+    if(sprintTimer) clearInterval(sprintTimer);
+    sprintTimer=setInterval(tickSprint,1000);
+  }
 }
-function exitReels(){ let ov=$('#reels-overlay'); ov.classList.remove('on'); ov.innerHTML=''; document.body.style.overflow=''; if(reelIO){reelIO.disconnect();reelIO=null;} activeReelEl=null; renderHome(); go('home'); }
+function tickSprint(){
+  if(!sprintState) return;
+  sprintState.timeLeft--;
+  let clock=$('#sprint-clock'); if(clock) clock.textContent=Math.max(0,sprintState.timeLeft);
+  if(sprintState.timeLeft<=0) endSprint();
+}
+function endSprint(){
+  if(sprintTimer){ clearInterval(sprintTimer); sprintTimer=null; }
+  sprintMode=false;
+  let s=sprintState; if(!s) return;
+  let acc = s.total ? Math.round(100*s.correct/s.total) : 0;
+  let msg = acc>=85?'¡Impresionante velocidad! 🚀':acc>=60?'¡Muy bien! 💪':'¡Sigue practicando! 📈';
+  let ov=$('#reels-overlay');
+  ov.innerHTML=`
+    <div class="reel-top"><div>🏃 Fluency Sprint</div><button class="reel-x" onclick="exitReels()">✕</button></div>
+    <div class="reel-scroll">
+      <div class="reel" style="height:100%;background:linear-gradient(160deg,#f7971e,#ffd200)">
+        <div class="reel-cat">⏱️ Tiempo terminado</div>
+        <div class="reel-prompt" style="font-size:26px">${msg}</div>
+        <div style="font-size:56px;font-weight:800;margin-bottom:10px">${s.correct} / ${s.total}</div>
+        <div style="font-size:18px;opacity:.9;margin-bottom:26px">${acc}% de precisión</div>
+        <div class="reel-opts">
+          <button class="reel-opt" onclick="startReels('sprint')">🔁 Otro sprint</button>
+          <button class="reel-opt" onclick="exitReels()">✓ Terminar</button>
+        </div>
+      </div>
+    </div>`;
+  sprintState=null;
+}
+function exitReels(){
+  let ov=$('#reels-overlay'); ov.classList.remove('on'); ov.innerHTML=''; document.body.style.overflow='';
+  if(reelIO){reelIO.disconnect();reelIO=null;}
+  if(sprintTimer){ clearInterval(sprintTimer); sprintTimer=null; }
+  sprintMode=false; sprintState=null; activeReelEl=null; renderHome(); go('home');
+}
 function reelNext(reel){ let nx=reel&&reel.nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); }
 function reelSkip(){ if(activeReelEl) reelNext(activeReelEl); }
 function reelXPFloat(){ let ov=$('#reels-overlay'); let f=document.createElement('div'); f.className='reel-xpfloat'; f.textContent='+10'; ov.appendChild(f); setTimeout(()=>f.remove(),1000); }
@@ -1700,8 +2026,11 @@ function reelAnswer(cid,btn,val){
   reel.querySelectorAll('.reel-opt').forEach(b=>{ if(b.textContent===c.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
   let blank=reel.querySelector('.reel-blank'); if(blank)blank.textContent=c.answer;
   let fb=document.getElementById('fb-'+cid); fb.textContent = good ? rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Eso es! 🔥','¡Muy bien! 👏']) : '✗  '+c.answer;
+  if(sprintState){ sprintState.total++; if(good) sprintState.correct++; }
+  else reelSpeakBtn(cid,c.es);
   srsGrade(c.srsId,good); bump(good);
-  if(good){ reelXPFloat(); setTimeout(()=>reelNext(reel),850); }
+  if(sprintState){ setTimeout(()=>reelNext(reel),good?450:650); }
+  else if(good){ reelXPFloat(); setTimeout(()=>reelNext(reel),850); }
   else { document.getElementById('up-'+cid).classList.add('show'); }
 }
 document.addEventListener('keydown',e=>{
@@ -1713,6 +2042,7 @@ document.addEventListener('keydown',e=>{
 
 /* ============ INIT ============ */
 buildPools();
+loadClozeData();
 renderHome();
 </script>
 </body>
