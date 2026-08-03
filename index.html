@@ -3,2097 +3,477 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f7f3e9">
-<meta name="description" content="A playful, personal Spanish practice space for vocabulary, grammar, verbs, and everyday conversation.">
-<title>¡Aprende Español! — Práctica</title>
+<meta name="theme-color" content="#0b0e14">
+<meta name="description" content="Sepehr Aflatounian — Software Engineer & Founder. Security & fraud at EQ Bank, AI platforms for healthcare at LEYOXA, full-stack & mobile engineering.">
+<title>Sepehr Aflatounian — Software Engineer & Founder</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0f1226; --panel:#1a1f3d; --panel2:#232a52; --line:rgba(255,255,255,.1);
-    --txt:#f3f4fb; --muted:#a6acd6; --accent:#ff5d8f; --accent2:#5b8cff;
-    --good:#3ddc97; --bad:#ff6b6b; --warn:#ffcf5c; --radius:16px;
+    --bg:#0a0d12; --bg2:#0d1219; --panel:#121722; --panel2:#171e2c; --line:rgba(255,255,255,.08);
+    --txt:#eef1f7; --muted:#8b93a7; --muted2:#5c6478;
+    --accent:#7c9fff; --accent2:#ff8a5c; --good:#5be59a;
+    --radius:18px; --maxw:1080px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:
-    radial-gradient(1200px 600px at 10% -10%,#2a2160 0%,transparent 60%),
-    radial-gradient(1000px 500px at 100% 0%,#1d3a6e 0%,transparent 55%),
-    var(--bg);color:var(--txt);min-height:100vh;line-height:1.5}
-  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 80px}
-  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
-  .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
-  .brand .logo{font-size:30px}
-  .brand h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
-  .brand p{font-size:12px;color:var(--muted)}
-  .pill{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--muted);display:flex;gap:14px;align-items:center}
-  .pill b{color:var(--txt)}
-  .hide{display:none!important}
-
-  /* HOME */
-  .hero{background:linear-gradient(135deg,#ff5d8f22,#5b8cff22);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:26px}
-  .hero h2{font-size:24px;margin-bottom:6px}
-  .hero p{color:var(--muted);font-size:15px}
-  .section-title{font-size:14px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:26px 4px 14px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.18s;position:relative;overflow:hidden}
-  .card:hover{transform:translateY(-4px);border-color:var(--accent2)}
-  .card .emoji{font-size:34px;display:block;margin-bottom:10px}
-  .card h3{font-size:18px;margin-bottom:5px}
-  .card p{font-size:13px;color:var(--muted)}
-  .card .bar{height:6px;border-radius:999px;background:var(--panel2);margin-top:14px;overflow:hidden}
-  .card .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--good),var(--accent2));width:0}
-  .card .tag{position:absolute;top:14px;right:14px;font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted)}
-  .card.special{background:linear-gradient(135deg,#ff5d8f33,#7b5bff33);border-color:#ff5d8f55}
-
-  /* BUTTONS */
-  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:11px 18px;font-size:15px;cursor:pointer;transition:.15s;font-family:inherit}
-  .btn:hover{border-color:var(--accent2)}
-  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff7eaa);border:none;font-weight:600}
-  .btn.ghost{background:transparent}
-  .btn:active{transform:scale(.97)}
-  .back{color:var(--muted);font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;margin-bottom:18px}
-  .back:hover{color:var(--txt)}
-
-  /* MODE SELECT */
-  .modes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:18px}
-  .mode{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;cursor:pointer;transition:.15s;text-align:center}
-  .mode:hover{transform:translateY(-3px);border-color:var(--accent)}
-  .mode .ic{font-size:30px;margin-bottom:8px}
-  .mode h4{font-size:16px;margin-bottom:4px}
-  .mode p{font-size:12px;color:var(--muted)}
-
-  /* QUIZ */
-  .quizbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;margin-top:8px}
-  .progressrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-  .progressrow .track{flex:1;height:8px;background:var(--panel2);border-radius:999px;overflow:hidden}
-  .progressrow .track i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}
-  .progressrow .qn{font-size:13px;color:var(--muted);white-space:nowrap}
-  .context{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:10px}
-  .prompt{font-size:24px;font-weight:600;margin-bottom:8px;line-height:1.4}
-  .translation{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:22px}
-  .blank{display:inline-block;min-width:120px;border-bottom:3px solid var(--accent2);color:var(--accent2);text-align:center;padding:0 6px}
-  input.answer{font-size:20px;font-family:inherit;background:var(--panel2);border:2px solid var(--line);border-radius:12px;color:var(--txt);padding:12px 16px;width:100%;max-width:340px;outline:none}
-  input.answer:focus{border-color:var(--accent2)}
-  input.answer.correct{border-color:var(--good);color:var(--good)}
-  input.answer.wrong{border-color:var(--bad);color:var(--bad)}
-  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-  .opt{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:15px;font-size:17px;cursor:pointer;text-align:center;transition:.12s;font-family:inherit;color:var(--txt)}
-  .opt:hover:not(:disabled){border-color:var(--accent2)}
-  .opt.correct{border-color:var(--good);background:#3ddc9722;color:var(--good)}
-  .opt.wrong{border-color:var(--bad);background:#ff6b6b22;color:var(--bad)}
-  .opt:disabled{cursor:default}
-  .feedback{min-height:26px;margin:20px 0 4px;font-size:16px;font-weight:600}
-  .feedback.good{color:var(--good)}
-  .feedback.bad{color:var(--bad)}
-  .qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}
-  .swatch{width:100%;height:90px;border-radius:12px;margin-bottom:20px;border:1px solid var(--line)}
-
-  /* MATCH */
-  .matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:10px}
-  .mcol{display:flex;flex-direction:column;gap:10px}
-  .mitem{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:14px;font-size:16px;cursor:pointer;text-align:center;transition:.12s}
-  .mitem:hover{border-color:var(--accent2)}
-  .mitem.sel{border-color:var(--accent);background:#ff5d8f22}
-  .mitem.done{border-color:var(--good);background:#3ddc9722;color:var(--good);cursor:default;opacity:.65}
-  .mitem.flash{border-color:var(--bad);background:#ff6b6b22}
-
-  /* RESULTS */
-  .results{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:40px 26px}
-  .results .big{font-size:64px;margin-bottom:8px}
-  .results h2{font-size:26px;margin-bottom:6px}
-  .results .score{font-size:46px;font-weight:700;background:linear-gradient(135deg,var(--good),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:10px 0}
-  .results p{color:var(--muted);margin-bottom:24px}
-  .rbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-  /* confetti */
-  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
-
-  /* verbs tense pills */
-  .tenses{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-  .tbtn{font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer}
-  .tbtn.active{background:var(--accent);color:#fff;border-color:transparent}
-  @media(max-width:560px){.matchgrid{gap:14px}.prompt{font-size:20px}.brand p{display:none}}
-  .reel-speak-inline{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:999px;width:26px;height:26px;font-size:13px;cursor:pointer;vertical-align:middle;margin-left:4px}
-  .reel-speak-inline:hover{background:var(--accent2)}
-
-  /* ===== REELS ===== */
-  #reels-overlay{position:fixed;inset:0;z-index:1000;background:#000;display:none}
-  #reels-overlay.on{display:block}
-  .reel-scroll{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .reel-scroll::-webkit-scrollbar{display:none}
-  .reel{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:70px 22px 96px;position:relative;color:#fff;text-align:center}
-  .reel-cat{position:absolute;top:58px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;opacity:.9;font-weight:600}
-  .reel-speak{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;width:46px;height:46px;font-size:20px;cursor:pointer;margin-bottom:14px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-  .reel-speak:active{transform:scale(.92)}
-  .reel-en{font-size:16px;opacity:.92;font-style:italic;margin-bottom:16px;max-width:440px;line-height:1.4}
-  .reel-prompt{font-size:30px;font-weight:700;line-height:1.35;margin-bottom:30px;max-width:500px;text-shadow:0 2px 16px rgba(0,0,0,.3)}
-  .reel-big{font-size:74px}
-  .reel-blank{display:inline-block;min-width:80px;border-bottom:4px solid rgba(255,255,255,.9);padding:0 8px}
-  .reel-swatch{width:150px;height:150px;border-radius:26px;margin-bottom:26px;box-shadow:0 10px 36px rgba(0,0,0,.35);border:3px solid rgba(255,255,255,.6)}
-  .reel-opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:380px}
-  .reel-opt{background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.4);color:#fff;border-radius:16px;padding:16px;font-size:19px;font-weight:600;cursor:pointer;transition:.13s;font-family:inherit;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-  .reel-opt:hover:not(:disabled){background:rgba(255,255,255,.3);transform:scale(1.02)}
-  .reel-opt:active{transform:scale(.97)}
-  .reel-opt.correct{background:#fff;color:#168a48;border-color:#fff}
-  .reel-opt.wrong{background:rgba(0,0,0,.28);border-color:rgba(255,255,255,.5);opacity:.55;text-decoration:line-through}
-  .reel-opt:disabled{cursor:default}
-  .reel-fb{min-height:30px;height:30px;margin-top:18px;font-size:21px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.3)}
-  /* Typed production card */
-  .reel-typebox{width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px}
-  .reel-type-input{width:100%;font-size:22px;font-family:inherit;text-align:center;padding:15px 16px;border-radius:16px;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.14);color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);outline:none}
-  .reel-type-input::placeholder{color:rgba(255,255,255,.55)}
-  .reel-type-input:focus{border-color:#fff;background:rgba(255,255,255,.22)}
-  .reel-typebox.good .reel-type-input{border-color:#fff;background:#fff;color:#168a48;font-weight:700}
-  .reel-typebox.bad .reel-type-input{border-color:rgba(255,255,255,.5);background:rgba(0,0,0,.28);opacity:.7;text-decoration:line-through}
-  .reel-accents{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-  .accent-btn{background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:10px;width:38px;height:38px;font-size:17px;font-family:inherit;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-  .accent-btn:active{transform:scale(.92)}
-  .r-check-btn{background:rgba(255,255,255,.9);color:#111;border:none;border-radius:16px;padding:15px;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit}
-  .r-check-btn:disabled{opacity:.5;cursor:default}
-  .reel-up{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:14px;opacity:0;transition:.3s;font-weight:600}
-  .reel-up.show{opacity:.95;animation:bob 1.3s infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-  .reel-top{position:absolute;top:0;left:0;right:0;z-index:1002;display:flex;justify-content:space-between;align-items:center;padding:16px 18px;color:#fff;font-size:16px;font-weight:700}
-  .reel-x{font-size:22px;cursor:pointer;background:rgba(0,0,0,.25);border:none;color:#fff;width:38px;height:38px;border-radius:50%;line-height:1}
-  .reel-rail{position:absolute;right:14px;bottom:104px;z-index:1002;display:flex;flex-direction:column;gap:22px;align-items:center;color:#fff}
-  .reel-rail .ra{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-size:12px;font-weight:700}
-  .reel-rail .ra .ic{font-size:30px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
-  .reel-xpfloat{position:absolute;right:26px;bottom:160px;color:#fff;font-size:30px;font-weight:800;z-index:1003;pointer-events:none;text-shadow:0 2px 10px rgba(0,0,0,.4);animation:floatup 1s ease-out forwards}
-  @keyframes floatup{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
-  @media(max-width:560px){.reel-prompt{font-size:25px}.reel-big{font-size:60px}}
-</style>
-<style>
-  /* 2026 visual refresh — warm, tactile, and focused */
-  :root{
-    --bg:#f7f3e9;--panel:#fffdf8;--panel2:#f1ecdf;--line:#ddd6c7;
-    --txt:#19352f;--muted:#6d7c75;--accent:#ed654b;--accent2:#176b5b;
-    --good:#16866f;--bad:#c9483c;--warn:#f3b742;--radius:22px;
-    --ink:#19352f;--cream:#f7f3e9;--coral:#ed654b;--green:#176b5b;
-    --lime:#c8da72;--sun:#f7c95c;--blue:#7ec9c3;
-    --shadow:0 18px 55px rgba(25,53,47,.09);--shadow-sm:0 8px 24px rgba(25,53,47,.07);
-  }
-  *{-webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
-  body{font-family:"DM Sans",sans-serif;background:
-    radial-gradient(circle at 2% 1%,rgba(247,201,92,.22),transparent 22rem),
-    radial-gradient(circle at 98% 18%,rgba(126,201,195,.17),transparent 26rem),var(--bg);
-    color:var(--txt);overflow-x:hidden}
-  body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;z-index:-1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E")}
-  button,input{font:inherit}
-  .wrap{max-width:1180px;padding:22px 28px 96px}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);
+    line-height:1.6;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:-1;
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(124,159,255,.16), transparent 60%),
+      radial-gradient(700px 500px at 100% 10%, rgba(255,138,92,.10), transparent 55%),
+      var(--bg)}
+  h1,h2,h3,.logo{font-family:'Space Grotesk',sans-serif}
+  .mono{font-family:'JetBrains Mono',monospace}
+  a{color:inherit}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  img{max-width:100%}
 
-  header.top{margin:0 0 34px;padding:10px 0 18px;border-bottom:1px solid rgba(25,53,47,.12);position:relative;z-index:20}
-  .brand{gap:11px}
-  .brand .logo{display:grid;place-items:center;width:44px;height:44px;background:var(--green);border-radius:14px;font-size:23px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12);transform:rotate(-3deg);transition:.25s ease}
-  .brand:hover .logo{transform:rotate(5deg) scale(1.05)}
-  .brand h1{font-family:"Fraunces",serif;font-size:21px;letter-spacing:-.45px}
-  .brand p{font-size:11px;text-transform:uppercase;letter-spacing:1.3px;color:var(--muted);font-weight:700}
-  .top-actions{display:flex;align-items:center;gap:12px}
-  .nav-link{border:0;background:transparent;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;padding:9px 6px;transition:.2s}
-  .nav-link:hover{color:var(--green)}
-  .pill{background:rgba(255,253,248,.78);border:1px solid var(--line);box-shadow:0 5px 16px rgba(25,53,47,.05);padding:8px 13px;color:var(--muted);gap:10px;font-size:12px;backdrop-filter:blur(12px)}
-  .pill b{color:var(--ink)}
-  .stat-sep{width:1px;height:17px;background:var(--line)}
+  /* ===== Nav ===== */
+  nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(10,13,18,.72);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+  .logo{font-weight:700;font-size:17px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;text-decoration:none}
+  .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+  .navlinks{display:flex;align-items:center;gap:6px}
+  .navlinks a{font-size:14px;color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:9px;transition:.15s;font-weight:500}
+  .navlinks a:hover{color:var(--txt);background:var(--panel2)}
+  .navlinks a.cta{color:var(--bg);background:var(--txt);font-weight:600;margin-left:6px}
+  .navlinks a.cta:hover{background:var(--accent);color:#fff}
+  .hamburger{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:8px}
+  .hamburger span{width:22px;height:2px;background:var(--txt);border-radius:2px}
+  .mobile-menu{display:none}
 
-  .hero{position:relative;background:var(--green);border:0;border-radius:32px;padding:0;min-height:390px;margin:0 0 46px;overflow:hidden;box-shadow:var(--shadow);color:#fff}
-  .hero:before{content:"";position:absolute;width:440px;height:440px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-85px;top:-170px;box-shadow:0 0 0 55px rgba(255,255,255,.035),0 0 0 110px rgba(255,255,255,.025)}
-  .home-hero{display:grid;grid-template-columns:1.06fr .94fr;align-items:stretch}
-  .hero-copy{padding:52px 24px 48px 54px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.09);border-radius:999px;text-transform:uppercase;letter-spacing:1.6px;font-size:10px;font-weight:700;margin-bottom:20px}
-  .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(200,218,114,.15)}
-  .hero h2{font-family:"Fraunces",serif;font-size:clamp(40px,5vw,66px);line-height:.98;letter-spacing:-2.7px;max-width:660px;margin:0 0 20px;font-weight:600}
-  .hero h2 em{color:var(--lime);font-style:italic}
-  .hero p{font-size:16px;line-height:1.65;color:rgba(255,255,255,.74);max-width:520px;margin:0}
-  .due-note,.streak-note{font-size:14px;font-weight:700;margin:12px 0 0;color:var(--lime)}
-  .streak-note{color:rgba(255,255,255,.78);font-weight:600}
-  .hero-actions{display:flex;align-items:center;gap:13px;margin-top:28px;flex-wrap:wrap}
-  .hero .btn.primary{background:var(--lime);color:var(--ink);box-shadow:inset 0 -3px 0 rgba(25,53,47,.18),0 10px 28px rgba(0,0,0,.16)}
-  .hero .btn.ghost{border-color:rgba(255,255,255,.25);color:#fff}
-  .hero .btn.ghost:hover{background:rgba(255,255,255,.08)}
-  .hero-visual{position:relative;min-height:390px;display:grid;place-items:center;z-index:2}
-  .study-orbit{width:280px;height:280px;border-radius:50%;background:var(--sun);position:relative;display:grid;place-items:center;box-shadow:0 25px 70px rgba(0,0,0,.23);animation:softFloat 5.5s ease-in-out infinite}
-  .study-orbit:before{content:"";position:absolute;inset:19px;border-radius:50%;border:1px dashed rgba(25,53,47,.28);animation:slowSpin 28s linear infinite}
-  .study-face{font-size:105px;filter:drop-shadow(0 11px 6px rgba(25,53,47,.14));transform:rotate(-4deg)}
-  .word-chip{position:absolute;background:var(--panel);color:var(--ink);border:1px solid rgba(25,53,47,.12);border-radius:14px;padding:10px 13px;box-shadow:0 10px 26px rgba(0,0,0,.14);font-size:12px;font-weight:800;white-space:nowrap;animation:chipFloat 4s ease-in-out infinite}
-  .word-chip small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
-  .chip-one{top:39px;left:-38px;transform:rotate(-7deg)}
-  .chip-two{right:-42px;top:95px;animation-delay:-1.4s;transform:rotate(6deg)}
-  .chip-three{bottom:23px;left:-19px;animation-delay:-2.8s;transform:rotate(3deg)}
-  .spark{position:absolute;color:var(--lime);font-size:27px;animation:twinkle 2.5s ease-in-out infinite}.spark.s1{right:5%;top:14%}.spark.s2{left:5%;bottom:18%;animation-delay:-1.2s;font-size:18px}
-  @keyframes softFloat{50%{transform:translateY(-9px) rotate(1deg)}}
-  @keyframes chipFloat{50%{translate:0 -8px}}
-  @keyframes slowSpin{to{transform:rotate(360deg)}}
-  @keyframes twinkle{50%{transform:scale(.65) rotate(18deg);opacity:.45}}
+  /* ===== Hero ===== */
+  .hero{padding:100px 0 80px;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);
+    background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:7px 14px;border-radius:999px;margin-bottom:26px}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hero h1{font-size:clamp(38px,6vw,68px);font-weight:700;letter-spacing:-.03em;line-height:1.04;max-width:820px}
+  .hero h1 .accent{background:linear-gradient(100deg,var(--accent),#a9c0ff 60%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lede{font-size:19px;color:var(--muted);max-width:600px;margin:24px 0 36px;font-weight:400}
+  .hero .lede b{color:var(--txt);font-weight:600}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:12px;font-size:14.5px;font-weight:600;
+    text-decoration:none;cursor:pointer;border:1px solid var(--line);transition:.18s;font-family:inherit}
+  .btn.primary{background:var(--txt);color:var(--bg);border-color:transparent}
+  .btn.primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+  .btn.ghost{background:var(--panel2);color:var(--txt)}
+  .btn.ghost:hover{border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .hero-stats div{background:var(--panel);padding:20px 18px}
+  .hero-stats b{display:block;font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--txt)}
+  .hero-stats span{font-size:12.5px;color:var(--muted);font-weight:500}
 
-  .home-section{margin-top:46px}
-  .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 4px 18px}
-  .section-title{margin:0;color:var(--ink);font-family:"Fraunces",serif;font-size:29px;line-height:1;text-transform:none;letter-spacing:-.7px;font-weight:600}
-  .section-kicker{display:block;color:var(--coral);font-family:"DM Sans",sans-serif;text-transform:uppercase;letter-spacing:1.8px;font-size:10px;font-weight:800;margin-bottom:9px}
-  .section-note{font-size:13px;color:var(--muted)}
-  .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
-  .card{background:rgba(255,253,248,.88);border:1px solid var(--line);border-radius:22px;padding:21px;min-height:210px;box-shadow:0 1px 0 rgba(255,255,255,.9);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;isolation:isolate;text-align:left;color:inherit;font:inherit;width:100%}
-  .card:before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,transparent 45%,rgba(255,255,255,.75) 52%,transparent 59%);transform:translateX(-120%);transition:transform .65s;z-index:-1}
-  .card:hover{transform:translateY(-7px);border-color:rgba(23,107,91,.38);box-shadow:var(--shadow-sm)}
-  .card:hover:before{transform:translateX(120%)}
-  .card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:26px}
-  .card .emoji{display:grid;place-items:center;width:54px;height:54px;border-radius:17px;background:#e8f2e9;font-size:26px;margin:0;box-shadow:inset 0 -2px 0 rgba(25,53,47,.07);transition:.25s}
-  .card:nth-child(3n+2) .emoji{background:#fff0d2}.card:nth-child(3n+3) .emoji{background:#f8ded7}
-  .card:hover .emoji{transform:rotate(-6deg) scale(1.08)}
-  .card h3{font-family:"Fraunces",serif;font-size:20px;line-height:1.14;letter-spacing:-.25px;margin-bottom:7px}
-  .card p{font-size:12px;line-height:1.55;color:var(--muted);max-width:29ch}
-  .card .tag{position:static;background:transparent;border:0;padding:3px 0;color:var(--green);font-size:9px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800}
-  .card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px;margin-top:18px;font-size:11px;color:var(--muted);font-weight:700}
-  .card-arrow{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--panel2);color:var(--green);transition:.2s}
-  .card:hover .card-arrow{background:var(--green);color:#fff;transform:translateX(3px)}
-  .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:17px}
-  .feature-card{min-height:255px;border:0;color:#fff;padding:27px;display:flex;flex-direction:column;justify-content:space-between}
-  .feature-card:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-65px;bottom:-80px;border:35px solid rgba(255,255,255,.08);z-index:-1}
-  .feature-card.vocab{background:#277f70}.feature-card.grammar{background:#d65b44}
-  .feature-card.sprint{background:#b9791a}.feature-card.shadow{background:#3f6b9e}.feature-card.write{background:#6b4fa0}
-  .feature-card h3{font-size:29px;color:#fff;max-width:11ch}.feature-card p{color:rgba(255,255,255,.72);max-width:43ch}
-  .feature-card .emoji{background:rgba(255,255,255,.15)}
-  .feature-card .tag{color:#fff;border:1px solid rgba(255,255,255,.25);padding:5px 8px;border-radius:99px}
-  .feature-card .card-foot{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.8)}
-  .feature-card .card-arrow{background:rgba(255,255,255,.16);color:#fff}
-  .verb-banner{background:var(--sun);border:1px solid rgba(25,53,47,.14);border-radius:24px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;cursor:pointer;transition:.25s;box-shadow:var(--shadow-sm)}
-  .verb-banner:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-  .verb-banner .emoji{font-size:38px}.verb-banner h3{font-family:"Fraunces",serif;font-size:24px;margin-bottom:4px}.verb-banner p{color:#59665e;font-size:13px}.verb-banner .btn{background:var(--ink);color:#fff;border:0}
+  /* ===== Sections ===== */
+  section{padding:90px 0}
+  section.tight{padding:70px 0}
+  .section-kicker{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+  .section-title{font-size:clamp(28px,4vw,38px);font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
+  .section-lede{color:var(--muted);font-size:16px;max-width:600px;margin-bottom:48px}
 
-  .lesson-hero{min-height:230px;padding:42px 44px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
-  .lesson-hero h2{font-size:45px;letter-spacing:-1.7px}.lesson-hero p{max-width:600px}
-  .back{color:var(--green);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:17px;padding:8px 0}
-  .back:hover{color:var(--coral);transform:translateX(-2px)}
-  .modes{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
-  .mode{background:var(--panel);border-color:var(--line);border-radius:20px;padding:24px;min-height:185px;text-align:left;box-shadow:0 1px 0 #fff;display:flex;flex-direction:column;align-items:flex-start}
-  .mode:hover{border-color:var(--green);transform:translateY(-5px);box-shadow:var(--shadow-sm)}
-  .mode .ic{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;background:#e5f0e9;font-size:24px;margin-bottom:23px}.mode h4{font-family:"Fraunces",serif;font-size:19px}.mode p{line-height:1.5}
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:start}
+  .about-grid p{color:var(--muted);font-size:16px;margin-bottom:16px}
+  .about-grid p b{color:var(--txt);font-weight:600}
+  .fact-list{display:grid;gap:14px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
+  .fact .ic{font-size:20px;flex-shrink:0}
+  .fact b{display:block;font-size:14px;margin-bottom:2px}
+  .fact span{font-size:13px;color:var(--muted)}
 
-  .quizbox,.results{background:var(--panel);border-color:var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow);max-width:840px;margin:8px auto 0}
-  .progressrow .track{height:9px;background:var(--panel2)}
-  .progressrow .track i{background:linear-gradient(90deg,var(--green),var(--lime));border-radius:99px}
-  .context{color:var(--coral);font-weight:800;letter-spacing:1.4px}
-  .prompt{font-family:"Fraunces",serif;font-size:28px;letter-spacing:-.5px}
-  .blank{border-color:var(--green);color:var(--green)}
-  input.answer{background:#faf7ef;border-color:var(--line);color:var(--ink)}input.answer:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(23,107,91,.08)}
-  .opts{gap:10px}.opt{background:#faf7ef;border:1px solid var(--line);color:var(--ink);font-weight:700}.opt:hover:not(:disabled){border-color:var(--green);background:#f0f5ed;transform:translateY(-2px)}
-  .opt.correct{border-color:var(--good);background:#e3f4ed;color:var(--good)}.opt.wrong{border-color:var(--bad);background:#fae7e2;color:var(--bad)}
-  .btn{border-radius:12px;font-weight:800;font-size:13px;padding:12px 17px}.btn.primary{background:var(--coral);box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}.btn:hover{border-color:var(--green);transform:translateY(-1px)}
-  .mitem{background:#faf7ef;border:1px solid var(--line);color:var(--ink);font-weight:700}.mitem:hover{border-color:var(--green)}.mitem.sel{border-color:var(--coral);background:#fae8e0}.mitem.done{background:#e3f4ed}
-  .tbtn{background:var(--panel);border-color:var(--line);color:var(--muted);font-weight:700}.tbtn.active{background:var(--green)}
-  .results .score{font-family:"Fraunces",serif;background:linear-gradient(135deg,var(--green),#5dac8d);-webkit-background-clip:text;background-clip:text}
+  /* Experience timeline */
+  .timeline{position:relative;padding-left:32px}
+  .timeline::before{content:'';position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--line),var(--line));}
+  .tl-item{position:relative;padding-bottom:40px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-dot{position:absolute;left:-32px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--panel);border:2px solid var(--accent)}
+  .tl-item.current .tl-dot{background:var(--good);border-color:var(--good);box-shadow:0 0 0 4px rgba(91,229,154,.15)}
+  .tl-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:6px}
+  .tl-role{font-size:19px;font-weight:700}
+  .tl-co{color:var(--accent);font-weight:600}
+  .tl-meta{font-size:13px;color:var(--muted2);margin-bottom:12px;font-family:'JetBrains Mono',monospace}
+  .tl-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--good);background:rgba(91,229,154,.12);border:1px solid rgba(91,229,154,.3);padding:2px 9px;border-radius:999px;margin-left:4px;text-transform:uppercase;letter-spacing:.03em}
+  .tl-bullets{list-style:none;display:grid;gap:8px}
+  .tl-bullets li{color:var(--muted);font-size:14.5px;padding-left:18px;position:relative}
+  .tl-bullets li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
+  .tl-more summary{cursor:pointer;color:var(--muted);font-size:13.5px;font-weight:600;margin-top:20px;list-style:none;display:flex;align-items:center;gap:6px}
+  .tl-more summary::-webkit-details-marker{display:none}
+  .tl-more summary .chev{transition:.2s}
+  .tl-more[open] summary .chev{transform:rotate(90deg)}
+  .tl-more .timeline{margin-top:24px}
+  .earlier-item{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .earlier-item:last-child{border-bottom:none}
+  .earlier-item b{font-size:14.5px}
+  .earlier-item .co{color:var(--muted);font-size:13.5px}
+  .earlier-item .when{color:var(--muted2);font-size:12.5px;font-family:'JetBrains Mono',monospace;white-space:nowrap}
 
-  .reel{font-family:"DM Sans",sans-serif}.reel-prompt{font-family:"Fraunces",serif}.reel-opt{backdrop-filter:blur(12px)}
+  /* Projects */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .proj-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:.2s;display:flex;flex-direction:column}
+  .proj-card:hover{transform:translateY(-4px);border-color:rgba(124,159,255,.35)}
+  .proj-card .tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:3px 10px;border-radius:999px;margin-bottom:14px;align-self:flex-start}
+  .proj-card h3{font-size:19px;margin-bottom:8px}
+  .proj-card p{color:var(--muted);font-size:14px;flex:1;margin-bottom:16px}
+  .proj-card .stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+  .proj-card .stack span{font-size:11.5px;font-family:'JetBrains Mono',monospace;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+  .proj-card .link{font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+  .proj-card .link:hover{gap:8px}
+  .proj-card.live{border-color:rgba(91,229,154,.25)}
 
-  @media(max-width:900px){
-    .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-hero{grid-template-columns:1fr}.hero-copy{padding:44px}.hero-visual{min-height:340px}.hero{min-height:auto}.feature-grid{grid-template-columns:1fr 1fr}.study-orbit{width:245px;height:245px}.study-face{font-size:90px}
+  /* Skills */
+  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:24px}
+  .skill-group h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted2);margin-bottom:14px;font-weight:700}
+  .skill-pills{display:flex;flex-wrap:wrap;gap:8px}
+  .skill-pills span{font-size:13.5px;font-weight:500;background:var(--panel);border:1px solid var(--line);color:var(--txt);padding:7px 13px;border-radius:9px}
+
+  /* Certs */
+  .cert-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .cert{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .cert .ic{font-size:24px;flex-shrink:0}
+  .cert b{display:block;font-size:14px;line-height:1.3}
+  .cert span{font-size:12px;color:var(--muted)}
+
+  /* Education */
+  .edu-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;gap:20px;align-items:center}
+  .edu-card .ic{font-size:36px}
+  .edu-card h3{font-size:19px;margin-bottom:4px}
+  .edu-card p{color:var(--muted);font-size:14px}
+
+  /* Contact / footer */
+  .contact-card{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:24px;padding:56px 40px;text-align:center;position:relative;overflow:hidden}
+  .contact-card::before{content:'';position:absolute;inset:0;background:radial-gradient(500px 260px at 50% -10%,rgba(124,159,255,.16),transparent 60%)}
+  .contact-card h2{font-size:clamp(26px,4vw,36px);margin-bottom:14px;position:relative}
+  .contact-card p{color:var(--muted);max-width:460px;margin:0 auto 30px;position:relative}
+  .contact-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+  footer{border-top:1px solid var(--line);padding:36px 0;margin-top:20px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  footer p{font-size:13px;color:var(--muted2)}
+  .foot-links{display:flex;gap:18px}
+  .foot-links a{font-size:13px;color:var(--muted);text-decoration:none;font-weight:500}
+  .foot-links a:hover{color:var(--accent)}
+
+  [data-reveal]{opacity:0;transform:translateY(16px);animation:reveal .7s cubic-bezier(.2,.7,.3,1) forwards;animation-play-state:paused}
+  [data-reveal].in{animation-play-state:running}
+  @keyframes reveal{to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:760px){
+    .navlinks{display:none}
+    .hamburger{display:flex}
+    .mobile-menu.open{display:flex}
+    .mobile-menu{position:fixed;inset:0;top:65px;background:var(--bg);z-index:99;flex-direction:column;padding:24px;gap:4px}
+    .mobile-menu a{padding:16px 8px;font-size:17px;color:var(--txt);text-decoration:none;border-bottom:1px solid var(--line);font-weight:600}
+    .hero{padding:56px 0 48px}
+    .hero-stats{grid-template-columns:1fr 1fr}
+    section{padding:60px 0}
+    .about-grid{grid-template-columns:1fr;gap:36px}
+    .timeline{padding-left:26px}
+    .tl-dot{left:-26px}
+    .contact-card{padding:40px 22px}
   }
-  @media(max-width:640px){
-    .wrap{padding:14px 15px 72px}.top{margin-bottom:22px}.nav-link{display:none}.pill{gap:7px;padding:7px 10px}.brand h1{font-size:18px}.brand .logo{width:40px;height:40px}
-    .hero{border-radius:25px;margin-bottom:34px}.hero-copy{padding:37px 25px 30px}.hero h2{font-size:42px;letter-spacing:-1.8px}.hero p{font-size:14px}.hero-visual{min-height:300px}.study-orbit{width:205px;height:205px}.study-face{font-size:76px}.chip-one{left:-30px}.chip-two{right:-28px}.word-chip{font-size:10px;padding:8px 10px}
-    .section-head{align-items:start}.section-title{font-size:25px}.section-note{display:none}.grid,.feature-grid{grid-template-columns:1fr}.card{min-height:185px}.feature-card{min-height:230px}.verb-banner{grid-template-columns:auto 1fr;padding:20px}.verb-banner .btn{grid-column:1/-1;justify-content:center}.home-section{margin-top:36px}
-    .lesson-hero{padding:32px 26px;min-height:210px}.lesson-hero h2{font-size:36px}.modes{grid-template-columns:1fr 1fr}.mode{min-height:155px;padding:18px}.mode .ic{margin-bottom:16px}
-    .quizbox,.results{padding:24px 18px;border-radius:22px}.qfoot{align-items:flex-end}.matchgrid{gap:10px}.mitem{padding:12px 8px;font-size:14px}.prompt{font-size:23px}
-  }
-  @media(max-width:390px){.modes{grid-template-columns:1fr}.hero h2{font-size:37px}.brand p{display:none}}
-  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap" id="practice-app">
-  <header class="top">
-    <div class="brand" onclick="go('home')">
-      <span class="logo">ñ</span>
-      <div><h1>Mi Español</h1><p>Your daily language studio</p></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact" class="cta">Get in touch</a>
     </div>
-    <div class="top-actions">
-      <button class="nav-link" onclick="startVerbs()">Verb studio</button>
-      <button class="nav-link" onclick="startReels('vocab')">Quick practice</button>
-      <div class="pill"><span>🔥 <b id="hdr-streak">0</b></span><i class="stat-sep"></i><span>✦ <b id="hdr-xp">0</b> XP</span></div>
+    <button class="hamburger" aria-label="Menu" onclick="document.getElementById('mmenu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mmenu">
+    <a href="#about" onclick="document.getElementById('mmenu').classList.remove('open')">About</a>
+    <a href="#experience" onclick="document.getElementById('mmenu').classList.remove('open')">Experience</a>
+    <a href="#projects" onclick="document.getElementById('mmenu').classList.remove('open')">Projects</a>
+    <a href="#skills" onclick="document.getElementById('mmenu').classList.remove('open')">Skills</a>
+    <a href="#contact" onclick="document.getElementById('mmenu').classList.remove('open')">Get in touch</a>
+  </div>
+</nav>
+
+<div id="top"></div>
+<header class="hero wrap">
+  <div class="eyebrow"><span class="pulse"></span> Open to interesting problems — currently building at EQ Bank & LEYOXA</div>
+  <h1>Software engineer building <span class="accent">secure, AI-driven products</span> — from bank fraud systems to dental-clinic platforms.</h1>
+  <p class="lede">I'm <b>Sepehr</b> — a Computer Engineer (UWaterloo) working in <b>security & fraud at EQ Bank</b>, and founder of <b>LEYOXA</b>, where I build AI-ready software for healthcare clinics. Past life in autonomous driving, ML, and mobile.</p>
+  <div class="hero-actions">
+    <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ Get in touch</a>
+    <a class="btn ghost" href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">📄 Résumé</a>
+    <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+  <div class="hero-stats" data-reveal>
+    <div><b>5+</b><span>years building software</span></div>
+    <div><b>4</b><span>Microsoft Azure certifications</span></div>
+    <div><b>3</b><span>years running LEYOXA</span></div>
+    <div><b>2</b><span>languages, native bilingual</span></div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-kicker">01 · About</div>
+    <h2 class="section-title">A bit about how I got here</h2>
+    <div class="about-grid">
+      <div data-reveal>
+        <p>I studied <b>Computer Engineering at the University of Waterloo</b> (2016–2021), where co-op took me through mobile engineering at a digital-health startup, backend work at Fleet Complete, and a research role applying spectral imaging to water-quality analysis.</p>
+        <p>After graduating I co-founded <b>SeedCI</b> (YC candidate), building unsupervised-learning cyberattack detection and a 97%-accurate real-estate price estimator, before moving into full-stack consulting at <b>Avanade</b> — shipping EV-charging features for Ford's FordPass app and automating cloud infrastructure that cut a client's costs by <b>$1M a year</b>.</p>
+        <p>Today I split my time between <b>security & fraud engineering at EQ Bank</b> — migrating auth infrastructure to Okta and shipping passkey support on iOS — and running <b>LEYOXA</b>, where I build AI-ready platforms and voice agents for dental clinics across North America.</p>
+      </div>
+      <div class="fact-list" data-reveal>
+        <div class="fact"><span class="ic">🎸</span><div><b>1st place, Javan Music Festival</b><span>Also taught guitar for a summer — music stuck around.</span></div></div>
+        <div class="fact"><span class="ic">🏀</span><div><b>Basketball intramurals</b><span>Waterloo campus league.</span></div></div>
+        <div class="fact"><span class="ic">🔬</span><div><b>4th place, Persian Young Physicist Tournament</b><span>Before engineering, there was physics.</span></div></div>
+        <div class="fact"><span class="ic">🌍</span><div><b>Native bilingual — English & Persian</b><span>Based in the Greater Toronto Area.</span></div></div>
+      </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- HOME -->
-  <section id="view-home"></section>
+<section id="experience">
+  <div class="wrap">
+    <div class="section-kicker">02 · Experience</div>
+    <h2 class="section-title">Where I've worked</h2>
+    <p class="section-lede">Security & fintech, healthcare AI, autonomous vehicles, and everything in between.</p>
 
-  <!-- LESSON MODE SELECT -->
-  <section id="view-lesson" class="hide"></section>
+    <div class="timeline">
+      <div class="tl-item current" data-reveal>
+        <div class="tl-dot"></div>
+        <div class="tl-head"><span class="tl-role">Software Engineer</span><span class="tl-co">· EQ Bank | Equitable Bank</span><span class="tl-badge">Current</span></div>
+        <div class="tl-meta">April 2025 — Present · Toronto, ON · Security & Fraud team</div>
+        <ul class="tl-bullets">
+          <li>Led migration of HID authentication to Okta Auth 2.0</li>
+          <li>Implemented Passkey support on iOS</li>
+        </ul>
+      </div>
 
-  <!-- QUIZ -->
-  <section id="view-quiz" class="hide"></section>
+      <div class="tl-item current" data-reveal>
+        <div class="tl-dot"></div>
+        <div class="tl-head"><span class="tl-role">Founder</span><span class="tl-co">· LEYOXA LLC</span><span class="tl-badge">Current</span></div>
+        <div class="tl-meta">May 2023 — Present · Texas, US · Healthcare AI platforms</div>
+        <ul class="tl-bullets">
+          <li>Help dental clinics grow by implementing AI-ready platforms and software</li>
+          <li>Built an AI voice agent + marketing (content & SEO) automation for DDS Marketing (Miami)</li>
+          <li>Shipped a mobile app + platform for Smile Link (Texas)</li>
+          <li>Built a clinic platform for Emergclinic (Toronto)</li>
+        </ul>
+      </div>
 
-  <!-- MATCH -->
-  <section id="view-match" class="hide"></section>
+      <div class="tl-item" data-reveal>
+        <div class="tl-dot"></div>
+        <div class="tl-head"><span class="tl-role">Full-Stack Developer</span><span class="tl-co">· Avanade</span></div>
+        <div class="tl-meta">Sep 2021 — May 2023 · Toronto, ON</div>
+        <ul class="tl-bullets">
+          <li>Client Ford — built the intelligent + manual EV charging feature in the FordPass iOS app</li>
+          <li>Designed a project-management tool with PowerApps and Power Automate</li>
+          <li>Automated cloud infrastructure with Terraform + Azure Resource Manager, cutting costs by <b>$1M/yr</b></li>
+        </ul>
+      </div>
 
-  <!-- RESULTS -->
-  <section id="view-results" class="hide"></section>
+      <div class="tl-item" data-reveal>
+        <div class="tl-dot"></div>
+        <div class="tl-head"><span class="tl-role">AI Engineer · Co-Founder</span><span class="tl-co">· SeedCI</span><span class="tl-badge" style="color:var(--accent2);background:rgba(255,138,92,.12);border-color:rgba(255,138,92,.3)">YC Candidate</span></div>
+        <div class="tl-meta">Jan 2021 — Sep 2021 · Kitchener, ON</div>
+        <ul class="tl-bullets">
+          <li>Client Ezsec — automated cyberattack-campaign detection with unsupervised learning (EVA platform)</li>
+          <li>Client Crelhub — built a real-estate image classifier (FastAI) and a 97%-accurate price estimator served via a Flask API</li>
+          <li>Built Splunk-based real-time monitoring for ML model performance and data drift</li>
+        </ul>
+      </div>
 
-  <!-- VERBS -->
-  <section id="view-verbs" class="hide"></section>
+      <details class="tl-more" data-reveal>
+        <summary><span class="chev">▸</span> Earlier roles — internships, research & summer jobs</summary>
+        <div class="earlier-item">
+          <div><b>Mobile Developer Intern</b> <span class="co">· Fleet Complete</span></div>
+          <div class="when">Jan – Apr 2020 · Toronto</div>
+        </div>
+        <div class="earlier-item">
+          <div><b>Mobile Developer Intern</b> <span class="co">· Stars Technologies Services</span></div>
+          <div class="when">Sep 2018 – Aug 2019 · Toronto</div>
+        </div>
+        <div class="earlier-item">
+          <div><b>Mobile Engineer Intern</b> <span class="co">· Aterica Digital Health</span></div>
+          <div class="when">Jan – Apr 2018 · Waterloo</div>
+        </div>
+        <div class="earlier-item">
+          <div><b>Research Assistant Intern</b> <span class="co">· University of Waterloo</span></div>
+          <div class="when">May – Aug 2017 · Waterloo</div>
+        </div>
+        <div class="earlier-item">
+          <div><b>Troubleshooter & Sales Rep</b> <span class="co">· Bell</span></div>
+          <div class="when">Apr – Jul 2016</div>
+        </div>
+        <div class="earlier-item">
+          <div><b>Lifeguard</b> <span class="co">· Superior Pools</span></div>
+          <div class="when">Jun – Sep 2015 · Toronto</div>
+        </div>
+        <div class="earlier-item">
+          <div><b>Guitar Instructor</b> <span class="co">· Private</span></div>
+          <div class="when">Jul – Sep 2014</div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
 
-  <!-- WRITING -->
-  <section id="view-writing" class="hide"></section>
+<section id="projects">
+  <div class="wrap">
+    <div class="section-kicker">03 · Projects</div>
+    <h2 class="section-title">Things I've built</h2>
+    <p class="section-lede">A mix of client work through LEYOXA and personal projects — including two live apps I built end-to-end.</p>
+    <div class="proj-grid">
 
-  <!-- SHADOWING -->
-  <section id="view-shadow" class="hide"></section>
-</div>
+      <div class="proj-card live" data-reveal>
+        <span class="tag">Live · Personal</span>
+        <h3>🇪🇸 Mi Español</h3>
+        <p>A gamified Spanish-learning app built from real class material — spaced repetition (FSRS), typed-answer drills with accent input, real sentences mined from Tatoeba, a timed "Fluency Sprint" mode, free-writing graded live by LanguageTool, and a shadowing/pronunciation trainer.</p>
+        <div class="stack"><span>Vanilla JS</span><span>FSRS SRS</span><span>Web Speech API</span><span>LanguageTool API</span></div>
+        <a class="link" href="spanish/" target="_blank" rel="noopener">Try it live →</a>
+      </div>
 
-<!-- REELS (full-screen overlay) -->
-<div id="reels-overlay"></div>
+      <div class="proj-card live" data-reveal>
+        <span class="tag">Live · Personal</span>
+        <h3>🇮🇷 Farsi Para Ti</h3>
+        <p>A companion app teaching Farsi in finglish (Latin script) to a Spanish speaker — with a pronunciation guide mapping Persian sounds to Spanish phonetics, reels-style practice, and terms of endearment.</p>
+        <div class="stack"><span>Vanilla JS</span><span>Spaced repetition</span></div>
+        <a class="link" href="farsi/" target="_blank" rel="noopener">Try it live →</a>
+      </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ts-fsrs/dist/index.umd.min.js"></script>
+      <div class="proj-card" data-reveal>
+        <span class="tag">LEYOXA · Client</span>
+        <h3>AI Voice Agent + Marketing</h3>
+        <p>Voice AI agent and content/SEO automation built for DDS Marketing (Miami), helping dental clinics handle inbound calls and grow organic reach.</p>
+        <div class="stack"><span>AI Agents</span><span>Voice</span><span>SEO</span></div>
+      </div>
+
+      <div class="proj-card" data-reveal>
+        <span class="tag">LEYOXA · Client</span>
+        <h3>Smile Link Platform</h3>
+        <p>Mobile app + backend platform for Smile Link (Texas), an AI-ready dental clinic system.</p>
+        <div class="stack"><span>Mobile</span><span>Platform</span></div>
+      </div>
+
+      <div class="proj-card" data-reveal>
+        <span class="tag">LEYOXA · Client</span>
+        <h3>Emergclinic Platform</h3>
+        <p>Clinic-management platform built for Emergclinic (Toronto).</p>
+        <div class="stack"><span>Full-stack</span><span>Healthcare</span></div>
+      </div>
+
+      <div class="proj-card" data-reveal>
+        <span class="tag">Avanade · Ford</span>
+        <h3>FordPass EV Charging</h3>
+        <p>Intelligent and manual charging scheduling for electric vehicles, shipped inside Ford's FordPass iOS app.</p>
+        <div class="stack"><span>iOS</span><span>Swift</span><span>EV</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="tight">
+  <div class="wrap">
+    <div class="section-kicker">04 · Skills</div>
+    <h2 class="section-title">Tools I reach for</h2>
+    <div class="skill-groups">
+      <div class="skill-group" data-reveal>
+        <h4>Security & Auth</h4>
+        <div class="skill-pills"><span>Auth0</span><span>Okta</span><span>Passkey / WebAuthn</span><span>OAuth 2.0</span><span>Fraud & Risk Systems</span></div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <h4>Backend & Cloud</h4>
+        <div class="skill-pills"><span>Spring Boot</span><span>Java</span><span>Python / Flask</span><span>Azure</span><span>Terraform</span><span>Splunk</span></div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <h4>Mobile</h4>
+        <div class="skill-pills"><span>Swift</span><span>Objective-C</span><span>iOS</span><span>Android</span></div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <h4>AI / ML</h4>
+        <div class="skill-pills"><span>FastAI</span><span>Unsupervised Learning</span><span>AI Voice Agents</span><span>Model Monitoring</span></div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <h4>Low-Code & Automation</h4>
+        <div class="skill-pills"><span>PowerApps</span><span>Power Automate</span><span>Power Platform</span></div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <h4>Frontend</h4>
+        <div class="skill-pills"><span>JavaScript</span><span>Vanilla JS Apps</span><span>Web APIs</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs" class="tight">
+  <div class="wrap">
+    <div class="section-kicker">05 · Certifications</div>
+    <h2 class="section-title">Microsoft Certified</h2>
+    <div class="cert-row">
+      <div class="cert" data-reveal><span class="ic">☁️</span><div><b>Azure Solutions Architect Expert</b><span>Microsoft Certified</span></div></div>
+      <div class="cert" data-reveal><span class="ic">🛠️</span><div><b>Azure Developer Associate</b><span>Microsoft Certified</span></div></div>
+      <div class="cert" data-reveal><span class="ic">📡</span><div><b>Azure IoT Developer Specialty</b><span>Microsoft Certified</span></div></div>
+      <div class="cert" data-reveal><span class="ic">⚡</span><div><b>Power Platform Fundamentals</b><span>Microsoft Certified</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="tight">
+  <div class="wrap">
+    <div class="section-kicker">06 · Education</div>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-card" data-reveal>
+      <span class="ic">🎓</span>
+      <div>
+        <h3>University of Waterloo</h3>
+        <p>Bachelor of Applied Science (BASc), Computer Engineering — 2016 to 2021. Scholarships from the University and PEng.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-card" data-reveal>
+      <h2>Let's build something.</h2>
+      <p>Whether it's security infrastructure, an AI product for healthcare, or something else entirely — I'd like to hear about it.</p>
+      <div class="contact-actions">
+        <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ saflatounian@gmail.com</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year"></span> Sepehr Aflatounian · Greater Toronto Area, Canada</p>
+    <div class="foot-links">
+      <a href="spanish/">Mi Español</a>
+      <a href="farsi/">Farsi</a>
+      <a href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+  </div>
+</footer>
+
 <script>
-/* ============ NUMBER -> SPANISH ============ */
-function numToSpanish(n){
-  const u=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
-  const tens={30:'treinta',40:'cuarenta',50:'cincuenta',60:'sesenta',70:'setenta',80:'ochenta',90:'noventa'};
-  const hund={100:'cien',200:'doscientos',300:'trescientos',400:'cuatrocientos',500:'quinientos',600:'seiscientos',700:'setecientos',800:'ochocientos',900:'novecientos',1000:'mil'};
-  if(n<=29) return u[n];
-  if(n<100){const t=Math.floor(n/10)*10,r=n%10;return r===0?tens[t]:tens[t]+' y '+u[r];}
-  if(n===100) return 'cien';
-  if(n<1000){const h=Math.floor(n/100)*100,r=n%100;const hw=h===100?'ciento':hund[h];return r===0?hund[h]:hw+' '+numToSpanish(r);}
-  return 'mil';
-}
-
-/* ============ LESSON DATA ============ */
-const LESSONS = [
-  {
-    id:'dias', emoji:'📅', title:'Días, Meses y Estaciones',
-    desc:'Days, months, seasons & dates',
-    modes:['fill','mc','match'],
-    match:[
-      {a:'Monday',b:'lunes'},{a:'Tuesday',b:'martes'},{a:'Wednesday',b:'miércoles'},
-      {a:'Thursday',b:'jueves'},{a:'Friday',b:'viernes'},{a:'Saturday',b:'sábado'},{a:'Sunday',b:'domingo'},
-      {a:'winter',b:'invierno'},{a:'spring',b:'primavera'},{a:'summer',b:'verano'},{a:'fall',b:'otoño'},
-      {a:'January',b:'enero'},{a:'July',b:'julio'},{a:'December',b:'diciembre'},
-      {a:'today',b:'hoy'},{a:'yesterday',b:'ayer'},{a:'tomorrow',b:'mañana'}
-    ],
-    bank:[
-      {p:'Hoy es martes, mañana es ___.', t:'tomorrow after Tuesday', a:'miércoles'},
-      {p:'Hoy es viernes, ayer fue ___.', t:'the day before Friday', a:'jueves'},
-      {p:'Los días del fin de semana son el sábado y el ___.', t:'the weekend', a:'domingo'},
-      {p:'El primer mes del año es ___.', t:'the first month', a:'enero'},
-      {p:'La estación de la nieve es el ___.', t:'season of snow', a:'invierno'},
-      {p:'La estación de las flores es la ___.', t:'season of flowers', a:'primavera'},
-      {p:'La estación del sol y el calor es el ___.', t:'season of sun & heat', a:'verano'},
-      {p:'La estación de las hojas que caen es el ___.', t:'season of falling leaves', a:'otoño'},
-      {p:'"Thursday" en español es ___.', t:'translate', a:'jueves'},
-      {p:'"September" en español es ___.', t:'translate', a:'septiembre'},
-      {p:'Hoy es 20 ___ marzo ___ 2024.', t:'preposition for dates', a:'de'},
-      {p:'¿Qué día es la clase? La clase es ___ lunes.', t:'article before days', a:'el'},
-      {p:'Después de mañana es pasado ___.', t:'day after tomorrow', a:'mañana'},
-      {p:'El mes después de junio es ___.', t:'after June', a:'julio'},
-      {p:'Año Nuevo es en ___.', t:'New Year month', a:'enero'}
-    ]
-  },
-  {
-    id:'numeros', emoji:'🔢', title:'Números y Colores',
-    desc:'Numbers 1–1000 & colors',
-    modes:['numbers','mc','match','swatch'],
-    match:[
-      {a:'green',b:'verde'},{a:'blue',b:'azul'},{a:'yellow',b:'amarillo'},{a:'red',b:'rojo'},
-      {a:'pink',b:'rosa'},{a:'orange',b:'naranja'},{a:'black',b:'negro'},{a:'white',b:'blanco'},
-      {a:'gray',b:'gris'},{a:'brown',b:'marrón'},{a:'purple',b:'violeta'}
-    ],
-    swatches:[
-      {hex:'#2ecc40',a:'verde'},{hex:'#0074d9',a:'azul'},{hex:'#ffdc00',a:'amarillo'},
-      {hex:'#ff4136',a:'rojo'},{hex:'#ff80cc',a:'rosa'},{hex:'#ff851b',a:'naranja'},
-      {hex:'#111111',a:'negro'},{hex:'#ffffff',a:'blanco'},{hex:'#aaaaaa',a:'gris'},
-      {hex:'#8b5a2b',a:'marrón'},{hex:'#b10dc9',a:'violeta'}
-    ],
-    bank:[
-      {p:'500 en español se escribe ___.', t:'number', a:'quinientos'},
-      {p:'1000 en español se escribe ___.', t:'number', a:'mil'},
-      {p:'200 en español se escribe ___.', t:'number', a:'doscientos'},
-      {p:'700 en español se escribe ___.', t:'number', a:'setecientos'},
-      {p:'100 en español se escribe ___.', t:'number', a:'cien'},
-      {p:'El color de la nieve es ___.', t:'color of snow', a:'blanco'},
-      {p:'El color del sol es ___.', t:'color of the sun', a:'amarillo'},
-      {p:'El color de la sangre es ___.', t:'color of blood', a:'rojo'}
-    ]
-  },
-  {
-    id:'pronombres', emoji:'🙋', title:'Pronombres Personales',
-    desc:'Subject pronouns & pronoun math',
-    modes:['fill','mc'],
-    bank:[
-      {p:'Yo + tú = ___', t:'pronoun math', a:'nosotros', opts:['nosotros','vosotros','ellos','ustedes']},
-      {p:'Él + ella = ___', t:'pronoun math', a:'ellos', opts:['ellos','ellas','nosotros','vosotros']},
-      {p:'Ella + ella = ___', t:'pronoun math', a:'ellas', opts:['ellas','ellos','nosotras','vosotras']},
-      {p:'Tú + tú = ___ (en España)', t:'pronoun math', a:'vosotros', opts:['vosotros','ustedes','nosotros','ellos']},
-      {p:'Usted + usted = ___', t:'pronoun math', a:'ustedes', opts:['ustedes','vosotros','nosotros','ellos']},
-      {p:'Mis amigos + yo = ___', t:'pronoun math', a:'nosotros', opts:['nosotros','ellos','vosotros','ustedes']},
-      {p:'___ trabajo todos los días.', t:'1st person singular', a:'yo', opts:['yo','tú','él','usted']},
-      {p:'___ bailan mucho. (2ª pl, España)', t:'you-all (Spain)', a:'vosotros', opts:['vosotros','ellos','nosotros','ustedes']},
-      {p:'¿Hablas ___ español?', t:'2nd person singular', a:'tú', opts:['tú','usted','yo','él']},
-      {p:'___ necesitamos vacaciones.', t:'1st person plural', a:'nosotros', opts:['nosotros','ellos','vosotros','ustedes']},
-      {p:'___ es hermana de Rosa.', t:'3rd sing. feminine', a:'ella', opts:['ella','él','usted','tú']},
-      {p:'___ puede entrar, por favor.', t:'formal you (singular)', a:'usted', opts:['usted','tú','él','vosotros']},
-      {p:'___ va a ser ingeniero.', t:'3rd sing. masculine', a:'él', opts:['él','ella','usted','yo']}
-    ]
-  },
-  {
-    id:'serestar', emoji:'⚖️', title:'Ser vs Estar',
-    desc:'Choose the right verb + conjugation',
-    modes:['mc','fill'],
-    bank:[
-      {p:'Medellín ___ en Colombia.', t:'location', a:'está', opts:['es','está']},
-      {p:'Rubén ___ peruano.', t:'nationality', a:'es', opts:['es','está']},
-      {p:'Rubén es peruano, pero ahora ___ en Buenos Aires.', t:'location', a:'está', opts:['es','está']},
-      {p:'¿Qué hora es? ___ las 2:00.', t:'telling time', a:'Son', opts:['Son','Están']},
-      {p:'Yo ___ periodista.', t:'profession', a:'soy', opts:['soy','estoy']},
-      {p:'Lucía ___ una chica muy alegre.', t:'permanent trait', a:'es', opts:['es','está']},
-      {p:'...pero últimamente ___ triste.', t:'temporary mood', a:'está', opts:['es','está']},
-      {p:'Este tiramisú ___ muy bien hecho.', t:'opinion/condition', a:'está', opts:['es','está']},
-      {p:'¡Cómo vuela el tiempo! Ya ___ en mayo.', t:'months', a:'estamos', opts:['somos','estamos']},
-      {p:'El banco ___ cerrado a esta hora.', t:'condition', a:'está', opts:['es','está']},
-      {p:'La charla ___ el martes en la sala Botero.', t:'event time', a:'es', opts:['es','está']},
-      {p:'El cuarto de Tula ___ azul.', t:'characteristic', a:'es', opts:['es','está']},
-      {p:'Esta manzana ___ mala, no voy a comerla.', t:'condition now', a:'está', opts:['es','está']},
-      {p:'Los zapatos ___ de mi hermano.', t:'possession', a:'son', opts:['son','están']},
-      {p:'Mañana ___ festivo. ¿Hay que trabajar?', t:'date', a:'es', opts:['es','está']},
-      {p:'Manu ___ muy nerviosa por su entrevista.', t:'emotion', a:'está', opts:['es','está']},
-      {p:'Pablo y yo ___ muy felices.', t:'mood', a:'estamos', opts:['somos','estamos']},
-      {p:'Los profesores ___ muy cansados hoy.', t:'physical state', a:'están', opts:['son','están']},
-      {p:'¿Dónde ___ el concierto de Shakira?', t:'event location', a:'es', opts:['es','está']},
-      {p:'(ser) Yo ___ de Uruguay.', t:'conjugate ser', a:'soy'},
-      {p:'(ser) Ana y yo ___ arquitectas.', t:'conjugate ser', a:'somos'},
-      {p:'(ser) Tú ___ inteligente.', t:'conjugate ser', a:'eres'},
-      {p:'(estar) Yo ___ cansado.', t:'conjugate estar', a:'estoy'},
-      {p:'(estar) Clara ___ en el trabajo.', t:'conjugate estar', a:'está'},
-      {p:'(estar) Ellos ___ de vacaciones.', t:'conjugate estar', a:'están'}
-    ]
-  },
-  {
-    id:'adjetivos', emoji:'🎨', title:'Ser + Adjetivos',
-    desc:'Describe people with adjectives',
-    modes:['fill','mc','match'],
-    match:[
-      {a:'tall',b:'alto'},{a:'short',b:'bajo'},{a:'good-looking',b:'guapo'},{a:'big',b:'grande'},
-      {a:'intelligent',b:'inteligente'},{a:'nice',b:'simpático'},{a:'good',b:'bueno'},
-      {a:'interesting',b:'interesante'},{a:'young',b:'joven'},{a:'old',b:'viejo'},
-      {a:'pretty',b:'bonita'},{a:'hard-working',b:'trabajadora'},{a:'thin',b:'delgado'}
-    ],
-    bank:[
-      {p:'Yo soy ___ (short, masc.) y simpático.', t:'short', a:'bajo'},
-      {p:'Tú eres ___ (interesting) y joven.', t:'interesting', a:'interesante'},
-      {p:'Ella es ___ (pretty) y trabajadora.', t:'pretty (fem.)', a:'bonita'},
-      {p:'Nosotros somos ___ (intelligent) y buenos.', t:'intelligent (pl.)', a:'inteligentes'},
-      {p:'El perro es ___ (black) y grande.', t:'black (masc.)', a:'negro'},
-      {p:'Mis padres son ___ (thin) y jóvenes.', t:'thin (pl.)', a:'delgados'},
-      {p:'La casa es ___ (big) y bonita.', t:'big (fem.)', a:'grande'},
-      {p:'Mi hermano es ___ (good-looking).', t:'good-looking (masc.)', a:'guapo'}
-    ]
-  },
-  {
-    id:'descripcion', emoji:'🧍', title:'Descripción Física',
-    desc:'Describe people with ser, tener & llevar',
-    modes:['fill','mc','match'],
-    match:[
-      {a:'tall',b:'alto/a'},{a:'short',b:'bajo/a'},{a:'fat',b:'gordo/a'},{a:'thin',b:'delgado/a'},
-      {a:'bald',b:'calvo/a'},{a:'young',b:'joven'},{a:'old',b:'mayor'},{a:'handsome',b:'guapo/a'},
-      {a:'curly hair',b:'pelo rizado'},{a:'straight hair',b:'pelo liso'},{a:'wavy hair',b:'pelo ondulado'},
-      {a:'blonde',b:'rubio/a'},{a:'brunette',b:'moreno/a'},{a:'redhead',b:'pelirrojo/a'},
-      {a:'blue eyes',b:'ojos azules'},{a:'brown eyes',b:'ojos marrones'},{a:'glasses',b:'lentes'},
-      {a:'beard',b:'barba'},{a:'moustache',b:'bigote'},{a:'goatee',b:'chivera'},
-      {a:'braids',b:'trenzas'},{a:'ponytail',b:'coleta'},{a:'earrings',b:'pendientes'},
-      {a:'shirt',b:'camisa'},{a:'jacket',b:'chaqueta'},{a:'dress',b:'vestido'},
-      {a:'boots',b:'botas'},{a:'hat',b:'sombrero'},{a:'scarf',b:'bufanda'}
-    ],
-    bank:[
-      {p:'Ella ___ alta y delgada. (permanent trait)', t:'ser for descriptions', a:'es', opts:['es','está','tiene','lleva']},
-      {p:'Él ___ el pelo rizado y castaño.', t:'tener for physical features', a:'tiene', opts:['tiene','es','está','lleva']},
-      {p:'Ella ___ lentes y trenzas.', t:'llevar for accessories', a:'lleva', opts:['lleva','tiene','es','está']},
-      {p:'La chica ___ morena con los ojos verdes.', t:'ser for color traits', a:'es', opts:['es','está','tiene','lleva']},
-      {p:'El niño ___ la nariz pequeña.', t:'tener for body parts', a:'tiene', opts:['tiene','es','lleva','está']},
-      {p:'Mi abuelo ___ calvo y mayor.', t:'physical description', a:'es', opts:['es','está','tiene','lleva']},
-      {p:'Ella ___ una chaqueta roja y botas negras.', t:'clothing', a:'lleva', opts:['lleva','tiene','es','usa']},
-      {p:'¿Cómo ___ él? — Es rubio y alto.', t:'asking for description', a:'es', opts:['es','está','tiene','lleva']},
-      {p:'Él ___ barba y bigote.', t:'facial hair', a:'tiene', opts:['tiene','lleva','es','está']},
-      {p:'Ella ___ el pelo recogido con una coleta.', t:'hair style', a:'lleva', opts:['lleva','tiene','es','usa']},
-      {p:'(llevar) Yo ___ una camiseta azul hoy.', t:'conjugate llevar - yo', a:'llevo'},
-      {p:'(llevar) Tú ___ jeans y zapatillas.', t:'conjugate llevar - tú', a:'llevas'},
-      {p:'(llevar) Ellos ___ traje a la reunión.', t:'conjugate llevar - ellos', a:'llevan'},
-      {p:'(tener) Nosotros ___ los ojos marrones.', t:'conjugate tener - nosotros', a:'tenemos'},
-      {p:'(tener) Ella ___ el pelo largo y ondulado.', t:'conjugate tener - ella', a:'tiene'},
-      {p:'Mi mamá ___ castaña y tiene pecas.', t:'ser for physical', a:'es', opts:['es','está','tiene','lleva']}
-    ]
-  },
-  {
-    id:'articulos', emoji:'📰', title:'Artículos Definidos',
-    desc:'el / la / los / las + llevar y tener',
-    modes:['fill','mc','match'],
-    match:[
-      {a:'el libro',b:'the book (masc.)'},{a:'la casa',b:'the house (fem.)'},
-      {a:'el hombre',b:'the man'},{a:'la mujer',b:'the woman'},
-      {a:'el carro',b:'the car'},{a:'la silla',b:'the chair'},
-      {a:'el gato',b:'the cat (masc.)'},{a:'la canción',b:'the song'},
-      {a:'los libros',b:'the books (pl.)'},{a:'las casas',b:'the houses (pl.)'},
-      {a:'el celular',b:'the phone'},{a:'la cama',b:'the bed'},
-      {a:'el mapa',b:'the map'},{a:'la universidad',b:'the university'}
-    ],
-    bank:[
-      {p:'___ carro es rojo.', t:'masculine singular', a:'El', opts:['El','La','Los','Las']},
-      {p:'___ mujer es alta.', t:'feminine singular', a:'La', opts:['La','El','Los','Las']},
-      {p:'___ libros son de papel.', t:'masculine plural', a:'Los', opts:['Los','Las','El','La']},
-      {p:'___ sillas son blancas.', t:'feminine plural', a:'Las', opts:['Las','Los','El','La']},
-      {p:'___ mapa está en la mesa.', t:'mapa is masculine!', a:'El', opts:['El','La','Los','Las']},
-      {p:'___ canción es muy bonita.', t:'feminine singular', a:'La', opts:['La','El','Los','Las']},
-      {p:'___ estudiante es inteligente.', t:'can be either gender', a:'El', opts:['El','La','Los','Las']},
-      {p:'___ gato es negro y grande.', t:'masculine singular', a:'El', opts:['El','La','Los','Las']},
-      {p:'___ luz está apagada.', t:'feminine singular', a:'La', opts:['La','El','Los','Las']},
-      {p:'(tener) Yo ___ hambre.', t:'conjugate tener - yo', a:'tengo'},
-      {p:'(tener) ¿Tú ___ frío?', t:'conjugate tener - tú', a:'tienes'},
-      {p:'(tener) Ella ___ veinte años.', t:'conjugate tener - ella', a:'tiene'},
-      {p:'(llevar) Yo ___ el uniforme al trabajo.', t:'conjugate llevar - yo', a:'llevo'},
-      {p:'(llevar) ¿___ tú el paraguas?', t:'conjugate llevar - tú', a:'Llevas'},
-      {p:'___ profesora lleva ___ falda verde.', t:'both articles', a:'La', opts:['La','El','Los','Las']},
-      {p:'___ balón es de los niños.', t:'masculine singular', a:'El', opts:['El','La','Los','Las']}
-    ]
-  },
-  {
-    id:'objetos', emoji:'🏠', title:'Objetos Comunes',
-    desc:'Everyday objects: house, city & country',
-    modes:['match','mc','fill'],
-    match:[
-      {a:'chair',b:'silla'},{a:'table',b:'mesa'},{a:'bed',b:'cama'},{a:'sofa',b:'sofá'},
-      {a:'lamp',b:'lámpara'},{a:'window',b:'ventana'},{a:'door',b:'puerta'},{a:'book',b:'libro'},
-      {a:'phone',b:'teléfono'},{a:'television',b:'televisión'},
-      {a:'car',b:'carro'},{a:'building',b:'edificio'},{a:'street',b:'calle'},{a:'shop',b:'tienda'},
-      {a:'park',b:'parque'},{a:'bus',b:'autobús'},{a:'traffic light',b:'semáforo'},{a:'bank',b:'banco'},
-      {a:'hospital',b:'hospital'},{a:'school',b:'escuela'},
-      {a:'flag',b:'bandera'},{a:'map',b:'mapa'},{a:'mountain',b:'montaña'},{a:'river',b:'río'},
-      {a:'beach',b:'playa'},{a:'government',b:'gobierno'},{a:'city',b:'ciudad'},{a:'border',b:'frontera'},
-      {a:'capital',b:'capital'},{a:'airport',b:'aeropuerto'}
-    ],
-    bank:[
-      {p:'En la sala ___ un sofá y una mesa.', t:'there is / there are', a:'hay', opts:['hay','es','son','está']},
-      {p:'Hay ___ lámpara en el escritorio.', t:'a (feminine)', a:'una', opts:['una','un','unos','unas']},
-      {p:'Hay ___ libros en la mesa.', t:'some (masculine)', a:'unos', opts:['unos','unas','un','una']},
-      {p:'Hay ___ ventanas en la sala.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
-      {p:'En la ciudad ___ muchos edificios.', t:'there are', a:'hay', opts:['hay','son','están','es']},
-      {p:'Hay ___ semáforo en la calle.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
-      {p:'El ___ está en el centro de la ciudad. (bank)', t:'the bank', a:'banco'},
-      {p:'La capital tiene ___ aeropuerto grande. (a, masc)', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']}
-    ]
-  },
-  {
-    id:'lugares', emoji:'🏨', title:'Lugares y Haber',
-    desc:'Places + hay + un / una / unos / unas',
-    modes:['mc','fill','match'],
-    match:[
-      {a:'desk',b:'escritorio'},{a:'computer',b:'computadora'},{a:'printer',b:'impresora'},
-      {a:'document',b:'documento'},{a:'calculator',b:'calculadora'},{a:'agenda',b:'agenda'},
-      {a:'animal',b:'animal'},{a:'elephant',b:'elefante'},{a:'tiger',b:'tigre'},{a:'lion',b:'león'},
-      {a:'giraffe',b:'jirafa'},{a:'kangaroo',b:'canguro'},{a:'crocodile',b:'cocodrilo'},{a:'statue',b:'estatua'},
-      {a:'cocktail',b:'cóctel'},{a:'beer',b:'cerveza'},{a:'wine',b:'vino'},{a:'glass',b:'vaso'},
-      {a:'bottle',b:'botella'},{a:'menu',b:'menú'},{a:'napkin',b:'servilleta'},{a:'client',b:'cliente'},
-      {a:'machine',b:'máquina'},{a:'bicycle',b:'bicicleta'},{a:'weight',b:'pesa'},{a:'muscle',b:'músculo'},
-      {a:'energy',b:'energía'},{a:'protein',b:'proteína'},{a:'treadmill',b:'cinta'}
-    ],
-    bank:[
-      {p:'¿Qué hay en la oficina? — ___ unas computadoras.', t:'there are', a:'Hay', opts:['Hay','Son','Están','Es']},
-      {p:'En el zoológico hay ___ elefante.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
-      {p:'En el bar hay ___ botellas.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
-      {p:'En el gimnasio hay ___ máquinas.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
-      {p:'Hay ___ león en la exhibición.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
-      {p:'En la oficina hay ___ impresora.', t:'a (feminine)', a:'una', opts:['una','un','unos','unas']},
-      {p:'¿___ un menú en la mesa?', t:'is there', a:'Hay', opts:['Hay','Es','Son','Está']},
-      {p:'En el gimnasio hay ___ bicicletas.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']},
-      {p:'En el bar hay ___ cliente esperando.', t:'a (masculine)', a:'un', opts:['un','una','unos','unas']},
-      {p:'Hay ___ estatuas en el parque.', t:'some (feminine)', a:'unas', opts:['unas','unos','una','un']}
-    ]
-  },
-  {
-    id:'preguntas', emoji:'❓', title:'Las Preguntas',
-    desc:'Question words + asking for personal info',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'¿Quién?',b:'who (singular)'},{a:'¿Quiénes?',b:'who (plural)'},
-      {a:'¿Dónde?',b:'where'},{a:'¿Cuándo?',b:'when'},
-      {a:'¿Por qué?',b:'why'},{a:'¿Qué?',b:'what'},
-      {a:'¿Cuál?',b:'which (sing.)'},{a:'¿Cuáles?',b:'which (pl.)'},
-      {a:'¿Cómo?',b:'how'},{a:'¿A qué hora?',b:'at what time'},
-      {a:'¿Cuánto?',b:'how much (masc.)'},{a:'¿Cuánta?',b:'how much (fem.)'},
-      {a:'¿Cuántos?',b:'how many (masc.)'},{a:'¿Cuántas?',b:'how many (fem.)'},
-      {a:'¿Cuál es tu apellido?',b:'Mi apellido es ___'},
-      {a:'¿De dónde eres?',b:'Soy de ___'},
-      {a:'¿Cuál es tu profesión?',b:'Soy ___'},
-      {a:'¿Cuál es tu correo?',b:'Mi correo es ___'}
-    ],
-    bank:[
-      {p:'¿___ es el presidente?', t:'who (person)', a:'Quién', opts:['Quién','Qué','Cuál','Cómo']},
-      {p:'¿___ son ellas?', t:'who (plural)', a:'Quiénes', opts:['Quiénes','Quién','Cuáles','Qué']},
-      {p:'¿___ toma ella?', t:'what (thing)', a:'Qué', opts:['Qué','Cuál','Quién','Cómo']},
-      {p:'¿___ deporte es tu favorito?', t:'which + noun', a:'Cuál', opts:['Cuál','Qué','Quién','Cómo']},
-      {p:'¿___ están ellos?', t:'where', a:'Dónde', opts:['Dónde','Cuándo','Cómo','Qué']},
-      {p:'¿___ es la fiesta?', t:'when', a:'Cuándo', opts:['Cuándo','Dónde','Por qué','Qué']},
-      {p:'¿___ hora es?', t:'what time', a:'Qué', opts:['Qué','Cuál','Cómo','Cuándo']},
-      {p:'¿___ años tienes?', t:'how many (masc.)', a:'Cuántos', opts:['Cuántos','Cuántas','Cuánto','Cuánta']},
-      {p:'¿___ personas vendrán?', t:'how many (fem.)', a:'Cuántas', opts:['Cuántas','Cuántos','Cuánto','Cuánta']},
-      {p:'¿___ dinero tienes?', t:'how much (masc.)', a:'Cuánto', opts:['Cuánto','Cuánta','Cuántos','Cuántas']},
-      {p:'¿___ gente vive aquí?', t:'how much (fem.)', a:'Cuánta', opts:['Cuánta','Cuánto','Cuántas','Cuántos']},
-      {p:'¿___ te llamas?', t:'what (name)', a:'Cómo', opts:['Cómo','Qué','Dónde','Cuál']},
-      {p:'¿___ es tu apellido?', t:'which + noun', a:'Cuál', opts:['Cuál','Qué','Cuáles','Cómo']},
-      {p:'¿___ estás enojada?', t:'why', a:'Por qué', opts:['Por qué','Cómo','Cuándo','Dónde']},
-      {p:'¿___ vives?', t:'where (asking address)', a:'Dónde', opts:['Dónde','Cuándo','Qué','Cómo']}
-    ]
-  },
-  {
-    id:'presente', emoji:'🌱', title:'Presente Simple: Regulares',
-    desc:'-ar / -er / -ir endings + the al / del contractions',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'to learn',b:'aprender'},{a:'to buy',b:'comprar'},{a:'to answer',b:'contestar'},
-      {a:'to have breakfast',b:'desayunar'},{a:'to rest',b:'descansar'},{a:'to send',b:'enviar'},
-      {a:'to call',b:'llamar'},{a:'to look / watch',b:'mirar'},{a:'to ask',b:'preguntar'},
-      {a:'to prepare',b:'preparar'},{a:'to return',b:'regresar'},{a:'to use',b:'usar'},
-      {a:'to sweep',b:'barrer'},{a:'to drink',b:'beber'},{a:'to believe',b:'creer'},
-      {a:'to owe / must',b:'deber'},{a:'to read',b:'leer'},{a:'to sell',b:'vender'},
-      {a:'to open',b:'abrir'},{a:'to write',b:'escribir'},{a:'to receive',b:'recibir'},
-      {a:'to go up',b:'subir'},{a:'to discuss',b:'discutir'},{a:'to attend',b:'asistir'}
-    ],
-    bank:[
-      {p:'(aprender) Yo ___ español todos los días.', t:'yo — er verb', a:'aprendo'},
-      {p:'(comprar) ¿Tú ___ ropa aquí?', t:'tú — ar verb', a:'compras'},
-      {p:'(leer) Ella ___ un libro.', t:'ella — er verb', a:'lee'},
-      {p:'(escribir) Ellos ___ correos.', t:'ellos — ir verb', a:'escriben'},
-      {p:'(desayunar) Yo ___ fruta cada mañana.', t:'yo — ar verb', a:'desayuno'},
-      {p:'(vender) Mi papá ___ carros.', t:'él — er verb', a:'vende'},
-      {p:'(recibir) Yo ___ muchos regalos.', t:'yo — ir verb', a:'recibo'},
-      {p:'(preguntar) ¿Por qué ___ tanto?', t:'tú — ar verb', a:'preguntas'},
-      {p:'(subir) Nosotros ___ las escaleras.', t:'nosotros — ir verb', a:'subimos'},
-      {p:'(beber) Nosotros ___ agua.', t:'nosotros — er verb', a:'bebemos'},
-      {p:'Voy ___ gimnasio.', t:'a + el = al', a:'al', opts:['al','del','a la','de la']},
-      {p:'Vengo ___ trabajo.', t:'de + el = del', a:'del', opts:['del','al','de la','a la']},
-      {p:'Voy ___ iglesia.', t:'a + la (feminine, no contraction)', a:'a la', opts:['a la','al','de la','del']},
-      {p:'Vengo ___ panadería.', t:'de + la (feminine, no contraction)', a:'de la', opts:['de la','del','a la','al']},
-      {p:'Voy ___ colegio.', t:'a + el = al', a:'al', opts:['al','a la','del','de la']},
-      {p:'Vengo ___ aeropuerto.', t:'de + el = del', a:'del', opts:['del','de la','al','a la']}
-    ]
-  },
-  {
-    id:'frecuencia', emoji:'⏰', title:'Adverbios de Frecuencia',
-    desc:'Siempre, a menudo, a veces, nunca… + word order',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'siempre',b:'always (100%)'},{a:'casi siempre',b:'almost always (95%)'},
-      {a:'a menudo',b:'often (75%)'},{a:'a veces',b:'sometimes (50%)'},
-      {a:'de vez en cuando',b:'once in a while (25%)'},{a:'rara vez',b:'rarely'},
-      {a:'casi nunca',b:'almost never (5%)'},{a:'nunca',b:'never (0%)'},
-      {a:'todos los días',b:'every day'},{a:'todas las semanas',b:'every week'},
-      {a:'cada mes',b:'each month'},{a:'una vez al mes',b:'once a month'},
-      {a:'dos veces a la semana',b:'twice a week'}
-    ],
-    bank:[
-      {p:'Juan ___ se afeita por la mañana. (subject present: goes between subject + verb)', t:'always', a:'siempre', opts:['siempre','nunca','a veces','a menudo']},
-      {p:'Medellín ___ es una ciudad bonita.', t:'always (100%)', a:'siempre', opts:['siempre','nunca','a veces','rara vez']},
-      {p:'Ellos chatean ___.', t:'often (75%) — no subject before verb, goes after', a:'a menudo', opts:['a menudo','nunca','siempre','casi nunca']},
-      {p:'Adriana bebe café ___.', t:'sometimes (50%)', a:'a veces', opts:['a veces','siempre','nunca','casi siempre']},
-      {p:'Yo ___ hago ejercicio.', t:'rarely', a:'rara vez', opts:['rara vez','siempre','a menudo','todos los días']},
-      {p:'Ellas ___ fuman.', t:'never (0%)', a:'nunca', opts:['nunca','siempre','a veces','a menudo']},
-      {p:'Yo ___ uso el coche.', t:'almost never (5%)', a:'casi nunca', opts:['casi nunca','siempre','a menudo','de vez en cuando']},
-      {p:'Estudio español ___.', t:'once a week', a:'una vez a la semana', opts:['una vez a la semana','todos los días','nunca','a veces']},
-      {p:'Visito a mis padres ___.', t:'twice a month', a:'dos veces al mes', opts:['dos veces al mes','una vez al año','todos los días','nunca']},
-      {p:'___ se maquilla despacio. (no subject: adverb goes before the verb)', t:'almost always', a:'Casi siempre', opts:['Casi siempre','Casi nunca','A veces','Nunca']}
-    ]
-  },
-  {
-    id:'irregulares', emoji:'🔀', title:'Verbos Irregulares en Presente',
-    desc:'Yo-form irregulars + fully irregular verbs',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'to fall',b:'caer'},{a:'to be worth',b:'valer'},{a:'to put',b:'poner'},{a:'to leave / go out',b:'salir'},
-      {a:'to bring',b:'traer'},{a:'to know (a fact)',b:'saber'},{a:'to give',b:'dar'},{a:'to see',b:'ver'},
-      {a:'to know (person/place)',b:'conocer'},{a:'to pick up',b:'recoger'},{a:'to hear',b:'oír'},{a:'to follow',b:'seguir'}
-    ],
-    bank:[
-      {p:'(caer) Yo me ___ mucho cuando patino.', t:'yo — irregular in yo', a:'caigo'},
-      {p:'(poner) Yo ___ la mesa todos los días.', t:'yo — irregular in yo', a:'pongo'},
-      {p:'(salir) Yo ___ de casa a las 8.', t:'yo — irregular in yo', a:'salgo'},
-      {p:'(hacer) Yo ___ ejercicio por la mañana.', t:'yo — irregular in yo', a:'hago'},
-      {p:'(traer) Yo ___ mi diccionario a clase.', t:'yo — irregular in yo', a:'traigo'},
-      {p:'(saber) Yo no ___ tu número de teléfono.', t:'yo — irregular', a:'sé'},
-      {p:'(dar) Yo te ___ un regalo.', t:'yo — irregular', a:'doy'},
-      {p:'(ver) Yo ___ la televisión por la noche.', t:'yo — irregular', a:'veo'},
-      {p:'(conocer) Yo ___ a tu hermano.', t:'yo — irregular (zc)', a:'conozco'},
-      {p:'(recoger) Yo ___ mis libros.', t:'yo — irregular (j)', a:'recojo'},
-      {p:'(oír) Yo no ___ nada, creo que estoy sorda.', t:'yo — irregular', a:'oigo'},
-      {p:'(seguir) Yo ___ las noticias todos los días.', t:'yo — irregular (i + g)', a:'sigo'},
-      {p:'(oír) ¿Tú ___ música mientras trabajas?', t:'tú', a:'oyes', opts:['oyes','oigo','oye','oímos']},
-      {p:'(ver) Ellas nunca ___ televisión nacional.', t:'ellas', a:'ven', opts:['ven','veo','ve','vemos']},
-      {p:'(saber) Nosotros no ___ la respuesta.', t:'nosotros', a:'sabemos', opts:['sabemos','sé','sabe','saben']},
-      {p:'(venir) Mi abuela ___ a verme mañana.', t:'ella', a:'viene', opts:['viene','vengo','vienen','venimos']}
-    ]
-  },
-  {
-    id:'raiz', emoji:'🌳', title:'Verbos con Cambio de Raíz',
-    desc:'"Boot verbs": e→ie, e→i, o→ue, u→ue',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'to close',b:'cerrar'},{a:'to begin',b:'empezar'},{a:'to ask for / order',b:'pedir'},
-      {a:'to repeat',b:'repetir'},{a:'to serve',b:'servir'},{a:'to play (a game)',b:'jugar'},
-      {a:'to find',b:'encontrar'},{a:'to count / tell',b:'contar'},{a:'to return',b:'volver'},
-      {a:'to remember',b:'recordar'},{a:'to understand',b:'entender'},{a:'to lose',b:'perder'},
-      {a:'to prefer',b:'preferir'},{a:'to feel',b:'sentir'},{a:'to smell',b:'oler'}
-    ],
-    bank:[
-      {p:'(empezar) La película ___ a las 7:00 p.m.', t:'e→ie', a:'empieza'},
-      {p:'(cerrar) El aeropuerto ___ por las elecciones.', t:'e→ie', a:'cierra'},
-      {p:'(pedir) Kike ___ una licencia no remunerada.', t:'e→i', a:'pide'},
-      {p:'(servir) La empleada nos ___ el desayuno.', t:'e→i', a:'sirve'},
-      {p:'(poder) ¿Ustedes no ___ ir a Cartagena?', t:'o→ue', a:'pueden'},
-      {p:'(volver) Los turistas ___ en bus al hotel.', t:'o→ue', a:'vuelven'},
-      {p:'(contar) Nosotros le ___ todo a mamá.', t:'o→ue', a:'contamos'},
-      {p:'(jugar) Mi hermano ___ con su perro en el parque.', t:'u→ue', a:'juega'},
-      {p:'(entender) Esos estudiantes no ___ este tema.', t:'e→ie', a:'entienden'},
-      {p:'(perder) Mi hermano ___ dinero a menudo.', t:'e→ie', a:'pierde'},
-      {p:'(oler) Las flores ___ muy bien.', t:'o→hue (irregular boot)', a:'huelen', opts:['huelen','olen','oyen','olan']},
-      {p:'(preferir) Yo ___ las verduras.', t:'e→ie', a:'prefiero'},
-      {p:'Nosotros (pedir) ___ pizza los viernes.', t:'nosotros — no stem change', a:'pedimos', opts:['pedimos','pidemos','piden','pedís']}
-    ]
-  },
-  {
-    id:'progresivo', emoji:'⏩', title:'Presente Progresivo & Futuro con IR',
-    desc:'estar + gerundio  ·  ir + a + infinitivo',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'estar + gerundio (-ando/-iendo)',b:'presente progresivo'},
-      {a:'ir + a + infinitivo',b:'futuro con ir'},
-      {a:'looking for (gerund of buscar)',b:'buscando'},
-      {a:'eating (gerund of comer)',b:'comiendo'},
-      {a:'writing (gerund of escribir)',b:'escribiendo'},
-      {a:'I am studying',b:'estoy estudiando'},
-      {a:'I am going to travel',b:'voy a viajar'}
-    ],
-    bank:[
-      {p:'(buscar, yo) Estoy ___ un veterinario para mi perro.', t:'gerundio -ar → -ando', a:'buscando'},
-      {p:'(comprar, tú) Estás ___ muebles nuevos.', t:'gerundio -ar → -ando', a:'comprando'},
-      {p:'(escribir, nosotras) Estamos ___ recetas para el libro.', t:'gerundio -ir → -iendo', a:'escribiendo'},
-      {p:'Mañana yo ___ a viajar a Guatapé.', t:'ir presente — yo', a:'voy', opts:['voy','vas','va','van']},
-      {p:'Andrea ___ a ganar el concurso.', t:'ir presente — ella', a:'va', opts:['va','voy','van','vamos']},
-      {p:'Sus hermanos ___ a estudiar historia.', t:'ir presente — ellos', a:'van', opts:['van','va','vamos','voy']},
-      {p:'El agua (hervir) ___ a 100 grados.', t:'general truth — presente simple', a:'hierve'},
-      {p:'Colón (descubrir) ___ América en 1492.', t:'presente histórico', a:'descubre'}
-    ]
-  },
-  {
-    id:'reflexivos', emoji:'🪞', title:'Verbos Reflexivos y Rutina Diaria',
-    desc:'despertarse, ducharse, vestirse… + daily routine',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'to wake up',b:'despertarse'},{a:'to get up',b:'levantarse'},{a:'to shower',b:'ducharse'},
-      {a:'to dry off',b:'secarse'},{a:'to get dressed',b:'vestirse'},{a:'to brush (teeth)',b:'cepillarse'},
-      {a:'to put on makeup',b:'maquillarse'},{a:'to shave',b:'afeitarse'},{a:'to go to bed',b:'acostarse'},
-      {a:'to fall asleep',b:'dormirse'},{a:'to sit down',b:'sentarse'},{a:"to comb one's hair",b:'peinarse'},
-      {a:'to have fun',b:'divertirse'}
-    ],
-    bank:[
-      {p:'(despertarse) Yo me ___ a las 6:15 de la mañana.', t:'yo — reflexive e→ie', a:'despierto'},
-      {p:'(levantarse) Yo me ___ y voy directo al baño.', t:'yo — reflexive', a:'levanto'},
-      {p:'(ducharse) Yo me ___ y luego me seco.', t:'yo — reflexive', a:'ducho'},
-      {p:'(vestirse) Yo me ___ después de peinarme.', t:'yo — reflexive e→i', a:'visto'},
-      {p:'(acostarse) Mi esposo y yo nos ___ más temprano.', t:'nosotros — reflexive o→ue', a:'acostamos'},
-      {p:'(cepillarse) Yo me ___ los dientes después de comer.', t:'yo — reflexive', a:'cepillo'},
-      {p:'Juan siempre ___ la cara antes de salir.', t:'reflexive pronoun + verb (afeitarse)', a:'se afeita', opts:['se afeita','me afeito','te afeitas','nos afeitamos']},
-      {p:'Ella ___ despacio.', t:'reflexive: 3rd person (maquillarse)', a:'se maquilla', opts:['se maquilla','me maquillo','te maquillas','se maquillan']},
-      {p:'¿A qué hora ___ (tú) normalmente?', t:'tú — reflexive (despertarse)', a:'te despiertas', opts:['te despiertas','se despierta','me despierto','nos despertamos']}
-    ]
-  },
-  {
-    id:'gustar', emoji:'😍', title:'Gustar y Verbos Similares',
-    desc:'me gusta, te gusta, le gusta… + encantar, interesar, molestar',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'I like it',b:'me gusta'},{a:'you like it',b:'te gusta'},{a:'he/she likes it',b:'le gusta'},
-      {a:'we like it',b:'nos gusta'},{a:'they like it',b:'les gusta'},{a:'I like them',b:'me gustan'},
-      {a:'to love / be delighted by',b:'encantar'},{a:'to interest',b:'interesar'},{a:'to bother',b:'molestar'},
-      {a:'to be missing / need',b:'faltar'}
-    ],
-    bank:[
-      {p:'A mí ___ la música clásica.', t:'gusta + singular noun', a:'me gusta', opts:['me gusta','me gustan','te gusta','le gusta']},
-      {p:'A ella ___ los perros.', t:'gustan + plural noun', a:'le gustan', opts:['le gustan','le gusta','me gustan','les gustan']},
-      {p:'A nosotros ___ viajar.', t:'gusta + infinitive', a:'nos gusta', opts:['nos gusta','nos gustan','os gusta','les gusta']},
-      {p:'A mis padres ___ las películas de acción.', t:'gustan + plural noun', a:'les gustan', opts:['les gustan','les gusta','le gustan','nos gustan']},
-      {p:'A mí ___ mucho este restaurante.', t:'encantar (loves) — like gustar', a:'me encanta', opts:['me encanta','me encantan','me gusta','me interesa']},
-      {p:'A ti ___ la política.', t:'interesar — like gustar', a:'te interesa', opts:['te interesa','te interesan','te gusta','te molesta']},
-      {p:'A él ___ el ruido.', t:'molestar — like gustar', a:'le molesta', opts:['le molesta','le molestan','le gusta','le interesa']},
-      {p:'A mí ___ dinero.', t:'faltar (missing) — like gustar', a:'me falta', opts:['me falta','me faltan','me queda','me gusta']}
-    ]
-  },
-  {
-    id:'posesivos', emoji:'👉', title:'Posesivos y Demostrativos',
-    desc:'mi/tu/su… + este/ese/aquel…',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'my',b:'mi / mis'},{a:'your (informal)',b:'tu / tus'},{a:'his / her / your (formal)',b:'su / sus'},
-      {a:'our',b:'nuestro / nuestra'},{a:'this (masc.)',b:'este'},{a:'this (fem.)',b:'esta'},
-      {a:'these (masc.)',b:'estos'},{a:'that (masc.)',b:'ese'},{a:'that (fem.)',b:'esa'},
-      {a:'that over there (masc.)',b:'aquel'},{a:'this (neutral / unknown thing)',b:'esto'}
-    ],
-    bank:[
-      {p:'___ casa es muy grande. (my)', t:'possessive — mi', a:'Mi', opts:['Mi','Mis','Tu','Su']},
-      {p:'Estos son ___ libros. (my, plural)', t:'possessive — mis', a:'mis', opts:['mis','mi','sus','su']},
-      {p:'¿Dónde están ___ llaves? (your, informal)', t:'possessive — tus', a:'tus', opts:['tus','tu','sus','su']},
-      {p:'Es ___ carro. (his/her)', t:'possessive — su', a:'su', opts:['su','sus','tu','mi']},
-      {p:'___ familia vive en Bogotá. (our)', t:'possessive — nuestra', a:'Nuestra', opts:['Nuestra','Nuestro','Nuestras','Nuestros']},
-      {p:'___ libro (this, close to me) es interesante.', t:'demonstrative — este', a:'Este', opts:['Este','Esta','Ese','Aquel']},
-      {p:'___ mesa (this, close to me) es nueva.', t:'demonstrative — esta', a:'Esta', opts:['Esta','Este','Esa','Aquella']},
-      {p:'___ casa (that, near you) es bonita.', t:'demonstrative — esa', a:'Esa', opts:['Esa','Esta','Ese','Aquella']},
-      {p:'___ montañas (those, far away) son altas.', t:'demonstrative — aquellas', a:'Aquellas', opts:['Aquellas','Estas','Esas','Aquellos']},
-      {p:'¿Qué es ___? (neutral, unknown object)', t:'demonstrative neutral', a:'esto', opts:['esto','este','esta','eso']}
-    ]
-  },
-  {
-    id:'objeto', emoji:'🎯', title:'Pronombres de Objeto',
-    desc:'me, te, lo, la, le, nos, los, las, les',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'me (direct/indirect)',b:'me'},{a:'you, informal (direct/indirect)',b:'te'},
-      {a:'him / it, masc. (direct)',b:'lo'},{a:'her / it, fem. (direct)',b:'la'},
-      {a:'to him / her / you formal (indirect)',b:'le'},{a:'us (direct/indirect)',b:'nos'},
-      {a:'them, masc. (direct)',b:'los'},{a:'them, fem. (direct)',b:'las'},{a:'to them / you plural (indirect)',b:'les'}
-    ],
-    bank:[
-      {p:'¿Ves a Juan? Sí, ___ veo.', t:'lo = him (direct object)', a:'lo', opts:['lo','la','le','los']},
-      {p:'¿Compras la fruta? Sí, ___ compro.', t:'la = it, fem. (direct object)', a:'la', opts:['la','lo','le','las']},
-      {p:'___ doy un regalo a mi madre.', t:'le = to her/him (indirect)', a:'Le', opts:['Le','La','Lo','Les']},
-      {p:'Mis amigas ___ escriben correos a nosotros.', t:'nos = to us (indirect)', a:'nos', opts:['nos','les','os','me']},
-      {p:'¿Tienes las llaves? Sí, ___ tengo.', t:'las = them, fem. (direct)', a:'las', opts:['las','los','le','les']},
-      {p:'¿Conoces a mis padres? Sí, ___ conozco.', t:'los = them, masc. (direct)', a:'los', opts:['los','las','les','le']},
-      {p:'Voy a comprar___ mañana. (attached to infinitive, it = masc.)', t:'attached pronoun', a:'lo', opts:['lo','la','le','los']},
-      {p:'¿Me quieres? Sí, ___ quiero.', t:'te = you (direct)', a:'te', opts:['te','le','me','lo']}
-    ]
-  },
-  {
-    id:'comparativos', emoji:'📊', title:'Comparativos y Superlativos',
-    desc:'más...que, tan...como, mejor, peor, mayor, menor',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'more...than',b:'más...que'},{a:'less...than',b:'menos...que'},{a:'as...as',b:'tan...como'},
-      {a:'as much as',b:'tanto como'},{a:'the most',b:'el/la más'},{a:'better',b:'mejor'},
-      {a:'worse',b:'peor'},{a:'older',b:'mayor'},{a:'younger',b:'menor'}
-    ],
-    bank:[
-      {p:'Ella es ___ alta ___ su hermano. (more...than)', t:'comparative superiority', a:'más', opts:['más','menos','tan','tanto']},
-      {p:'Este carro es ___ caro ___ aquel. (less...than)', t:'comparative inferiority', a:'menos', opts:['menos','más','tan','tanto']},
-      {p:'Mi casa es ___ grande ___ la tuya. (as...as)', t:'comparative equality', a:'tan', opts:['tan','más','menos','tanto']},
-      {p:'Juan es ___ que yo. (better)', t:'irregular comparative', a:'mejor', opts:['mejor','más bueno','peor','más malo']},
-      {p:'Esta comida es ___ que la de ayer. (worse)', t:'irregular comparative', a:'peor', opts:['peor','mejor','más mala','menos mala']},
-      {p:'Mi hermano ___ tiene 20 años, yo tengo 17. (older)', t:'irregular comparative — mayor', a:'mayor', opts:['mayor','menor','más viejo','más grande']},
-      {p:'Este es el restaurante ___ bueno de la ciudad. (the most)', t:'superlative', a:'más', opts:['más','menos','tan','muy']},
-      {p:'"Riquísimo" significa "muy ___".', t:'-ísimo = very (absolute superlative)', a:'rico', opts:['rico','pobre','feo','malo']}
-    ]
-  },
-  {
-    id:'mandatos', emoji:'📢', title:'Mandatos (Imperativo)',
-    desc:'Commands: tú affirmative/negative + usted',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'Speak! (tú)',b:'¡Habla!'},{a:'Eat! (tú)',b:'¡Come!'},{a:'Write! (tú)',b:'¡Escribe!'},
-      {a:"Don't speak! (tú)",b:'¡No hables!'},{a:'Speak! (usted)',b:'¡Hable!'},{a:'Come here! (tú)',b:'¡Ven aquí!'},
-      {a:'Go! (tú)',b:'¡Ve!'},{a:'Do it! (tú)',b:'¡Hazlo!'},{a:'Wait! (tú)',b:'¡Espera!'},
-      {a:'Sit down! (tú)',b:'¡Siéntate!'},{a:'Be careful! (tú)',b:'¡Ten cuidado!'}
-    ],
-    bank:[
-      {p:'(hablar, tú — affirmative) ¡___ más despacio!', t:'tú command — regular', a:'Habla'},
-      {p:'(comer, tú — affirmative) ¡___ las verduras!', t:'tú command — regular', a:'Come'},
-      {p:'(escribir, tú — affirmative) ¡___ tu nombre aquí!', t:'tú command — regular', a:'Escribe'},
-      {p:'(hablar, tú — negative) ¡No ___ tan fuerte!', t:'tú negative command', a:'hables'},
-      {p:'(ir, tú — irregular) ¡___ a la tienda!', t:'irregular tú command', a:'Ve'},
-      {p:'(hacer, tú — irregular) ¡___ la tarea!', t:'irregular tú command', a:'Haz'},
-      {p:'(venir, tú — irregular) ¡___ aquí ahora!', t:'irregular tú command', a:'Ven'},
-      {p:'(tener, tú — irregular) ¡___ cuidado!', t:'irregular tú command', a:'Ten'},
-      {p:'(poner, tú — irregular) ¡___ la mesa!', t:'irregular tú command', a:'Pon'},
-      {p:'(hablar, usted — formal) ¡___ con el gerente!', t:'usted command', a:'Hable'}
-    ]
-  },
-  {
-    id:'conversa', emoji:'💬', title:'Conversación',
-    desc:'Common questions & answers',
-    modes:['match','fill','mc'],
-    match:[
-      {a:'¿Cómo te llamas?',b:'Yo me llamo Alicia'},
-      {a:'¿Cuántos años tienes?',b:'Tengo 28 años'},
-      {a:'¿De dónde eres?',b:'Soy de Venezuela'},
-      {a:'¿Dónde trabajas?',b:'Trabajo en el banco'},
-      {a:'¿A qué te dedicas?',b:'Soy tutora de español'},
-      {a:'¿Cuál es tu comida favorita?',b:'Es la arepa'},
-      {a:'¿Cuáles son tus aficiones?',b:'Cantar y bailar salsa'},
-      {a:'¿Dónde vives?',b:'Vivo en Caracas'}
-    ],
-    bank:[
-      {p:'¿___ te llamas?', t:'what (name)', a:'Cómo', opts:['Cómo','Qué','Dónde','Cuál']},
-      {p:'¿___ años tienes?', t:'how many', a:'Cuántos', opts:['Cuántos','Cómo','Qué','Cuál']},
-      {p:'¿De ___ eres?', t:'where from', a:'dónde', opts:['dónde','qué','cómo','cuál']},
-      {p:'¿___ es tu comida favorita?', t:'which', a:'Cuál', opts:['Cuál','Cómo','Dónde','Quién']},
-      {p:'¿___ trabajas?', t:'where', a:'Dónde', opts:['Dónde','Qué','Cómo','Cuál']},
-      {p:'Respuesta: Yo me ___ Alicia.', t:'I am called', a:'llamo'},
-      {p:'Respuesta: Yo ___ de Venezuela.', t:'I am from', a:'soy'},
-      {p:'Respuesta: Yo ___ 28 años.', t:'I have ... years', a:'tengo'},
-      {p:'Respuesta: Yo ___ en Caracas.', t:'I live', a:'vivo'}
-    ]
-  }
-];
-
-/* ============ VERB GAME DATA ============ */
-const VERBS={
-  hablar:{m:'to speak',present:{yo:'hablo',tú:'hablas',él:'habla',nosotros:'hablamos',ellos:'hablan'},preterite:{yo:'hablé',tú:'hablaste',él:'habló',nosotros:'hablamos',ellos:'hablaron'},imperfect:{yo:'hablaba',tú:'hablabas',él:'hablaba',nosotros:'hablábamos',ellos:'hablaban'},future:{yo:'hablaré',tú:'hablarás',él:'hablará',nosotros:'hablaremos',ellos:'hablarán'},conditional:{yo:'hablaría',tú:'hablarías',él:'hablaría',nosotros:'hablaríamos',ellos:'hablarían'}},
-  comer:{m:'to eat',present:{yo:'como',tú:'comes',él:'come',nosotros:'comemos',ellos:'comen'},preterite:{yo:'comí',tú:'comiste',él:'comió',nosotros:'comimos',ellos:'comieron'},imperfect:{yo:'comía',tú:'comías',él:'comía',nosotros:'comíamos',ellos:'comían'},future:{yo:'comeré',tú:'comerás',él:'comerá',nosotros:'comeremos',ellos:'comerán'},conditional:{yo:'comería',tú:'comerías',él:'comería',nosotros:'comeríamos',ellos:'comerían'}},
-  vivir:{m:'to live',present:{yo:'vivo',tú:'vives',él:'vive',nosotros:'vivimos',ellos:'viven'},preterite:{yo:'viví',tú:'viviste',él:'vivió',nosotros:'vivimos',ellos:'vivieron'},imperfect:{yo:'vivía',tú:'vivías',él:'vivía',nosotros:'vivíamos',ellos:'vivían'},future:{yo:'viviré',tú:'vivirás',él:'vivirá',nosotros:'viviremos',ellos:'vivirán'},conditional:{yo:'viviría',tú:'vivirías',él:'viviría',nosotros:'viviríamos',ellos:'vivirían'}},
-  ser:{m:'to be (permanent)',present:{yo:'soy',tú:'eres',él:'es',nosotros:'somos',ellos:'son'},preterite:{yo:'fui',tú:'fuiste',él:'fue',nosotros:'fuimos',ellos:'fueron'},imperfect:{yo:'era',tú:'eras',él:'era',nosotros:'éramos',ellos:'eran'},future:{yo:'seré',tú:'serás',él:'será',nosotros:'seremos',ellos:'serán'},conditional:{yo:'sería',tú:'serías',él:'sería',nosotros:'seríamos',ellos:'serían'}},
-  estar:{m:'to be (temporary)',present:{yo:'estoy',tú:'estás',él:'está',nosotros:'estamos',ellos:'están'},preterite:{yo:'estuve',tú:'estuviste',él:'estuvo',nosotros:'estuvimos',ellos:'estuvieron'},imperfect:{yo:'estaba',tú:'estabas',él:'estaba',nosotros:'estábamos',ellos:'estaban'},future:{yo:'estaré',tú:'estarás',él:'estará',nosotros:'estaremos',ellos:'estarán'},conditional:{yo:'estaría',tú:'estarías',él:'estaría',nosotros:'estaríamos',ellos:'estarían'}},
-  tener:{m:'to have',present:{yo:'tengo',tú:'tienes',él:'tiene',nosotros:'tenemos',ellos:'tienen'},preterite:{yo:'tuve',tú:'tuviste',él:'tuvo',nosotros:'tuvimos',ellos:'tuvieron'},imperfect:{yo:'tenía',tú:'tenías',él:'tenía',nosotros:'teníamos',ellos:'tenían'},future:{yo:'tendré',tú:'tendrás',él:'tendrá',nosotros:'tendremos',ellos:'tendrán'},conditional:{yo:'tendría',tú:'tendrías',él:'tendría',nosotros:'tendríamos',ellos:'tendrían'}},
-  ir:{m:'to go',present:{yo:'voy',tú:'vas',él:'va',nosotros:'vamos',ellos:'van'},preterite:{yo:'fui',tú:'fuiste',él:'fue',nosotros:'fuimos',ellos:'fueron'},imperfect:{yo:'iba',tú:'ibas',él:'iba',nosotros:'íbamos',ellos:'iban'},future:{yo:'iré',tú:'irás',él:'irá',nosotros:'iremos',ellos:'irán'},conditional:{yo:'iría',tú:'irías',él:'iría',nosotros:'iríamos',ellos:'irían'}},
-  poder:{m:'to be able / can',present:{yo:'puedo',tú:'puedes',él:'puede',nosotros:'podemos',ellos:'pueden'},preterite:{yo:'pude',tú:'pudiste',él:'pudo',nosotros:'pudimos',ellos:'pudieron'},imperfect:{yo:'podía',tú:'podías',él:'podía',nosotros:'podíamos',ellos:'podían'},future:{yo:'podré',tú:'podrás',él:'podrá',nosotros:'podremos',ellos:'podrán'},conditional:{yo:'podría',tú:'podrías',él:'podría',nosotros:'podríamos',ellos:'podrían'}},
-  querer:{m:'to want / love',present:{yo:'quiero',tú:'quieres',él:'quiere',nosotros:'queremos',ellos:'quieren'},preterite:{yo:'quise',tú:'quisiste',él:'quiso',nosotros:'quisimos',ellos:'quisieron'},imperfect:{yo:'quería',tú:'querías',él:'quería',nosotros:'queríamos',ellos:'querían'},future:{yo:'querré',tú:'querrás',él:'querrá',nosotros:'querremos',ellos:'querrán'},conditional:{yo:'querría',tú:'querrías',él:'querría',nosotros:'querríamos',ellos:'querrían'}},
-  hacer:{m:'to do / make',present:{yo:'hago',tú:'haces',él:'hace',nosotros:'hacemos',ellos:'hacen'},preterite:{yo:'hice',tú:'hiciste',él:'hizo',nosotros:'hicimos',ellos:'hicieron'},imperfect:{yo:'hacía',tú:'hacías',él:'hacía',nosotros:'hacíamos',ellos:'hacían'},future:{yo:'haré',tú:'harás',él:'hará',nosotros:'haremos',ellos:'harán'},conditional:{yo:'haría',tú:'harías',él:'haría',nosotros:'haríamos',ellos:'harían'}},
-  llevar:{m:'to wear / carry',present:{yo:'llevo',tú:'llevas',él:'lleva',nosotros:'llevamos',ellos:'llevan'},preterite:{yo:'llevé',tú:'llevaste',él:'llevó',nosotros:'llevamos',ellos:'llevaron'},imperfect:{yo:'llevaba',tú:'llevabas',él:'llevaba',nosotros:'llevábamos',ellos:'llevaban'},future:{yo:'llevaré',tú:'llevarás',él:'llevará',nosotros:'llevaremos',ellos:'llevarán'},conditional:{yo:'llevaría',tú:'llevarías',él:'llevaría',nosotros:'llevaríamos',ellos:'llevarían'}},
-  dormir:{m:'to sleep',present:{yo:'duermo',tú:'duermes',él:'duerme',nosotros:'dormimos',ellos:'duermen'},preterite:{yo:'dormí',tú:'dormiste',él:'durmió',nosotros:'dormimos',ellos:'durmieron'},imperfect:{yo:'dormía',tú:'dormías',él:'dormía',nosotros:'dormíamos',ellos:'dormían'},future:{yo:'dormiré',tú:'dormirás',él:'dormirá',nosotros:'dormiremos',ellos:'dormirán'},conditional:{yo:'dormiría',tú:'dormirías',él:'dormiría',nosotros:'dormiríamos',ellos:'dormirían'}},
-  estudiar:{m:'to study',present:{yo:'estudio',tú:'estudias',él:'estudia',nosotros:'estudiamos',ellos:'estudian'},preterite:{yo:'estudié',tú:'estudiaste',él:'estudió',nosotros:'estudiamos',ellos:'estudiaron'},imperfect:{yo:'estudiaba',tú:'estudiabas',él:'estudiaba',nosotros:'estudiábamos',ellos:'estudiaban'},future:{yo:'estudiaré',tú:'estudiarás',él:'estudiará',nosotros:'estudiaremos',ellos:'estudiarán'},conditional:{yo:'estudiaría',tú:'estudiarías',él:'estudiaría',nosotros:'estudiaríamos',ellos:'estudiarían'}},
-  trabajar:{m:'to work',present:{yo:'trabajo',tú:'trabajas',él:'trabaja',nosotros:'trabajamos',ellos:'trabajan'},preterite:{yo:'trabajé',tú:'trabajaste',él:'trabajó',nosotros:'trabajamos',ellos:'trabajaron'},imperfect:{yo:'trabajaba',tú:'trabajabas',él:'trabajaba',nosotros:'trabajábamos',ellos:'trabajaban'},future:{yo:'trabajaré',tú:'trabajarás',él:'trabajará',nosotros:'trabajaremos',ellos:'trabajarán'},conditional:{yo:'trabajaría',tú:'trabajarías',él:'trabajaría',nosotros:'trabajaríamos',ellos:'trabajarían'}},
-  escuchar:{m:'to listen',present:{yo:'escucho',tú:'escuchas',él:'escucha',nosotros:'escuchamos',ellos:'escuchan'},preterite:{yo:'escuché',tú:'escuchaste',él:'escuchó',nosotros:'escuchamos',ellos:'escucharon'},imperfect:{yo:'escuchaba',tú:'escuchabas',él:'escuchaba',nosotros:'escuchábamos',ellos:'escuchaban'},future:{yo:'escucharé',tú:'escucharás',él:'escuchará',nosotros:'escucharemos',ellos:'escucharán'},conditional:{yo:'escucharía',tú:'escucharías',él:'escucharía',nosotros:'escucharíamos',ellos:'escucharían'}},
-  cantar:{m:'to sing',present:{yo:'canto',tú:'cantas',él:'canta',nosotros:'cantamos',ellos:'cantan'},preterite:{yo:'canté',tú:'cantaste',él:'cantó',nosotros:'cantamos',ellos:'cantaron'},imperfect:{yo:'cantaba',tú:'cantabas',él:'cantaba',nosotros:'cantábamos',ellos:'cantaban'},future:{yo:'cantaré',tú:'cantarás',él:'cantará',nosotros:'cantaremos',ellos:'cantarán'},conditional:{yo:'cantaría',tú:'cantarías',él:'cantaría',nosotros:'cantaríamos',ellos:'cantarían'}},
-  bailar:{m:'to dance',present:{yo:'bailo',tú:'bailas',él:'baila',nosotros:'bailamos',ellos:'bailan'},preterite:{yo:'bailé',tú:'bailaste',él:'bailó',nosotros:'bailamos',ellos:'bailaron'},imperfect:{yo:'bailaba',tú:'bailabas',él:'bailaba',nosotros:'bailábamos',ellos:'bailaban'},future:{yo:'bailaré',tú:'bailarás',él:'bailará',nosotros:'bailaremos',ellos:'bailarán'},conditional:{yo:'bailaría',tú:'bailarías',él:'bailaría',nosotros:'bailaríamos',ellos:'bailarían'}},
-  viajar:{m:'to travel',present:{yo:'viajo',tú:'viajas',él:'viaja',nosotros:'viajamos',ellos:'viajan'},preterite:{yo:'viajé',tú:'viajaste',él:'viajó',nosotros:'viajamos',ellos:'viajaron'},imperfect:{yo:'viajaba',tú:'viajabas',él:'viajaba',nosotros:'viajábamos',ellos:'viajaban'},future:{yo:'viajaré',tú:'viajarás',él:'viajará',nosotros:'viajaremos',ellos:'viajarán'},conditional:{yo:'viajaría',tú:'viajarías',él:'viajaría',nosotros:'viajaríamos',ellos:'viajarían'}},
-  caminar:{m:'to walk',present:{yo:'camino',tú:'caminas',él:'camina',nosotros:'caminamos',ellos:'caminan'},preterite:{yo:'caminé',tú:'caminaste',él:'caminó',nosotros:'caminamos',ellos:'caminaron'},imperfect:{yo:'caminaba',tú:'caminabas',él:'caminaba',nosotros:'caminábamos',ellos:'caminaban'},future:{yo:'caminaré',tú:'caminarás',él:'caminará',nosotros:'caminaremos',ellos:'caminarán'},conditional:{yo:'caminaría',tú:'caminarías',él:'caminaría',nosotros:'caminaríamos',ellos:'caminarían'}},
-  correr:{m:'to run',present:{yo:'corro',tú:'corres',él:'corre',nosotros:'corremos',ellos:'corren'},preterite:{yo:'corrí',tú:'corriste',él:'corrió',nosotros:'corrimos',ellos:'corrieron'},imperfect:{yo:'corría',tú:'corrías',él:'corría',nosotros:'corríamos',ellos:'corrían'},future:{yo:'correré',tú:'correrás',él:'correrá',nosotros:'correremos',ellos:'correrán'},conditional:{yo:'correría',tú:'correrías',él:'correría',nosotros:'correríamos',ellos:'correrían'}},
-  cocinar:{m:'to cook',present:{yo:'cocino',tú:'cocinas',él:'cocina',nosotros:'cocinamos',ellos:'cocinan'},preterite:{yo:'cociné',tú:'cocinaste',él:'cocinó',nosotros:'cocinamos',ellos:'cocinaron'},imperfect:{yo:'cocinaba',tú:'cocinabas',él:'cocinaba',nosotros:'cocinábamos',ellos:'cocinaban'},future:{yo:'cocinaré',tú:'cocinarás',él:'cocinará',nosotros:'cocinaremos',ellos:'cocinarán'},conditional:{yo:'cocinaría',tú:'cocinarías',él:'cocinaría',nosotros:'cocinaríamos',ellos:'cocinarían'}},
-  decir:{m:'to say / tell',present:{yo:'digo',tú:'dices',él:'dice',nosotros:'decimos',ellos:'dicen'},preterite:{yo:'dije',tú:'dijiste',él:'dijo',nosotros:'dijimos',ellos:'dijeron'},imperfect:{yo:'decía',tú:'decías',él:'decía',nosotros:'decíamos',ellos:'decían'},future:{yo:'diré',tú:'dirás',él:'dirá',nosotros:'diremos',ellos:'dirán'},conditional:{yo:'diría',tú:'dirías',él:'diría',nosotros:'diríamos',ellos:'dirían'}},
-  besar:{m:'to kiss',present:{yo:'beso',tú:'besas',él:'besa',nosotros:'besamos',ellos:'besan'},preterite:{yo:'besé',tú:'besaste',él:'besó',nosotros:'besamos',ellos:'besaron'},imperfect:{yo:'besaba',tú:'besabas',él:'besaba',nosotros:'besábamos',ellos:'besaban'},future:{yo:'besaré',tú:'besarás',él:'besará',nosotros:'besaremos',ellos:'besarán'},conditional:{yo:'besaría',tú:'besarías',él:'besaría',nosotros:'besaríamos',ellos:'besarían'}},
-  abrazar:{m:'to hug',present:{yo:'abrazo',tú:'abrazas',él:'abraza',nosotros:'abrazamos',ellos:'abrazan'},preterite:{yo:'abracé',tú:'abrazaste',él:'abrazó',nosotros:'abrazamos',ellos:'abrazaron'},imperfect:{yo:'abrazaba',tú:'abrazabas',él:'abrazaba',nosotros:'abrazábamos',ellos:'abrazaban'},future:{yo:'abrazaré',tú:'abrazarás',él:'abrazará',nosotros:'abrazaremos',ellos:'abrazarán'},conditional:{yo:'abrazaría',tú:'abrazarías',él:'abrazaría',nosotros:'abrazaríamos',ellos:'abrazarían'}},
-  limpiar:{m:'to clean',present:{yo:'limpio',tú:'limpias',él:'limpia',nosotros:'limpiamos',ellos:'limpian'},preterite:{yo:'limpié',tú:'limpiaste',él:'limpió',nosotros:'limpiamos',ellos:'limpiaron'},imperfect:{yo:'limpiaba',tú:'limpiabas',él:'limpiaba',nosotros:'limpiábamos',ellos:'limpiaban'},future:{yo:'limpiaré',tú:'limpiarás',él:'limpiará',nosotros:'limpiaremos',ellos:'limpiarán'},conditional:{yo:'limpiaría',tú:'limpiarías',él:'limpiaría',nosotros:'limpiaríamos',ellos:'limpiarían'}},
-  pensar:{m:'to think',present:{yo:'pienso',tú:'piensas',él:'piensa',nosotros:'pensamos',ellos:'piensan'},preterite:{yo:'pensé',tú:'pensaste',él:'pensó',nosotros:'pensamos',ellos:'pensaron'},imperfect:{yo:'pensaba',tú:'pensabas',él:'pensaba',nosotros:'pensábamos',ellos:'pensaban'},future:{yo:'pensaré',tú:'pensarás',él:'pensará',nosotros:'pensaremos',ellos:'pensarán'},conditional:{yo:'pensaría',tú:'pensarías',él:'pensaría',nosotros:'pensaríamos',ellos:'pensarían'}},
-  manejar:{m:'to drive',present:{yo:'manejo',tú:'manejas',él:'maneja',nosotros:'manejamos',ellos:'manejan'},preterite:{yo:'manejé',tú:'manejaste',él:'manejó',nosotros:'manejamos',ellos:'manejaron'},imperfect:{yo:'manejaba',tú:'manejabas',él:'manejaba',nosotros:'manejábamos',ellos:'manejaban'},future:{yo:'manejaré',tú:'manejarás',él:'manejará',nosotros:'manejaremos',ellos:'manejarán'},conditional:{yo:'manejaría',tú:'manejarías',él:'manejaría',nosotros:'manejaríamos',ellos:'manejarían'}}
-};
-const VERB_SENTENCES=[
-  {verb:'hablar',subject:'tú',context:'texting a friend',en:'You speak really fast, slow down.',es:'___ muy rápido, baja un poco.',tenses:['present']},
-  {verb:'hablar',subject:'yo',context:'at a party',en:"I'll talk to him later.",es:'___ con él después, no te preocupes.',tenses:['future']},
-  {verb:'comer',subject:'yo',context:'turning down food',en:'I already ate, thanks though.',es:'Ya ___, gracias igual.',tenses:['preterite']},
-  {verb:'comer',subject:'nosotros',context:'making plans',en:"Let's grab something to eat.",es:'Vamos a ___ algo, me muero de hambre.',skip:true,answer:'comer',tenses:['present']},
-  {verb:'vivir',subject:'tú',context:'small talk',en:'Do you live around here?',es:'¿___ por aquí?',tenses:['present']},
-  {verb:'vivir',subject:'yo',context:'explaining',en:'I live five minutes from the metro.',es:'___ a cinco minutos del metro.',tenses:['present']},
-  {verb:'ser',subject:'tú',context:'meeting someone',en:'Are you from here originally?',es:'¿___ de aquí?',tenses:['present']},
-  {verb:'ser',subject:'él',context:'describing someone',en:"He's not mean, he's just like that.",es:'No ___ malo, es que es así.',tenses:['present']},
-  {verb:'estar',subject:'tú',context:'worried',en:'Are you okay? You seem off.',es:'¿___ bien? Hoy te noto raro.',tenses:['present']},
-  {verb:'estar',subject:'yo',context:'declining',en:"I can't, I'm at work late.",es:'No puedo, ___ en el trabajo hasta tarde.',tenses:['present']},
-  {verb:'tener',subject:'tú',context:'pushing a friend',en:"Come on, you've got the time.",es:'Venga, ___ tiempo, no me mientas.',tenses:['present']},
-  {verb:'tener',subject:'él',context:'gossip',en:'He has a new girlfriend apparently.',es:'___ novia nueva, al parecer.',tenses:['present']},
-  {verb:'ir',subject:'tú',context:'invite',en:'Are you going to the party tonight?',es:'¿___ a la fiesta esta noche?',tenses:['present']},
-  {verb:'ir',subject:'nosotros',context:'plans',en:'We\'re going whether you like it or not.',es:'___ nos guste o no.',tenses:['present']},
-  {verb:'poder',subject:'tú',context:'asking a favour',en:'Can you send me that link again?',es:'¿Me ___ mandar ese link otra vez?',tenses:['present']},
-  {verb:'querer',subject:'yo',context:'being honest',en:'I just want some peace and quiet.',es:'Solo ___ un poco de tranquilidad.',tenses:['present']},
-  {verb:'hacer',subject:'tú',context:'checking progress',en:'What are you doing? We were leaving!',es:'¿Qué ___? Teníamos que salir hace una hora.',tenses:['present']},
-  {verb:'hacer',subject:'yo',context:'offering help',en:"I'll handle dinner, you relax.",es:'___ la cena, tú descansa.',tenses:['future']},
-  {verb:'llevar',subject:'tú',context:'getting ready',en:'What are you wearing to the party?',es:'¿Qué ___ a la fiesta?',tenses:['present']},
-  {verb:'llevar',subject:'él',context:'people watching',en:'He always wears the same jacket.',es:'Siempre ___ la misma chaqueta, siempre.',tenses:['present']},
-  {verb:'llevar',subject:'yo',context:'getting dressed',en:"I'll wear the blue dress, it looks better.",es:'___ el vestido azul, queda mejor.',tenses:['future']},
-  {verb:'dormir',subject:'yo',context:'complaining',en:"I didn't sleep at all, the neighbours were so loud.",es:'No ___ nada, los vecinos hacían mucho ruido.',tenses:['preterite']},
-  {verb:'dormir',subject:'tú',context:'checking on someone',en:'Did you sleep okay? You look tired.',es:'¿___ bien? Tienes cara de cansado.',tenses:['preterite']},
-  {verb:'dormir',subject:'él',context:'talking about a baby',en:'He sleeps like a log, never cries at night.',es:'___ como un tronco, nunca llora de noche.',tenses:['present']},
-  {verb:'estudiar',subject:'tú',context:'asking a classmate',en:'Are you studying tonight or going out?',es:'¿___ esta noche o sales?',tenses:['present']},
-  {verb:'estudiar',subject:'yo',context:'explaining yourself',en:"I can't come, I'm studying for the exam.",es:'No puedo ir, ___ para el examen.',tenses:['present']},
-  {verb:'estudiar',subject:'nosotros',context:'making plans',en:"Let's study together, it's easier.",es:'___ juntos, es más fácil.',answer:'estudiemos',tenses:['present']},
-  {verb:'trabajar',subject:'tú',context:'small talk',en:'Do you work on weekends too?',es:'¿___ los fines de semana también?',tenses:['present']},
-  {verb:'trabajar',subject:'él',context:'explaining',en:'He works from home, lucky him.',es:'___ desde casa, qué suerte tiene.',tenses:['present']},
-  {verb:'trabajar',subject:'yo',context:'tired after work',en:'I worked all day, I need a break.',es:'___ todo el día, necesito un descanso.',tenses:['preterite']},
-  {verb:'escuchar',subject:'tú',context:'frustrated',en:'Are you even listening to me right now?',es:'¿Me ___ o qué?',tenses:['present']},
-  {verb:'escuchar',subject:'yo',context:'music chat',en:"I've been listening to this song all day.",es:'___ esta canción todo el día, no me canso.',tenses:['present']},
-  {verb:'escuchar',subject:'ellos',context:'gossip',en:"They never listen, then they're surprised.",es:'Nunca ___ y luego se sorprenden.',tenses:['present']},
-  {verb:'cantar',subject:'tú',context:'compliment',en:'You sing really well, have you had lessons?',es:'___ muy bien, ¿tienes clases?',tenses:['present']},
-  {verb:'cantar',subject:'él',context:'karaoke night',en:"He's been singing the same song for twenty minutes.",es:'Lleva veinte minutos y ___ la misma canción.',tenses:['present']},
-  {verb:'cantar',subject:'yo',context:'being honest',en:"I sing terribly but I don't care.",es:'___ fatal pero me da igual.',tenses:['present']},
-  {verb:'bailar',subject:'tú',context:'at a party',en:'Come on, dance with me! Just one song.',es:'¡Venga, ___ conmigo! Solo una canción.',answer:'baila',tenses:['present']},
-  {verb:'bailar',subject:'nosotros',context:'reminiscing',en:'We used to dance all night back then.',es:'Antes ___ toda la noche, qué tiempos.',tenses:['imperfect']},
-  {verb:'bailar',subject:'ellos',context:'watching the dancefloor',en:'Look at them — they dance so well together.',es:'Míralos — ___ muy bien juntos.',tenses:['present']},
-  {verb:'viajar',subject:'tú',context:'catching up',en:'You travel a lot for work, right?',es:'___ mucho por trabajo, ¿no?',tenses:['present']},
-  {verb:'viajar',subject:'yo',context:'dream chat',en:"I want to travel everywhere, but no money.",es:'Quiero ___ a todos lados pero no hay dinero.',answer:'viajar',tenses:['present']},
-  {verb:'viajar',subject:'ellos',context:'family talk',en:'They travel every summer without fail.',es:'___ cada verano sin falta.',tenses:['present']},
-  {verb:'caminar',subject:'yo',context:'lifestyle',en:'I walk to work — it clears my head.',es:'___ al trabajo, me despeja la mente.',tenses:['present']},
-  {verb:'caminar',subject:'nosotros',context:'after dinner',en:"Let's walk a bit, it's a nice night.",es:'___ un rato, hace buena noche.',answer:'caminemos',tenses:['present']},
-  {verb:'caminar',subject:'tú',context:'encouraging',en:'You walk so fast, slow down a bit!',es:'___ muy rápido, ¡espérame un poco!',tenses:['present']},
-  {verb:'correr',subject:'tú',context:'impressed',en:'You run every morning? Respect.',es:'¿___ todas las mañanas? Respeto.',tenses:['present']},
-  {verb:'correr',subject:'yo',context:'making excuses',en:"I run but only when I'm late.",es:'___ pero solo cuando llego tarde.',tenses:['present']},
-  {verb:'correr',subject:'él',context:'boasting',en:'He runs 10k before breakfast, crazy.',es:'___ 10k antes del desayuno, está loco.',tenses:['present']},
-  {verb:'cocinar',subject:'tú',context:'impressed',en:'Did you cook all this yourself?',es:'¿___ todo esto tú solo?',tenses:['preterite']},
-  {verb:'cocinar',subject:'yo',context:'offering',en:"I'll cook tonight, you've done enough.",es:'___ yo esta noche, ya hiciste suficiente.',tenses:['future']},
-  {verb:'cocinar',subject:'él',context:'relationship talk',en:'He cooks, cleans — where do I find one like that?',es:'___, limpia — ¿dónde encuentro uno así?',tenses:['present']},
-  {verb:'decir',subject:'tú',context:'double checking',en:'What did you say? I missed it.',es:'¿Qué ___? No escuché.',tenses:['preterite']},
-  {verb:'decir',subject:'yo',context:'being clear',en:"I'm telling you, it's not worth it.",es:'Te ___ que no vale la pena.',tenses:['present']},
-  {verb:'decir',subject:'ellos',context:'rumours',en:'What are they saying? It sounds serious.',es:'¿Qué ___? Suena grave.',tenses:['present']},
-  {verb:'pensar',subject:'tú',context:'asking opinion',en:'What do you think about this idea?',es:'¿Qué ___ de esta idea?',tenses:['present']},
-  {verb:'pensar',subject:'yo',context:'thinking aloud',en:"I think we're overthinking this.",es:'___ que le estamos dando demasiadas vueltas.',tenses:['present']},
-  {verb:'manejar',subject:'tú',context:'road trip planning',en:'Are you driving or should I?',es:'¿___ tú o manejo yo?',tenses:['present']},
-  {verb:'manejar',subject:'yo',context:'after a night out',en:"I can't drive, I had two glasses.",es:'No ___, me tomé dos copas.',tenses:['present']},
-  {verb:'limpiar',subject:'tú',context:'chores argument',en:"You never clean — it's always me.",es:'Nunca ___, siempre soy yo.',tenses:['present']},
-  {verb:'limpiar',subject:'yo',context:'justifying yourself',en:'I cleaned all morning, leave me alone.',es:'___ toda la mañana, déjame en paz.',tenses:['preterite']},
-  /* ---- Imperfecto: "antes... / used to..." — recuerdos, descripciones y hábitos pasados ---- */
-  {verb:'vivir',subject:'yo',context:'nostalgia',en:'I used to live in Madrid, I miss it.',es:'Antes ___ en Madrid, lo extraño.',tenses:['imperfect']},
-  {verb:'ser',subject:'él',context:'reminiscing',en:'He used to be so shy, not anymore.',es:'Antes ___ muy tímido, ya no.',tenses:['imperfect']},
-  {verb:'tener',subject:'yo',context:'childhood memory',en:'I had a dog when I was little.',es:'___ un perro de pequeño.',tenses:['imperfect']},
-  {verb:'ir',subject:'nosotros',context:'nostalgia',en:'We used to go to the beach every summer.',es:'___ a la playa cada verano.',tenses:['imperfect']},
-  {verb:'querer',subject:'él',context:'old gossip',en:'He used to want to be a doctor, can you believe it?',es:'Antes ___ ser médico, ¿lo puedes creer?',tenses:['imperfect']},
-  {verb:'trabajar',subject:'yo',context:'reminiscing',en:'I used to work nights, it was rough.',es:'___ de noche, era duro.',tenses:['imperfect']},
-  {verb:'estudiar',subject:'tú',context:'nostalgia',en:'You used to study so much in college.',es:'___ muchísimo en la universidad.',tenses:['imperfect']},
-  {verb:'hablar',subject:'yo',context:'nostalgia',en:'I used to talk to her every day, now nothing.',es:'___ con ella todos los días, ahora nada.',tenses:['imperfect']},
-  {verb:'cantar',subject:'ellos',context:'old memories',en:'They used to sing together all the time.',es:'___ juntos todo el tiempo.',tenses:['imperfect']},
-  /* ---- Futuro: planes y predicciones reales, no exámenes de gramática ---- */
-  {verb:'hablar',subject:'yo',context:'making plans',en:"I'll talk to her about it tomorrow.",es:'___ con ella de eso mañana.',tenses:['future']},
-  {verb:'vivir',subject:'tú',context:'future plans',en:'Will you live with your parents after college?',es:'¿___ con tus padres después de la uni?',tenses:['future']},
-  {verb:'ser',subject:'él',context:'a prediction',en:"He'll be a great dad, I just know it.",es:'___ un padre genial, lo sé.',tenses:['future']},
-  {verb:'estar',subject:'yo',context:'making plans',en:"I'll be home by nine.",es:'___ en casa para las nueve.',tenses:['future']},
-  {verb:'tener',subject:'tú',context:'reassurance',en:"You'll have time, don't worry.",es:'___ tiempo, no te preocupes.',tenses:['future']},
-  {verb:'ir',subject:'ellos',context:'making plans',en:"They'll go without us if we're late.",es:'___ sin nosotros si llegamos tarde.',tenses:['future']},
-  {verb:'hacer',subject:'yo',context:'a promise',en:"I'll do it tomorrow, I promise.",es:'___ mañana, lo prometo.',tenses:['future']},
-  {verb:'viajar',subject:'nosotros',context:'future plans',en:"We'll travel next year, once we save up.",es:'___ el próximo año, cuando ahorremos.',tenses:['future']},
-  {verb:'decir',subject:'él',context:'a prediction',en:"He'll tell you eventually, just give him time.",es:'___ tarde o temprano, dale tiempo.',tenses:['future']},
-  {verb:'estudiar',subject:'yo',context:'plans',en:"I'll study this weekend, I promise.",es:'___ este fin de semana, lo prometo.',tenses:['future']},
-  /* ---- Condicional: hipótesis y peticiones educadas — "would / could" reales ---- */
-  {verb:'hablar',subject:'yo',context:'hypothetical',en:'I would talk to her if I had her number.',es:'___ con ella si tuviera su número.',tenses:['conditional']},
-  {verb:'poder',subject:'tú',context:'polite request',en:'Could you help me with this?',es:'¿___ ayudarme con esto?',tenses:['conditional']},
-  {verb:'ser',subject:'él',context:'hypothetical',en:'That would be great, honestly.',es:'___ genial, la verdad.',tenses:['conditional']},
-  {verb:'tener',subject:'nosotros',context:'hypothetical',en:"We'd have more time if we left earlier.",es:'___ más tiempo si saliéramos antes.',tenses:['conditional']},
-  {verb:'ir',subject:'yo',context:'hypothetical',en:'I would go if you came with me.',es:'___ si vinieras conmigo.',tenses:['conditional']},
-  {verb:'hacer',subject:'tú',context:'hypothetical advice',en:'What would you do in my place?',es:'¿Qué ___ en mi lugar?',tenses:['conditional']},
-  {verb:'decir',subject:'yo',context:'hypothetical honesty',en:'I would tell you if I knew.',es:'___ si lo supiera.',tenses:['conditional']},
-  {verb:'vivir',subject:'nosotros',context:'hypothetical',en:"We'd live somewhere warmer if we could.",es:'___ en un lugar más cálido si pudiéramos.',tenses:['conditional']},
-  {verb:'cocinar',subject:'tú',context:'flirty hypothetical',en:'Would you cook for me sometime?',es:'¿___ para mí alguna vez?',tenses:['conditional']},
-  {verb:'querer',subject:'yo',context:'polite wish',en:"I'd love a coffee right now.",es:'Ahora mismo ___ un café.',tenses:['conditional']}
-];
-
-/* ============ STATE & HELPERS ============ */
-function ls_get(k,d){ try{ let v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
-function ls_set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-let xp=ls_get('es_xp_v1',0), globalStreak=0;
-const $=s=>document.querySelector(s);
-const rand=a=>a[Math.floor(Math.random()*a.length)];
-const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
-const norm=s=>s.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ');
-
-/* ---- daily practice streak (calendar days, separate from the per-answer combo streak) ---- */
-function todayStr(){ let d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-let dailyData = ls_get('es_daily_v1',{count:0,last:null});
-function markDailyPractice(){
-  let t=todayStr();
-  if(dailyData.last===t) return;
-  let y=new Date(Date.now()-86400000), yStr=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
-  dailyData.count = (dailyData.last===yStr) ? dailyData.count+1 : 1;
-  dailyData.last=t;
-  ls_set('es_daily_v1',dailyData);
-}
-
-function bump(good){ if(good){xp+=10;globalStreak++;} else {globalStreak=0;} ls_set('es_xp_v1',xp); markDailyPractice();
-  let hx=$('#hdr-xp'); if(hx)hx.textContent=xp; let hs=$('#hdr-streak'); if(hs)hs.textContent=globalStreak;
-  let rs=document.getElementById('reel-streak'); if(rs)rs.textContent=globalStreak;
-  let rx=document.getElementById('reel-xp'); if(rx)rx.textContent=xp; }
-
-/* ============ SPACED REPETITION (FSRS) ============
-   Falls back to plain randomness (srsReady=false) if the CDN library
-   didn't load — reels always work, scheduling is just a bonus layer. */
-const srsReady = typeof FSRS !== 'undefined';
-const srsSched = srsReady ? FSRS.fsrs() : null;
-let srsDB = ls_get('es_srs_v1',{});
-function srsSave(){ ls_set('es_srs_v1',srsDB); }
-function srsCard(id){
-  let raw=srsDB[id];
-  return raw ? Object.assign({},raw,{state:raw.state}) : FSRS.createEmptyCard(new Date());
-}
-function srsIsDue(id){
-  if(!srsReady) return true;
-  let raw=srsDB[id];
-  if(!raw) return true;
-  return new Date(raw.due) <= new Date();
-}
-function srsGrade(id,correct){
-  if(!srsReady || !id) return;
-  let rating = correct ? FSRS.Rating.Good : FSRS.Rating.Again;
-  let result = srsSched.next(srsCard(id), new Date(), rating);
-  let c = result.card;
-  srsDB[id] = Object.assign({},c,{due:c.due.toISOString(), last_review:c.last_review?c.last_review.toISOString():null});
-  srsSave();
-}
-/* "Due today" badge = items already studied at least once that are now overdue —
-   NOT unseen material (which would make a brand-new user's first visit say
-   "800 due today", which is really just "everything is new"). */
-function srsSeenAndDue(id){
-  let raw=srsDB[id];
-  return !!raw && new Date(raw.due)<=new Date();
-}
-function srsDueCount(pool,idFn){
-  if(!srsReady) return 0;
-  return pool.filter(x=>srsSeenAndDue(idFn(x))).length;
-}
-/* "Mature" = reviewed at least twice — the pool Fluency Sprint draws from,
-   so it's testing speed on things you already know, not new material. */
-function srsIsMature(id){
-  let raw=srsDB[id];
-  return !!raw && raw.reps>=2;
-}
-function srsIsSeen(id){ return !!srsDB[id]; }
-/* Biases toward a priority subset (what's due, or what's mature) most of
-   the time, but never restricts to ONLY that subset -- a small due/mature
-   pool would otherwise loop the same few cards constantly (this is what
-   was happening across all of Reels, not just Sprint: wrong answers get
-   rescheduled due again within minutes, so a small cluster of recently-
-   missed items could dominate the "due" filter and repeat nonstop). */
-function biasedPool(pool,idFn,isPriority,weight){
-  let priority=pool.filter(x=>isPriority(idFn(x)));
-  if(priority.length && Math.random()<weight) return priority;
-  return pool;
-}
-const DUE_BIAS=0.7, MATURE_BIAS=0.7;
-
-/* ============ AUDIO (Web Speech API — free, no key, no backend) ============ */
-const jsEsc=s=>(''+s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
-let esVoice=null;
-function pickSpanishVoice(){
-  if(!window.speechSynthesis) return null;
-  let voices=speechSynthesis.getVoices();
-  if(!voices.length) return null;
-  const pref=['Mónica','Monica','Paulina','Jorge','Google español','Microsoft Elvira','Microsoft Alvaro','Microsoft Álvaro','Helena','Sabina','Diego'];
-  for(const name of pref){ let v=voices.find(v=>v.name.includes(name)); if(v) return v; }
-  return voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('es')) || null;
-}
-if(window.speechSynthesis){
-  esVoice=pickSpanishVoice();
-  speechSynthesis.onvoiceschanged=()=>{ esVoice=pickSpanishVoice(); };
-}
-const audioReady = !!window.speechSynthesis;
-function speakEs(text,rate){
-  if(!audioReady || !text) return;
-  try{
-    speechSynthesis.cancel();
-    let u=new SpeechSynthesisUtterance((''+text).replace(/[“”]/g,'').replace(/___/g,'...'));
-    u.lang='es-ES'; u.rate=rate||0.94;
-    if(esVoice) u.voice=esVoice;
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
-
-function go(view){
-  ['home','lesson','quiz','match','results','verbs','writing','shadow'].forEach(v=>{ let el=$('#view-'+v); if(el) el.classList.add('hide'); });
-  $('#view-'+view).classList.remove('hide');
-  window.scrollTo(0,0);
-}
-
-/* ============ HOME ============ */
-function verbDueCount(){
-  if(!srsReady) return 0;
-  let n=0;
-  VERB_SENTENCES.forEach(row=>row.tenses.forEach(t=>{ if(srsSeenAndDue(verbCardId(row,t))) n++; }));
-  return n;
-}
-function matureTotalCount(){
-  if(!srsReady) return 0;
-  let n=0;
-  n+=VOCAB_POOL.filter(x=>srsIsMature(vocabCardId(x))).length;
-  n+=GRAMMAR_POOL.filter(x=>srsIsMature(grammarCardId(x))).length;
-  VERB_SENTENCES.forEach(row=>row.tenses.forEach(t=>{ if(srsIsMature(verbCardId(row,t))) n++; }));
-  return n;
-}
-function renderHome(){
-  let cards=LESSONS.map((l,i)=>`
-    <button class="card" onclick="openLesson('${l.id}')" aria-label="Open ${l.title}">
-      <div class="card-top"><span class="emoji">${l.emoji}</span><span class="tag">${l.modes.length} modes</span></div>
-      <h3>${l.title}</h3>
-      <p>${l.desc}</p>
-      <div class="card-foot"><span>Lesson ${String(i+1).padStart(2,'0')}</span><span class="card-arrow">→</span></div>
-    </button>`).join('');
-  let vocabDue=srsDueCount(VOCAB_POOL,vocabCardId);
-  let grammarDue=srsDueCount(GRAMMAR_POOL,grammarCardId)+verbDueCount();
-  let hasHistory = Object.keys(srsDB).length>0;
-  let vocabFoot = srsReady ? (vocabDue>0?`${vocabDue} due today`: hasHistory?'All caught up ✨':'Start a quick session') : 'Start a quick session';
-  let grammarFoot = srsReady ? (grammarDue>0?`${grammarDue} due today`: hasHistory?'All caught up ✨':'Train your instincts') : 'Train your instincts';
-  let totalDue = vocabDue+grammarDue;
-  let matureCount = srsReady ? matureTotalCount() : 0;
-  let sprintFoot = matureCount>=8 ? `${matureCount} mastered words ready` : 'Warms up as you practice';
-  let shadowCount = ls_get('es_shadow_count',0);
-  $('#view-home').innerHTML=`
-    <div class="hero home-hero">
-      <div class="hero-copy">
-        <span class="eyebrow"><i></i> Your personal study space</span>
-        <h2>Make Spanish<br><em>feel natural.</em></h2>
-        <p>Short, focused practice built from your own lessons. Learn the words, notice the patterns, and build confidence one answer at a time.</p>
-        ${srsReady && totalDue>0 ? `<p class="due-note">🔔 <b>${totalDue}</b> review${totalDue===1?'':'s'} due today</p>` : ''}
-        ${dailyData.count>0 ? `<p class="streak-note">🗓️ ${dailyData.count}-day streak — keep it going!</p>` : ''}
-        <div class="hero-actions">
-          <button class="btn primary" onclick="startReels('${grammarDue>vocabDue?'grammar':'vocab'}')">${totalDue>0?'Review now':'Start today’s practice'} <span>→</span></button>
-          <button class="btn ghost" onclick="openLesson('${LESSONS[0].id}')">Browse lessons</button>
-        </div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <span class="spark s1">✦</span><span class="spark s2">✦</span>
-        <div class="study-orbit">
-          <div class="word-chip chip-one"><small>greeting</small>¡Buenos días!</div>
-          <div class="word-chip chip-two"><small>feeling</small>con confianza</div>
-          <div class="word-chip chip-three"><small>today</small>un poco mejor</div>
-          <span class="study-face">🧑‍🎓</span>
-        </div>
-      </div>
-    </div>
-    <section class="home-section">
-      <div class="section-head"><div><span class="section-kicker">Small moments, real progress</span><h2 class="section-title">Practice in a flash</h2></div><span class="section-note">Swipe, answer, repeat — mixes multiple-choice, typed answers, real sentences, and verb drills</span></div>
-      <div class="feature-grid">
-      <button class="card feature-card vocab" onclick="startReels('vocab')" aria-label="Start Vocab Reels">
-        <div class="card-top"><span class="emoji">📚</span><span class="tag">Swipe mode</span></div>
-        <div>
-        <h3>Vocab Reels</h3>
-        <p>Everyday words from all your lessons, served one at a time — remembers what you know and resurfaces it right when you're about to forget.</p>
-        </div>
-        <div class="card-foot"><span>${vocabFoot}</span><span class="card-arrow">→</span></div>
-      </button>
-      <button class="card feature-card grammar" onclick="startReels('grammar')" aria-label="Start Grammar Reels">
-        <div class="card-top"><span class="emoji">⚡</span><span class="tag">Swipe mode</span></div>
-        <div>
-        <h3>Grammar Reels</h3>
-        <p>Fast questions on verbs, ser vs. estar, articles, haber, and pronouns — plus typed answers so you practice producing Spanish, not just recognizing it.</p>
-        </div>
-        <div class="card-foot"><span>${grammarFoot}</span><span class="card-arrow">→</span></div>
-      </button>
-      <button class="card feature-card sprint" onclick="startReels('sprint')" aria-label="Start Fluency Sprint">
-        <div class="card-top"><span class="emoji">🏃</span><span class="tag">60 sec</span></div>
-        <div>
-        <h3>Fluency Sprint</h3>
-        <p>A timed speed round using only the words and verbs you've already mastered — builds automatic recall, not just correctness.</p>
-        </div>
-        <div class="card-foot"><span>${sprintFoot}</span><span class="card-arrow">→</span></div>
-      </button>
-      </div>
-    </section>
-    <section class="home-section" id="practice-modes">
-      <div class="section-head"><div><span class="section-kicker">Build your foundation</span><h2 class="section-title">Choose a lesson</h2></div><span class="section-note">${LESSONS.length} topics · multiple ways to practice</span></div>
-      <div class="grid">${cards}</div>
-    </section>
-    <section class="home-section">
-      <div class="section-head"><div><span class="section-kicker">Beyond flashcards</span><h2 class="section-title">Speak &amp; write it</h2></div><span class="section-note">Recognizing words isn't the same as producing them</span></div>
-      <div class="feature-grid">
-      <button class="card feature-card shadow" onclick="startShadowing()" aria-label="Start Shadowing">
-        <div class="card-top"><span class="emoji">🎙️</span><span class="tag">Speaking</span></div>
-        <div>
-        <h3>Shadowing</h3>
-        <p>Listen to a real Spanish sentence, repeat it out loud, then record yourself and compare — this is what actually builds pronunciation and rhythm.</p>
-        </div>
-        <div class="card-foot"><span>${shadowCount>0?`${shadowCount} practiced`:'Try it'}</span><span class="card-arrow">→</span></div>
-      </button>
-      <button class="card feature-card write" onclick="startWriting()" aria-label="Start Free Writing">
-        <div class="card-top"><span class="emoji">✍️</span><span class="tag">Writing</span></div>
-        <div>
-        <h3>Escritura Libre</h3>
-        <p>Write a few original sentences on a prompt and get instant grammar feedback — the step that reveals what drills can't.</p>
-        </div>
-        <div class="card-foot"><span>Free · graded instantly</span><span class="card-arrow">→</span></div>
-      </button>
-      </div>
-    </section>
-    <section class="home-section">
-      <div class="verb-banner" onclick="startVerbs()">
-        <span class="emoji">🎯</span>
-        <div><span class="section-kicker" style="color:#765317;margin-bottom:5px">Deep practice</span><h3>Step into the Verb Studio</h3><p>Conjugate verbs inside real, conversational sentences across five tenses — now with mixed-tense mode for real interleaved practice.</p></div>
-        <button class="btn">Open studio →</button>
-      </div>
-    </section>`;
-}
-
-/* ============ LESSON MODE SELECT ============ */
-const MODE_INFO={
-  fill:{ic:'✍️',h:'Fill in the blank',p:'Type the missing word'},
-  mc:{ic:'🔘',h:'Multiple choice',p:'Pick the right answer'},
-  match:{ic:'🔗',h:'Matching game',p:'Connect the pairs'},
-  numbers:{ic:'🎲',h:'Number quiz',p:'Endless number challenge'},
-  swatch:{ic:'🌈',h:'Color quiz',p:'Name the color you see'}
-};
-let curLesson=null;
-function openLesson(id){
-  curLesson=LESSONS.find(l=>l.id===id);
-  let modes=curLesson.modes.map(m=>`
-    <div class="mode" onclick="startMode('${m}')">
-      <div class="ic">${MODE_INFO[m].ic}</div>
-      <h4>${MODE_INFO[m].h}</h4>
-      <p>${MODE_INFO[m].p}</p>
-    </div>`).join('');
-  $('#view-lesson').innerHTML=`
-    <div class="back" onclick="go('home')">← All lessons</div>
-    <div class="hero lesson-hero"><span class="eyebrow"><i></i> Lesson practice</span><h2>${curLesson.emoji} ${curLesson.title}</h2><p>${curLesson.desc} — choose the kind of challenge that feels right today.</p></div>
-    <div class="modes">${modes}</div>`;
-  go('lesson');
-}
-function startMode(m){
-  if(m==='match') startMatch(curLesson);
-  else if(m==='numbers') startNumbers();
-  else if(m==='swatch') startSwatch(curLesson);
-  else startQuiz(curLesson,m);
-}
-
-/* ============ QUIZ ENGINE (fill / mc) ============ */
-let quiz=null;
-function buildOpts(item,bank){
-  if(item.opts) return shuffle(item.opts.slice());
-  let pool=[...new Set(bank.map(b=>b.a).filter(a=>a!==item.a))];
-  let distract=shuffle(pool).slice(0,3);
-  return shuffle([item.a,...distract]);
-}
-function startQuiz(lesson,mode){
-  let items=shuffle(lesson.bank.slice()).slice(0,Math.min(10,lesson.bank.length));
-  quiz={lesson,mode,items,i:0,correct:0,answered:false};
-  go('quiz'); renderQ();
-}
-function renderQ(){
-  let {items,i,mode,lesson}=quiz;
-  let item=items[i];
-  quiz.answered=false;
-  let pct=Math.round(i/items.length*100);
-  let promptHtml=item.p.replace('___',`<span class="blank">?</span>`);
-  let body;
-  if(mode==='mc'){
-    let opts=buildOpts(item,lesson.bank);
-    body=`<div class="opts">${opts.map(o=>`<button class="opt" onclick="answerMC(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>`;
-  } else {
-    body=`<input class="answer" id="ans" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="type here…">`;
-  }
-  $('#view-quiz').innerHTML=`
-    <div class="back" onclick="openLesson('${lesson.id}')">← Back</div>
-    <div class="quizbox">
-      <div class="progressrow"><div class="track"><i style="width:${pct}%"></i></div><div class="qn">${i+1} / ${items.length}</div></div>
-      <div class="context">${item.t||lesson.title}</div>
-      <div class="prompt">${promptHtml}</div>
-      <div class="translation">${mode==='fill'?'Hint: '+(item.t||''):''}</div>
-      ${body}
-      <div class="feedback" id="fb"></div>
-      <div class="qfoot">
-        <span class="qn">🔥 ${globalStreak} streak</span>
-        <button class="btn primary" id="next" onclick="checkOrNext()">Check</button>
-      </div>
-    </div>`;
-  if(mode==='fill'){ let a=$('#ans'); a.focus(); a.addEventListener('keydown',e=>{if(e.key==='Enter')checkOrNext();}); }
-}
-function showResult(good,ans){
-  quiz.answered=true;
-  let fb=$('#fb');
-  if(good){ quiz.correct++; fb.className='feedback good'; fb.textContent=rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Muy bien! 👏','¡Perfecto! 🌟']); }
-  else{ fb.className='feedback bad'; fb.textContent='Answer: '+ans; }
-  bump(good);
-  // reflect blank
-  let blank=$('.prompt .blank'); if(blank){blank.textContent=ans; blank.style.color=good?'var(--good)':'var(--bad)'; blank.style.borderColor=good?'var(--good)':'var(--bad)';}
-  $('#next').textContent = (quiz.i+1>=quiz.items.length)?'See results →':'Next →';
-}
-function answerMC(btn,val){
-  if(quiz.answered) return;
-  let item=quiz.items[quiz.i];
-  let good=val===item.a;
-  document.querySelectorAll('.opt').forEach(b=>{
-    if(b.textContent===item.a) b.classList.add('correct');
-    else if(b===btn) b.classList.add('wrong');
-    b.disabled=true;
-  });
-  showResult(good,item.a);
-}
-function checkOrNext(){
-  let item=quiz.items[quiz.i];
-  if(!quiz.answered){
-    if(quiz.mode==='fill'){
-      let a=$('#ans'); if(!a.value.trim())return;
-      let good=norm(a.value)===norm(item.a);
-      a.classList.add(good?'correct':'wrong'); a.disabled=true;
-      showResult(good,item.a);
-    }
-    return; // mc handled by click
-  }
-  // next
-  quiz.i++;
-  if(quiz.i>=quiz.items.length) showResults(quiz.correct,quiz.items.length,()=>startQuiz(quiz.lesson,quiz.mode),quiz.lesson.id);
-  else renderQ();
-}
-
-/* ============ NUMBER QUIZ (endless) ============ */
-let numState=null;
-function startNumbers(){ numState={correct:0,total:0,answered:false}; go('quiz'); renderNum(); }
-function renderNum(){
-  numState.answered=false;
-  let big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1;
-  let answer=numToSpanish(big);
-  // distractors
-  let opts=new Set([answer]);
-  while(opts.size<4){
-    let d = big<=100 ? Math.max(0,big+rand([-5,-3,-2,2,3,7,10,-10])) : rand([100,200,300,400,500,600,700,800,900,1000]).valueOf()+rand([0,0,0,1,2]);
-    let w=numToSpanish(Math.min(1000,Math.max(0,d))); opts.add(w);
-  }
-  numState.answer=answer;
-  let list=shuffle([...opts]);
-  $('#view-quiz').innerHTML=`
-    <div class="back" onclick="openLesson('numeros')">← Back</div>
-    <div class="quizbox">
-      <div class="context">¿Qué número es?</div>
-      <div class="prompt" style="font-size:56px;text-align:center;letter-spacing:1px">${big}</div>
-      <div class="opts">${list.map(o=>`<button class="opt" onclick="answerNum(this,'${o}')">${o}</button>`).join('')}</div>
-      <div class="feedback" id="fb"></div>
-      <div class="qfoot"><span class="qn">✅ ${numState.correct} / ${numState.total}</span><button class="btn primary" id="next" onclick="renderNum()">Next number →</button></div>
-    </div>`;
-}
-function answerNum(btn,val){
-  if(numState.answered)return; numState.answered=true; numState.total++;
-  let good=val===numState.answer;
-  if(good)numState.correct++;
-  document.querySelectorAll('.opt').forEach(b=>{
-    if(b.textContent===numState.answer)b.classList.add('correct');
-    else if(b===btn)b.classList.add('wrong');
-    b.disabled=true;
-  });
-  let fb=$('#fb'); fb.className='feedback '+(good?'good':'bad'); fb.textContent=good?rand(['¡Correcto! 🎉','¡Exacto! ✨']):'Answer: '+numState.answer;
-  bump(good);
-}
-
-/* ============ COLOR SWATCH QUIZ ============ */
-let swState=null;
-function startSwatch(lesson){ swState={lesson,correct:0,total:0,answered:false}; go('quiz'); renderSwatch(); }
-function renderSwatch(){
-  swState.answered=false;
-  let sw=rand(swState.lesson.swatches);
-  let pool=swState.lesson.swatches.map(s=>s.a).filter(a=>a!==sw.a);
-  let opts=shuffle([sw.a,...shuffle(pool).slice(0,3)]);
-  swState.answer=sw.a;
-  $('#view-quiz').innerHTML=`
-    <div class="back" onclick="openLesson('numeros')">← Back</div>
-    <div class="quizbox">
-      <div class="context">¿De qué color es?</div>
-      <div class="swatch" style="background:${sw.hex};height:120px"></div>
-      <div class="opts">${opts.map(o=>`<button class="opt" onclick="answerSwatch(this,'${o}')">${o}</button>`).join('')}</div>
-      <div class="feedback" id="fb"></div>
-      <div class="qfoot"><span class="qn">✅ ${swState.correct} / ${swState.total}</span><button class="btn primary" onclick="renderSwatch()">Next color →</button></div>
-    </div>`;
-}
-function answerSwatch(btn,val){
-  if(swState.answered)return; swState.answered=true; swState.total++;
-  let good=val===swState.answer; if(good)swState.correct++;
-  document.querySelectorAll('.opt').forEach(b=>{ if(b.textContent===swState.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
-  let fb=$('#fb'); fb.className='feedback '+(good?'good':'bad'); fb.textContent=good?'¡Correcto! 🎨':'Answer: '+swState.answer;
-  bump(good);
-}
-
-/* ============ MATCHING GAME ============ */
-let match=null;
-function startMatch(lesson){
-  let pairs=shuffle(lesson.match.slice()).slice(0,Math.min(8,lesson.match.length));
-  match={lesson,pairs,selLeft:null,done:0};
-  let left=pairs.map((p,idx)=>`<div class="mitem" data-i="${idx}" onclick="pickLeft(${idx})">${p.a}</div>`).join('');
-  let rights=shuffle(pairs.map((p,idx)=>({idx,b:p.b})));
-  let right=rights.map(r=>`<div class="mitem" data-i="${r.idx}" onclick="pickRight(${r.idx})">${r.b}</div>`).join('');
-  $('#view-match').innerHTML=`
-    <div class="back" onclick="openLesson('${lesson.id}')">← Back</div>
-    <div class="quizbox">
-      <div class="context">${lesson.title} — connect the pairs</div>
-      <div class="prompt" style="font-size:18px">Tap a word on the left, then its match on the right 🔗</div>
-      <div class="matchgrid">
-        <div class="mcol" id="mleft">${left}</div>
-        <div class="mcol" id="mright">${right}</div>
-      </div>
-      <div class="feedback" id="fb"></div>
-    </div>`;
-  go('match');
-}
-function pickLeft(i){
-  let el=document.querySelector(`#mleft .mitem[data-i="${i}"]`);
-  if(el.classList.contains('done'))return;
-  document.querySelectorAll('#mleft .mitem').forEach(m=>m.classList.remove('sel'));
-  el.classList.add('sel'); match.selLeft=i;
-}
-function pickRight(i){
-  if(match.selLeft===null)return;
-  let r=document.querySelector(`#mright .mitem[data-i="${i}"]`);
-  let l=document.querySelector(`#mleft .mitem[data-i="${match.selLeft}"]`);
-  if(r.classList.contains('done'))return;
-  if(i===match.selLeft){
-    l.classList.remove('sel'); l.classList.add('done'); r.classList.add('done');
-    match.selLeft=null; match.done++; bump(true);
-    if(match.done===match.pairs.length){
-      $('#fb').className='feedback good'; $('#fb').textContent='¡Completado! 🎉';
-      setTimeout(()=>showResults(match.pairs.length,match.pairs.length,()=>startMatch(match.lesson),match.lesson.id),700);
-    }
-  } else {
-    r.classList.add('flash'); l.classList.remove('sel'); match.selLeft=null; bump(false);
-    let fb=$('#fb'); fb.className='feedback bad'; fb.textContent='Not a match, try again';
-    setTimeout(()=>{r.classList.remove('flash'); fb.textContent='';},500);
-  }
-}
-
-/* ============ RESULTS ============ */
-function showResults(correct,total,retry,lessonId){
-  let pct=Math.round(correct/total*100);
-  let emoji = pct===100?'🏆':pct>=70?'🎉':pct>=40?'💪':'📚';
-  let msg = pct===100?'Perfect score!':pct>=70?'Great job!':pct>=40?'Keep practicing!':'Don\'t give up!';
-  $('#view-results').innerHTML=`
-    <div class="results">
-      <div class="big">${emoji}</div>
-      <h2>${msg}</h2>
-      <div class="score">${correct} / ${total}</div>
-      <p>You earned ${correct*10} XP this round.</p>
-      <div class="rbtns">
-        <button class="btn primary" onclick="(${retry.toString()})()">Try again 🔄</button>
-        <button class="btn" onclick="openLesson('${lessonId}')">Other modes</button>
-        <button class="btn ghost" onclick="go('home')">Home</button>
-      </div>
-    </div>`;
-  go('results');
-  if(pct>=70) confetti();
-}
-function confetti(){
-  const colors=['#ff5d8f','#5b8cff','#3ddc97','#ffcf5c','#b10dc9'];
-  for(let i=0;i<60;i++){
-    let c=document.createElement('div'); c.className='confetti';
-    c.style.left=Math.random()*100+'vw'; c.style.background=rand(colors);
-    c.style.transform='rotate('+Math.random()*360+'deg)';
-    let dur=2+Math.random()*2;
-    c.animate([{top:'-10px',opacity:1},{top:'100vh',opacity:.9}],{duration:dur*1000,easing:'cubic-bezier(.3,.6,.7,1)'});
-    document.body.appendChild(c); setTimeout(()=>c.remove(),dur*1000);
-  }
-}
-
-/* ============ VERB GAME ============ */
-let vg=null;
-function startVerbs(){ vg={tense:'present',mode:'fill',used:[],answered:false}; go('verbs'); renderVerbShell(); nextVerb(); }
-function renderVerbShell(){
-  $('#view-verbs').innerHTML=`
-    <div class="back" onclick="go('home')">← Home</div>
-    <div class="hero"><h2>⚡ Practice Verbs</h2><p>Conjugate the verb inside a real, everyday sentence. Subjects are often dropped — just like people actually talk.</p></div>
-    <div class="tenses" id="tenses">
-      ${['present','preterite','imperfect','future','conditional','mixed'].map(t=>`<div class="tbtn ${t==='present'?'active':''}" data-tense="${t}" onclick="setTense('${t}')">${t==='mixed'?'🔀 mixed':t}</div>`).join('')}
-      <div class="tbtn" id="vmode" onclick="toggleVMode()" style="margin-left:auto">mode: type</div>
-    </div>
-    <div id="vbox"></div>`;
-}
-function setTense(t){ vg.tense=t; vg.used=[]; document.querySelectorAll('#tenses .tbtn[data-tense]').forEach(b=>b.classList.toggle('active',b.dataset.tense===t)); nextVerb(); }
-function toggleVMode(){ vg.mode=vg.mode==='fill'?'mc':'fill'; $('#vmode').textContent='mode: '+(vg.mode==='fill'?'type':'choose'); nextVerb(); }
-function nextVerb(){
-  vg.answered=false;
-  /* Only pull sentences whose fixed English gloss actually fits the selected
-     tense -- otherwise you get grammatically-correct-but-nonsensical drills
-     like conjugating "What did you say?" into the conditional. */
-  let pool = vg.tense==='mixed' ? VERB_SENTENCES : VERB_SENTENCES.filter(r=>r.tenses.includes(vg.tense));
-  if(!pool.length) pool = VERB_SENTENCES;
-  if(vg.used.length>=pool.length) vg.used=[];
-  let row; do{ row=rand(pool); }while(vg.used.includes(row.es));
-  vg.used.push(row.es);
-  vg.row=row;
-  let tense = vg.tense==='mixed' ? rand(row.tenses) : vg.tense;
-  vg.activeTense=tense;
-  let conj=VERBS[row.verb][tense][row.subject];
-  vg.answer=row.answer||conj;
-  let parts=row.es.split('___');
-  let mid, body;
-  if(vg.mode==='mc'){
-    let forms=Object.values(VERBS[row.verb][tense]);
-    let pool=[...new Set(forms.filter(f=>f!==vg.answer))];
-    let opts=shuffle([vg.answer,...shuffle(pool).slice(0,3)]);
-    mid=`<span class="blank">?</span>`;
-    body=`<div class="opts" style="margin-top:18px">${opts.map(o=>`<button class="opt" onclick="vAnswerMC(this,'${o}')">${o}</button>`).join('')}</div>`;
-  } else {
-    mid=`<input class="answer" id="vans" style="max-width:220px;display:inline-block;width:auto;font-size:18px;padding:6px 12px" autocomplete="off" spellcheck="false" placeholder="…">`;
-    body='';
-  }
-  let tenseTag = vg.tense==='mixed' ? ` &nbsp;·&nbsp; <span style="opacity:.65">${tense}</span>` : '';
-  $('#vbox').innerHTML=`
-    <div class="quizbox">
-      <div class="context">💬 ${row.context} &nbsp;·&nbsp; <b style="color:var(--txt)">${row.verb}</b> (${VERBS[row.verb].m})${tenseTag}</div>
-      <div class="translation" style="margin-bottom:18px">"${row.en}"</div>
-      <div class="prompt" style="font-size:22px">${parts[0]}${mid}${parts[1]||''}</div>
-      ${body}
-      <div class="feedback" id="vfb"></div>
-      <div id="vspk"></div>
-      <div class="qfoot">
-        <button class="btn ghost" onclick="vHint()">💡 hint</button>
-        <div style="display:flex;gap:8px">
-          <button class="btn" onclick="vReveal()">show answer</button>
-          <button class="btn primary" id="vnext" onclick="vNextOrCheck()">Check</button>
-        </div>
-      </div>
-    </div>`;
-  if(vg.mode==='fill'){ let a=$('#vans'); a.focus(); a.addEventListener('keydown',e=>{if(e.key==='Enter')vNextOrCheck();}); }
-}
-function vSet(good){
-  vg.answered=true; let fb=$('#vfb');
-  if(good){fb.className='feedback good';fb.textContent=rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Muy bien! 👏']);}
-  else{fb.className='feedback bad';fb.textContent='Answer: '+vg.answer;}
-  let blank=$('#vbox .blank'); if(blank){blank.textContent=vg.answer;blank.style.color=good?'var(--good)':'var(--bad)';blank.style.borderColor=good?'var(--good)':'var(--bad)';}
-  let spk=$('#vspk'); if(spk&&audioReady) spk.innerHTML=`<button class="reel-speak-inline" style="width:auto;padding:4px 12px;margin-left:0;margin-top:8px" onclick="speakEs('${jsEsc(vg.row.es.replace('___',vg.answer))}')">🔊 Escuchar</button>`;
-  bump(good); $('#vnext').textContent='Next →';
-}
-function vAnswerMC(btn,val){
-  if(vg.answered)return; let good=val===vg.answer;
-  document.querySelectorAll('#vbox .opt').forEach(b=>{if(b.textContent===vg.answer)b.classList.add('correct');else if(b===btn)b.classList.add('wrong');b.disabled=true;});
-  vSet(good);
-}
-function vNextOrCheck(){
-  if(!vg.answered){
-    if(vg.mode==='fill'){let a=$('#vans');if(!a.value.trim())return;let good=norm(a.value)===norm(vg.answer);a.classList.add(good?'correct':'wrong');a.disabled=true;vSet(good);}
-    return;
-  }
-  nextVerb();
-}
-function vHint(){ let fb=$('#vfb'); fb.className='feedback'; fb.style.color='var(--muted)'; fb.textContent=`subject: ${vg.row.subject} · tense: ${vg.activeTense||vg.tense} · starts with "${vg.answer[0]}"`; }
-function vReveal(){ if(vg.answered)return; if(vg.mode==='fill'){let a=$('#vans');if(a){a.value=vg.answer;a.classList.add('wrong');a.disabled=true;}} vSet(false); }
-
-/* ============ SHADOWING (listen · repeat · record · compare) ============ */
-const canRecord = !!(navigator.mediaDevices && window.MediaRecorder);
-let shadowState=null;
-function shadowSentences(){
-  // Prefer real mined sentences once loaded; fall back to the built-in verb-practice bank.
-  if(CLOZE_SENTENCES.length) return CLOZE_SENTENCES.map(c=>({es:c.es,en:c.en,cat:'Oración real'}));
-  return VERB_SENTENCES.map(row=>{
-    let answer=row.answer||VERBS[row.verb].present[row.subject];
-    return {es:row.es.replace('___',answer),en:row.en,cat:row.context};
-  });
-}
-function startShadowing(){
-  let pool=shadowSentences();
-  shadowState={order:shuffle(pool.map((_,i)=>i)),idx:0,pool,recording:false,recorder:null,chunks:[],practiced:ls_get('es_shadow_count',0)};
-  go('shadow'); renderShadow();
-}
-function renderShadow(){
-  let s=shadowState, item=s.pool[s.order[s.idx % s.order.length]];
-  s.current=item;
-  $('#view-shadow').innerHTML=`
-    <div class="back" onclick="stopShadowStream();go('home')">← Home</div>
-    <div class="hero"><h2>🎙️ Shadowing</h2><p>Listen, say it out loud along with the audio, then record yourself and compare. This is what actually builds pronunciation and rhythm — not just vocabulary.</p></div>
-    <div class="quizbox">
-      <div class="context">💬 ${item.cat}</div>
-      <div class="prompt" style="font-size:24px;margin:10px 0 6px">${item.es}</div>
-      <div class="translation" style="margin-bottom:18px">"${item.en}"</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn primary" onclick="speakEs(shadowState.current.es,0.94)">🔊 Escuchar</button>
-        <button class="btn" onclick="speakEs(shadowState.current.es,0.62)">🐌 Despacio</button>
-        ${canRecord?`<button class="btn" id="shadow-rec-btn" onclick="toggleShadowRecord()">🎙️ Grabar mi voz</button>`:''}
-      </div>
-      <div id="shadow-playback" style="margin-top:16px"></div>
-      <div class="qfoot"><span class="qn">🗣️ ${s.practiced} practicadas</span><button class="btn primary" onclick="nextShadow()">Siguiente →</button></div>
-    </div>`;
-}
-function nextShadow(){
-  let s=shadowState; s.idx++; s.practiced++; ls_set('es_shadow_count',s.practiced);
-  stopShadowStream();
-  renderShadow();
-}
-function stopShadowStream(){
-  let s=shadowState; if(!s) return;
-  if(s.stream) s.stream.getTracks().forEach(t=>t.stop());
-  s.recording=false; s.recorder=null; s.stream=null;
-}
-async function toggleShadowRecord(){
-  let s=shadowState, btn=$('#shadow-rec-btn');
-  if(s.recording){ s.recorder.stop(); return; }
-  try{
-    let stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    s.stream=stream; s.chunks=[];
-    let rec=new MediaRecorder(stream);
-    s.recorder=rec; s.recording=true;
-    if(btn){ btn.textContent='⏹ Detener'; btn.classList.add('primary'); }
-    rec.ondataavailable=e=>{ if(e.data.size>0) s.chunks.push(e.data); };
-    rec.onstop=()=>{
-      s.recording=false; if(btn){ btn.textContent='🎙️ Grabar mi voz'; btn.classList.remove('primary'); }
-      let blob=new Blob(s.chunks,{type:'audio/webm'}), url=URL.createObjectURL(blob);
-      let pb=$('#shadow-playback');
-      if(pb) pb.innerHTML=`<div style="font-size:13px;color:var(--muted);margin-bottom:6px">Tu grabación — compárala con el audio original:</div><audio controls src="${url}" style="width:100%"></audio>`;
-      stream.getTracks().forEach(t=>t.stop());
-    };
-    rec.start();
-  }catch(e){
-    let pb=$('#shadow-playback');
-    if(pb) pb.innerHTML=`<div style="font-size:13px;color:var(--muted)">No se pudo acceder al micrófono — puedes seguir practicando escuchando y repitiendo en voz alta.</div>`;
-  }
-}
-
-/* ============ FREE WRITING (graded by the free LanguageTool API) ============
-   Output practice: Swain's Output Hypothesis says input alone plateaus —
-   producing original language is what forces you to notice your own gaps. */
-const WRITING_PROMPTS=[
-  'Describe tu rutina diaria: ¿qué haces cada mañana?',
-  'Habla de tu familia: ¿cuántos son y cómo son?',
-  '¿Qué te gusta hacer los fines de semana?',
-  'Describe tu comida favorita y por qué te gusta.',
-  '¿Dónde vives? Describe tu casa o apartamento.',
-  '¿Con qué frecuencia haces ejercicio? Explica tu rutina.',
-  'Describe a tu mejor amigo o amiga.',
-  '¿Qué planes tienes para el próximo fin de semana?',
-  'Habla de un lugar que quieres visitar y por qué.',
-  '¿Cómo es un día normal en tu trabajo o escuela?',
-  'Describe el clima de hoy y qué ropa llevas.',
-  '¿Qué hiciste ayer? Cuenta tu día.'
-];
-let writingState=null;
-function startWriting(){
-  writingState={prompt:rand(WRITING_PROMPTS),checking:false};
-  go('writing'); renderWriting();
-}
-function renderWriting(){
-  $('#view-writing').innerHTML=`
-    <div class="back" onclick="go('home')">← Home</div>
-    <div class="hero"><h2>✍️ Escritura Libre</h2><p>Write a few sentences of your own. This is the step vocabulary drills skip — producing original Spanish is what actually reveals what you don't know yet.</p></div>
-    <div class="quizbox">
-      <div class="context">💬 ${writingState.prompt}</div>
-      <textarea id="writing-input" rows="7" style="width:100%;margin-top:14px;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--panel2);color:var(--txt);font-family:inherit;font-size:16px;resize:vertical" placeholder="Escribe aquí en español…"></textarea>
-      <div class="qfoot">
-        <button class="btn ghost" onclick="startWriting()">🔀 Otro tema</button>
-        <button class="btn primary" id="writing-check-btn" onclick="checkWriting()">Revisar ✓</button>
-      </div>
-      <div id="writing-result"></div>
-    </div>`;
-}
-async function checkWriting(){
-  let ta=$('#writing-input'), text=ta.value.trim();
-  if(!text || writingState.checking) return;
-  writingState.checking=true;
-  let btn=$('#writing-check-btn'), result=$('#writing-result');
-  btn.disabled=true; btn.textContent='Revisando…';
-  result.innerHTML=`<div style="color:var(--muted);margin-top:16px">Comprobando con LanguageTool…</div>`;
-  try{
-    let res=await fetch('https://api.languagetool.org/v2/check',{
-      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:'text='+encodeURIComponent(text)+'&language=es'
-    });
-    let data=await res.json();
-    let matches=(data.matches||[]);
-    bump(true);
-    if(!matches.length){
-      result.innerHTML=`<div class="feedback good" style="margin-top:16px">¡Perfecto! 🎉 LanguageTool no encontró ningún error. ¡Muy buen trabajo!</div>`;
-    } else {
-      let cards=matches.slice(0,12).map(m=>{
-        let snippet=text.slice(m.offset,m.offset+m.length);
-        let repl=(m.replacements||[]).slice(0,3).map(r=>r.value).filter(Boolean);
-        return `<div style="background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px">
-          <div><span style="background:rgba(255,109,109,.25);padding:1px 6px;border-radius:6px;font-weight:700">${snippet||'(…)'}</span> ${repl.length?`→ <b style="color:var(--good)">${repl.join(', ')}</b>`:''}</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:4px">${m.message}</div>
-        </div>`;
-      }).join('');
-      result.innerHTML=`<div style="margin-top:16px"><div class="feedback" style="color:var(--warn)">${matches.length} sugerencia${matches.length===1?'':'s'} encontrada${matches.length===1?'':'s'}:</div>${cards}</div>`;
-    }
-  }catch(e){
-    result.innerHTML=`<div class="feedback bad" style="margin-top:16px">No se pudo conectar con el corrector — inténtalo de nuevo en un momento.</div>`;
-  }
-  writingState.checking=false; btn.disabled=false; btn.textContent='Revisar ✓';
-}
-
-/* ============ SPANISH REELS ============ */
-const REEL_BG=[
-  'linear-gradient(160deg,#ff5d8f,#7b2ff7)','linear-gradient(160deg,#5b8cff,#2bd2ff)',
-  'linear-gradient(160deg,#ff8a00,#ff5d8f)','linear-gradient(160deg,#11998e,#38ef7d)',
-  'linear-gradient(160deg,#fc466b,#3f5efb)','linear-gradient(160deg,#8e2de2,#4a00e0)',
-  'linear-gradient(160deg,#f7971e,#ffd200)','linear-gradient(160deg,#00b09b,#96c93d)',
-  'linear-gradient(160deg,#e1306c,#f77737)','linear-gradient(160deg,#1f4037,#99f2c8)'
-];
-const TENSES=['present','preterite','imperfect','future','conditional'];
-function mcDistract(answer,pool,n=3){ pool=[...new Set(pool.filter(x=>x!==answer))]; return shuffle(pool).slice(0,n); }
-/* Avoid picking the same item twice in a row (retries a few times, then gives up on tiny pools) */
-function randAvoid(arr,lastKey,keyFn){
-  if(arr.length<=1) return rand(arr);
-  let item,tries=0;
-  do{ item=rand(arr); tries++; } while(keyFn(item)===lastKey && tries<8);
-  return item;
-}
-let lastVerbKey=null, lastVocabKey=null, lastGrammarKey=null, lastNumberKey=null, lastColorKey=null;
-const verbCardId=(row,tense)=>'r|'+row.verb+'|'+tense+'|'+row.subject+'|'+row.es;
-let sprintMode=false;
-function card_verb(){
-  let row=randAvoid(VERB_SENTENCES,lastVerbKey,r=>r.es);
-  lastVerbKey=row.es;
-  let tense;
-  if(sprintMode){
-    let matureTenses=row.tenses.filter(t=>srsIsMature(verbCardId(row,t)));
-    tense=rand(matureTenses.length?matureTenses:row.tenses);
-  } else {
-    let dueTenses=row.tenses.filter(t=>srsIsDue(verbCardId(row,t)));
-    tense=rand(dueTenses.length?dueTenses:row.tenses);
-  }
-  let id=verbCardId(row,tense);
-  let conj=VERBS[row.verb][tense][row.subject], answer=row.answer||conj;
-  let es=row.es.replace('___',answer);
-  if(!sprintMode && Math.random()<0.3){
-    return {type:'type',cat:`${row.verb} · ${tense}`,emoji:'✍️',en:'“'+row.en+'” — type the conjugated verb',prompt:row.es,answer,srsId:id,es};
-  }
-  let forms=Object.values(VERBS[row.verb][tense]);
-  return {cat:`${row.verb} · ${tense}`,emoji:'⚡',en:'“'+row.en+'”',prompt:row.es,opts:shuffle([answer,...mcDistract(answer,forms)]),answer,srsId:id,es};
-}
-/* Extra conversation/description vocabulary beyond the lessons */
-const EXTRA_VOCAB=[
-  {a:'friendly',b:'amable',cat:'Personalidad'},{a:'funny',b:'gracioso',cat:'Personalidad'},
-  {a:'shy',b:'tímido',cat:'Personalidad'},{a:'talkative',b:'hablador',cat:'Personalidad'},
-  {a:'serious',b:'serio',cat:'Personalidad'},{a:'kind',b:'bueno',cat:'Personalidad'},
-  {a:'lazy',b:'perezoso',cat:'Personalidad'},{a:'hard-working',b:'trabajador',cat:'Personalidad'},
-  {a:'clever',b:'listo',cat:'Personalidad'},{a:'boring',b:'aburrido',cat:'Personalidad'},
-  {a:'restaurant',b:'restaurante',cat:'En la ciudad'},{a:'supermarket',b:'supermercado',cat:'En la ciudad'},
-  {a:'pharmacy',b:'farmacia',cat:'En la ciudad'},{a:'library',b:'biblioteca',cat:'En la ciudad'},
-  {a:'market',b:'mercado',cat:'En la ciudad'},{a:'cinema',b:'cine',cat:'En la ciudad'},
-  {a:'square',b:'plaza',cat:'En la ciudad'},{a:'church',b:'iglesia',cat:'En la ciudad'},
-  {a:'station',b:'estación',cat:'En la ciudad'},{a:'museum',b:'museo',cat:'En la ciudad'},
-  {a:'money',b:'dinero',cat:'Objetos'},{a:'key',b:'llave',cat:'Objetos'},
-  {a:'wallet',b:'cartera',cat:'Objetos'},{a:'watch',b:'reloj',cat:'Objetos'},
-  {a:'bag',b:'bolso',cat:'Objetos'},{a:'umbrella',b:'paraguas',cat:'Objetos'},
-  {a:'mirror',b:'espejo',cat:'En la casa'},{a:'plate',b:'plato',cat:'En la casa'},
-  {a:'cup',b:'taza',cat:'En la casa'},{a:'fork',b:'tenedor',cat:'En la casa'},
-  {a:'knife',b:'cuchillo',cat:'En la casa'},{a:'spoon',b:'cuchara',cat:'En la casa'},
-  {a:'water',b:'agua',cat:'Comida'},{a:'bread',b:'pan',cat:'Comida'},
-  {a:'coffee',b:'café',cat:'Comida'},{a:'food',b:'comida',cat:'Comida'},
-  {a:'friend',b:'amigo',cat:'Personas'},{a:'family',b:'familia',cat:'Personas'},
-  {a:'neighbour',b:'vecino',cat:'Personas'},{a:'boss',b:'jefe',cat:'Personas'}
-];
-/* Pools assembled at init from all lessons + extras */
-let VOCAB_POOL=[], GRAMMAR_POOL=[], CLOZE_SENTENCES=[];
-/* Real Spanish sentences mined from Tatoeba (CC BY 2.0 FR), curated for
-   beginner length + vocabulary overlap with this site's own lessons.
-   Loaded lazily so a slow/offline connection never blocks the app —
-   reels and shadowing both fall back gracefully to their existing pools
-   until this resolves. */
-function loadClozeData(){
-  fetch('data/cloze_sentences.json').then(r=>r.ok?r.json():[]).then(data=>{
-    CLOZE_SENTENCES=Array.isArray(data)?data:[];
-  }).catch(()=>{ CLOZE_SENTENCES=[]; });
-}
-function buildPools(){
-  VOCAB_POOL=[]; GRAMMAR_POOL=[];
-  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos'];
-  vocabLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(l&&l.match) l.match.forEach(p=>VOCAB_POOL.push({a:p.a,b:p.b,cat:l.title})); });
-  EXTRA_VOCAB.forEach(v=>VOCAB_POOL.push(v));
-  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos','conversa'];
-  grammarLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(!l||!l.bank) return;
-    l.bank.forEach(item=>{
-      let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,l.bank.map(b=>b.a))];
-      if(opts.length<2) return;
-      GRAMMAR_POOL.push({cat:l.title,emoji:l.emoji,en:item.t||'',prompt:item.p,opts,answer:item.a});
-    });
-  });
-}
-const vocabCardId=v=>'v|'+v.cat+'|'+v.a+'|'+v.b;
-function card_vocab(){
-  let source=sprintMode
-    ? biasedPool(VOCAB_POOL,vocabCardId,srsIsMature,MATURE_BIAS)
-    : biasedPool(VOCAB_POOL,vocabCardId,srsIsDue,DUE_BIAS);
-  let v=randAvoid(source,lastVocabKey,x=>x.a+'|'+x.b);
-  lastVocabKey=v.a+'|'+v.b;
-  let id=vocabCardId(v);
-  if(!sprintMode && Math.random()<0.22){
-    return {type:'type',cat:v.cat,emoji:'✍️',en:'Type it in Spanish',prompt:'“'+v.a+'”',answer:v.b,srsId:id,es:v.b};
-  }
-  let askEs = Math.random()<0.6; // 60% EN->ES, 40% ES->EN
-  if(askEs){
-    let opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.b))]);
-    if(opts.length<4) opts=shuffle([v.b,...mcDistract(v.b,VOCAB_POOL.map(x=>x.b))]);
-    return {cat:v.cat,emoji:'📚',en:'How do you say…',prompt:'“'+v.a+'”',opts,answer:v.b,srsId:id,es:v.b};
-  } else {
-    let opts=shuffle([v.a,...mcDistract(v.a,VOCAB_POOL.filter(x=>x.cat===v.cat).map(x=>x.a))]);
-    if(opts.length<4) opts=shuffle([v.a,...mcDistract(v.a,VOCAB_POOL.map(x=>x.a))]);
-    return {cat:v.cat,emoji:'📚',en:'What does this mean?',prompt:'“'+v.b+'”',opts,answer:v.a,srsId:id,es:v.b};
-  }
-}
-const grammarCardId=item=>'g|'+item.cat+'|'+item.prompt;
-function card_grammar(){
-  let source=sprintMode
-    ? biasedPool(GRAMMAR_POOL,grammarCardId,srsIsMature,MATURE_BIAS)
-    : biasedPool(GRAMMAR_POOL,grammarCardId,srsIsDue,DUE_BIAS);
-  let item=randAvoid(source,lastGrammarKey,x=>x.prompt);
-  lastGrammarKey=item.prompt;
-  let id=grammarCardId(item);
-  let es=item.prompt.includes('___') ? item.prompt.replace('___',item.answer) : item.prompt;
-  if(!sprintMode && Math.random()<0.3){
-    return {type:'type',cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,answer:item.answer,srsId:id,es};
-  }
-  return {cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,opts:shuffle(item.opts.slice()),answer:item.answer,srsId:id,es};
-}
-function card_number(){
-  let big,tries=0;
-  do{ big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1; tries++; }
-  while(big===lastNumberKey && tries<8);
-  lastNumberKey=big;
-  let answer=numToSpanish(big), set=new Set([answer]);
-  while(set.size<4){ let d = big<=100 ? Math.min(100,Math.max(0,big+rand([-7,-5,-3,-2,2,3,5,7,10]))) : rand([100,200,300,400,500,600,700,800,900,1000]); set.add(numToSpanish(d)); }
-  return {cat:'Números',emoji:'🔢',en:'What number is this?',prompt:String(big),opts:shuffle([...set]),answer,big:true,es:answer};
-}
-function card_color(){
-  let lesson=LESSONS.find(l=>l.id==='numeros'), sw=randAvoid(lesson.swatches,lastColorKey,s=>s.a);
-  lastColorKey=sw.a;
-  return {cat:'Colores',emoji:'🌈',en:'¿De qué color es?',prompt:'',opts:shuffle([sw.a,...mcDistract(sw.a,lesson.swatches.map(s=>s.a))]),answer:sw.a,swatch:sw.hex,es:sw.a};
-}
-let lastClozeKey=null;
-const clozeCardId=item=>'z|'+item.id;
-function card_cloze(){
-  let source=sprintMode
-    ? biasedPool(CLOZE_SENTENCES,clozeCardId,srsIsMature,MATURE_BIAS)
-    : biasedPool(CLOZE_SENTENCES,clozeCardId,srsIsDue,DUE_BIAS);
-  let item=randAvoid(source,lastClozeKey,x=>x.id);
-  lastClozeKey=item.id;
-  let id=clozeCardId(item);
-  let esc=item.blank.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  let promptEs=item.es.replace(new RegExp('\\b'+esc+'\\b','i'),'___');
-  if(promptEs===item.es) promptEs=item.es.replace(item.blank,'___'); // fallback if the regex didn't match
-  if(!sprintMode && Math.random()<0.45){
-    return {type:'type',cat:'Oración real',emoji:'📖',en:'"'+item.en+'" — fill in the missing word',prompt:promptEs,answer:item.blank,srsId:id,es:item.es};
-  }
-  let pool=CLOZE_SENTENCES.map(x=>x.blank).filter(w=>w.toLowerCase()!==item.blank.toLowerCase());
-  let opts=shuffle([item.blank,...mcDistract(item.blank,pool)]);
-  if(opts.length<4){ let extra=VOCAB_POOL.map(v=>v.b).filter(w=>w!==item.blank); opts=shuffle([item.blank,...mcDistract(item.blank,[...pool,...extra])]); }
-  return {cat:'Oración real',emoji:'📖',en:'"'+item.en+'"',prompt:promptEs,opts,answer:item.blank,srsId:id,es:item.es};
-}
-function makeReelCard(){
-  let r=Math.random(), c, hasCloze=CLOZE_SENTENCES.length>0;
-  if(reelMode==='sprint'){
-    if(r<0.38) c=card_vocab(); else if(r<0.72) c=card_verb(); else c=card_grammar();
-  } else if(reelMode==='vocab'){
-    if(hasCloze && r<0.16) c=card_cloze();
-    else if(r<0.74) c=card_vocab(); else if(r<0.88) c=card_number(); else c=card_color();
-  } else {
-    if(hasCloze && r<0.18) c=card_cloze();
-    else if(r<0.59) c=card_verb(); else c=card_grammar();
-  }
-  c.bg=rand(REEL_BG); return c;
-}
-let reelIdx=0; const reelData={}; let reelIO=null, activeReelEl=null, reelMode='vocab';
-const ACCENT_CHARS=['á','é','í','ó','ú','ñ','¿','¡'];
-function reelCardHTML(cid,c){
-  let promptHtml = c.prompt && c.prompt.includes('___') ? c.prompt.replace('___','<span class="reel-blank">?</span>') : c.prompt;
-  let esc=o=>(''+o).replace(/'/g,"\\'");
-  let body = c.type==='type'
-    ? `<div class="reel-typebox" id="tb-${cid}">
-        <input type="text" class="reel-type-input" id="ti-${cid}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Escribe aquí…" onkeydown="if(event.key==='Enter'){event.preventDefault();reelCheckType('${cid}')}">
-        <div class="reel-accents">${ACCENT_CHARS.map(ch=>`<button type="button" class="accent-btn" onclick="insertAccent('ti-${cid}','${ch}')">${ch}</button>`).join('')}</div>
-        <button class="r-check-btn" id="cb-${cid}" onclick="reelCheckType('${cid}')">Comprobar ✓</button>
-      </div>`
-    : `<div class="reel-opts">${c.opts.map(o=>`<button class="reel-opt" onclick="reelAnswer('${cid}',this,'${esc(o)}')">${o}</button>`).join('')}</div>`;
-  return `<div class="reel" data-cid="${cid}" style="background:${c.bg}">
-    <div class="reel-cat">${c.emoji} ${c.cat}</div>
-    ${c.en?`<div class="reel-en">${c.en}</div>`:''}
-    ${c.swatch?`<div class="reel-swatch" style="background:${c.swatch}"></div>`:''}
-    ${promptHtml?`<div class="reel-prompt${c.big?' reel-big':''}">${promptHtml}</div>`:''}
-    ${body}
-    <div class="reel-fb" id="fb-${cid}"></div>
-    <div id="spk-${cid}"></div>
-    <div class="reel-up" id="up-${cid}">swipe up for more ⬆</div>
-  </div>`;
-}
-function reelSpeakBtn(cid,es){
-  if(!audioReady || !es) return '';
-  let box=document.getElementById('spk-'+cid); if(!box) return '';
-  box.innerHTML=`<button class="reel-speak" style="width:auto;height:auto;padding:8px 18px;font-size:15px;margin-top:14px;margin-bottom:0" onclick="speakEs('${jsEsc(es)}')">🔊 Escuchar</button>`;
-}
-function insertAccent(inputId,ch){
-  let el=document.getElementById(inputId); if(!el||el.disabled) return;
-  let s=el.selectionStart!=null?el.selectionStart:el.value.length, e=el.selectionEnd!=null?el.selectionEnd:el.value.length;
-  el.value=el.value.slice(0,s)+ch+el.value.slice(e);
-  el.focus(); el.setSelectionRange(s+ch.length,s+ch.length);
-}
-function reelCheckType(cid){
-  let c=reelData[cid]; if(!c||c.done) return;
-  let input=document.getElementById('ti-'+cid); if(!input || !input.value.trim()) { if(input) input.focus(); return; }
-  c.done=true;
-  let reel=document.querySelector(`.reel[data-cid="${cid}"]`);
-  let val=input.value.trim(), exact=val===c.answer, good=norm(val)===norm(c.answer);
-  input.disabled=true; let cb=document.getElementById('cb-'+cid); if(cb) cb.disabled=true;
-  let box=document.getElementById('tb-'+cid); if(box) box.classList.add(good?'good':'bad');
-  let fb=document.getElementById('fb-'+cid);
-  if(good && exact) fb.textContent=rand(['¡Perfecto! 🎉','¡Exacto! ✨','¡Eso es! 🔥']);
-  else if(good) fb.textContent='¡Casi! Ojo con el acento: '+c.answer+' ✏️';
-  else fb.textContent='✗  '+c.answer;
-  reelSpeakBtn(cid,c.es);
-  srsGrade(c.srsId,good); bump(good);
-  if(good){ reelXPFloat(); setTimeout(()=>reelNext(reel),1100); }
-  else { document.getElementById('up-'+cid).classList.add('show'); }
-}
-function appendReels(n){
-  let scroll=document.getElementById('reel-scroll'), html='';
-  for(let i=0;i<n;i++){ let cid='r'+(reelIdx++); reelData[cid]=makeReelCard(); html+=reelCardHTML(cid,reelData[cid]); }
-  scroll.insertAdjacentHTML('beforeend',html);
-  scroll.querySelectorAll('.reel:not([data-obs])').forEach(el=>{ el.setAttribute('data-obs','1'); reelIO.observe(el); });
-}
-let sprintState=null, sprintTimer=null;
-const SPRINT_SECONDS=60;
-function startReels(mode){
-  reelMode = mode==='grammar' ? 'grammar' : mode==='sprint' ? 'sprint' : 'vocab';
-  sprintMode = reelMode==='sprint';
-  let title = reelMode==='grammar' ? '⚡ Grammar Reels' : reelMode==='sprint' ? '🏃 Fluency Sprint' : '📚 Vocab Reels';
-  let ov=$('#reels-overlay');
-  let timerHTML = sprintMode ? `<div class="ra"><span class="ic">⏱️</span><span id="sprint-clock">${SPRINT_SECONDS}</span></div>` : '';
-  ov.innerHTML=`
-    <div class="reel-top"><div>${title}</div><button class="reel-x" onclick="exitReels()">✕</button></div>
-    <div class="reel-rail">
-      ${timerHTML}
-      <div class="ra"><span class="ic">🔥</span><span id="reel-streak">${globalStreak}</span></div>
-      <div class="ra"><span class="ic">⭐</span><span id="reel-xp">${xp}</span></div>
-      <div class="ra" onclick="reelSkip()"><span class="ic">⏭️</span>skip</div>
-    </div>
-    <div class="reel-scroll" id="reel-scroll"></div>`;
-  reelIdx=0; for(let k in reelData) delete reelData[k];
-  reelIO=new IntersectionObserver(es=>{
-    es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6){
-      activeReelEl=e.target;
-      let reels=[...document.querySelectorAll('.reel')];
-      if(reels.indexOf(e.target)>=reels.length-2) appendReels(5);
-    }});
-  },{root:document.getElementById('reel-scroll'),threshold:[0.6]});
-  ov.classList.add('on'); document.body.style.overflow='hidden';
-  appendReels(6);
-  if(sprintMode){
-    sprintState={correct:0,total:0,timeLeft:SPRINT_SECONDS};
-    if(sprintTimer) clearInterval(sprintTimer);
-    sprintTimer=setInterval(tickSprint,1000);
-  }
-}
-function tickSprint(){
-  if(!sprintState) return;
-  sprintState.timeLeft--;
-  let clock=$('#sprint-clock'); if(clock) clock.textContent=Math.max(0,sprintState.timeLeft);
-  if(sprintState.timeLeft<=0) endSprint();
-}
-function endSprint(){
-  if(sprintTimer){ clearInterval(sprintTimer); sprintTimer=null; }
-  sprintMode=false;
-  let s=sprintState; if(!s) return;
-  let acc = s.total ? Math.round(100*s.correct/s.total) : 0;
-  let msg = acc>=85?'¡Impresionante velocidad! 🚀':acc>=60?'¡Muy bien! 💪':'¡Sigue practicando! 📈';
-  let ov=$('#reels-overlay');
-  ov.innerHTML=`
-    <div class="reel-top"><div>🏃 Fluency Sprint</div><button class="reel-x" onclick="exitReels()">✕</button></div>
-    <div class="reel-scroll">
-      <div class="reel" style="height:100%;background:linear-gradient(160deg,#f7971e,#ffd200)">
-        <div class="reel-cat">⏱️ Tiempo terminado</div>
-        <div class="reel-prompt" style="font-size:26px">${msg}</div>
-        <div style="font-size:56px;font-weight:800;margin-bottom:10px">${s.correct} / ${s.total}</div>
-        <div style="font-size:18px;opacity:.9;margin-bottom:26px">${acc}% de precisión</div>
-        <div class="reel-opts">
-          <button class="reel-opt" onclick="startReels('sprint')">🔁 Otro sprint</button>
-          <button class="reel-opt" onclick="exitReels()">✓ Terminar</button>
-        </div>
-      </div>
-    </div>`;
-  sprintState=null;
-}
-function exitReels(){
-  let ov=$('#reels-overlay'); ov.classList.remove('on'); ov.innerHTML=''; document.body.style.overflow='';
-  if(reelIO){reelIO.disconnect();reelIO=null;}
-  if(sprintTimer){ clearInterval(sprintTimer); sprintTimer=null; }
-  sprintMode=false; sprintState=null; activeReelEl=null; renderHome(); go('home');
-}
-function reelNext(reel){ let nx=reel&&reel.nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); }
-function reelSkip(){ if(activeReelEl) reelNext(activeReelEl); }
-function reelXPFloat(){ let ov=$('#reels-overlay'); let f=document.createElement('div'); f.className='reel-xpfloat'; f.textContent='+10'; ov.appendChild(f); setTimeout(()=>f.remove(),1000); }
-function reelAnswer(cid,btn,val){
-  let c=reelData[cid]; if(!c||c.done) return; c.done=true;
-  let reel=document.querySelector(`.reel[data-cid="${cid}"]`), good=val===c.answer;
-  reel.querySelectorAll('.reel-opt').forEach(b=>{ if(b.textContent===c.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
-  let blank=reel.querySelector('.reel-blank'); if(blank)blank.textContent=c.answer;
-  let fb=document.getElementById('fb-'+cid); fb.textContent = good ? rand(['¡Correcto! 🎉','¡Exacto! ✨','¡Eso es! 🔥','¡Muy bien! 👏']) : '✗  '+c.answer;
-  if(sprintState){ sprintState.total++; if(good) sprintState.correct++; }
-  else reelSpeakBtn(cid,c.es);
-  srsGrade(c.srsId,good); bump(good);
-  if(sprintState){ setTimeout(()=>reelNext(reel),good?450:650); }
-  else if(good){ reelXPFloat(); setTimeout(()=>reelNext(reel),850); }
-  else { document.getElementById('up-'+cid).classList.add('show'); }
-}
-document.addEventListener('keydown',e=>{
-  if(!$('#reels-overlay').classList.contains('on')) return;
-  if(document.activeElement && document.activeElement.tagName==='INPUT') return; // typing — don't steal keys
-  if(e.key==='ArrowDown'){ e.preventDefault(); reelSkip(); }
-  else if(['1','2','3','4'].includes(e.key)){ let opts=activeReelEl&&activeReelEl.querySelectorAll('.reel-opt'); let i=+e.key-1; if(opts&&opts[i]&&!opts[i].disabled) opts[i].click(); }
-});
-
-/* ============ INIT ============ */
-buildPools();
-loadClozeData();
-renderHome();
+document.getElementById('year').textContent = new Date().getFullYear();
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.12});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
