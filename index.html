@@ -65,9 +65,10 @@
   .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .hero h1{font-size:clamp(36px,5.2vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.06}
-  .hero h1 .accent{background:linear-gradient(100deg,var(--accent),#a9c0ff 60%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lede{font-size:18px;color:var(--muted);max-width:520px;margin:22px 0 34px;font-weight:400}
+  .accent{background:linear-gradient(100deg,var(--accent),#a9c0ff 60%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lede{font-size:16px;color:var(--muted);max-width:520px;margin:22px 0 34px;font-weight:500;min-height:1.6em}
   .hero .lede b{color:var(--txt);font-weight:600}
+  #typeline::after{content:'';display:inline-block;width:8px;height:15px;margin-left:2px;background:var(--accent);vertical-align:middle;animation:pulse 1s steps(2) infinite}
   .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
   /* Abstract avatar visual (no headshot on file -- geometric monogram instead) */
   .hero-visual{position:relative;height:320px;display:flex;align-items:center;justify-content:center}
@@ -152,6 +153,18 @@
   .proj-card .link:hover{gap:8px}
   .proj-card.live{border-color:rgba(91,229,154,.25)}
 
+  /* Praxis flagship */
+  .praxis-card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:var(--radius);padding:32px;position:relative;overflow:hidden}
+  .praxis-card::before{content:'';position:absolute;inset:0;background:radial-gradient(480px 240px at 90% -10%,rgba(91,229,154,.14),transparent 60%)}
+  .praxis-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative}
+  .praxis-call{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;max-width:340px;position:relative}
+  .praxis-call .who{font-size:11px;font-weight:700;color:var(--good);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+  .praxis-call p{font-size:13.5px;color:var(--txt);font-style:italic}
+  .praxis-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:28px 0 20px;position:relative}
+  .praxis-stats div{background:var(--panel);padding:20px 16px;text-align:center}
+  .praxis-stats b{display:block;font-size:30px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--good)}
+  .praxis-stats span{font-size:12px;color:var(--muted);font-weight:500}
+
   /* Skills */
   .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:24px}
   .skill-group h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted2);margin-bottom:14px;font-weight:700}
@@ -222,6 +235,7 @@
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
+      <a href="#praxis">Praxis</a>
       <a href="#education">Education</a>
       <a href="#contact" class="cta">Get in touch</a>
     </div>
@@ -233,6 +247,7 @@
     <a href="#about" onclick="document.getElementById('mmenu').classList.remove('open')">About</a>
     <a href="#experience" onclick="document.getElementById('mmenu').classList.remove('open')">Experience</a>
     <a href="#projects" onclick="document.getElementById('mmenu').classList.remove('open')">Projects</a>
+    <a href="#praxis" onclick="document.getElementById('mmenu').classList.remove('open')">Praxis</a>
     <a href="#education" onclick="document.getElementById('mmenu').classList.remove('open')">Education</a>
     <a href="#contact" onclick="document.getElementById('mmenu').classList.remove('open')">Get in touch</a>
   </div>
@@ -243,8 +258,8 @@
   <div class="hero-top">
     <div class="hero-copy">
       <div class="eyebrow"><span class="pulse"></span> Currently building at EQ Bank & LEYOXA</div>
-      <h1>Helping people & businesses <span class="accent">make the leap into AI.</span></h1>
-      <p class="lede">I'm <b>Sepehr</b> — a Computer Engineer (UWaterloo). Security & fraud at <b>EQ Bank</b>, founder of <b>LEYOXA</b>. Past life in autonomous driving, ML, and mobile.</p>
+      <h1>I build the identity layer for banks <span class="accent">and the AI layer for dentists.</span></h1>
+      <p class="lede mono" id="typeline">&nbsp;</p>
       <div class="hero-actions">
         <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ Get in touch</a>
         <a class="btn ghost" href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">📄 Résumé</a>
@@ -256,9 +271,9 @@
       <div class="orbit-ring r1"></div>
       <div class="orbit-ring r2"></div>
       <div class="avatar-mark">SA</div>
-      <span class="float-chip c1">🔐 Security</span>
-      <span class="float-chip c2">🤖 AI Agents</span>
-      <span class="float-chip c3">☁️ Azure</span>
+      <span class="float-chip c1">🏦 Banking</span>
+      <span class="float-chip c2">🦷 Dental AI</span>
+      <span class="float-chip c3">🎙️ Voice AI</span>
     </div>
   </div>
 </header>
@@ -401,9 +416,31 @@
 </section>
 
 
+<section id="praxis" class="tight">
+  <div class="wrap">
+    <div class="section-kicker">◆ Flagship build · with DDS Marketing</div>
+    <h2 class="section-title">Praxis — answers every call, books every patient</h2>
+    <p class="section-lede">A voice agent that handles inbound scheduling, after-hours triage, and outbound recalls — syncs to the clinic's PMS, confirms intent, and hands off to the front desk only when it has to.</p>
+    <div class="praxis-card" data-reveal>
+      <div class="praxis-top">
+        <div class="praxis-call">
+          <div class="who">Leyoxa agent · live call</div>
+          <p>"Hi Sarah — I can help you schedule your cleaning. Would Friday at 11:00 AM or Monday at 2:30 PM work better for you?"</p>
+        </div>
+      </div>
+      <div class="praxis-stats">
+        <div><b>92%</b><span>First-call resolution</span></div>
+        <div><b>+38%</b><span>More appointments booked</span></div>
+        <div><b>38s</b><span>Average handle time</span></div>
+      </div>
+      <a class="link" href="https://leyoxa.com" target="_blank" rel="noopener">Read the full case study →</a>
+    </div>
+  </div>
+</section>
+
 <section id="education" class="tight">
   <div class="wrap">
-    <div class="section-kicker">04 · Education</div>
+    <div class="section-kicker">05 · Education</div>
     <h2 class="section-title">Education</h2>
     <div class="edu-card" data-reveal>
       <span class="ic">🎓</span>
@@ -418,8 +455,7 @@
 <section id="contact">
   <div class="wrap">
     <div class="contact-card" data-reveal>
-      <h2>Let's build something.</h2>
-      <p>Whether it's security infrastructure, an AI product for healthcare, or something else entirely — I'd like to hear about it.</p>
+      <h2>Got something worth building? <span class="accent">Let's talk.</span></h2>
       <div class="contact-actions">
         <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ saflatounian@gmail.com</a>
         <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -441,6 +477,24 @@
 
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
+
+const typeLines = ['Security engineer at a Canadian fintech.', 'Founder of LEYOXA — dental AI, shipped.', 'PHI: never warehoused.', 'Ex-Watonomous. Ex-Avanade × Ford.'];
+const typeEl = document.getElementById('typeline');
+let tLine = 0, tChar = 0, tDeleting = false;
+function typeTick(){
+  const full = typeLines[tLine];
+  if(!tDeleting){
+    tChar++;
+    typeEl.textContent = full.slice(0,tChar);
+    if(tChar === full.length){ tDeleting = true; setTimeout(typeTick, 1400); return; }
+  } else {
+    tChar--;
+    typeEl.textContent = full.slice(0,tChar);
+    if(tChar === 0){ tDeleting = false; tLine = (tLine+1) % typeLines.length; }
+  }
+  setTimeout(typeTick, tDeleting ? 28 : 42);
+}
+typeTick();
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 },{threshold:0.12});
