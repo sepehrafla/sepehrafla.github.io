@@ -1129,6 +1129,19 @@ function srsIsMature(id){
   let raw=srsDB[id];
   return !!raw && raw.reps>=2;
 }
+function srsIsSeen(id){ return !!srsDB[id]; }
+/* Below this many mature items, a pure mature-only pool repeats the same
+   handful of cards constantly during a 60s sprint. Pad it out: mature
+   first, then anything seen at all, then (only if truly nothing has been
+   studied yet) the full pool -- never a pool smaller than this on its own. */
+const SPRINT_MIN_POOL=12;
+function sprintSource(pool,idFn){
+  let mature=pool.filter(x=>srsIsMature(idFn(x)));
+  if(mature.length>=SPRINT_MIN_POOL) return mature;
+  let seen=pool.filter(x=>srsIsSeen(idFn(x)));
+  if(seen.length>=SPRINT_MIN_POOL) return seen;
+  return pool;
+}
 
 /* ============ AUDIO (Web Speech API — free, no key, no backend) ============ */
 const jsEsc=s=>(''+s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
@@ -1849,7 +1862,7 @@ function buildPools(){
 const vocabCardId=v=>'v|'+v.cat+'|'+v.a+'|'+v.b;
 function card_vocab(){
   let source;
-  if(sprintMode){ let mature=VOCAB_POOL.filter(x=>srsIsMature(vocabCardId(x))); source=mature.length?mature:VOCAB_POOL; }
+  if(sprintMode){ source=sprintSource(VOCAB_POOL,vocabCardId); }
   else { let due=VOCAB_POOL.filter(x=>srsIsDue(vocabCardId(x))); source=due.length?due:VOCAB_POOL; }
   let v=randAvoid(source,lastVocabKey,x=>x.a+'|'+x.b);
   lastVocabKey=v.a+'|'+v.b;
@@ -1871,7 +1884,7 @@ function card_vocab(){
 const grammarCardId=item=>'g|'+item.cat+'|'+item.prompt;
 function card_grammar(){
   let source;
-  if(sprintMode){ let mature=GRAMMAR_POOL.filter(x=>srsIsMature(grammarCardId(x))); source=mature.length?mature:GRAMMAR_POOL; }
+  if(sprintMode){ source=sprintSource(GRAMMAR_POOL,grammarCardId); }
   else { let due=GRAMMAR_POOL.filter(x=>srsIsDue(grammarCardId(x))); source=due.length?due:GRAMMAR_POOL; }
   let item=randAvoid(source,lastGrammarKey,x=>x.prompt);
   lastGrammarKey=item.prompt;
@@ -1900,7 +1913,7 @@ let lastClozeKey=null;
 const clozeCardId=item=>'z|'+item.id;
 function card_cloze(){
   let source;
-  if(sprintMode){ let mature=CLOZE_SENTENCES.filter(x=>srsIsMature(clozeCardId(x))); source=mature.length?mature:CLOZE_SENTENCES; }
+  if(sprintMode){ source=sprintSource(CLOZE_SENTENCES,clozeCardId); }
   else { let due=CLOZE_SENTENCES.filter(x=>srsIsDue(clozeCardId(x))); source=due.length?due:CLOZE_SENTENCES; }
   let item=randAvoid(source,lastClozeKey,x=>x.id);
   lastClozeKey=item.id;
