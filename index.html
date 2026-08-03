@@ -133,6 +133,7 @@
   .tl-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:6px}
   .tl-role{font-size:19px;font-weight:700}
   .tl-co{color:var(--accent);font-weight:600}
+  .tl-co::before{content:'· ';color:var(--muted2)}
   .tl-meta{font-size:13px;color:var(--muted2);margin-bottom:12px;font-family:'JetBrains Mono',monospace}
   .tl-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--good);background:rgba(91,229,154,.12);border:1px solid rgba(91,229,154,.3);padding:2px 9px;border-radius:999px;margin-left:4px;text-transform:uppercase;letter-spacing:.03em}
   .tl-bullets{list-style:none;display:grid;gap:8px}
@@ -154,7 +155,10 @@
   .proj-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:transform .12s ease-out,border-color .2s;display:flex;flex-direction:column;will-change:transform}
   .proj-card:hover{border-color:rgba(124,159,255,.35)}
   .proj-card .tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:3px 10px;border-radius:999px;margin-bottom:14px;align-self:flex-start}
-  .proj-card h3{font-size:19px;margin-bottom:8px}
+  .project-title{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+  .project-logo{width:48px;height:48px;flex:0 0 48px;border-radius:13px;object-fit:cover;background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.14)}
+  .project-title h3{font-size:19px;margin:0;line-height:1.2}
+  .project-title small{display:block;color:var(--muted2);font:500 10px 'JetBrains Mono',monospace;margin-top:4px}
   .proj-card p{color:var(--muted);font-size:14px;flex:1;margin-bottom:16px}
   .proj-card .stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
   .proj-card .stack span{font-size:11.5px;font-family:'JetBrains Mono',monospace;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
@@ -191,8 +195,15 @@
   .visual-kicker{font:600 10px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
   .rank-list{display:grid;gap:10px}.rank-row{display:grid;grid-template-columns:34px 1fr 42px;align-items:center;gap:9px;font:600 11px 'JetBrains Mono',monospace}.rank-row b{color:var(--good)}.rank-track{height:7px;border-radius:99px;background:var(--panel2);overflow:hidden}.rank-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--good));transform-origin:left;animation:rankGrow 1.2s cubic-bezier(.2,.8,.2,1) both;width:var(--w)}
   @keyframes rankGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  .smile-visual{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}.smile-face{display:grid;place-items:center;aspect-ratio:1;border-radius:24px;background:var(--panel2);font-size:54px;border:1px solid var(--line)}.smile-arrow{color:var(--accent);font-size:24px;animation:arrowNudge 1.4s ease-in-out infinite}@keyframes arrowNudge{50%{transform:translateX(5px)}}
+  .product-stage.compare-stage{padding:0;min-height:230px}
+  .smile-compare{--split:50%;position:relative;width:100%;aspect-ratio:1.04;border-radius:18px;overflow:hidden;background:var(--panel2);isolation:isolate}
+  .smile-compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;pointer-events:none}
+  .smile-after{position:absolute;inset:0;clip-path:inset(0 0 0 var(--split));z-index:2}
+  .smile-divider{position:absolute;z-index:3;top:0;bottom:0;left:var(--split);width:2px;background:#fff;transform:translateX(-1px);box-shadow:0 0 16px rgba(0,0,0,.55);pointer-events:none}
+  .smile-divider::after{content:'↔';position:absolute;left:50%;top:50%;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#fff;color:#111;transform:translate(-50%,-50%);font-size:17px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+  .smile-range{position:absolute;z-index:4;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
   .brain-prompt{border:1px solid rgba(124,159,255,.3);background:rgba(124,159,255,.08);border-radius:14px;padding:14px;font-size:13px;margin-bottom:12px}.brain-answer{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.brain-stat{padding:13px;border-radius:12px;background:var(--panel2);border:1px solid var(--line)}.brain-stat b{display:block;color:var(--good);font-size:18px}.brain-stat span{font-size:10px;color:var(--muted)}
+  .production-chart{position:relative}.production-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.production-total b{display:block;font:700 25px 'Space Grotesk',sans-serif}.production-total span{font-size:10px;color:var(--good);font-weight:700}.production-chart svg{display:block;width:100%;height:142px;overflow:visible}.chart-grid{stroke:rgba(255,255,255,.07);stroke-width:1}.chart-target{stroke:rgba(255,138,92,.6);stroke-width:1;stroke-dasharray:4 5}.production-area{fill:url(#productionFill);opacity:.5}.production-line{fill:none;stroke:url(#productionStroke);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:460;stroke-dashoffset:460;animation:drawProduction 1.5s cubic-bezier(.2,.8,.2,1) forwards}.chart-point{fill:#0c1119;stroke:var(--good);stroke-width:3}.chart-point.latest{fill:var(--good);filter:drop-shadow(0 0 7px rgba(91,229,154,.8));animation:pointPulse 1.8s ease-in-out infinite}.chart-labels{display:flex;justify-content:space-between;color:var(--muted2);font:500 9px 'JetBrains Mono',monospace;margin-top:5px}@keyframes drawProduction{to{stroke-dashoffset:0}}@keyframes pointPulse{50%{r:6}}
   .calendar-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.calendar-mini span{display:grid;place-items:center;min-height:38px;border:1px solid var(--line);border-radius:9px;color:var(--muted);font:600 10px 'JetBrains Mono',monospace}.calendar-mini span.open{background:rgba(91,229,154,.12);border-color:rgba(91,229,154,.35);color:var(--good);animation:slotPulse 1.8s ease-in-out infinite}@keyframes slotPulse{50%{box-shadow:0 0 0 4px rgba(91,229,154,.06)}}
   .campaign-flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.campaign-node{padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-size:11px;font-weight:700}.campaign-node.hot{border-color:rgba(255,138,92,.4);color:var(--accent2);animation:nodeGlow 1.8s ease-in-out infinite}@keyframes nodeGlow{50%{box-shadow:0 0 24px rgba(255,138,92,.16)}}.flow-arrow{color:var(--muted2)}
 
@@ -274,6 +285,11 @@
     .fact{min-height:76px}
     .timeline{padding-left:26px}
     .tl-dot{left:-26px}
+    .tl-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:5px 10px;margin-bottom:10px}
+    .tl-role{grid-column:1/-1;font-size:18px;line-height:1.25}
+    .tl-co{grid-column:1;min-width:0;font-size:14px;line-height:1.35}
+    .tl-co::before{content:''}
+    .tl-badge{grid-column:2;grid-row:2;margin-left:0;justify-self:end}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
     .proj-card{min-height:0}
     .voice-demo{padding:18px;border-radius:22px}.voice-grid,.product-experience{grid-template-columns:1fr}.voice-panel,.product-stage{padding:18px}.voice-wave{height:76px}.voice-transcript{font-size:16px;min-height:100px}.voice-top{align-items:flex-start}.call-status{margin-top:5px}
@@ -341,7 +357,7 @@
       </div>
       <div class="fact-list" data-reveal>
         <div class="fact"><span class="ic">🎸</span><div><b>1st place, Javan Music Festival</b><span>Also taught guitar for a summer — music stuck around.</span></div></div>
-        <div class="fact"><span class="ic">🏀</span><div><b>Basketball intramurals</b><span>Waterloo campus league.</span></div></div>
+        <div class="fact"><span class="ic">🎾</span><div><b>Tennis & basketball</b><span>Racquet sessions and Waterloo intramural basketball.</span></div></div>
         <div class="fact"><span class="ic">🔬</span><div><b>4th place, Persian Young Physicist Tournament</b><span>Before engineering, there was physics.</span></div></div>
         <div class="fact"><span class="ic">🚗</span><div><b>Led Watonomous</b><span>Waterloo's SAE Autonomous Driving Challenge team.</span></div></div>
       </div>
@@ -358,20 +374,20 @@
     <div class="timeline">
       <div class="tl-item current" data-reveal>
         <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">Software Engineer</span><span class="tl-co">· EQ Bank | Equitable Bank</span><span class="tl-badge">Current</span></div>
+        <div class="tl-head"><span class="tl-role">Software Engineer</span><span class="tl-co">EQ Bank | Equitable Bank</span><span class="tl-badge">Current</span></div>
         <div class="tl-meta">April 2025 — Present · Toronto, ON · Security & Fraud team</div>
         <ul class="tl-bullets">
-          <li>Leading the team designing and building the system to securely migrate the bank's identity & access management from HID to Okta Auth 2.0</li>
+          <li>Led the team designing and building the system to securely migrate the bank's identity & access management from HID to Okta Auth 2.0</li>
           <li>Implemented Passkey support on iOS, bringing passwordless authentication to mobile banking</li>
         </ul>
       </div>
 
       <div class="tl-item current" data-reveal>
         <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">Founder</span><span class="tl-co">· LEYOXA LLC</span><span class="tl-badge">Current</span></div>
+        <div class="tl-head"><span class="tl-role">Founder</span><span class="tl-co">LEYOXA LLC</span><span class="tl-badge">Current</span></div>
         <div class="tl-meta">May 2023 — Present · Texas, US · Healthcare AI platforms</div>
         <ul class="tl-bullets">
-          <li>Help dental clinics grow by implementing AI-ready platforms and software</li>
+          <li>Helped dental clinics grow by implementing AI-ready platforms and software</li>
           <li>Built an AI voice agent + marketing (content & SEO) automation for DDS Marketing (Miami)</li>
           <li>Shipped a mobile app + platform for Smile Link (Texas)</li>
           <li>Built a clinic platform for Emergclinic (Toronto)</li>
@@ -380,10 +396,10 @@
 
       <div class="tl-item" data-reveal>
         <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">Full-Stack Developer</span><span class="tl-co">· Avanade</span></div>
+        <div class="tl-head"><span class="tl-role">Full-Stack Developer</span><span class="tl-co">Avanade</span></div>
         <div class="tl-meta">Sep 2021 — May 2023 · Toronto, ON</div>
         <ul class="tl-bullets">
-          <li>Client Ford — built the intelligent + manual EV charging feature in the FordPass iOS app</li>
+          <li>Built intelligent and manual EV-charging features for Ford's FordPass iOS app</li>
           <li>Designed a project-management tool with PowerApps and Power Automate</li>
           <li>Automated cloud infrastructure with Terraform + Azure Resource Manager, cutting costs by <b>$1M/yr</b></li>
         </ul>
@@ -391,7 +407,7 @@
 
       <div class="tl-item" data-reveal>
         <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">AI Engineer · Co-Founder</span><span class="tl-co">· SeedCI</span><span class="tl-badge" style="color:var(--accent2);background:rgba(255,138,92,.12);border-color:rgba(255,138,92,.3)">YC Candidate</span></div>
+        <div class="tl-head"><span class="tl-role">AI Engineer · Co-Founder</span><span class="tl-co">SeedCI</span><span class="tl-badge" style="color:var(--accent2);background:rgba(255,138,92,.12);border-color:rgba(255,138,92,.3)">YC Candidate</span></div>
         <div class="tl-meta">Jan 2021 — Sep 2021 · Kitchener, ON</div>
         <ul class="tl-bullets">
           <li>Client Ezsec — automated cyberattack-campaign detection with unsupervised learning (EVA platform)</li>
@@ -444,30 +460,31 @@
 
       <div class="proj-card live" data-reveal>
         <span class="tag">Current · Fintech</span>
-        <h3>🏦 EQ Bank Mobile</h3>
+        <div class="project-title"><img class="project-logo" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon"><div><h3>EQ Bank Mobile</h3><small>iPhone · Finance</small></div></div>
         <p>Mobile banking security and identity work, including passkey support on iOS and the foundation for a secure authentication migration.</p>
         <div class="stack"><span>iOS</span><span>Passkeys</span><span>Identity</span><span>Okta</span></div>
-      </div>
-
-      <div class="proj-card live" data-reveal>
-        <span class="tag">Live · Personal</span>
-        <h3>🇪🇸 Mi Español</h3>
-        <p>Gamified Spanish learning — spaced repetition, typed drills, real mined sentences, timed sprints, AI-graded writing.</p>
-        <a class="link" href="spanish/" target="_blank" rel="noopener">Try it live →</a>
+        <a class="link" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">View on the App Store →</a>
       </div>
 
       <div class="proj-card" data-reveal>
         <span class="tag">Founder</span>
-        <h3>🦷 LEYOXA</h3>
+        <div class="project-title"><img class="project-logo" src="assets/leyoxa-app.svg" alt="Leyoxa logo"><div><h3>LEYOXA</h3><small>Healthcare AI studio</small></div></div>
         <p>AI-ready platforms, voice agents, and marketing automation for dental clinics.</p>
         <a class="link" href="https://leyoxa.com" target="_blank" rel="noopener">Visit leyoxa.com →</a>
       </div>
 
       <div class="proj-card" data-reveal>
         <span class="tag">Avanade · Ford</span>
-        <h3>🔋 FordPass EV Charging</h3>
+        <div class="project-title"><img class="project-logo" src="assets/ford-app.jpg" alt="Ford app icon"><div><h3>FordPass EV Charging</h3><small>iPhone · Automotive</small></div></div>
         <p>Intelligent + manual EV charging scheduling, shipped inside the Ford app.</p>
-        <a class="link" href="https://www.ford.com/support/category/ford-app/" target="_blank" rel="noopener">About the Ford app →</a>
+        <a class="link" href="https://apps.apple.com/ca/app/ford/id1095418609" target="_blank" rel="noopener">View on the App Store →</a>
+      </div>
+
+      <div class="proj-card live" data-reveal>
+        <span class="tag">Live · Personal</span>
+        <div class="project-title"><img class="project-logo" src="assets/mi-espanol-app.svg" alt="Mi Español app icon"><div><h3>Mi Español</h3><small>Web app · Education</small></div></div>
+        <p>Gamified Spanish learning — spaced repetition, typed drills, real mined sentences, timed sprints, AI-graded writing.</p>
+        <a class="link" href="spanish/" target="_blank" rel="noopener">Try it live →</a>
       </div>
 
     </div>
@@ -697,11 +714,11 @@ const productViews = {
       <div class="rank-row"><span>#3</span><div class="rank-track"><i style="--w:86%"></i></div><b>+22</b></div>
     </div></div><div class="product-stage"><div class="visual-kicker">SEO Agent</div><h3>From audit to published page.</h3><p>Finds local search gaps, drafts treatment and location pages, maintains schema, and keeps review responses moving.</p></div>`},
   smile:{title:'Smile Simulator',icon:'✨',subtitle:'Visual case acceptance',html:`
-    <div class="product-stage"><div class="visual-kicker">Patient preview</div><div class="smile-visual"><div class="smile-face">🙂</div><span class="smile-arrow">→</span><div class="smile-face">😁</div></div></div>
-    <div class="product-stage"><div class="visual-kicker">Smile Simulator</div><h3>Show the outcome first.</h3><p>A patient selfie becomes a fast visual preview for aligners, veneers, implants, or whitening—ready to share from the consult.</p></div>`},
+    <div class="product-stage compare-stage"><div class="smile-compare" id="smile-compare"><img src="assets/praxis-smile-before.png" alt="Patient smile before simulation"><div class="smile-after"><img src="assets/praxis-smile-after.png" alt="Patient smile after simulation"></div><span class="smile-divider" aria-hidden="true"></span><input class="smile-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare the before and after smile"></div></div>
+    <div class="product-stage"><div class="visual-kicker">Smile Simulator</div><h3>Drag to reveal the result.</h3><p>A patient photo becomes a visual treatment preview in seconds. Move the slider to compare the real before and simulated after.</p></div>`},
   brain:{title:'Praxis Brain',icon:'◉',subtitle:'Executive intelligence layer',html:`
-    <div class="product-stage"><div class="visual-kicker">Ask your practice</div><div class="brain-prompt">“Why did production drop this week?”</div><div class="brain-answer"><div class="brain-stat"><b>−$4.2k</b><span>production gap</span></div><div class="brain-stat"><b>18</b><span>unconfirmed recalls</span></div></div></div>
-    <div class="product-stage"><div class="visual-kicker">Praxis Brain</div><h3>One answer across every system.</h3><p>Connects schedule, calls, marketing, and financial signals—then explains what changed and recommends the next action.</p></div>`},
+    <div class="product-stage"><div class="production-chart"><div class="production-head"><div><div class="visual-kicker">Production · last 7 days</div></div><div class="production-total"><b>$184.6k</b><span>↑ 12.4% vs prior week</span></div></div><svg viewBox="0 0 420 150" role="img" aria-label="Production chart rising across seven days"><defs><linearGradient id="productionStroke" x1="0" x2="1"><stop stop-color="#7c9fff"/><stop offset="1" stop-color="#5be59a"/></linearGradient><linearGradient id="productionFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#5be59a" stop-opacity=".45"/><stop offset="1" stop-color="#5be59a" stop-opacity="0"/></linearGradient></defs><line class="chart-grid" x1="12" y1="35" x2="408" y2="35"/><line class="chart-grid" x1="12" y1="75" x2="408" y2="75"/><line class="chart-grid" x1="12" y1="115" x2="408" y2="115"/><line class="chart-target" x1="12" y1="60" x2="408" y2="60"/><path class="production-area" d="M15 122 L78 105 L140 112 L203 78 L265 88 L328 52 L405 28 L405 140 L15 140 Z"/><polyline class="production-line" points="15,122 78,105 140,112 203,78 265,88 328,52 405,28"/><circle class="chart-point" cx="15" cy="122" r="4"/><circle class="chart-point" cx="78" cy="105" r="4"/><circle class="chart-point" cx="140" cy="112" r="4"/><circle class="chart-point" cx="203" cy="78" r="4"/><circle class="chart-point" cx="265" cy="88" r="4"/><circle class="chart-point" cx="328" cy="52" r="4"/><circle class="chart-point latest" cx="405" cy="28" r="5"/></svg><div class="chart-labels"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span></div></div></div>
+    <div class="product-stage"><div class="visual-kicker">Praxis Brain · live insight</div><h3>Production is pacing above target.</h3><p>Saturday drove the strongest lift. Hygiene recall conversion improved 12%, while three late-week openings remain the clearest opportunity.</p><div class="brain-answer" style="margin-top:16px"><div class="brain-stat"><b>+$20.3k</b><span>weekly variance</span></div><div class="brain-stat"><b>3</b><span>open chair blocks</span></div></div></div>`},
   schedule:{title:'Smart Scheduling',icon:'▦',subtitle:'Capacity-aware booking',html:`
     <div class="product-stage"><div class="visual-kicker">Friday · live capacity</div><div class="calendar-mini"><span>9:00</span><span class="open">9:30</span><span>10:00</span><span class="open">11:15</span><span>12:00</span><span>1:30</span><span class="open">2:30</span><span>3:00</span><span class="open">4:00</span><span>4:30</span></div></div>
     <div class="product-stage"><div class="visual-kicker">Scheduling engine</div><h3>Book the right chair, not just a time.</h3><p>Matches provider preferences, operatories, treatment length, and live PMS availability across voice, app, and web.</p></div>`},
@@ -721,6 +738,27 @@ document.querySelectorAll('[data-product]').forEach(button=>button.addEventListe
   }else{
     const view=productViews[product]; productTitle.textContent=view.title; productIcon.textContent=view.icon; scenarioName.textContent=view.subtitle;
     voiceExperience.classList.add('hide'); productExperience.classList.remove('hide'); productExperience.innerHTML=view.html;
+    if(product==='smile'){
+      const comparison=productExperience.querySelector('.smile-compare');
+      const slider=productExperience.querySelector('.smile-range');
+      const updateComparison=value=>{
+        const safe=Math.max(0,Math.min(100,Number(value)));
+        slider.value=safe; comparison.style.setProperty('--split',safe+'%');
+      };
+      const updateFromPointer=event=>{
+        const rect=comparison.getBoundingClientRect();
+        updateComparison(((event.clientX-rect.left)/rect.width)*100);
+      };
+      let sliding=false;
+      slider.addEventListener('input',()=>updateComparison(slider.value));
+      slider.addEventListener('pointerdown',event=>{sliding=true;slider.setPointerCapture?.(event.pointerId);updateFromPointer(event)});
+      slider.addEventListener('pointermove',event=>{if(sliding)updateFromPointer(event)});
+      slider.addEventListener('pointerup',event=>{sliding=false;slider.releasePointerCapture?.(event.pointerId)});
+      slider.addEventListener('keydown',event=>{
+        if(event.key==='ArrowLeft'||event.key==='ArrowDown')updateComparison(Number(slider.value)-2);
+        if(event.key==='ArrowRight'||event.key==='ArrowUp')updateComparison(Number(slider.value)+2);
+      });
+    }
     callStatusText.textContent='Live signal'; voiceNote.textContent='Animated product simulation · sample data';
   }
   if(navigator.vibrate) navigator.vibrate(8);

@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Leyoxa">
+  <defs>
+    <linearGradient id="leyoxaApp" x1="10%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14d3bf"/>
+      <stop offset="55%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#0F172A"/>
+  <circle cx="64" cy="64" r="40" stroke="url(#leyoxaApp)" stroke-width="5" fill="none"/>
+  <rect x="50" y="54" width="5" height="20" rx="2.5" fill="url(#leyoxaApp)"/>
+  <rect x="60" y="46" width="5" height="36" rx="2.5" fill="url(#leyoxaApp)"/>
+  <rect x="70" y="54" width="5" height="20" rx="2.5" fill="url(#leyoxaApp)"/>
+  <circle cx="84" cy="64" r="3" fill="url(#leyoxaApp)"/>
+</svg>
