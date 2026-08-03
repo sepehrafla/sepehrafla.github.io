@@ -967,66 +967,98 @@ const VERBS={
   manejar:{m:'to drive',present:{yo:'manejo',tú:'manejas',él:'maneja',nosotros:'manejamos',ellos:'manejan'},preterite:{yo:'manejé',tú:'manejaste',él:'manejó',nosotros:'manejamos',ellos:'manejaron'},imperfect:{yo:'manejaba',tú:'manejabas',él:'manejaba',nosotros:'manejábamos',ellos:'manejaban'},future:{yo:'manejaré',tú:'manejarás',él:'manejará',nosotros:'manejaremos',ellos:'manejarán'},conditional:{yo:'manejaría',tú:'manejarías',él:'manejaría',nosotros:'manejaríamos',ellos:'manejarían'}}
 };
 const VERB_SENTENCES=[
-  {verb:'hablar',subject:'tú',context:'texting a friend',en:'You speak really fast, slow down.',es:'___ muy rápido, baja un poco.'},
-  {verb:'hablar',subject:'yo',context:'at a party',en:"I'll talk to him later.",es:'___ con él después, no te preocupes.'},
-  {verb:'comer',subject:'yo',context:'turning down food',en:'I already ate, thanks though.',es:'Ya ___, gracias igual.'},
-  {verb:'comer',subject:'nosotros',context:'making plans',en:"Let's grab something to eat.",es:'Vamos a ___ algo, me muero de hambre.',skip:true,answer:'comer'},
-  {verb:'vivir',subject:'tú',context:'small talk',en:'Do you live around here?',es:'¿___ por aquí?'},
-  {verb:'vivir',subject:'yo',context:'explaining',en:'I live five minutes from the metro.',es:'___ a cinco minutos del metro.'},
-  {verb:'ser',subject:'tú',context:'meeting someone',en:'Are you from here originally?',es:'¿___ de aquí?'},
-  {verb:'ser',subject:'él',context:'describing someone',en:"He's not mean, he's just like that.",es:'No ___ malo, es que es así.'},
-  {verb:'estar',subject:'tú',context:'worried',en:'Are you okay? You seem off.',es:'¿___ bien? Hoy te noto raro.'},
-  {verb:'estar',subject:'yo',context:'declining',en:"I can't, I'm at work late.",es:'No puedo, ___ en el trabajo hasta tarde.'},
-  {verb:'tener',subject:'tú',context:'pushing a friend',en:"Come on, you've got the time.",es:'Venga, ___ tiempo, no me mientas.'},
-  {verb:'tener',subject:'él',context:'gossip',en:'He has a new girlfriend apparently.',es:'___ novia nueva, al parecer.'},
-  {verb:'ir',subject:'tú',context:'invite',en:'Are you going to the party tonight?',es:'¿___ a la fiesta esta noche?'},
-  {verb:'ir',subject:'nosotros',context:'plans',en:'We\'re going whether you like it or not.',es:'___ nos guste o no.'},
-  {verb:'poder',subject:'tú',context:'asking a favour',en:'Can you send me that link again?',es:'¿Me ___ mandar ese link otra vez?'},
-  {verb:'querer',subject:'yo',context:'being honest',en:'I just want some peace and quiet.',es:'Solo ___ un poco de tranquilidad.'},
-  {verb:'hacer',subject:'tú',context:'checking progress',en:'What are you doing? We were leaving!',es:'¿Qué ___? Teníamos que salir hace una hora.'},
-  {verb:'hacer',subject:'yo',context:'offering help',en:"I'll handle dinner, you relax.",es:'___ la cena, tú descansa.'},
-  {verb:'llevar',subject:'tú',context:'getting ready',en:'What are you wearing to the party?',es:'¿Qué ___ a la fiesta?'},
-  {verb:'llevar',subject:'él',context:'people watching',en:'He always wears the same jacket.',es:'Siempre ___ la misma chaqueta, siempre.'},
-  {verb:'llevar',subject:'yo',context:'getting dressed',en:"I'll wear the blue dress, it looks better.",es:'___ el vestido azul, queda mejor.'},
-  {verb:'dormir',subject:'yo',context:'complaining',en:"I didn't sleep at all, the neighbours were so loud.",es:'No ___ nada, los vecinos hacían mucho ruido.'},
-  {verb:'dormir',subject:'tú',context:'checking on someone',en:'Did you sleep okay? You look tired.',es:'¿___ bien? Tienes cara de cansado.'},
-  {verb:'dormir',subject:'él',context:'talking about a baby',en:'He sleeps like a log, never cries at night.',es:'___ como un tronco, nunca llora de noche.'},
-  {verb:'estudiar',subject:'tú',context:'asking a classmate',en:'Are you studying tonight or going out?',es:'¿___ esta noche o sales?'},
-  {verb:'estudiar',subject:'yo',context:'explaining yourself',en:"I can't come, I'm studying for the exam.",es:'No puedo ir, ___ para el examen.'},
-  {verb:'estudiar',subject:'nosotros',context:'making plans',en:"Let's study together, it's easier.",es:'___ juntos, es más fácil.'},
-  {verb:'trabajar',subject:'tú',context:'small talk',en:'Do you work on weekends too?',es:'¿___ los fines de semana también?'},
-  {verb:'trabajar',subject:'él',context:'explaining',en:'He works from home, lucky him.',es:'___ desde casa, qué suerte tiene.'},
-  {verb:'trabajar',subject:'yo',context:'tired after work',en:'I worked all day, I need a break.',es:'___ todo el día, necesito un descanso.'},
-  {verb:'escuchar',subject:'tú',context:'frustrated',en:'Are you even listening to me right now?',es:'¿Me ___ o qué?'},
-  {verb:'escuchar',subject:'yo',context:'music chat',en:"I've been listening to this song all day.",es:'___ esta canción todo el día, no me canso.'},
-  {verb:'escuchar',subject:'ellos',context:'gossip',en:"They never listen, then they're surprised.",es:'Nunca ___ y luego se sorprenden.'},
-  {verb:'cantar',subject:'tú',context:'compliment',en:'You sing really well, have you had lessons?',es:'___ muy bien, ¿tienes clases?'},
-  {verb:'cantar',subject:'él',context:'karaoke night',en:"He's been singing the same song for twenty minutes.",es:'Lleva veinte minutos y ___ la misma canción.'},
-  {verb:'cantar',subject:'yo',context:'being honest',en:"I sing terribly but I don't care.",es:'___ fatal pero me da igual.'},
-  {verb:'bailar',subject:'tú',context:'at a party',en:'Come on, dance with me! Just one song.',es:'¡Venga, ___ conmigo! Solo una canción.'},
-  {verb:'bailar',subject:'nosotros',context:'reminiscing',en:'We used to dance all night back then.',es:'Antes ___ toda la noche, qué tiempos.'},
-  {verb:'bailar',subject:'ellos',context:'watching the dancefloor',en:'Look at them — they dance so well together.',es:'Míralos — ___ muy bien juntos.'},
-  {verb:'viajar',subject:'tú',context:'catching up',en:'You travel a lot for work, right?',es:'___ mucho por trabajo, ¿no?'},
-  {verb:'viajar',subject:'yo',context:'dream chat',en:"I want to travel everywhere, but no money.",es:'Quiero ___ a todos lados pero no hay dinero.',answer:'viajar'},
-  {verb:'viajar',subject:'ellos',context:'family talk',en:'They travel every summer without fail.',es:'___ cada verano sin falta.'},
-  {verb:'caminar',subject:'yo',context:'lifestyle',en:'I walk to work — it clears my head.',es:'___ al trabajo, me despeja la mente.'},
-  {verb:'caminar',subject:'nosotros',context:'after dinner',en:"Let's walk a bit, it's a nice night.",es:'___ un rato, hace buena noche.'},
-  {verb:'caminar',subject:'tú',context:'encouraging',en:'You walk so fast, slow down a bit!',es:'___ muy rápido, ¡espérame un poco!'},
-  {verb:'correr',subject:'tú',context:'impressed',en:'You run every morning? Respect.',es:'¿___ todas las mañanas? Respeto.'},
-  {verb:'correr',subject:'yo',context:'making excuses',en:"I run but only when I'm late.",es:'___ pero solo cuando llego tarde.'},
-  {verb:'correr',subject:'él',context:'boasting',en:'He runs 10k before breakfast, crazy.',es:'___ 10k antes del desayuno, está loco.'},
-  {verb:'cocinar',subject:'tú',context:'impressed',en:'Did you cook all this yourself?',es:'¿___ todo esto tú solo?'},
-  {verb:'cocinar',subject:'yo',context:'offering',en:"I'll cook tonight, you've done enough.",es:'___ yo esta noche, ya hiciste suficiente.'},
-  {verb:'cocinar',subject:'él',context:'relationship talk',en:'He cooks, cleans — where do I find one like that?',es:'___, limpia — ¿dónde encuentro uno así?'},
-  {verb:'decir',subject:'tú',context:'double checking',en:'What did you say? I missed it.',es:'¿Qué ___? No escuché.'},
-  {verb:'decir',subject:'yo',context:'being clear',en:"I'm telling you, it's not worth it.",es:'Te ___ que no vale la pena.'},
-  {verb:'decir',subject:'ellos',context:'rumours',en:'What are they saying? It sounds serious.',es:'¿Qué ___? Suena grave.'},
-  {verb:'pensar',subject:'tú',context:'asking opinion',en:'What do you think about this idea?',es:'¿Qué ___ de esta idea?'},
-  {verb:'pensar',subject:'yo',context:'thinking aloud',en:"I think we're overthinking this.",es:'___ que le estamos dando demasiadas vueltas.'},
-  {verb:'manejar',subject:'tú',context:'road trip planning',en:'Are you driving or should I?',es:'¿___ tú o manejo yo?'},
-  {verb:'manejar',subject:'yo',context:'after a night out',en:"I can't drive, I had two glasses.",es:'No ___, me tomé dos copas.'},
-  {verb:'limpiar',subject:'tú',context:'chores argument',en:"You never clean — it's always me.",es:'Nunca ___, siempre soy yo.'},
-  {verb:'limpiar',subject:'yo',context:'justifying yourself',en:'I cleaned all morning, leave me alone.',es:'___ toda la mañana, déjame en paz.'}
+  {verb:'hablar',subject:'tú',context:'texting a friend',en:'You speak really fast, slow down.',es:'___ muy rápido, baja un poco.',tenses:['present']},
+  {verb:'hablar',subject:'yo',context:'at a party',en:"I'll talk to him later.",es:'___ con él después, no te preocupes.',tenses:['present']},
+  {verb:'comer',subject:'yo',context:'turning down food',en:'I already ate, thanks though.',es:'Ya ___, gracias igual.',tenses:['preterite']},
+  {verb:'comer',subject:'nosotros',context:'making plans',en:"Let's grab something to eat.",es:'Vamos a ___ algo, me muero de hambre.',skip:true,answer:'comer',tenses:['present']},
+  {verb:'vivir',subject:'tú',context:'small talk',en:'Do you live around here?',es:'¿___ por aquí?',tenses:['present']},
+  {verb:'vivir',subject:'yo',context:'explaining',en:'I live five minutes from the metro.',es:'___ a cinco minutos del metro.',tenses:['present']},
+  {verb:'ser',subject:'tú',context:'meeting someone',en:'Are you from here originally?',es:'¿___ de aquí?',tenses:['present']},
+  {verb:'ser',subject:'él',context:'describing someone',en:"He's not mean, he's just like that.",es:'No ___ malo, es que es así.',tenses:['present']},
+  {verb:'estar',subject:'tú',context:'worried',en:'Are you okay? You seem off.',es:'¿___ bien? Hoy te noto raro.',tenses:['present']},
+  {verb:'estar',subject:'yo',context:'declining',en:"I can't, I'm at work late.",es:'No puedo, ___ en el trabajo hasta tarde.',tenses:['present']},
+  {verb:'tener',subject:'tú',context:'pushing a friend',en:"Come on, you've got the time.",es:'Venga, ___ tiempo, no me mientas.',tenses:['present']},
+  {verb:'tener',subject:'él',context:'gossip',en:'He has a new girlfriend apparently.',es:'___ novia nueva, al parecer.',tenses:['present']},
+  {verb:'ir',subject:'tú',context:'invite',en:'Are you going to the party tonight?',es:'¿___ a la fiesta esta noche?',tenses:['present']},
+  {verb:'ir',subject:'nosotros',context:'plans',en:'We\'re going whether you like it or not.',es:'___ nos guste o no.',tenses:['present']},
+  {verb:'poder',subject:'tú',context:'asking a favour',en:'Can you send me that link again?',es:'¿Me ___ mandar ese link otra vez?',tenses:['present']},
+  {verb:'querer',subject:'yo',context:'being honest',en:'I just want some peace and quiet.',es:'Solo ___ un poco de tranquilidad.',tenses:['present']},
+  {verb:'hacer',subject:'tú',context:'checking progress',en:'What are you doing? We were leaving!',es:'¿Qué ___? Teníamos que salir hace una hora.',tenses:['present']},
+  {verb:'hacer',subject:'yo',context:'offering help',en:"I'll handle dinner, you relax.",es:'___ la cena, tú descansa.',tenses:['present']},
+  {verb:'llevar',subject:'tú',context:'getting ready',en:'What are you wearing to the party?',es:'¿Qué ___ a la fiesta?',tenses:['present']},
+  {verb:'llevar',subject:'él',context:'people watching',en:'He always wears the same jacket.',es:'Siempre ___ la misma chaqueta, siempre.',tenses:['present']},
+  {verb:'llevar',subject:'yo',context:'getting dressed',en:"I'll wear the blue dress, it looks better.",es:'___ el vestido azul, queda mejor.',tenses:['present']},
+  {verb:'dormir',subject:'yo',context:'complaining',en:"I didn't sleep at all, the neighbours were so loud.",es:'No ___ nada, los vecinos hacían mucho ruido.',tenses:['preterite']},
+  {verb:'dormir',subject:'tú',context:'checking on someone',en:'Did you sleep okay? You look tired.',es:'¿___ bien? Tienes cara de cansado.',tenses:['preterite']},
+  {verb:'dormir',subject:'él',context:'talking about a baby',en:'He sleeps like a log, never cries at night.',es:'___ como un tronco, nunca llora de noche.',tenses:['present']},
+  {verb:'estudiar',subject:'tú',context:'asking a classmate',en:'Are you studying tonight or going out?',es:'¿___ esta noche o sales?',tenses:['present']},
+  {verb:'estudiar',subject:'yo',context:'explaining yourself',en:"I can't come, I'm studying for the exam.",es:'No puedo ir, ___ para el examen.',tenses:['present']},
+  {verb:'estudiar',subject:'nosotros',context:'making plans',en:"Let's study together, it's easier.",es:'___ juntos, es más fácil.',tenses:['present']},
+  {verb:'trabajar',subject:'tú',context:'small talk',en:'Do you work on weekends too?',es:'¿___ los fines de semana también?',tenses:['present']},
+  {verb:'trabajar',subject:'él',context:'explaining',en:'He works from home, lucky him.',es:'___ desde casa, qué suerte tiene.',tenses:['present']},
+  {verb:'trabajar',subject:'yo',context:'tired after work',en:'I worked all day, I need a break.',es:'___ todo el día, necesito un descanso.',tenses:['preterite']},
+  {verb:'escuchar',subject:'tú',context:'frustrated',en:'Are you even listening to me right now?',es:'¿Me ___ o qué?',tenses:['present']},
+  {verb:'escuchar',subject:'yo',context:'music chat',en:"I've been listening to this song all day.",es:'___ esta canción todo el día, no me canso.',tenses:['present']},
+  {verb:'escuchar',subject:'ellos',context:'gossip',en:"They never listen, then they're surprised.",es:'Nunca ___ y luego se sorprenden.',tenses:['present']},
+  {verb:'cantar',subject:'tú',context:'compliment',en:'You sing really well, have you had lessons?',es:'___ muy bien, ¿tienes clases?',tenses:['present']},
+  {verb:'cantar',subject:'él',context:'karaoke night',en:"He's been singing the same song for twenty minutes.",es:'Lleva veinte minutos y ___ la misma canción.',tenses:['present']},
+  {verb:'cantar',subject:'yo',context:'being honest',en:"I sing terribly but I don't care.",es:'___ fatal pero me da igual.',tenses:['present']},
+  {verb:'bailar',subject:'tú',context:'at a party',en:'Come on, dance with me! Just one song.',es:'¡Venga, ___ conmigo! Solo una canción.',tenses:['present']},
+  {verb:'bailar',subject:'nosotros',context:'reminiscing',en:'We used to dance all night back then.',es:'Antes ___ toda la noche, qué tiempos.',tenses:['imperfect']},
+  {verb:'bailar',subject:'ellos',context:'watching the dancefloor',en:'Look at them — they dance so well together.',es:'Míralos — ___ muy bien juntos.',tenses:['present']},
+  {verb:'viajar',subject:'tú',context:'catching up',en:'You travel a lot for work, right?',es:'___ mucho por trabajo, ¿no?',tenses:['present']},
+  {verb:'viajar',subject:'yo',context:'dream chat',en:"I want to travel everywhere, but no money.",es:'Quiero ___ a todos lados pero no hay dinero.',answer:'viajar',tenses:['present']},
+  {verb:'viajar',subject:'ellos',context:'family talk',en:'They travel every summer without fail.',es:'___ cada verano sin falta.',tenses:['present']},
+  {verb:'caminar',subject:'yo',context:'lifestyle',en:'I walk to work — it clears my head.',es:'___ al trabajo, me despeja la mente.',tenses:['present']},
+  {verb:'caminar',subject:'nosotros',context:'after dinner',en:"Let's walk a bit, it's a nice night.",es:'___ un rato, hace buena noche.',tenses:['present']},
+  {verb:'caminar',subject:'tú',context:'encouraging',en:'You walk so fast, slow down a bit!',es:'___ muy rápido, ¡espérame un poco!',tenses:['present']},
+  {verb:'correr',subject:'tú',context:'impressed',en:'You run every morning? Respect.',es:'¿___ todas las mañanas? Respeto.',tenses:['present']},
+  {verb:'correr',subject:'yo',context:'making excuses',en:"I run but only when I'm late.",es:'___ pero solo cuando llego tarde.',tenses:['present']},
+  {verb:'correr',subject:'él',context:'boasting',en:'He runs 10k before breakfast, crazy.',es:'___ 10k antes del desayuno, está loco.',tenses:['present']},
+  {verb:'cocinar',subject:'tú',context:'impressed',en:'Did you cook all this yourself?',es:'¿___ todo esto tú solo?',tenses:['preterite']},
+  {verb:'cocinar',subject:'yo',context:'offering',en:"I'll cook tonight, you've done enough.",es:'___ yo esta noche, ya hiciste suficiente.',tenses:['present']},
+  {verb:'cocinar',subject:'él',context:'relationship talk',en:'He cooks, cleans — where do I find one like that?',es:'___, limpia — ¿dónde encuentro uno así?',tenses:['present']},
+  {verb:'decir',subject:'tú',context:'double checking',en:'What did you say? I missed it.',es:'¿Qué ___? No escuché.',tenses:['preterite']},
+  {verb:'decir',subject:'yo',context:'being clear',en:"I'm telling you, it's not worth it.",es:'Te ___ que no vale la pena.',tenses:['present']},
+  {verb:'decir',subject:'ellos',context:'rumours',en:'What are they saying? It sounds serious.',es:'¿Qué ___? Suena grave.',tenses:['present']},
+  {verb:'pensar',subject:'tú',context:'asking opinion',en:'What do you think about this idea?',es:'¿Qué ___ de esta idea?',tenses:['present']},
+  {verb:'pensar',subject:'yo',context:'thinking aloud',en:"I think we're overthinking this.",es:'___ que le estamos dando demasiadas vueltas.',tenses:['present']},
+  {verb:'manejar',subject:'tú',context:'road trip planning',en:'Are you driving or should I?',es:'¿___ tú o manejo yo?',tenses:['present']},
+  {verb:'manejar',subject:'yo',context:'after a night out',en:"I can't drive, I had two glasses.",es:'No ___, me tomé dos copas.',tenses:['present']},
+  {verb:'limpiar',subject:'tú',context:'chores argument',en:"You never clean — it's always me.",es:'Nunca ___, siempre soy yo.',tenses:['present']},
+  {verb:'limpiar',subject:'yo',context:'justifying yourself',en:'I cleaned all morning, leave me alone.',es:'___ toda la mañana, déjame en paz.',tenses:['preterite']},
+  /* ---- Imperfecto: "antes... / used to..." — recuerdos, descripciones y hábitos pasados ---- */
+  {verb:'vivir',subject:'yo',context:'nostalgia',en:'I used to live in Madrid, I miss it.',es:'Antes ___ en Madrid, lo extraño.',tenses:['imperfect']},
+  {verb:'ser',subject:'él',context:'reminiscing',en:'He used to be so shy, not anymore.',es:'Antes ___ muy tímido, ya no.',tenses:['imperfect']},
+  {verb:'tener',subject:'yo',context:'childhood memory',en:'I had a dog when I was little.',es:'___ un perro de pequeño.',tenses:['imperfect']},
+  {verb:'ir',subject:'nosotros',context:'nostalgia',en:'We used to go to the beach every summer.',es:'___ a la playa cada verano.',tenses:['imperfect']},
+  {verb:'querer',subject:'él',context:'old gossip',en:'He used to want to be a doctor, can you believe it?',es:'Antes ___ ser médico, ¿lo puedes creer?',tenses:['imperfect']},
+  {verb:'trabajar',subject:'yo',context:'reminiscing',en:'I used to work nights, it was rough.',es:'___ de noche, era duro.',tenses:['imperfect']},
+  {verb:'estudiar',subject:'tú',context:'nostalgia',en:'You used to study so much in college.',es:'___ muchísimo en la universidad.',tenses:['imperfect']},
+  {verb:'hablar',subject:'yo',context:'nostalgia',en:'I used to talk to her every day, now nothing.',es:'___ con ella todos los días, ahora nada.',tenses:['imperfect']},
+  {verb:'cantar',subject:'ellos',context:'old memories',en:'They used to sing together all the time.',es:'___ juntos todo el tiempo.',tenses:['imperfect']},
+  /* ---- Futuro: planes y predicciones reales, no exámenes de gramática ---- */
+  {verb:'hablar',subject:'yo',context:'making plans',en:"I'll talk to her about it tomorrow.",es:'___ con ella de eso mañana.',tenses:['future']},
+  {verb:'vivir',subject:'tú',context:'future plans',en:'Will you live with your parents after college?',es:'¿___ con tus padres después de la uni?',tenses:['future']},
+  {verb:'ser',subject:'él',context:'a prediction',en:"He'll be a great dad, I just know it.",es:'___ un padre genial, lo sé.',tenses:['future']},
+  {verb:'estar',subject:'yo',context:'making plans',en:"I'll be home by nine.",es:'___ en casa para las nueve.',tenses:['future']},
+  {verb:'tener',subject:'tú',context:'reassurance',en:"You'll have time, don't worry.",es:'___ tiempo, no te preocupes.',tenses:['future']},
+  {verb:'ir',subject:'ellos',context:'making plans',en:"They'll go without us if we're late.",es:'___ sin nosotros si llegamos tarde.',tenses:['future']},
+  {verb:'hacer',subject:'yo',context:'a promise',en:"I'll do it tomorrow, I promise.",es:'___ mañana, lo prometo.',tenses:['future']},
+  {verb:'viajar',subject:'nosotros',context:'future plans',en:"We'll travel next year, once we save up.",es:'___ el próximo año, cuando ahorremos.',tenses:['future']},
+  {verb:'decir',subject:'él',context:'a prediction',en:"He'll tell you eventually, just give him time.",es:'___ tarde o temprano, dale tiempo.',tenses:['future']},
+  {verb:'estudiar',subject:'yo',context:'plans',en:"I'll study this weekend, I promise.",es:'___ este fin de semana, lo prometo.',tenses:['future']},
+  /* ---- Condicional: hipótesis y peticiones educadas — "would / could" reales ---- */
+  {verb:'hablar',subject:'yo',context:'hypothetical',en:'I would talk to her if I had her number.',es:'___ con ella si tuviera su número.',tenses:['conditional']},
+  {verb:'poder',subject:'tú',context:'polite request',en:'Could you help me with this?',es:'¿___ ayudarme con esto?',tenses:['conditional']},
+  {verb:'ser',subject:'él',context:'hypothetical',en:'That would be great, honestly.',es:'___ genial, la verdad.',tenses:['conditional']},
+  {verb:'tener',subject:'nosotros',context:'hypothetical',en:"We'd have more time if we left earlier.",es:'___ más tiempo si saliéramos antes.',tenses:['conditional']},
+  {verb:'ir',subject:'yo',context:'hypothetical',en:'I would go if you came with me.',es:'___ si vinieras conmigo.',tenses:['conditional']},
+  {verb:'hacer',subject:'tú',context:'hypothetical advice',en:'What would you do in my place?',es:'¿Qué ___ en mi lugar?',tenses:['conditional']},
+  {verb:'decir',subject:'yo',context:'hypothetical honesty',en:'I would tell you if I knew.',es:'___ si lo supiera.',tenses:['conditional']},
+  {verb:'vivir',subject:'nosotros',context:'hypothetical',en:"We'd live somewhere warmer if we could.",es:'___ en un lugar más cálido si pudiéramos.',tenses:['conditional']},
+  {verb:'cocinar',subject:'tú',context:'flirty hypothetical',en:'Would you cook for me sometime?',es:'¿___ para mí alguna vez?',tenses:['conditional']},
+  {verb:'querer',subject:'yo',context:'polite wish',en:"I'd love a coffee right now.",es:'Ahora mismo ___ un café.',tenses:['conditional']}
 ];
 
 /* ============ STATE & HELPERS ============ */
@@ -1135,7 +1167,7 @@ function go(view){
 function verbDueCount(){
   if(!srsReady) return 0;
   let n=0;
-  VERB_SENTENCES.forEach(row=>TENSES.forEach(t=>{ if(srsSeenAndDue(verbCardId(row,t))) n++; }));
+  VERB_SENTENCES.forEach(row=>row.tenses.forEach(t=>{ if(srsSeenAndDue(verbCardId(row,t))) n++; }));
   return n;
 }
 function matureTotalCount(){
@@ -1143,7 +1175,7 @@ function matureTotalCount(){
   let n=0;
   n+=VOCAB_POOL.filter(x=>srsIsMature(vocabCardId(x))).length;
   n+=GRAMMAR_POOL.filter(x=>srsIsMature(grammarCardId(x))).length;
-  VERB_SENTENCES.forEach(row=>TENSES.forEach(t=>{ if(srsIsMature(verbCardId(row,t))) n++; }));
+  VERB_SENTENCES.forEach(row=>row.tenses.forEach(t=>{ if(srsIsMature(verbCardId(row,t))) n++; }));
   return n;
 }
 function renderHome(){
@@ -1515,15 +1547,20 @@ function renderVerbShell(){
     </div>
     <div id="vbox"></div>`;
 }
-function setTense(t){ vg.tense=t; document.querySelectorAll('#tenses .tbtn[data-tense]').forEach(b=>b.classList.toggle('active',b.dataset.tense===t)); nextVerb(); }
+function setTense(t){ vg.tense=t; vg.used=[]; document.querySelectorAll('#tenses .tbtn[data-tense]').forEach(b=>b.classList.toggle('active',b.dataset.tense===t)); nextVerb(); }
 function toggleVMode(){ vg.mode=vg.mode==='fill'?'mc':'fill'; $('#vmode').textContent='mode: '+(vg.mode==='fill'?'type':'choose'); nextVerb(); }
 function nextVerb(){
   vg.answered=false;
-  if(vg.used.length>=VERB_SENTENCES.length) vg.used=[];
-  let idx; do{ idx=Math.floor(Math.random()*VERB_SENTENCES.length);}while(vg.used.includes(idx));
-  vg.used.push(idx);
-  let row=VERB_SENTENCES[idx]; vg.row=row;
-  let tense = vg.tense==='mixed' ? rand(TENSES) : vg.tense;
+  /* Only pull sentences whose fixed English gloss actually fits the selected
+     tense -- otherwise you get grammatically-correct-but-nonsensical drills
+     like conjugating "What did you say?" into the conditional. */
+  let pool = vg.tense==='mixed' ? VERB_SENTENCES : VERB_SENTENCES.filter(r=>r.tenses.includes(vg.tense));
+  if(!pool.length) pool = VERB_SENTENCES;
+  if(vg.used.length>=pool.length) vg.used=[];
+  let row; do{ row=rand(pool); }while(vg.used.includes(row.es));
+  vg.used.push(row.es);
+  vg.row=row;
+  let tense = vg.tense==='mixed' ? rand(row.tenses) : vg.tense;
   vg.activeTense=tense;
   let conj=VERBS[row.verb][tense][row.subject];
   vg.answer=row.answer||conj;
@@ -1745,11 +1782,11 @@ function card_verb(){
   lastVerbKey=row.es;
   let tense;
   if(sprintMode){
-    let matureTenses=TENSES.filter(t=>srsIsMature(verbCardId(row,t)));
-    tense=rand(matureTenses.length?matureTenses:TENSES);
+    let matureTenses=row.tenses.filter(t=>srsIsMature(verbCardId(row,t)));
+    tense=rand(matureTenses.length?matureTenses:row.tenses);
   } else {
-    let dueTenses=TENSES.filter(t=>srsIsDue(verbCardId(row,t)));
-    tense=rand(dueTenses.length?dueTenses:TENSES);
+    let dueTenses=row.tenses.filter(t=>srsIsDue(verbCardId(row,t)));
+    tense=rand(dueTenses.length?dueTenses:row.tenses);
   }
   let id=verbCardId(row,tense);
   let conj=VERBS[row.verb][tense][row.subject], answer=row.answer||conj;
