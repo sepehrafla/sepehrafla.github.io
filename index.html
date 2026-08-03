@@ -25,7 +25,16 @@
     background:
       radial-gradient(900px 500px at 12% -8%, rgba(124,159,255,.16), transparent 60%),
       radial-gradient(700px 500px at 100% 10%, rgba(255,138,92,.10), transparent 55%),
-      var(--bg)}
+      var(--bg);
+    animation:auroraDrift 18s ease-in-out infinite alternate}
+  @keyframes auroraDrift{
+    0%{background-position:0% 0%,0% 0%,0 0}
+    100%{background-position:6% 4%,-5% -3%,0 0}
+  }
+  /* Cursor-follow spotlight -- purely decorative, updated via JS */
+  #spotlight{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(124,159,255,.08), transparent 70%);
+    transition:background .15s ease-out}
   h1,h2,h3,.logo{font-family:'Space Grotesk',sans-serif}
   .mono{font-family:'JetBrains Mono',monospace}
   a{color:inherit}
@@ -49,22 +58,40 @@
 
   /* ===== Hero ===== */
   .hero{padding:100px 0 80px;position:relative}
+  .hero-top{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+  .hero-copy{min-width:0}
   .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);
     background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:7px 14px;border-radius:999px;margin-bottom:26px}
   .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .hero h1{font-size:clamp(38px,6vw,68px);font-weight:700;letter-spacing:-.03em;line-height:1.04;max-width:820px}
+  .hero h1{font-size:clamp(36px,5.2vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.06}
   .hero h1 .accent{background:linear-gradient(100deg,var(--accent),#a9c0ff 60%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lede{font-size:19px;color:var(--muted);max-width:600px;margin:24px 0 36px;font-weight:400}
+  .hero .lede{font-size:18px;color:var(--muted);max-width:520px;margin:22px 0 34px;font-weight:400}
   .hero .lede b{color:var(--txt);font-weight:600}
-  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+  /* Abstract avatar visual (no headshot on file -- geometric monogram instead) */
+  .hero-visual{position:relative;height:320px;display:flex;align-items:center;justify-content:center}
+  .avatar-mark{width:168px;height:168px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:52px;letter-spacing:-.02em;color:#fff;
+    background:linear-gradient(150deg,var(--accent),#5a6fe0 55%,var(--accent2));
+    box-shadow:0 20px 60px -12px rgba(124,159,255,.5),inset 0 2px 0 rgba(255,255,255,.25);position:relative;z-index:2}
+  .orbit-ring{position:absolute;border:1.5px dashed rgba(255,255,255,.14);border-radius:50%}
+  .orbit-ring.r1{width:250px;height:250px;animation:spin 40s linear infinite}
+  .orbit-ring.r2{width:310px;height:310px;animation:spin 60s linear infinite reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .float-chip{position:absolute;font-size:13px;font-weight:600;background:var(--panel);border:1px solid var(--line);
+    padding:8px 14px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.35);white-space:nowrap;z-index:3;animation:bob 4s ease-in-out infinite}
+  .float-chip.c1{top:6%;left:-4%;animation-delay:0s}
+  .float-chip.c2{bottom:14%;right:-8%;animation-delay:1.3s}
+  .float-chip.c3{bottom:-2%;left:14%;animation-delay:2.6s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:12px;font-size:14.5px;font-weight:600;
     text-decoration:none;cursor:pointer;border:1px solid var(--line);transition:.18s;font-family:inherit}
   .btn.primary{background:var(--txt);color:var(--bg);border-color:transparent}
   .btn.primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
   .btn.ghost{background:var(--panel2);color:var(--txt)}
   .btn.ghost:hover{border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
-  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:52px}
   .hero-stats div{background:var(--panel);padding:20px 18px}
   .hero-stats b{display:block;font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--txt)}
   .hero-stats span{font-size:12.5px;color:var(--muted);font-weight:500}
@@ -114,8 +141,8 @@
 
   /* Projects */
   .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-  .proj-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:.2s;display:flex;flex-direction:column}
-  .proj-card:hover{transform:translateY(-4px);border-color:rgba(124,159,255,.35)}
+  .proj-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:transform .12s ease-out,border-color .2s;display:flex;flex-direction:column;will-change:transform}
+  .proj-card:hover{border-color:rgba(124,159,255,.35)}
   .proj-card .tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:3px 10px;border-radius:999px;margin-bottom:14px;align-self:flex-start}
   .proj-card h3{font-size:19px;margin-bottom:8px}
   .proj-card p{color:var(--muted);font-size:14px;flex:1;margin-bottom:16px}
@@ -168,7 +195,14 @@
     .mobile-menu{position:fixed;inset:0;top:65px;background:var(--bg);z-index:99;flex-direction:column;padding:24px;gap:4px}
     .mobile-menu a{padding:16px 8px;font-size:17px;color:var(--txt);text-decoration:none;border-bottom:1px solid var(--line);font-weight:600}
     .hero{padding:56px 0 48px}
-    .hero-stats{grid-template-columns:1fr 1fr}
+    .hero-top{grid-template-columns:1fr;gap:12px}
+    .hero-visual{height:220px;order:-1}
+    .avatar-mark{width:120px;height:120px;font-size:38px}
+    .orbit-ring.r1{width:180px;height:180px}
+    .orbit-ring.r2{width:220px;height:220px}
+    .float-chip{font-size:11.5px;padding:6px 11px}
+    .hero-actions{margin-bottom:32px}
+    .hero-stats{grid-template-columns:1fr 1fr;margin-top:8px}
     section{padding:60px 0}
     .about-grid{grid-template-columns:1fr;gap:36px}
     .timeline{padding-left:26px}
@@ -179,6 +213,7 @@
 </style>
 </head>
 <body>
+<div id="spotlight"></div>
 
 <nav>
   <div class="wrap">
@@ -187,7 +222,7 @@
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
       <a href="#contact" class="cta">Get in touch</a>
     </div>
     <button class="hamburger" aria-label="Menu" onclick="document.getElementById('mmenu').classList.toggle('open')">
@@ -198,27 +233,33 @@
     <a href="#about" onclick="document.getElementById('mmenu').classList.remove('open')">About</a>
     <a href="#experience" onclick="document.getElementById('mmenu').classList.remove('open')">Experience</a>
     <a href="#projects" onclick="document.getElementById('mmenu').classList.remove('open')">Projects</a>
-    <a href="#skills" onclick="document.getElementById('mmenu').classList.remove('open')">Skills</a>
+    <a href="#education" onclick="document.getElementById('mmenu').classList.remove('open')">Education</a>
     <a href="#contact" onclick="document.getElementById('mmenu').classList.remove('open')">Get in touch</a>
   </div>
 </nav>
 
 <div id="top"></div>
 <header class="hero wrap">
-  <div class="eyebrow"><span class="pulse"></span> Open to interesting problems — currently building at EQ Bank & LEYOXA</div>
-  <h1>Software engineer building <span class="accent">secure, AI-driven products</span> — from bank fraud systems to dental-clinic platforms.</h1>
-  <p class="lede">I'm <b>Sepehr</b> — a Computer Engineer (UWaterloo) working in <b>security & fraud at EQ Bank</b>, and founder of <b>LEYOXA</b>, where I build AI-ready software for healthcare clinics. Past life in autonomous driving, ML, and mobile.</p>
-  <div class="hero-actions">
-    <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ Get in touch</a>
-    <a class="btn ghost" href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">📄 Résumé</a>
-    <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
-    <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
-  </div>
-  <div class="hero-stats" data-reveal>
-    <div><b>5+</b><span>years building software</span></div>
-    <div><b>4</b><span>Microsoft Azure certifications</span></div>
-    <div><b>3</b><span>years running LEYOXA</span></div>
-    <div><b>2</b><span>languages, native bilingual</span></div>
+  <div class="hero-top">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="pulse"></span> Currently building at EQ Bank & LEYOXA</div>
+      <h1>Helping people & businesses <span class="accent">make the leap into AI.</span></h1>
+      <p class="lede">I'm <b>Sepehr</b> — a Computer Engineer (UWaterloo). Security & fraud at <b>EQ Bank</b>, founder of <b>LEYOXA</b>. Past life in autonomous driving, ML, and mobile.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ Get in touch</a>
+        <a class="btn ghost" href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">📄 Résumé</a>
+        <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="orbit-ring r1"></div>
+      <div class="orbit-ring r2"></div>
+      <div class="avatar-mark">SA</div>
+      <span class="float-chip c1">🔐 Security</span>
+      <span class="float-chip c2">🤖 AI Agents</span>
+      <span class="float-chip c3">☁️ Azure</span>
+    </div>
   </div>
 </header>
 
@@ -236,7 +277,7 @@
         <div class="fact"><span class="ic">🎸</span><div><b>1st place, Javan Music Festival</b><span>Also taught guitar for a summer — music stuck around.</span></div></div>
         <div class="fact"><span class="ic">🏀</span><div><b>Basketball intramurals</b><span>Waterloo campus league.</span></div></div>
         <div class="fact"><span class="ic">🔬</span><div><b>4th place, Persian Young Physicist Tournament</b><span>Before engineering, there was physics.</span></div></div>
-        <div class="fact"><span class="ic">🌍</span><div><b>Native bilingual — English & Persian</b><span>Based in the Greater Toronto Area.</span></div></div>
+        <div class="fact"><span class="ic">🚗</span><div><b>Led Watonomous</b><span>Waterloo's SAE Autonomous Driving Challenge team.</span></div></div>
       </div>
     </div>
   </div>
@@ -254,8 +295,8 @@
         <div class="tl-head"><span class="tl-role">Software Engineer</span><span class="tl-co">· EQ Bank | Equitable Bank</span><span class="tl-badge">Current</span></div>
         <div class="tl-meta">April 2025 — Present · Toronto, ON · Security & Fraud team</div>
         <ul class="tl-bullets">
-          <li>Led migration of HID authentication to Okta Auth 2.0</li>
-          <li>Implemented Passkey support on iOS</li>
+          <li>Leading the team designing and building the system to securely migrate the bank's identity & access management from HID to Okta Auth 2.0</li>
+          <li>Implemented Passkey support on iOS, bringing passwordless authentication to mobile banking</li>
         </ul>
       </div>
 
@@ -332,106 +373,37 @@
   <div class="wrap">
     <div class="section-kicker">03 · Projects</div>
     <h2 class="section-title">Things I've built</h2>
-    <p class="section-lede">A mix of client work through LEYOXA and personal projects — including two live apps I built end-to-end.</p>
     <div class="proj-grid">
 
       <div class="proj-card live" data-reveal>
         <span class="tag">Live · Personal</span>
         <h3>🇪🇸 Mi Español</h3>
-        <p>A gamified Spanish-learning app built from real class material — spaced repetition (FSRS), typed-answer drills with accent input, real sentences mined from Tatoeba, a timed "Fluency Sprint" mode, free-writing graded live by LanguageTool, and a shadowing/pronunciation trainer.</p>
-        <div class="stack"><span>Vanilla JS</span><span>FSRS SRS</span><span>Web Speech API</span><span>LanguageTool API</span></div>
+        <p>Gamified Spanish learning — spaced repetition, typed drills, real mined sentences, timed sprints, AI-graded writing.</p>
         <a class="link" href="spanish/" target="_blank" rel="noopener">Try it live →</a>
       </div>
 
-      <div class="proj-card live" data-reveal>
-        <span class="tag">Live · Personal</span>
-        <h3>🇮🇷 Farsi Para Ti</h3>
-        <p>A companion app teaching Farsi in finglish (Latin script) to a Spanish speaker — with a pronunciation guide mapping Persian sounds to Spanish phonetics, reels-style practice, and terms of endearment.</p>
-        <div class="stack"><span>Vanilla JS</span><span>Spaced repetition</span></div>
-        <a class="link" href="farsi/" target="_blank" rel="noopener">Try it live →</a>
-      </div>
-
       <div class="proj-card" data-reveal>
-        <span class="tag">LEYOXA · Client</span>
-        <h3>AI Voice Agent + Marketing</h3>
-        <p>Voice AI agent and content/SEO automation built for DDS Marketing (Miami), helping dental clinics handle inbound calls and grow organic reach.</p>
-        <div class="stack"><span>AI Agents</span><span>Voice</span><span>SEO</span></div>
-      </div>
-
-      <div class="proj-card" data-reveal>
-        <span class="tag">LEYOXA · Client</span>
-        <h3>Smile Link Platform</h3>
-        <p>Mobile app + backend platform for Smile Link (Texas), an AI-ready dental clinic system.</p>
-        <div class="stack"><span>Mobile</span><span>Platform</span></div>
-      </div>
-
-      <div class="proj-card" data-reveal>
-        <span class="tag">LEYOXA · Client</span>
-        <h3>Emergclinic Platform</h3>
-        <p>Clinic-management platform built for Emergclinic (Toronto).</p>
-        <div class="stack"><span>Full-stack</span><span>Healthcare</span></div>
+        <span class="tag">Founder</span>
+        <h3>🦷 LEYOXA</h3>
+        <p>AI-ready platforms, voice agents, and marketing automation for dental clinics.</p>
+        <a class="link" href="https://leyoxa.com" target="_blank" rel="noopener">Visit leyoxa.com →</a>
       </div>
 
       <div class="proj-card" data-reveal>
         <span class="tag">Avanade · Ford</span>
-        <h3>FordPass EV Charging</h3>
-        <p>Intelligent and manual charging scheduling for electric vehicles, shipped inside Ford's FordPass iOS app.</p>
-        <div class="stack"><span>iOS</span><span>Swift</span><span>EV</span></div>
+        <h3>🔋 FordPass EV Charging</h3>
+        <p>Intelligent + manual EV charging scheduling, shipped inside the Ford app.</p>
+        <a class="link" href="https://www.ford.com/support/category/ford-app/" target="_blank" rel="noopener">About the Ford app →</a>
       </div>
 
     </div>
   </div>
 </section>
 
-<section id="skills" class="tight">
-  <div class="wrap">
-    <div class="section-kicker">04 · Skills</div>
-    <h2 class="section-title">Tools I reach for</h2>
-    <div class="skill-groups">
-      <div class="skill-group" data-reveal>
-        <h4>Security & Auth</h4>
-        <div class="skill-pills"><span>Auth0</span><span>Okta</span><span>Passkey / WebAuthn</span><span>OAuth 2.0</span><span>Fraud & Risk Systems</span></div>
-      </div>
-      <div class="skill-group" data-reveal>
-        <h4>Backend & Cloud</h4>
-        <div class="skill-pills"><span>Spring Boot</span><span>Java</span><span>Python / Flask</span><span>Azure</span><span>Terraform</span><span>Splunk</span></div>
-      </div>
-      <div class="skill-group" data-reveal>
-        <h4>Mobile</h4>
-        <div class="skill-pills"><span>Swift</span><span>Objective-C</span><span>iOS</span><span>Android</span></div>
-      </div>
-      <div class="skill-group" data-reveal>
-        <h4>AI / ML</h4>
-        <div class="skill-pills"><span>FastAI</span><span>Unsupervised Learning</span><span>AI Voice Agents</span><span>Model Monitoring</span></div>
-      </div>
-      <div class="skill-group" data-reveal>
-        <h4>Low-Code & Automation</h4>
-        <div class="skill-pills"><span>PowerApps</span><span>Power Automate</span><span>Power Platform</span></div>
-      </div>
-      <div class="skill-group" data-reveal>
-        <h4>Frontend</h4>
-        <div class="skill-pills"><span>JavaScript</span><span>Vanilla JS Apps</span><span>Web APIs</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="certs" class="tight">
-  <div class="wrap">
-    <div class="section-kicker">05 · Certifications</div>
-    <h2 class="section-title">Microsoft Certified</h2>
-    <div class="cert-row">
-      <div class="cert" data-reveal><span class="ic">☁️</span><div><b>Azure Solutions Architect Expert</b><span>Microsoft Certified</span></div></div>
-      <div class="cert" data-reveal><span class="ic">🛠️</span><div><b>Azure Developer Associate</b><span>Microsoft Certified</span></div></div>
-      <div class="cert" data-reveal><span class="ic">📡</span><div><b>Azure IoT Developer Specialty</b><span>Microsoft Certified</span></div></div>
-      <div class="cert" data-reveal><span class="ic">⚡</span><div><b>Power Platform Fundamentals</b><span>Microsoft Certified</span></div></div>
-    </div>
-  </div>
-</section>
 
 <section id="education" class="tight">
   <div class="wrap">
-    <div class="section-kicker">06 · Education</div>
+    <div class="section-kicker">04 · Education</div>
     <h2 class="section-title">Education</h2>
     <div class="edu-card" data-reveal>
       <span class="ic">🎓</span>
@@ -462,7 +434,6 @@
     <p>© <span id="year"></span> Sepehr Aflatounian · Greater Toronto Area, Canada</p>
     <div class="foot-links">
       <a href="spanish/">Mi Español</a>
-      <a href="farsi/">Farsi</a>
       <a href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
     </div>
   </div>
@@ -474,6 +445,21 @@ const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 },{threshold:0.12});
 document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+window.addEventListener('mousemove', e=>{
+  document.body.style.setProperty('--mx', e.clientX+'px');
+  document.body.style.setProperty('--my', e.clientY+'px');
+});
+
+document.querySelectorAll('.proj-card').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(600px) rotateX(${(-py*8).toFixed(2)}deg) rotateY(${(px*8).toFixed(2)}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+});
 </script>
 </body>
 </html>
