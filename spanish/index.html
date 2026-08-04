@@ -1163,11 +1163,18 @@ const audioReady = !!window.speechSynthesis;
 function speakEs(text,rate){
   if(!audioReady || !text) return;
   try{
-    speechSynthesis.cancel();
-    let u=new SpeechSynthesisUtterance((''+text).replace(/[“”]/g,'').replace(/___/g,'...'));
-    u.lang='es-ES'; u.rate=rate||0.94;
-    if(esVoice) u.voice=esVoice;
-    speechSynthesis.speak(u);
+    const wasSpeaking = speechSynthesis.speaking || speechSynthesis.pending;
+    if(wasSpeaking) speechSynthesis.cancel();
+    const doSpeak=()=>{
+      let u=new SpeechSynthesisUtterance((''+text).replace(/[“”]/g,'').replace(/___/g,'...'));
+      u.lang='es-ES'; u.rate=rate||0.94;
+      if(esVoice) u.voice=esVoice; else if(!speechSynthesis.getVoices().length) esVoice=pickSpanishVoice();
+      speechSynthesis.speak(u);
+      // iOS Safari sometimes leaves the queue paused after a cold start
+      if(speechSynthesis.paused) speechSynthesis.resume();
+    };
+    // Cancel is async on Safari -- speaking right after it in the same tick can get silently dropped
+    if(wasSpeaking) setTimeout(doSpeak, 50); else doSpeak();
   }catch(e){}
 }
 
