@@ -1167,22 +1167,10 @@ if(window.speechSynthesis){
   },150);
 }
 const audioReady = !!window.speechSynthesis;
-// iOS Safari needs speechSynthesis "unlocked" by a real user gesture before the
-// very first speak() will reliably fire -- prime it on the first tap anywhere.
-let speechUnlocked=false;
-function unlockSpeech(){
-  if(speechUnlocked || !audioReady) return;
-  speechUnlocked=true;
-  try{
-    let u=new SpeechSynthesisUtterance(' ');
-    u.volume=0; u.lang='es-ES';
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
-if(audioReady){
-  document.addEventListener('touchstart',unlockSpeech,{once:true,passive:true});
-  document.addEventListener('click',unlockSpeech,{once:true});
-}
+// Keep utterances alive until Safari finishes with them. More importantly, the
+// first real phrase is spoken directly inside the Escuchar button's click
+// handler; a silent "unlock" utterance would race that click on iOS Safari.
+const activeUtterances=new Set();
 function speakEs(text,rate){
   if(!audioReady || !text) return;
   try{
@@ -1191,12 +1179,18 @@ function speakEs(text,rate){
     const doSpeak=()=>{
       let u=new SpeechSynthesisUtterance((''+text).replace(/[“”]/g,'').replace(/___/g,'...'));
       u.lang='es-ES'; u.rate=rate||0.94;
-      if(esVoice) u.voice=esVoice; else if(!speechSynthesis.getVoices().length) esVoice=pickSpanishVoice();
-      speechSynthesis.speak(u);
+      esVoice=esVoice||pickSpanishVoice();
+      if(esVoice) u.voice=esVoice;
+      activeUtterances.add(u);
+      const release=()=>activeUtterances.delete(u);
+      u.onend=release;
+      u.onerror=release;
       // iOS Safari sometimes leaves the queue paused after a cold start
       if(speechSynthesis.paused) speechSynthesis.resume();
+      speechSynthesis.speak(u);
     };
-    // Cancel is async on Safari -- speaking right after it in the same tick can get silently dropped
+    // The first phrase must stay synchronous with the user's tap on iOS. Only
+    // an already-running phrase needs a short delay while cancel() clears it.
     if(wasSpeaking) setTimeout(doSpeak, 50); else doSpeak();
   }catch(e){}
 }
