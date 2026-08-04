@@ -123,32 +123,50 @@
   .fact b{display:block;font-size:14px;margin-bottom:2px}
   .fact span{font-size:13px;color:var(--muted)}
 
-  /* Experience timeline */
-  .timeline{position:relative;padding-left:32px}
-  .timeline::before{content:'';position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--line),var(--line));}
-  .tl-item{position:relative;padding-bottom:40px}
-  .tl-item:last-child{padding-bottom:0}
-  .tl-dot{position:absolute;left:-32px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--panel);border:2px solid var(--accent)}
-  .tl-item.current .tl-dot{background:var(--good);border-color:var(--good);box-shadow:0 0 0 4px rgba(91,229,154,.15)}
-  .tl-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:6px}
-  .tl-role{font-size:19px;font-weight:700}
-  .tl-co{color:var(--accent);font-weight:600}
-  .tl-co::before{content:'· ';color:var(--muted2)}
-  .tl-meta{font-size:13px;color:var(--muted2);margin-bottom:12px;font-family:'JetBrains Mono',monospace}
-  .tl-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--good);background:rgba(91,229,154,.12);border:1px solid rgba(91,229,154,.3);padding:2px 9px;border-radius:999px;margin-left:4px;text-transform:uppercase;letter-spacing:.03em}
-  .tl-bullets{list-style:none;display:grid;gap:8px}
-  .tl-bullets li{color:var(--muted);font-size:14.5px;padding-left:18px;position:relative}
-  .tl-bullets li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
-  .tl-more summary{cursor:pointer;color:var(--muted);font-size:13.5px;font-weight:600;margin-top:20px;list-style:none;display:flex;align-items:center;gap:6px}
-  .tl-more summary::-webkit-details-marker{display:none}
-  .tl-more summary .chev{transition:.2s}
-  .tl-more[open] summary .chev{transform:rotate(90deg)}
-  .tl-more .timeline{margin-top:24px}
-  .earlier-item{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .earlier-item:last-child{border-bottom:none}
-  .earlier-item b{font-size:14.5px}
-  .earlier-item .co{color:var(--muted);font-size:13.5px}
-  .earlier-item .when{color:var(--muted2);font-size:12.5px;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+  /* Interactive journey */
+  .journey-game{margin-top:58px;border:1px solid rgba(255,138,92,.22);border-radius:26px;padding:24px;background:linear-gradient(145deg,rgba(18,23,34,.96),rgba(11,16,23,.98));position:relative;overflow:hidden;box-shadow:0 26px 70px rgba(0,0,0,.25)}
+  .journey-game::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(440px 220px at 10% 0%,rgba(255,138,92,.1),transparent 65%),radial-gradient(420px 240px at 100% 100%,rgba(124,159,255,.09),transparent 64%)}
+  .journey-head{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:22px;margin-bottom:28px}.journey-head h3{font-size:24px;margin:4px 0}.journey-head p{font-size:13px;color:var(--muted);max-width:480px}.journey-status{font:600 10px 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+  .journey-route{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:4px 8px 28px}.journey-line,.journey-progress{position:absolute;left:8%;right:8%;top:21px;height:2px;border-radius:99px;background:var(--line)}.journey-progress{right:auto;width:var(--journey-progress,0%);max-width:84%;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--good));box-shadow:0 0 14px rgba(124,159,255,.25);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .journey-node{position:relative;z-index:2;border:0;background:transparent;color:var(--muted);font:600 10px 'Inter',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}.journey-node i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font:700 11px 'JetBrains Mono',monospace;transition:.25s}.journey-node:hover i,.journey-node.active i{transform:translateY(-2px);border-color:rgba(124,159,255,.45);color:#fff}.journey-node.visited i{background:linear-gradient(145deg,rgba(124,159,255,.28),rgba(91,229,154,.12));border-color:rgba(124,159,255,.35);color:#fff}.journey-node.active i{box-shadow:0 0 0 5px rgba(124,159,255,.09),0 8px 24px rgba(0,0,0,.28)}
+  .journey-body{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.journey-story,.journey-passport{border:1px solid var(--line);border-radius:18px;background:rgba(8,12,19,.72);padding:22px;min-height:220px}.journey-kicker{font:600 10px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}.journey-story h4{font-family:'Space Grotesk',sans-serif;font-size:22px;margin-bottom:8px}.journey-story p{color:var(--muted);font-size:14px;max-width:54ch}.journey-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.journey-btn{border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:#fff;padding:10px 14px;font:600 11px 'Inter',sans-serif;cursor:pointer;transition:.18s}.journey-btn:hover{border-color:rgba(124,159,255,.4);transform:translateY(-1px)}.journey-btn.primary{background:#fff;color:#0a0d12;border-color:transparent}.journey-btn:disabled{opacity:.35;pointer-events:none}
+  .stamp-row{display:flex;gap:8px;margin:14px 0 20px}.stamp-row i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;border:1px dashed var(--muted2);color:var(--muted2);font:700 10px 'JetBrains Mono',monospace;transform:rotate(var(--tilt,-3deg));transition:.3s}.stamp-row i.collected{border-style:solid;border-color:rgba(91,229,154,.35);background:rgba(91,229,154,.1);color:var(--good);transform:rotate(0) scale(1.05)}.journey-passport p{color:var(--muted);font-size:13px}.detour-message{margin-top:16px;padding:13px 14px;border:1px solid rgba(255,138,92,.24);border-radius:13px;background:rgba(255,138,92,.07);color:#e7c3b5;font:500 11px 'JetBrains Mono',monospace;min-height:64px;display:flex;align-items:center;transition:.2s}.detour-message.pop{animation:detourPop .35s ease}@keyframes detourPop{50%{transform:rotate(-.6deg) scale(1.015)}}
+
+  /* Personal operating system */
+  .life-console{position:relative;background:linear-gradient(145deg,rgba(18,23,34,.96),rgba(12,17,25,.98));border:1px solid rgba(124,159,255,.22);border-radius:26px;padding:18px;box-shadow:0 28px 80px rgba(0,0,0,.3);overflow:hidden;transition:border-color .35s,box-shadow .35s}
+  .life-console::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(124,159,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,159,255,.04) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,#000,transparent 72%)}
+  .life-console.easter-mode{border-color:rgba(91,229,154,.42);box-shadow:0 28px 90px rgba(0,0,0,.36),0 0 44px rgba(91,229,154,.08)}
+  .life-console-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:4px 4px 18px}
+  .console-lights{position:relative;z-index:2;display:flex;gap:7px;border:0;background:transparent;padding:7px;margin:-7px;cursor:pointer}.console-lights i{width:9px;height:9px;border-radius:50%;background:var(--muted2);transition:.2s}.console-lights:hover i{transform:translateY(-2px);filter:brightness(1.2)}.console-lights i:nth-child(1){background:#ff6b6b}.console-lights i:nth-child(2){background:#ffd166}.console-lights i:nth-child(3){background:var(--good)}
+  .console-status{font:600 11px 'JetBrains Mono',monospace;color:var(--good);letter-spacing:.06em;text-transform:uppercase}
+  .easter-toast{position:absolute;z-index:6;left:50%;top:15px;transform:translate(-50%,-8px);padding:8px 13px;border:1px solid rgba(91,229,154,.28);border-radius:999px;background:rgba(9,14,20,.96);color:#bff8d5;font:600 10px 'JetBrains Mono',monospace;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.35)}.easter-toast.show{opacity:1;transform:translate(-50%,0)}
+  .debug-bit{position:absolute;z-index:5;left:var(--x);top:var(--y);color:var(--bit-color,var(--good));font:700 var(--size,11px) 'JetBrains Mono',monospace;pointer-events:none;animation:debugBit 1.35s cubic-bezier(.18,.8,.25,1) forwards}@keyframes debugBit{0%{opacity:0;transform:translateY(8px) scale(.7) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-72px) scale(1.1) rotate(var(--spin,8deg))}}
+  .life-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+  .life-tab{min-height:48px;border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--muted);font:600 12px 'Inter',sans-serif;cursor:pointer;transition:.2s ease}
+  .life-tab:hover,.life-tab.active{color:#fff;border-color:rgba(124,159,255,.5);background:rgba(124,159,255,.14);transform:translateY(-1px)}
+  .life-panel{display:none;grid-template-columns:1.15fr .85fr;gap:14px;min-height:330px}.life-panel.active{display:grid;animation:panelIn .35s ease both}@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .life-card{background:rgba(8,12,19,.72);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;overflow:hidden}
+  .life-card h3{font-size:21px;margin-bottom:8px}.life-card p{color:var(--muted);font-size:14px}
+  .terminal-line{font:600 11px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+  .scan-list{display:grid;gap:10px;margin-top:20px}.scan-item{display:grid;grid-template-columns:1fr auto;gap:5px 14px;align-items:center}.scan-item span{font-size:12px;color:var(--muted)}.scan-item b{font:600 11px 'JetBrains Mono',monospace;color:var(--good)}.scan-track{grid-column:1/-1;height:6px;background:var(--panel2);border-radius:99px;overflow:hidden}.scan-track i{display:block;height:100%;width:var(--score);border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--good));transform-origin:left}
+  .check-button{margin-top:22px;border:0;border-radius:11px;padding:11px 16px;background:var(--txt);color:var(--bg);font-weight:700;cursor:pointer}.check-button.running{pointer-events:none;opacity:.7}
+  .guardrails{display:grid;gap:10px}.guardrail{border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:13px 14px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}.guardrail i{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 10px rgba(91,229,154,.5);margin-top:6px}.guardrail b{display:block;font-size:12.5px;margin-bottom:2px}.guardrail span{display:block;font-size:11px;color:var(--muted)}
+  .human-signal{margin-top:14px;border:1px solid rgba(255,138,92,.25);background:rgba(255,138,92,.08);border-radius:13px;padding:14px;color:#d8dce6;font-size:12.5px}.human-signal b{color:var(--accent2)}
+  .community-map{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.circle-node{min-height:88px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);color:var(--muted);padding:10px;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;font-size:11px;font-weight:600}.circle-node span{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,rgba(124,159,255,.22),rgba(91,229,154,.09));border:1px solid rgba(124,159,255,.22);color:#dfe7ff;font:700 13px 'JetBrains Mono',monospace}.circle-node:hover,.circle-node.active{background:rgba(91,229,154,.1);border-color:rgba(91,229,154,.38);color:#fff;transform:translateY(-2px)}.circle-node.active span{background:linear-gradient(145deg,var(--accent),#5c79e5);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(124,159,255,.22)}
+  .metric-stack{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.life-metric{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px}.life-metric b{display:block;font-size:19px;color:var(--good)}.life-metric span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .circle-detail{margin-top:20px;min-height:90px;padding:16px;border-radius:14px;border:1px dashed rgba(124,159,255,.35);color:var(--muted);font-size:13px}.circle-detail b{color:#fff;display:block;margin-bottom:4px}
+  .barbell-viz{display:grid;grid-template-columns:1fr 54px 1fr;align-items:end;gap:12px;margin:28px 0 20px}.bar-side{border-radius:16px 16px 6px 6px;padding:18px 14px;background:linear-gradient(180deg,rgba(124,159,255,.26),rgba(124,159,255,.06));border:1px solid rgba(124,159,255,.3);text-align:center}.bar-side.bet{background:linear-gradient(180deg,rgba(255,138,92,.24),rgba(255,138,92,.05));border-color:rgba(255,138,92,.3)}.bar-side b{display:block;font-size:27px}.bar-side span{font-size:10px;color:var(--muted);text-transform:uppercase}.bar-mid{height:2px;background:var(--muted2);margin-bottom:38px;position:relative}.bar-mid::after{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:var(--txt);left:50%;top:50%;transform:translate(-50%,-50%)}
+  .conviction-range{width:100%;accent-color:var(--accent2)}.range-labels{display:flex;justify-content:space-between;color:var(--muted2);font:500 9px 'JetBrains Mono',monospace;margin-top:5px}
+  .signal-stack{display:grid;gap:12px;margin-top:18px}.signal-row{display:flex;gap:13px;align-items:center;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line)}.signal-icon{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:linear-gradient(145deg,rgba(124,159,255,.24),rgba(124,159,255,.07));border:1px solid rgba(124,159,255,.22);color:#dfe7ff;font:700 13px 'JetBrains Mono',monospace}.signal-icon.warm{background:linear-gradient(145deg,rgba(255,138,92,.25),rgba(255,138,92,.06));border-color:rgba(255,138,92,.24);color:#ffc2aa}.signal-icon.good{background:linear-gradient(145deg,rgba(91,229,154,.22),rgba(91,229,154,.05));border-color:rgba(91,229,154,.22);color:#9df4c2}.signal-row b{display:block;font-size:13px}.signal-row small{color:var(--muted);font-size:11px}
+
+  /* Signal Run — playable Three.js intermission */
+  .signal-game{border:1px solid rgba(124,159,255,.26);border-radius:28px;background:#090e15;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.38);position:relative}
+  .game-hud{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:18px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(15,21,31,.94);position:relative;z-index:5}.game-brand{display:flex;align-items:center;gap:9px;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase}.game-brand i{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 12px var(--good)}.hud-stat{display:flex;align-items:baseline;gap:6px}.hud-stat span{font:500 9px 'JetBrains Mono',monospace;color:var(--muted2);text-transform:uppercase}.hud-stat b{font:700 14px 'JetBrains Mono',monospace;color:#fff}.stability-track{width:100px;height:6px;border-radius:99px;background:var(--panel2);overflow:hidden}.stability-track i{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent2),var(--good));transition:width .2s}
+  .game-stage{position:relative;min-height:480px;isolation:isolate;background:radial-gradient(500px 300px at 50% 70%,rgba(124,159,255,.08),transparent 70%),#070b11}.game-stage canvas{display:block;width:100%;height:100%;position:absolute;inset:0;touch-action:none}.game-message{position:absolute;z-index:3;top:18px;left:50%;transform:translate(-50%,-8px);opacity:0;transition:.22s;padding:7px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(7,11,17,.86);color:#fff;font:600 10px 'JetBrains Mono',monospace;white-space:nowrap;pointer-events:none}.game-message.show{opacity:1;transform:translate(-50%,0)}
+  .game-overlay{position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:24px;background:linear-gradient(rgba(7,11,17,.28),rgba(7,11,17,.82));backdrop-filter:blur(3px);transition:.3s}.game-overlay.hidden{opacity:0;pointer-events:none}.game-card{text-align:center;max-width:480px}.game-card .game-mini{font:600 10px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}.game-card h3{font-size:clamp(28px,5vw,44px);line-height:1;margin-bottom:14px}.game-card p{color:var(--muted);font-size:14px;margin:0 auto 22px;max-width:48ch}.game-start{border:0;border-radius:999px;background:#fff;color:#090d13;padding:13px 24px;font:700 13px 'Inter',sans-serif;cursor:pointer;box-shadow:0 12px 32px rgba(255,255,255,.12);transition:.2s}.game-start:hover{transform:translateY(-2px) scale(1.02)}
+  .game-legend{position:absolute;z-index:3;left:16px;bottom:14px;display:flex;gap:7px;flex-wrap:wrap}.game-legend span{padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:rgba(7,11,17,.78);color:var(--muted);font:500 9px 'JetBrains Mono',monospace}.game-legend i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px}.game-legend .signal-dot{background:var(--good);box-shadow:0 0 8px var(--good)}.game-legend .noise-dot{background:var(--accent2)}
+  .game-controls{position:absolute;z-index:3;right:16px;bottom:14px;display:flex;gap:9px}.game-control{width:48px;height:48px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(18,25,37,.82);color:#fff;font-size:19px;cursor:pointer;backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent}.game-control:active{transform:scale(.92);background:rgba(124,159,255,.22)}
+  .game-footer{display:flex;justify-content:space-between;gap:18px;padding:12px 18px;background:rgba(15,21,31,.94);border-top:1px solid var(--line);color:var(--muted2);font:500 9px 'JetBrains Mono',monospace}.game-footer b{color:var(--muted)}
 
   /* Selected builds */
   .proj-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
@@ -220,12 +238,6 @@
   .cert b{display:block;font-size:14px;line-height:1.3}
   .cert span{font-size:12px;color:var(--muted)}
 
-  /* Education */
-  .edu-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;gap:20px;align-items:center}
-  .edu-card .ic{font-size:36px}
-  .edu-card h3{font-size:19px;margin-bottom:4px}
-  .edu-card p{color:var(--muted);font-size:14px}
-
   /* Contact / footer */
   .contact-card{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:24px;padding:56px 40px;text-align:center;position:relative;overflow:hidden}
   .contact-card::before{content:'';position:absolute;inset:0;background:radial-gradient(500px 260px at 50% -10%,rgba(124,159,255,.16),transparent 60%)}
@@ -240,7 +252,7 @@
   .foot-links a:hover{color:var(--accent)}
 
   /* Native-feeling mobile navigation */
-  .mobile-resume,.mobile-dock{display:none}
+  .mobile-dock{display:none}
   .mobile-dock a{-webkit-tap-highlight-color:transparent}
 
   [data-reveal]{opacity:0;transform:translateY(16px);animation:reveal .7s cubic-bezier(.2,.7,.3,1) forwards;animation-play-state:paused}
@@ -253,8 +265,6 @@
     .hamburger,.mobile-menu{display:none!important}
     nav .wrap{padding:13px 18px}
     .logo{font-size:15px}
-    .mobile-resume{display:inline-flex;align-items:center;justify-content:center;min-width:48px;min-height:42px;padding:0 12px;border-radius:12px;
-      background:var(--panel2);border:1px solid var(--line);font-size:12px;font-weight:700;text-decoration:none;color:var(--txt)}
     .mobile-dock{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;z-index:200;top:auto;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));
       min-height:64px;padding:6px;border:1px solid rgba(255,255,255,.12);border-radius:22px;background:rgba(18,23,34,.86);
       box-shadow:0 18px 50px rgba(0,0,0,.48);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
@@ -283,18 +293,13 @@
     section{padding:60px 0}
     .about-grid{grid-template-columns:1fr;gap:36px}
     .fact{min-height:76px}
-    .timeline{padding-left:26px}
-    .tl-dot{left:-26px}
-    .tl-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:5px 10px;margin-bottom:10px}
-    .tl-role{grid-column:1/-1;font-size:18px;line-height:1.25}
-    .tl-co{grid-column:1;min-width:0;font-size:14px;line-height:1.35}
-    .tl-co::before{content:''}
-    .tl-badge{grid-column:2;grid-row:2;margin-left:0;justify-self:end}
+    .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
+    .signal-game{border-radius:22px}.game-hud{grid-template-columns:1fr auto auto;gap:10px;padding:12px}.game-brand{grid-column:1/-1}.hud-stat:nth-of-type(3){display:none}.stability-track{width:76px}.game-stage{min-height:440px}.game-legend{left:10px;bottom:72px;right:10px}.game-controls{right:10px;bottom:12px}.game-control{width:54px;height:54px}.game-footer{display:block;padding:10px 12px}.game-footer span:last-child{display:none}.game-card p{font-size:13px}.game-message{max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
+    .life-console{padding:12px;border-radius:22px}.easter-toast{top:64px;max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis}.life-tabs{grid-template-columns:1fr 1fr}.life-tab{min-height:44px}.life-panel{grid-template-columns:1fr;min-height:0}.life-card{padding:18px}.community-map{grid-template-columns:repeat(2,1fr)}.metric-stack{grid-template-columns:repeat(3,1fr)}.barbell-viz{grid-template-columns:1fr 36px 1fr}.bar-side{padding:15px 8px}.bar-side b{font-size:23px}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
     .proj-card{min-height:0}
     .voice-demo{padding:18px;border-radius:22px}.voice-grid,.product-experience{grid-template-columns:1fr}.voice-panel,.product-stage{padding:18px}.voice-wave{height:76px}.voice-transcript{font-size:16px;min-height:100px}.voice-top{align-items:flex-start}.call-status{margin-top:5px}
     .praxis-products{grid-template-columns:repeat(2,1fr);gap:7px}.product-tab{min-height:54px;flex-direction:row;justify-content:flex-start;padding:8px 12px;text-align:left}.product-tab .product-icon{font-size:16px}
-    .edu-card{align-items:flex-start}
     .contact-card{padding:40px 22px}
     footer{padding-bottom:18px}
   }
@@ -309,13 +314,11 @@
     <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
     <div class="navlinks">
       <a href="#about">About</a>
-      <a href="#experience">Experience</a>
+      <a href="#life-os">Signal Run</a>
       <a href="#projects">Shipped</a>
       <a href="#voice-demo">Praxis Lab</a>
-      <a href="#education">Education</a>
       <a href="#contact" class="cta">Get in touch</a>
     </div>
-    <a class="mobile-resume" href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener" aria-label="Open résumé">CV ↗</a>
   </div>
 </nav>
 
@@ -327,7 +330,6 @@
       <p class="lede mono" id="typeline">&nbsp;</p>
       <div class="hero-actions">
         <a class="btn primary" href="mailto:saflatounian@gmail.com">✉️ Get in touch</a>
-        <a class="btn ghost" href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">📄 Résumé</a>
         <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
         <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
       </div>
@@ -362,91 +364,146 @@
         <div class="fact"><span class="ic">🚗</span><div><b>Led Watonomous</b><span>Waterloo's SAE Autonomous Driving Challenge team.</span></div></div>
       </div>
     </div>
+
+    <div class="journey-game" id="journey-game" data-reveal style="--journey-progress:0%">
+      <div class="journey-head">
+        <div><div class="section-kicker">Journey mode</div><h3>Take the scenic route.</h3><p>A slightly unserious tour of the serious patterns behind the work: curiosity, systems, movement, shipping, and whatever is over the next hill.</p></div>
+        <span class="journey-status" id="journey-status">route quality · scenic</span>
+      </div>
+      <div class="journey-route" aria-label="Journey waypoints">
+        <span class="journey-line" aria-hidden="true"></span><span class="journey-progress" aria-hidden="true"></span>
+        <button class="journey-node active visited" type="button" data-waypoint="0"><i>?</i><span>Curiosity</span></button>
+        <button class="journey-node" type="button" data-waypoint="1"><i>&lt;&gt;</i><span>Systems</span></button>
+        <button class="journey-node" type="button" data-waypoint="2"><i>⌖</i><span>Explore</span></button>
+        <button class="journey-node" type="button" data-waypoint="3"><i>✓</i><span>Ship</span></button>
+        <button class="journey-node" type="button" data-waypoint="4"><i>…</i><span>Horizon</span></button>
+      </div>
+      <div class="journey-body">
+        <div class="journey-story">
+          <div class="journey-kicker" id="journey-kicker">Waypoint 01 · origin</div>
+          <h4 id="journey-title">Curiosity before credentials.</h4>
+          <p id="journey-copy">The route usually begins with a question that is slightly too interesting to leave alone. Better questions have been the most reliable compass.</p>
+          <div class="journey-controls"><button class="journey-btn" id="journey-prev" type="button" disabled>← Previous</button><button class="journey-btn primary" id="journey-next" type="button">Next waypoint →</button><button class="journey-btn" id="journey-detour" type="button">Take a detour</button></div>
+        </div>
+        <div class="journey-passport">
+          <div class="journey-kicker">Field passport · mildly overused</div>
+          <div class="stamp-row" id="stamp-row" aria-label="Collected journey stamps"><i class="collected">01</i><i>02</i><i>03</i><i>04</i><i>05</i></div>
+          <p>Visit every waypoint to complete the route. Detours are encouraged; straight lines are mostly a presentation choice.</p>
+          <div class="detour-message" id="detour-message" aria-live="polite">No detour selected. Suspiciously efficient.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="experience">
+<section id="life-os">
   <div class="wrap">
-    <div class="section-kicker">Experience</div>
-    <h2 class="section-title">Where I've worked</h2>
-    <p class="section-lede">Security & fintech, healthcare AI, autonomous vehicles, and everything in between.</p>
-
-    <div class="timeline">
-      <div class="tl-item current" data-reveal>
-        <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">Software Engineer</span><span class="tl-co">EQ Bank | Equitable Bank</span><span class="tl-badge">Current</span></div>
-        <div class="tl-meta">April 2025 — Present · Toronto, ON · Security & Fraud team</div>
-        <ul class="tl-bullets">
-          <li>Led the team designing and building the system to securely migrate the bank's identity & access management from HID to Okta Auth 2.0</li>
-          <li>Implemented Passkey support on iOS, bringing passwordless authentication to mobile banking</li>
-        </ul>
+    <div class="section-kicker">Playable intermission</div>
+    <h2 class="section-title">Signal Run</h2>
+    <p class="section-lede">Drive the tiny explorer. Collect useful signal, dodge noise, and keep the system stable. Arrow keys, A/D, or the touch controls all work.</p>
+    <div class="signal-game" id="signal-game" data-reveal>
+      <div class="game-hud">
+        <div class="game-brand"><i></i> Signal Run · r1</div>
+        <div class="hud-stat"><span>Signal</span><b id="game-score">0</b></div>
+        <div class="hud-stat"><span>Best</span><b id="game-best">0</b></div>
+        <div class="hud-stat"><span>Stability</span><div class="stability-track"><i id="game-stability"></i></div></div>
+      </div>
+      <div class="game-stage" id="game-stage">
+        <canvas id="signal-canvas" aria-label="Signal Run 3D game"></canvas>
+        <div class="game-message" id="game-message" aria-live="polite"></div>
+        <div class="game-overlay" id="game-overlay">
+          <div class="game-card"><div class="game-mini" id="game-overline">Tiny explorer · large opinions</div><h3 id="game-title">Collect signal.<br>Avoid noise.</h3><p id="game-copy">The useful things glow. The distractions are suspiciously cube-shaped. Stability reaching zero is considered a learning experience.</p><button class="game-start" id="game-start" type="button">Start run →</button></div>
+        </div>
+        <div class="game-legend"><span><i class="signal-dot"></i>signal +1</span><span><i class="noise-dot"></i>noise −18%</span></div>
+        <div class="game-controls" aria-label="Game controls"><button class="game-control" id="game-left" type="button" aria-label="Move left">←</button><button class="game-control" id="game-right" type="button" aria-label="Move right">→</button></div>
+      </div>
+      <div class="game-footer"><span><b>Desktop:</b> ← → or A D</span><span>The road moves. You only control the overthinking.</span></div>
+    </div>
+    <div class="life-console" hidden>
+      <div class="life-console-top"><button class="console-lights" id="console-easter" type="button" aria-label="Run undocumented diagnostic"><i></i><i></i><i></i></button><span class="console-status" id="life-status">trajectory · nominal</span></div>
+      <div class="easter-toast" id="easter-toast" aria-live="polite"></div>
+      <div class="life-tabs" role="tablist" aria-label="Personal operating system views">
+        <button class="life-tab active" type="button" role="tab" aria-selected="true" data-life-tab="identity">Identity check</button>
+        <button class="life-tab" type="button" role="tab" aria-selected="false" data-life-tab="community">Community map</button>
+        <button class="life-tab" type="button" role="tab" aria-selected="false" data-life-tab="barbell">Barbell mode</button>
+        <button class="life-tab" type="button" role="tab" aria-selected="false" data-life-tab="human">Human layer</button>
       </div>
 
-      <div class="tl-item current" data-reveal>
-        <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">Founder</span><span class="tl-co">LEYOXA LLC</span><span class="tl-badge">Current</span></div>
-        <div class="tl-meta">May 2023 — Present · Texas, US · Healthcare AI platforms</div>
-        <ul class="tl-bullets">
-          <li>Helped dental clinics grow by implementing AI-ready platforms and software</li>
-          <li>Built an AI voice agent + marketing (content & SEO) automation for DDS Marketing (Miami)</li>
-          <li>Shipped a mobile app + platform for Smile Link (Texas)</li>
-          <li>Built a clinic platform for Emergclinic (Toronto)</li>
-        </ul>
+      <div class="life-panel active" data-life-panel="identity">
+        <div class="life-card">
+          <div class="terminal-line">quarterly.identity_check()</div>
+          <h3>Who am I becoming?</h3>
+          <p>Direction gets reviewed before momentum turns into drift. The check is built around evidence—not mood.</p>
+          <div class="scan-list">
+            <div class="scan-item"><span>Direction matches stated priorities</span><b>Aligned</b><div class="scan-track"><i style="--score:92%"></i></div></div>
+            <div class="scan-item"><span>Complexity remains intentional</span><b>Stable</b><div class="scan-track"><i style="--score:88%"></i></div></div>
+            <div class="scan-item"><span>Important decisions have deadlines</span><b>On track</b><div class="scan-track"><i style="--score:84%"></i></div></div>
+          </div>
+          <button class="check-button" type="button" id="run-life-check">Run identity check</button>
+        </div>
+        <div class="life-card">
+          <div class="terminal-line">pre-written falsifiers</div>
+          <div class="guardrails">
+            <div class="guardrail"><i></i><div><b>Meaning before accumulation</b><span>Progress is only useful if the life around it still feels worth building.</span></div></div>
+            <div class="guardrail"><i></i><div><b>Decisions need deadlines</b><span>Unmade choices are treated as open incidents, not passive patience.</span></div></div>
+            <div class="guardrail"><i></i><div><b>Repeated misses are a signal</b><span>Patterns trigger a redesign before they harden into identity.</span></div></div>
+          </div>
+          <div class="human-signal"><b>Design principle:</b> instrumentation should protect a meaningful life, not turn life into a dashboard.</div>
+        </div>
       </div>
 
-      <div class="tl-item" data-reveal>
-        <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">Full-Stack Developer</span><span class="tl-co">Avanade</span></div>
-        <div class="tl-meta">Sep 2021 — May 2023 · Toronto, ON</div>
-        <ul class="tl-bullets">
-          <li>Built intelligent and manual EV-charging features for Ford's FordPass iOS app</li>
-          <li>Designed a project-management tool with PowerApps and Power Automate</li>
-          <li>Automated cloud infrastructure with Terraform + Azure Resource Manager, cutting costs by <b>$1M/yr</b></li>
-        </ul>
+      <div class="life-panel" data-life-panel="community">
+        <div class="life-card">
+          <div class="terminal-line">community.graph()</div>
+          <h3>Build a resilient life graph.</h3>
+          <p>Six directional domains keep the system from collapsing into a single identity. Tap one to inspect it.</p>
+          <div class="community-map">
+            <button class="circle-node active" type="button" data-circle="Core" data-circle-copy="Protect the few things that make every other system worth operating."><span>∞</span>Core</button>
+            <button class="circle-node" type="button" data-circle="Craft" data-circle-copy="Keep increasing the quality of judgment, not only the volume of output."><span>⌘</span>Craft</button>
+            <button class="circle-node" type="button" data-circle="Vitality" data-circle-copy="Energy is infrastructure. Maintain it before trying to scale everything else."><span>◎</span>Vitality</button>
+            <button class="circle-node" type="button" data-circle="Curiosity" data-circle-copy="Stay permeable to new places, ideas, and ways of seeing the same problem."><span>?</span>Curiosity</button>
+            <button class="circle-node" type="button" data-circle="Belonging" data-circle-copy="Return often enough that people and places become part of the operating context."><span>⌖</span>Belonging</button>
+            <button class="circle-node" type="button" data-circle="Play" data-circle-copy="Keep something joyful, expressive, and completely uninterested in productivity."><span>✦</span>Play</button>
+          </div>
+        </div>
+        <div class="life-card">
+          <div class="terminal-line">community health signals</div>
+          <div class="metric-stack"><div class="life-metric"><b>Known</b><span>familiar faces</span></div><div class="life-metric"><b>Active</b><span>shared work</span></div><div class="life-metric"><b>Rooted</b><span>recurring rooms</span></div></div>
+          <div class="circle-detail" id="circle-detail"><b>Core</b>Protect the few things that make every other system worth operating.</div>
+        </div>
       </div>
 
-      <div class="tl-item" data-reveal>
-        <div class="tl-dot"></div>
-        <div class="tl-head"><span class="tl-role">AI Engineer · Co-Founder</span><span class="tl-co">SeedCI</span><span class="tl-badge" style="color:var(--accent2);background:rgba(255,138,92,.12);border-color:rgba(255,138,92,.3)">YC Candidate</span></div>
-        <div class="tl-meta">Jan 2021 — Sep 2021 · Kitchener, ON</div>
-        <ul class="tl-bullets">
-          <li>Client Ezsec — automated cyberattack-campaign detection with unsupervised learning (EVA platform)</li>
-          <li>Client Crelhub — built a real-estate image classifier (FastAI) and a 97%-accurate price estimator served via a Flask API</li>
-          <li>Built Splunk-based real-time monitoring for ML model performance and data drift</li>
-        </ul>
+      <div class="life-panel" data-life-panel="barbell">
+        <div class="life-card">
+          <div class="terminal-line">strategy.allocate()</div>
+          <h3>Conviction at the edges.</h3>
+          <p>One resilient anchor on one side. One concentrated, high-conviction bet on the other. Very little performative middle.</p>
+          <div class="barbell-viz"><div class="bar-side"><b id="anchor-value">Steady</b><span>anchor</span></div><div class="bar-mid"></div><div class="bar-side bet"><b id="bet-value">Focused</b><span>conviction bet</span></div></div>
+          <input class="conviction-range" id="conviction-range" type="range" min="25" max="75" value="40" aria-label="Conviction allocation">
+          <div class="range-labels"><span>more ballast</span><span>more conviction</span></div>
+        </div>
+        <div class="life-card">
+          <div class="terminal-line">live interpretation</div>
+          <h3 id="barbell-title">Anchored enough to bet boldly.</h3>
+          <p id="barbell-copy">The anchor preserves resilience. The concentrated side creates room for courage, creativity, and asymmetric upside.</p>
+          <div class="signal-stack"><div class="signal-row"><span class="signal-icon">▰</span><div><b>Hard ballast</b><small>Stability is there to increase courage—not reduce ambition.</small></div></div><div class="signal-row"><span class="signal-icon warm">↗</span><div><b>One serious bet</b><small>Energy goes where conviction is highest.</small></div></div></div>
+        </div>
       </div>
 
-      <details class="tl-more" data-reveal>
-        <summary><span class="chev">▸</span> Earlier roles — internships, research & summer jobs</summary>
-        <div class="earlier-item">
-          <div><b>Mobile Developer Intern</b> <span class="co">· Fleet Complete</span></div>
-          <div class="when">Jan – Apr 2020 · Toronto</div>
+      <div class="life-panel" data-life-panel="human">
+        <div class="life-card">
+          <div class="terminal-line">human_layer.balance()</div>
+          <h3>Warmth beats efficiency when it matters.</h3>
+          <p>The system protects connection, play, and taste without naming or measuring the private details underneath them.</p>
+          <div class="signal-stack"><div class="signal-row"><span class="signal-icon warm">∞</span><div><b>Connection over completion</b><small>Some outcomes are felt, not counted.</small></div></div><div class="signal-row"><span class="signal-icon good">◎</span><div><b>Play stays unproductive</b><small>Joy does not need a growth loop.</small></div></div><div class="signal-row"><span class="signal-icon">✦</span><div><b>Taste is a constraint</b><small>Utility is required. Delight is part of quality.</small></div></div></div>
         </div>
-        <div class="earlier-item">
-          <div><b>Mobile Developer Intern</b> <span class="co">· Stars Technologies Services</span></div>
-          <div class="when">Sep 2018 – Aug 2019 · Toronto</div>
+        <div class="life-card">
+          <div class="terminal-line">core principle</div>
+          <h3>Rigorous + warm.</h3>
+          <p>The goal isn't to engineer every human moment. It's to use systems to defend attention, relationships, and the courage to keep building across complexity.</p>
+          <div class="human-signal"><b>Current hypothesis:</b> the best systems disappear into a life that feels fully lived.</div>
         </div>
-        <div class="earlier-item">
-          <div><b>Mobile Engineer Intern</b> <span class="co">· Aterica Digital Health</span></div>
-          <div class="when">Jan – Apr 2018 · Waterloo</div>
-        </div>
-        <div class="earlier-item">
-          <div><b>Research Assistant Intern</b> <span class="co">· University of Waterloo</span></div>
-          <div class="when">May – Aug 2017 · Waterloo</div>
-        </div>
-        <div class="earlier-item">
-          <div><b>Troubleshooter & Sales Rep</b> <span class="co">· Bell</span></div>
-          <div class="when">Apr – Jul 2016</div>
-        </div>
-        <div class="earlier-item">
-          <div><b>Lifeguard</b> <span class="co">· Superior Pools</span></div>
-          <div class="when">Jun – Sep 2015 · Toronto</div>
-        </div>
-        <div class="earlier-item">
-          <div><b>Guitar Instructor</b> <span class="co">· Private</span></div>
-          <div class="when">Jul – Sep 2014</div>
-        </div>
-      </details>
+      </div>
     </div>
   </div>
 </section>
@@ -536,20 +593,6 @@
   </div>
 </section>
 
-<section id="education" class="tight">
-  <div class="wrap">
-    <div class="section-kicker">Education</div>
-    <h2 class="section-title">Education</h2>
-    <div class="edu-card" data-reveal>
-      <span class="ic">🎓</span>
-      <div>
-        <h3>University of Waterloo</h3>
-        <p>Bachelor of Applied Science (BASc), Computer Engineering — 2016 to 2021. Scholarships from the University and PEng.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="contact">
   <div class="wrap">
     <div class="contact-card" data-reveal>
@@ -568,14 +611,13 @@
     <p>© <span id="year"></span> Sepehr Aflatounian · Greater Toronto Area, Canada</p>
     <div class="foot-links">
       <a href="spanish/">Mi Español</a>
-      <a href="assets/Sepehr_Aflatounian_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
     </div>
   </div>
 </footer>
 
 <nav class="mobile-dock" aria-label="Mobile navigation">
   <a href="#top" data-dock="top" class="active"><span class="dock-icon">⌂</span><span>Home</span></a>
-  <a href="#experience" data-dock="experience"><span class="dock-icon">◎</span><span>Work</span></a>
+  <a href="#life-os" data-dock="life-os"><span class="dock-icon">◎</span><span>Play</span></a>
   <a href="#projects" data-dock="projects"><span class="dock-icon">◇</span><span>Shipped</span></a>
   <a href="#contact" data-dock="contact"><span class="dock-icon">✉</span><span>Contact</span></a>
 </nav>
@@ -583,12 +625,18 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Lead with the interactive work before the traditional biography sections.
+// Lead with the interactive work before the biography.
 const heroBlock = document.getElementById('top');
 const playgroundSection = document.getElementById('voice-demo');
 const shippedSection = document.getElementById('projects');
+const lifeSection = document.getElementById('life-os');
+const aboutSection = document.getElementById('about');
 heroBlock.insertAdjacentElement('afterend',playgroundSection);
 playgroundSection.insertAdjacentElement('afterend',shippedSection);
+aboutSection.insertAdjacentElement('afterend',lifeSection);
+if(location.hash){
+  requestAnimationFrame(()=>setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(),120));
+}
 
 const typeLines = ['Security engineer at a Canadian fintech.', 'Founder of LEYOXA — dental AI, shipped.', 'PHI: never warehoused.', 'Ex-Watonomous. Ex-Avanade × Ford.'];
 const typeEl = document.getElementById('typeline');
@@ -613,7 +661,7 @@ const io = new IntersectionObserver(entries=>{
 document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
 
 const dockLinks = [...document.querySelectorAll('[data-dock]')];
-const dockTargets = ['top','experience','projects','contact'];
+const dockTargets = ['top','life-os','projects','contact'];
 const dockObserver = new IntersectionObserver(entries=>{
   const visible = entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
   if(!visible) return;
@@ -624,6 +672,106 @@ dockLinks.forEach(link=>link.addEventListener('click',()=>{
   dockLinks.forEach(item=>item.classList.toggle('active',item===link));
   if(navigator.vibrate) navigator.vibrate(8);
 }));
+
+const journeyWaypoints = [
+  {kicker:'Waypoint 01 · origin',title:'Curiosity before credentials.',copy:'The route usually begins with a question that is slightly too interesting to leave alone. Better questions have been the most reliable compass.'},
+  {kicker:'Waypoint 02 · systems',title:'Turn the question into a system.',copy:'Ideas become useful when they survive contact with constraints. Architecture, iteration, and an unreasonable affection for edge cases do the rest.'},
+  {kicker:'Waypoint 03 · field notes',title:'Go far enough to update the model.',copy:'Travel is useful because it interrupts certainty. New places create new defaults—and expose which assumptions were only local weather.'},
+  {kicker:'Waypoint 04 · production',title:'Ship where the stakes are real.',copy:'The most interesting work leaves the whiteboard, meets actual people, and becomes accountable to outcomes instead of applause.'},
+  {kicker:'Waypoint 05 · open horizon',title:'Keep one coordinate unresolved.',copy:'A finished map is just a museum piece. The next chapter stays deliberately open enough for surprise, conviction, and one excellent wrong turn.'}
+];
+const detours = [
+  'Detour unlocked: judged an entire city by one excellent coffee.',
+  'Explorer rule: walk until the map becomes a suggestion.',
+  'Souvenir acquired: a better question and no fridge magnet.',
+  'Plot twist: the backup plan also had a backup plan.',
+  'Local maximum escaped. Snacks were involved.',
+  'Scenic route selected. ETA remains emotionally unavailable.'
+];
+const journeyGame = document.getElementById('journey-game');
+const journeyNodes = [...document.querySelectorAll('[data-waypoint]')];
+const journeyStamps = [...document.querySelectorAll('#stamp-row i')];
+const journeyKicker = document.getElementById('journey-kicker');
+const journeyTitle = document.getElementById('journey-title');
+const journeyCopy = document.getElementById('journey-copy');
+const journeyPrev = document.getElementById('journey-prev');
+const journeyNext = document.getElementById('journey-next');
+const journeyDetour = document.getElementById('journey-detour');
+const journeyStatus = document.getElementById('journey-status');
+const detourMessage = document.getElementById('detour-message');
+let journeyStep = 0, detourIndex = 0;
+const visitedWaypoints = new Set([0]);
+function renderJourney(step){
+  journeyStep=Math.max(0,Math.min(journeyWaypoints.length-1,step));visitedWaypoints.add(journeyStep);
+  const waypoint=journeyWaypoints[journeyStep];journeyKicker.textContent=waypoint.kicker;journeyTitle.textContent=waypoint.title;journeyCopy.textContent=waypoint.copy;
+  journeyGame.style.setProperty('--journey-progress',(journeyStep*21)+'%');
+  journeyNodes.forEach((node,index)=>{node.classList.toggle('active',index===journeyStep);node.classList.toggle('visited',visitedWaypoints.has(index))});
+  journeyStamps.forEach((stamp,index)=>stamp.classList.toggle('collected',visitedWaypoints.has(index)));
+  journeyPrev.disabled=journeyStep===0;journeyNext.disabled=journeyStep===journeyWaypoints.length-1;journeyNext.textContent=journeyStep===journeyWaypoints.length-1?'Route complete ✓':'Next waypoint →';
+  journeyStatus.textContent=visitedWaypoints.size===journeyWaypoints.length?'route complete · still no final boss':'route quality · scenic';
+  if(navigator.vibrate)navigator.vibrate(6);
+}
+journeyNodes.forEach(node=>node.addEventListener('click',()=>renderJourney(Number(node.dataset.waypoint))));
+journeyPrev.addEventListener('click',()=>renderJourney(journeyStep-1));journeyNext.addEventListener('click',()=>renderJourney(journeyStep+1));
+journeyDetour.addEventListener('click',()=>{detourMessage.textContent=detours[detourIndex%detours.length];detourIndex++;detourMessage.classList.remove('pop');requestAnimationFrame(()=>detourMessage.classList.add('pop'));journeyStatus.textContent='detour · accepted';if(navigator.vibrate)navigator.vibrate([6,28,6])});
+
+const lifeTabs = [...document.querySelectorAll('[data-life-tab]')];
+const lifePanels = [...document.querySelectorAll('[data-life-panel]')];
+const lifeStatus = document.getElementById('life-status');
+lifeTabs.forEach(tab=>tab.addEventListener('click',()=>{
+  const view=tab.dataset.lifeTab;
+  lifeTabs.forEach(item=>{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))});
+  lifePanels.forEach(panel=>panel.classList.toggle('active',panel.dataset.lifePanel===view));
+  lifeStatus.textContent=view==='identity'?'trajectory · nominal':view+' · online';
+  if(navigator.vibrate) navigator.vibrate(8);
+}));
+
+const lifeConsole = document.querySelector('.life-console');
+const consoleEaster = document.getElementById('console-easter');
+const easterToast = document.getElementById('easter-toast');
+const easterMessages = ['undocumented feature · found','tiny bug · promoted to feature','taste check · suspiciously high','production deploy · on a friday'];
+const debugGlyphs = ['//','<>','404','✓','?','*','01'];
+let easterRun = 0, easterTimer = null, titleClicks = 0;
+function launchEaster(message){
+  clearTimeout(easterTimer);lifeConsole.classList.add('easter-mode');easterToast.textContent=message;easterToast.classList.add('show');lifeStatus.textContent='diagnostic · delightful';
+  for(let i=0;i<14;i++){
+    const bit=document.createElement('span');bit.className='debug-bit';bit.textContent=debugGlyphs[(i+easterRun)%debugGlyphs.length];
+    bit.style.setProperty('--x',(8+Math.random()*84)+'%');bit.style.setProperty('--y',(38+Math.random()*54)+'%');bit.style.setProperty('--size',(9+Math.random()*5)+'px');bit.style.setProperty('--spin',(-18+Math.random()*36)+'deg');
+    bit.style.setProperty('--bit-color',i%3===0?'var(--accent2)':i%2===0?'var(--accent)':'var(--good)');bit.style.animationDelay=(Math.random()*.25)+'s';lifeConsole.appendChild(bit);setTimeout(()=>bit.remove(),1750);
+  }
+  easterTimer=setTimeout(()=>{lifeConsole.classList.remove('easter-mode');easterToast.classList.remove('show')},1900);
+}
+consoleEaster.addEventListener('click',()=>{launchEaster(easterMessages[easterRun%easterMessages.length]);easterRun++;if(navigator.vibrate)navigator.vibrate([8,35,8])});
+document.querySelector('#life-os .section-title').addEventListener('click',()=>{titleClicks++;if(titleClicks===3){launchEaster('you found the undocumented documentation');titleClicks=0}});
+
+const runLifeCheck = document.getElementById('run-life-check');
+runLifeCheck.addEventListener('click',()=>{
+  runLifeCheck.classList.add('running');runLifeCheck.textContent='Scanning trajectory…';lifeStatus.textContent='identity check · running';
+  document.querySelectorAll('.scan-track i').forEach(bar=>{bar.style.transition='none';bar.style.transform='scaleX(0)';requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition='transform 1.15s cubic-bezier(.2,.8,.2,1)';bar.style.transform='scaleX(1)'}))});
+  setTimeout(()=>{runLifeCheck.classList.remove('running');runLifeCheck.textContent='Check complete ✓';lifeStatus.textContent='trajectory · aligned'},1250);
+});
+
+const circleDetail = document.getElementById('circle-detail');
+document.querySelectorAll('[data-circle]').forEach(node=>node.addEventListener('click',()=>{
+  document.querySelectorAll('[data-circle]').forEach(item=>item.classList.toggle('active',item===node));
+  circleDetail.innerHTML='<b>'+node.dataset.circle+'</b>'+node.dataset.circleCopy;
+  if(navigator.vibrate) navigator.vibrate(8);
+}));
+
+const convictionRange = document.getElementById('conviction-range');
+const anchorValue = document.getElementById('anchor-value');
+const betValue = document.getElementById('bet-value');
+const barbellTitle = document.getElementById('barbell-title');
+const barbellCopy = document.getElementById('barbell-copy');
+function updateBarbell(){
+  const bet=Number(convictionRange.value);
+  anchorValue.textContent=bet<38?'Strong':bet>58?'Light':'Steady';
+  betValue.textContent=bet<38?'Exploring':bet>58?'All in':'Focused';
+  if(bet<38){barbellTitle.textContent='Ballast is doing the heavy lifting.';barbellCopy.textContent='The anchor is dominant: useful during consolidation, but worth checking before safety becomes drift.'}
+  else if(bet>58){barbellTitle.textContent='High-conviction mode.';barbellCopy.textContent='The bet is concentrated. Guardrails protect the downside while attention stays fixed on the highest-upside direction.'}
+  else{barbellTitle.textContent='Anchored enough to bet boldly.';barbellCopy.textContent='The anchor preserves resilience. The concentrated side creates room for courage, creativity, and asymmetric upside.'}
+}
+convictionRange.addEventListener('input',updateBarbell);
 
 const voiceScenarios = {
   booking:{name:'New patient booking',frames:[
@@ -778,6 +926,131 @@ document.querySelectorAll('.proj-card').forEach(card=>{
   });
   card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
 });
+</script>
+<script type="module">
+import * as THREE from './assets/three.module.min.js';
+
+const gameRoot=document.getElementById('signal-game');
+const gameStage=document.getElementById('game-stage');
+const gameCanvas=document.getElementById('signal-canvas');
+const gameOverlay=document.getElementById('game-overlay');
+const gameStart=document.getElementById('game-start');
+const gameTitle=document.getElementById('game-title');
+const gameCopy=document.getElementById('game-copy');
+const gameOverline=document.getElementById('game-overline');
+const gameScore=document.getElementById('game-score');
+const gameBest=document.getElementById('game-best');
+const gameStability=document.getElementById('game-stability');
+const gameMessage=document.getElementById('game-message');
+const gameLeft=document.getElementById('game-left');
+const gameRight=document.getElementById('game-right');
+
+try{
+  const scene=new THREE.Scene();
+  scene.fog=new THREE.FogExp2(0x070b11,.037);
+  const camera=new THREE.PerspectiveCamera(54,1,.1,100);
+  camera.position.set(0,6.8,10.5);camera.lookAt(0,.2,-9);
+  const renderer=new THREE.WebGLRenderer({canvas:gameCanvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setClearColor(0x070b11,1);
+  renderer.outputColorSpace=THREE.SRGBColorSpace;
+
+  scene.add(new THREE.HemisphereLight(0x8da7ff,0x10141c,2.2));
+  const keyLight=new THREE.DirectionalLight(0xffffff,2.8);keyLight.position.set(-4,8,5);scene.add(keyLight);
+  const rimLight=new THREE.PointLight(0x5be59a,18,22);rimLight.position.set(4,3,-5);scene.add(rimLight);
+
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(14,80),new THREE.MeshStandardMaterial({color:0x0b111a,roughness:.92,metalness:.08}));
+  ground.rotation.x=-Math.PI/2;ground.position.set(0,-.08,-20);scene.add(ground);
+  const grid=new THREE.GridHelper(80,40,0x31476d,0x192333);grid.position.set(0,0,-20);scene.add(grid);
+
+  const laneMarkers=[];
+  const markerGeo=new THREE.BoxGeometry(.08,.025,1.2);
+  const markerMat=new THREE.MeshBasicMaterial({color:0x344767,transparent:true,opacity:.65});
+  for(const x of [-1.5,1.5]) for(let z=-39;z<7;z+=3){const marker=new THREE.Mesh(markerGeo,markerMat);marker.position.set(x,.02,z);scene.add(marker);laneMarkers.push(marker)}
+
+  const player=new THREE.Group();
+  const body=new THREE.Mesh(new THREE.OctahedronGeometry(.72,0),new THREE.MeshStandardMaterial({color:0x7c9fff,emissive:0x263f8f,emissiveIntensity:1.5,roughness:.24,metalness:.62}));
+  body.scale.set(1,.48,1.3);player.add(body);
+  const wingMat=new THREE.MeshStandardMaterial({color:0xdfe7ff,emissive:0x25365f,emissiveIntensity:.7,metalness:.7,roughness:.2});
+  const wings=new THREE.Mesh(new THREE.BoxGeometry(2.05,.1,.48),wingMat);wings.position.z=.15;player.add(wings);
+  const core=new THREE.Mesh(new THREE.SphereGeometry(.18,14,10),new THREE.MeshBasicMaterial({color:0x5be59a}));core.position.set(0,.12,.34);player.add(core);
+  const glow=new THREE.PointLight(0x7c9fff,5,5);glow.position.set(0,.5,1);player.add(glow);
+  player.position.set(0,.7,2);scene.add(player);
+
+  const starGeo=new THREE.BufferGeometry();
+  const starPositions=[];
+  for(let i=0;i<180;i++)starPositions.push((Math.random()-.5)*32,Math.random()*12+1,-Math.random()*70+5);
+  starGeo.setAttribute('position',new THREE.Float32BufferAttribute(starPositions,3));
+  const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x789cff,size:.055,transparent:true,opacity:.72}));scene.add(stars);
+
+  const signalPalette=[0x5be59a,0x7c9fff,0xffc857,0xb995ff];
+  const signalNotes=['curiosity +1','craft +1','courage +1','connection +1','useful signal acquired'];
+  const noiseNotes=['noise detected · dramatically cube-shaped','scope creep has entered the lane','meeting that could have been an email','local maximum · mildly inconvenient'];
+  const objects=[];
+  let running=false,score=0,best=0,stability=100,lane=1,targetX=0,spawnClock=0,messageTimer=null,lastTime=performance.now();
+  const lanes=[-3,0,3];
+
+  function disposeObject(item){scene.remove(item.mesh);item.mesh.traverse(child=>{child.geometry?.dispose?.();if(child.material){const materials=Array.isArray(child.material)?child.material:[child.material];materials.forEach(material=>material.dispose?.())}})}
+  function clearObjects(){while(objects.length)disposeObject(objects.pop())}
+  function showMessage(text,tone='good'){
+    clearTimeout(messageTimer);gameMessage.textContent=text;gameMessage.style.borderColor=tone==='bad'?'rgba(255,138,92,.38)':'rgba(91,229,154,.3)';gameMessage.style.color=tone==='bad'?'#ffc2aa':'#bff8d5';gameMessage.classList.add('show');messageTimer=setTimeout(()=>gameMessage.classList.remove('show'),1250);
+  }
+  function updateHud(){gameScore.textContent=score;gameBest.textContent=best;gameStability.style.width=stability+'%';gameStability.style.filter=stability<40?'saturate(1.5) hue-rotate(-45deg)':'none'}
+  function spawnObject(){
+    const isSignal=Math.random()>.3;
+    let mesh;
+    if(isSignal){
+      const color=signalPalette[Math.floor(Math.random()*signalPalette.length)];
+      mesh=new THREE.Group();
+      const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.52,1),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:1.25,roughness:.2,metalness:.35}));mesh.add(orb);
+      const ring=new THREE.Mesh(new THREE.TorusGeometry(.78,.045,8,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.72}));ring.rotation.x=Math.PI/2;mesh.add(ring);
+      const light=new THREE.PointLight(color,4,4);mesh.add(light);
+    }else{
+      mesh=new THREE.Mesh(new THREE.DodecahedronGeometry(.7,0),new THREE.MeshStandardMaterial({color:0xff6f59,emissive:0x812315,emissiveIntensity:1.15,roughness:.42,metalness:.28}));
+      const wire=new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry),new THREE.LineBasicMaterial({color:0xffb09f,transparent:true,opacity:.65}));mesh.add(wire);
+    }
+    mesh.position.set(lanes[Math.floor(Math.random()*lanes.length)],isSignal?.72:.68,-42);scene.add(mesh);objects.push({mesh,type:isSignal?'signal':'noise',hit:false});
+  }
+  function move(direction){if(!running)return;lane=Math.max(0,Math.min(2,lane+direction));targetX=lanes[lane];player.rotation.z=-direction*.18;if(navigator.vibrate)navigator.vibrate(5)}
+  function endGame(){
+    running=false;best=Math.max(best,score);updateHud();gameOverline.textContent='Run complete · data emotionally processed';gameTitle.innerHTML='Noise won.<br>Temporary setback.';gameCopy.textContent='You collected '+score+' useful signal'+(score===1?'':'s')+'. The cubes remain under investigation.';gameStart.textContent='Run it back →';gameOverlay.classList.remove('hidden');
+  }
+  function startGame(){
+    clearObjects();score=0;stability=100;lane=1;targetX=0;spawnClock=0;player.position.x=0;player.rotation.set(0,0,0);updateHud();gameMessage.classList.remove('show');gameOverlay.classList.add('hidden');running=true;lastTime=performance.now();spawnObject();
+  }
+  gameStart.addEventListener('click',startGame);
+  gameLeft.addEventListener('pointerdown',event=>{event.preventDefault();move(-1)});gameRight.addEventListener('pointerdown',event=>{event.preventDefault();move(1)});
+  window.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','KeyA','KeyD'].includes(event.code))event.preventDefault();if(event.code==='ArrowLeft'||event.code==='KeyA')move(-1);if(event.code==='ArrowRight'||event.code==='KeyD')move(1);if((event.code==='Space'||event.code==='Enter')&&!running)startGame()},{passive:false});
+
+  const resize=()=>{const width=gameStage.clientWidth,height=gameStage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix()};
+  new ResizeObserver(resize).observe(gameStage);resize();
+
+  function animate(now){
+    requestAnimationFrame(animate);
+    const dt=Math.min((now-lastTime)/1000,.04);lastTime=now;
+    player.position.x+= (targetX-player.position.x)*Math.min(1,dt*11);player.rotation.z*=Math.pow(.015,dt);player.position.y=.7+Math.sin(now*.004)*.045;body.rotation.y+=dt*.75;core.scale.setScalar(1+Math.sin(now*.009)*.12);
+    stars.rotation.z=Math.sin(now*.00012)*.025;
+    if(running){
+      const speed=10+Math.min(score*.18,4);spawnClock+=dt;
+      if(spawnClock>Math.max(.54,.92-score*.008)){spawnClock=0;spawnObject()}
+      laneMarkers.forEach(marker=>{marker.position.z+=speed*dt;if(marker.position.z>7)marker.position.z-=48});
+      for(let i=objects.length-1;i>=0;i--){
+        const item=objects[i];item.mesh.position.z+=speed*dt;item.mesh.rotation.y+=dt*(item.type==='signal'?2.2:1.15);item.mesh.rotation.x+=dt*.65;
+        if(!item.hit&&item.mesh.position.z>.7&&item.mesh.position.z<2.7&&Math.abs(item.mesh.position.x-player.position.x)<1.08){
+          item.hit=true;
+          if(item.type==='signal'){score++;best=Math.max(best,score);stability=Math.min(100,stability+5);showMessage(signalNotes[score%signalNotes.length]);if(score===12)showMessage('system stable · annoyingly competent');}
+          else{stability=Math.max(0,stability-18);showMessage(noiseNotes[Math.floor(Math.random()*noiseNotes.length)],'bad');player.rotation.z=.24;if(navigator.vibrate)navigator.vibrate([18,25,18]);}
+          updateHud();disposeObject(item);objects.splice(i,1);if(stability<=0)endGame();continue;
+        }
+        if(item.mesh.position.z>8){disposeObject(item);objects.splice(i,1)}
+      }
+    }else{grid.rotation.y=Math.sin(now*.00015)*.01}
+    renderer.render(scene,camera);
+  }
+  requestAnimationFrame(animate);
+}catch(error){
+  gameOverline.textContent='WebGL unavailable · tasteful fallback';gameTitle.textContent='The 3D took a personal day.';gameCopy.textContent='Signal Run needs WebGL. The rest of the site remains fully operational, which is more than can be said for the cubes.';gameStart.hidden=true;console.warn('Signal Run could not start',error);
+}
 </script>
 </body>
 </html>
