@@ -1158,8 +1158,31 @@ function pickSpanishVoice(){
 if(window.speechSynthesis){
   esVoice=pickSpanishVoice();
   speechSynthesis.onvoiceschanged=()=>{ esVoice=pickSpanishVoice(); };
+  // iOS Safari sometimes never fires onvoiceschanged -- poll as a fallback
+  let voicePollTries=0;
+  const voicePoll=setInterval(()=>{
+    voicePollTries++;
+    if(!esVoice) esVoice=pickSpanishVoice();
+    if(esVoice || voicePollTries>20) clearInterval(voicePoll);
+  },150);
 }
 const audioReady = !!window.speechSynthesis;
+// iOS Safari needs speechSynthesis "unlocked" by a real user gesture before the
+// very first speak() will reliably fire -- prime it on the first tap anywhere.
+let speechUnlocked=false;
+function unlockSpeech(){
+  if(speechUnlocked || !audioReady) return;
+  speechUnlocked=true;
+  try{
+    let u=new SpeechSynthesisUtterance(' ');
+    u.volume=0; u.lang='es-ES';
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+if(audioReady){
+  document.addEventListener('touchstart',unlockSpeech,{once:true,passive:true});
+  document.addEventListener('click',unlockSpeech,{once:true});
+}
 function speakEs(text,rate){
   if(!audioReady || !text) return;
   try{
