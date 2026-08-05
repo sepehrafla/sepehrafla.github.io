@@ -1166,18 +1166,41 @@ if(window.speechSynthesis){
     if(esVoice || voicePollTries>20) clearInterval(voicePoll);
   },150);
 }
-const audioReady = !!window.speechSynthesis;
+const isIOSDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const audioReady = !!window.speechSynthesis||isIOSDevice;
+let iosSpeechAudio=null;
 // Keep utterances alive until Safari finishes with them. More importantly, the
 // first real phrase is spoken directly inside the Escuchar button's click
 // handler; a silent "unlock" utterance would race that click on iOS Safari.
 const activeUtterances=new Set();
 function speakEs(text,rate){
-  if(!audioReady || !text) return;
+  if(!text) return;
+  const cleanText=(''+text).replace(/[“”]/g,'').replace(/___/g,'...');
+  // iOS Safari exposes Web Speech but can silently produce no audio depending
+  // on its audio session. Use a real HTML audio stream there; play() stays
+  // directly inside the tap, so it also works with iPhone autoplay rules.
+  if(isIOSDevice){
+    try{
+      window.speechSynthesis?.cancel();
+      if(iosSpeechAudio){iosSpeechAudio.pause();iosSpeechAudio.src='';}
+      const speed=(rate&&rate<.8)?.7:1;
+      const src='https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&ttsspeed='+speed+'&q='+encodeURIComponent(cleanText.slice(0,190));
+      iosSpeechAudio=new Audio(src);
+      iosSpeechAudio.preload='auto';iosSpeechAudio.playsInline=true;
+      const playback=iosSpeechAudio.play();
+      if(playback?.catch) playback.catch(()=>speakEsNative(cleanText,rate));
+      return;
+    }catch(e){/* fall through to the device synthesizer */}
+  }
+  speakEsNative(cleanText,rate);
+}
+function speakEsNative(cleanText,rate){
+  if(!audioReady || !cleanText) return;
   try{
     const wasSpeaking = speechSynthesis.speaking || speechSynthesis.pending;
     if(wasSpeaking) speechSynthesis.cancel();
     const doSpeak=()=>{
-      let u=new SpeechSynthesisUtterance((''+text).replace(/[“”]/g,'').replace(/___/g,'...'));
+      let u=new SpeechSynthesisUtterance(cleanText);
       u.lang='es-ES'; u.rate=rate||0.94;
       esVoice=esVoice||pickSpanishVoice();
       if(esVoice) u.voice=esVoice;

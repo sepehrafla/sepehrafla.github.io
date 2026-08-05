@@ -159,12 +159,12 @@
   .conviction-range{width:100%;accent-color:var(--accent2)}.range-labels{display:flex;justify-content:space-between;color:var(--muted2);font:500 9px 'JetBrains Mono',monospace;margin-top:5px}
   .signal-stack{display:grid;gap:12px;margin-top:18px}.signal-row{display:flex;gap:13px;align-items:center;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line)}.signal-icon{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:linear-gradient(145deg,rgba(124,159,255,.24),rgba(124,159,255,.07));border:1px solid rgba(124,159,255,.22);color:#dfe7ff;font:700 13px 'JetBrains Mono',monospace}.signal-icon.warm{background:linear-gradient(145deg,rgba(255,138,92,.25),rgba(255,138,92,.06));border-color:rgba(255,138,92,.24);color:#ffc2aa}.signal-icon.good{background:linear-gradient(145deg,rgba(91,229,154,.22),rgba(91,229,154,.05));border-color:rgba(91,229,154,.22);color:#9df4c2}.signal-row b{display:block;font-size:13px}.signal-row small{color:var(--muted);font-size:11px}
 
-  /* Signal Run — playable Three.js intermission */
-  .signal-game{border:1px solid rgba(124,159,255,.26);border-radius:28px;background:#090e15;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.38);position:relative}
-  .game-hud{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:18px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(15,21,31,.94);position:relative;z-index:5}.game-brand{display:flex;align-items:center;gap:9px;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase}.game-brand i{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 12px var(--good)}.hud-stat{display:flex;align-items:baseline;gap:6px}.hud-stat span{font:500 9px 'JetBrains Mono',monospace;color:var(--muted2);text-transform:uppercase}.hud-stat b{font:700 14px 'JetBrains Mono',monospace;color:#fff}.stability-track{width:100px;height:6px;border-radius:99px;background:var(--panel2);overflow:hidden}.stability-track i{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent2),var(--good));transition:width .2s}
-  .game-stage{position:relative;min-height:480px;isolation:isolate;background:radial-gradient(500px 300px at 50% 70%,rgba(124,159,255,.08),transparent 70%),#070b11}.game-stage canvas{display:block;width:100%;height:100%;position:absolute;inset:0;touch-action:none}.game-message{position:absolute;z-index:3;top:18px;left:50%;transform:translate(-50%,-8px);opacity:0;transition:.22s;padding:7px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(7,11,17,.86);color:#fff;font:600 10px 'JetBrains Mono',monospace;white-space:nowrap;pointer-events:none}.game-message.show{opacity:1;transform:translate(-50%,0)}
+  /* Among the Stars — playable Three.js intermission */
+  .signal-game{border:1px solid rgba(118,151,255,.32);border-radius:28px;background:#02040b;overflow:hidden;box-shadow:0 35px 110px rgba(0,0,0,.52),0 0 80px rgba(69,88,180,.09);position:relative}
+  .game-hud{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:18px;padding:14px 18px;border-bottom:1px solid rgba(150,174,255,.14);background:rgba(4,8,20,.9);position:relative;z-index:5;backdrop-filter:blur(14px)}.game-brand{display:flex;align-items:center;gap:9px;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}.game-brand i{width:8px;height:8px;border-radius:50%;background:#78e8ff;box-shadow:0 0 14px #52c9ff}.hud-stat{display:flex;align-items:baseline;gap:6px}.hud-stat span{font:500 9px 'JetBrains Mono',monospace;color:#71809f;text-transform:uppercase}.hud-stat b{font:700 14px 'JetBrains Mono',monospace;color:#fff}.stability-track{width:100px;height:6px;border-radius:99px;background:#11182a;overflow:hidden}.stability-track i{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff8a5c,#78e8ff);box-shadow:0 0 12px rgba(120,232,255,.55);transition:width .2s}
+  .game-stage{position:relative;min-height:540px;isolation:isolate;background:radial-gradient(ellipse at 68% 24%,rgba(78,61,164,.22),transparent 32%),radial-gradient(ellipse at 20% 70%,rgba(20,105,139,.14),transparent 38%),#02040b}.game-stage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(90deg,rgba(2,4,11,.2),transparent 20%,transparent 80%,rgba(2,4,11,.2)),linear-gradient(transparent 65%,rgba(2,4,11,.3))}.game-stage canvas{display:block;width:100%;height:100%;position:absolute;inset:0;touch-action:none}.game-message{position:absolute;z-index:3;top:18px;left:50%;transform:translate(-50%,-8px);opacity:0;transition:.22s;padding:7px 12px;border:1px solid rgba(120,232,255,.2);border-radius:999px;background:rgba(3,7,18,.82);color:#fff;font:600 10px 'JetBrains Mono',monospace;white-space:nowrap;pointer-events:none;backdrop-filter:blur(10px)}.game-message.show{opacity:1;transform:translate(-50%,0)}
   .game-overlay{position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:24px;background:linear-gradient(rgba(7,11,17,.28),rgba(7,11,17,.82));backdrop-filter:blur(3px);transition:.3s}.game-overlay.hidden{opacity:0;pointer-events:none}.game-card{text-align:center;max-width:480px}.game-card .game-mini{font:600 10px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}.game-card h3{font-size:clamp(28px,5vw,44px);line-height:1;margin-bottom:14px}.game-card p{color:var(--muted);font-size:14px;margin:0 auto 22px;max-width:48ch}.game-start{border:0;border-radius:999px;background:#fff;color:#090d13;padding:13px 24px;font:700 13px 'Inter',sans-serif;cursor:pointer;box-shadow:0 12px 32px rgba(255,255,255,.12);transition:.2s}.game-start:hover{transform:translateY(-2px) scale(1.02)}
-  .game-legend{position:absolute;z-index:3;left:16px;bottom:14px;display:flex;gap:7px;flex-wrap:wrap}.game-legend span{padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:rgba(7,11,17,.78);color:var(--muted);font:500 9px 'JetBrains Mono',monospace}.game-legend i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px}.game-legend .signal-dot{background:var(--good);box-shadow:0 0 8px var(--good)}.game-legend .noise-dot{background:var(--accent2)}
+  .game-legend{position:absolute;z-index:3;left:16px;bottom:14px;display:flex;gap:7px;flex-wrap:wrap}.game-legend span{padding:6px 9px;border:1px solid rgba(142,167,255,.16);border-radius:999px;background:rgba(3,7,18,.76);color:#8995ac;font:500 9px 'JetBrains Mono',monospace;backdrop-filter:blur(8px)}.game-legend i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px}.game-legend .signal-dot{background:#78e8ff;box-shadow:0 0 9px #52c9ff}.game-legend .noise-dot{background:#ff8a5c}
   .game-controls{position:absolute;z-index:3;right:16px;bottom:14px;display:flex;gap:9px}.game-control{width:48px;height:48px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(18,25,37,.82);color:#fff;font-size:19px;cursor:pointer;backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent}.game-control:active{transform:scale(.92);background:rgba(124,159,255,.22)}
   .game-footer{display:flex;justify-content:space-between;gap:18px;padding:12px 18px;background:rgba(15,21,31,.94);border-top:1px solid var(--line);color:var(--muted2);font:500 9px 'JetBrains Mono',monospace}.game-footer b{color:var(--muted)}
 
@@ -314,7 +314,7 @@
     <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
     <div class="navlinks">
       <a href="#about">About</a>
-      <a href="#life-os">Signal Run</a>
+      <a href="#life-os">Star Mission</a>
       <a href="#projects">Shipped</a>
       <a href="#voice-demo">Praxis Lab</a>
       <a href="#contact" class="cta">Get in touch</a>
@@ -398,26 +398,26 @@
 
 <section id="life-os">
   <div class="wrap">
-    <div class="section-kicker">Playable intermission</div>
-    <h2 class="section-title">Signal Run</h2>
-    <p class="section-lede">Drive the tiny explorer. Collect useful signal, dodge noise, and keep the system stable. Arrow keys, A/D, or the touch controls all work.</p>
+    <div class="section-kicker">Playable transmission · 2147</div>
+    <h2 class="section-title">Humanity, among the stars.</h2>
+    <p class="section-lede">Pilot the interstellar vessel <em>Odyssey</em> through a living starfield. Gather navigation light, protect the hull, and carry a little piece of Earth toward the next horizon.</p>
     <div class="signal-game" id="signal-game" data-reveal>
       <div class="game-hud">
-        <div class="game-brand"><i></i> Signal Run · r1</div>
-        <div class="hud-stat"><span>Signal</span><b id="game-score">0</b></div>
-        <div class="hud-stat"><span>Best</span><b id="game-best">0</b></div>
-        <div class="hud-stat"><span>Stability</span><div class="stability-track"><i id="game-stability"></i></div></div>
+        <div class="game-brand"><i></i> Odyssey · human vessel 01</div>
+        <div class="hud-stat"><span>Light</span><b id="game-score">0</b></div>
+        <div class="hud-stat"><span>Record</span><b id="game-best">0</b></div>
+        <div class="hud-stat"><span>Hull</span><div class="stability-track"><i id="game-stability"></i></div></div>
       </div>
       <div class="game-stage" id="game-stage">
-        <canvas id="signal-canvas" aria-label="Signal Run 3D game"></canvas>
+        <canvas id="signal-canvas" aria-label="Three-dimensional spaceflight game with a human spacecraft"></canvas>
         <div class="game-message" id="game-message" aria-live="polite"></div>
         <div class="game-overlay" id="game-overlay">
-          <div class="game-card"><div class="game-mini" id="game-overline">Tiny explorer · large opinions</div><h3 id="game-title">Collect signal.<br>Avoid noise.</h3><p id="game-copy">The useful things glow. The distractions are suspiciously cube-shaped. Stability reaching zero is considered a learning experience.</p><button class="game-start" id="game-start" type="button">Start run →</button></div>
+          <div class="game-card"><div class="game-mini" id="game-overline">Earth archive secured · crew awake</div><h3 id="game-title">Take humanity<br>beyond the map.</h3><p id="game-copy">Collect blue navigation stars. Thread Odyssey between the asteroids. Every point carries the voyage—and our improbable little species—farther.</p><button class="game-start" id="game-start" type="button">Launch Odyssey →</button></div>
         </div>
-        <div class="game-legend"><span><i class="signal-dot"></i>signal +1</span><span><i class="noise-dot"></i>noise −18%</span></div>
+        <div class="game-legend"><span><i class="signal-dot"></i>navigation light +1</span><span><i class="noise-dot"></i>asteroid −18% hull</span></div>
         <div class="game-controls" aria-label="Game controls"><button class="game-control" id="game-left" type="button" aria-label="Move left">←</button><button class="game-control" id="game-right" type="button" aria-label="Move right">→</button></div>
       </div>
-      <div class="game-footer"><span><b>Desktop:</b> ← → or A D</span><span>The road moves. You only control the overthinking.</span></div>
+      <div class="game-footer"><span><b>Pilot:</b> ← → or A D · touch controls on mobile</span><span>Destination: somewhere worth becoming.</span></div>
     </div>
     <div class="life-console" hidden>
       <div class="life-console-top"><button class="console-lights" id="console-easter" type="button" aria-label="Run undocumented diagnostic"><i></i><i></i><i></i></button><span class="console-status" id="life-status">trajectory · nominal</span></div>
@@ -946,48 +946,65 @@ const gameRight=document.getElementById('game-right');
 
 try{
   const scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x070b11,.037);
-  const camera=new THREE.PerspectiveCamera(54,1,.1,100);
-  camera.position.set(0,6.8,10.5);camera.lookAt(0,.2,-9);
+  scene.fog=new THREE.FogExp2(0x02040b,.018);
+  const camera=new THREE.PerspectiveCamera(58,1,.1,140);
+  camera.position.set(0,3.8,11);camera.lookAt(0,-.2,-13);
   const renderer=new THREE.WebGLRenderer({canvas:gameCanvas,antialias:true,alpha:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  renderer.setClearColor(0x070b11,1);
+  renderer.setClearColor(0x02040b,1);
   renderer.outputColorSpace=THREE.SRGBColorSpace;
 
-  scene.add(new THREE.HemisphereLight(0x8da7ff,0x10141c,2.2));
-  const keyLight=new THREE.DirectionalLight(0xffffff,2.8);keyLight.position.set(-4,8,5);scene.add(keyLight);
-  const rimLight=new THREE.PointLight(0x5be59a,18,22);rimLight.position.set(4,3,-5);scene.add(rimLight);
+  scene.add(new THREE.AmbientLight(0x25345e,1.35));
+  const starlight=new THREE.DirectionalLight(0xcbd7ff,3.4);starlight.position.set(-6,8,5);scene.add(starlight);
+  const earthLight=new THREE.PointLight(0x4ebcff,26,30);earthLight.position.set(5,2,-8);scene.add(earthLight);
+  const warmLight=new THREE.PointLight(0xffb36b,18,22);warmLight.position.set(-7,-1,-16);scene.add(warmLight);
 
-  const ground=new THREE.Mesh(new THREE.PlaneGeometry(14,80),new THREE.MeshStandardMaterial({color:0x0b111a,roughness:.92,metalness:.08}));
-  ground.rotation.x=-Math.PI/2;ground.position.set(0,-.08,-20);scene.add(ground);
-  const grid=new THREE.GridHelper(80,40,0x31476d,0x192333);grid.position.set(0,0,-20);scene.add(grid);
-
-  const laneMarkers=[];
-  const markerGeo=new THREE.BoxGeometry(.08,.025,1.2);
-  const markerMat=new THREE.MeshBasicMaterial({color:0x344767,transparent:true,opacity:.65});
-  for(const x of [-1.5,1.5]) for(let z=-39;z<7;z+=3){const marker=new THREE.Mesh(markerGeo,markerMat);marker.position.set(x,.02,z);scene.add(marker);laneMarkers.push(marker)}
-
+  /* Odyssey: layered hull, cockpit, solar wings, engine pods, windows and a
+     tiny blue Earth archive at its heart. It is intentionally built from
+     geometry rather than a downloaded model so the mission stays lightweight. */
   const player=new THREE.Group();
-  const body=new THREE.Mesh(new THREE.OctahedronGeometry(.72,0),new THREE.MeshStandardMaterial({color:0x7c9fff,emissive:0x263f8f,emissiveIntensity:1.5,roughness:.24,metalness:.62}));
-  body.scale.set(1,.48,1.3);player.add(body);
-  const wingMat=new THREE.MeshStandardMaterial({color:0xdfe7ff,emissive:0x25365f,emissiveIntensity:.7,metalness:.7,roughness:.2});
-  const wings=new THREE.Mesh(new THREE.BoxGeometry(2.05,.1,.48),wingMat);wings.position.z=.15;player.add(wings);
-  const core=new THREE.Mesh(new THREE.SphereGeometry(.18,14,10),new THREE.MeshBasicMaterial({color:0x5be59a}));core.position.set(0,.12,.34);player.add(core);
-  const glow=new THREE.PointLight(0x7c9fff,5,5);glow.position.set(0,.5,1);player.add(glow);
-  player.position.set(0,.7,2);scene.add(player);
+  const hullMat=new THREE.MeshStandardMaterial({color:0xc8d2df,metalness:.82,roughness:.25});
+  const darkHull=new THREE.MeshStandardMaterial({color:0x17223a,metalness:.88,roughness:.2});
+  const hull=new THREE.Mesh(new THREE.CylinderGeometry(.54,.7,3.35,16),hullMat);hull.rotation.x=-Math.PI/2;player.add(hull);
+  const nose=new THREE.Mesh(new THREE.ConeGeometry(.55,1.15,16),hullMat);nose.rotation.x=-Math.PI/2;nose.position.z=-2.22;player.add(nose);
+  const collar=new THREE.Mesh(new THREE.TorusGeometry(.59,.075,8,24),darkHull);collar.rotation.x=Math.PI/2;collar.position.z=-1.55;player.add(collar);
+  const cockpit=new THREE.Mesh(new THREE.SphereGeometry(.48,20,12),new THREE.MeshStandardMaterial({color:0x78dfff,emissive:0x174b83,emissiveIntensity:1.2,metalness:.5,roughness:.08,transparent:true,opacity:.88}));cockpit.scale.set(.76,.46,1.15);cockpit.position.set(0,.48,-.82);player.add(cockpit);
+  const wingMat=new THREE.MeshStandardMaterial({color:0x273a67,emissive:0x142755,emissiveIntensity:.75,metalness:.75,roughness:.28});
+  for(const side of [-1,1]){
+    const wing=new THREE.Mesh(new THREE.BoxGeometry(2.25,.08,1.25),wingMat);wing.position.set(side*1.42,-.02,.2);wing.rotation.z=side*-.035;player.add(wing);
+    const wingLine=new THREE.Mesh(new THREE.BoxGeometry(2.05,.025,.035),new THREE.MeshBasicMaterial({color:0x6ea8ff}));wingLine.position.set(side*1.42,.035,.2);player.add(wingLine);
+    const pod=new THREE.Mesh(new THREE.CylinderGeometry(.25,.32,1.8,12),darkHull);pod.rotation.x=-Math.PI/2;pod.position.set(side*1.12,-.18,.72);player.add(pod);
+    const flame=new THREE.Mesh(new THREE.ConeGeometry(.19,.9,12),new THREE.MeshBasicMaterial({color:0x72e9ff,transparent:true,opacity:.72}));flame.rotation.x=Math.PI/2;flame.position.set(side*1.12,-.18,2.05);player.add(flame);flame.userData.thruster=true;
+  }
+  const bridge=new THREE.Mesh(new THREE.BoxGeometry(.68,.28,.72),darkHull);bridge.position.set(0,.47,.36);player.add(bridge);
+  for(let z=-.25;z<1.05;z+=.32){const windowLight=new THREE.Mesh(new THREE.SphereGeometry(.045,8,6),new THREE.MeshBasicMaterial({color:0xffd88a}));windowLight.position.set(.54,.12,z);player.add(windowLight)}
+  const archive=new THREE.Mesh(new THREE.SphereGeometry(.13,14,10),new THREE.MeshBasicMaterial({color:0x58c7ff}));archive.position.set(0,.22,.18);player.add(archive);
+  const antenna=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,.7,6),hullMat);antenna.position.set(0,.72,.45);player.add(antenna);
+  const engineGlow=new THREE.PointLight(0x58dfff,13,8);engineGlow.position.set(0,-.1,2.3);player.add(engineGlow);
+  player.scale.setScalar(.78);player.position.set(0,-.55,2.25);scene.add(player);
 
-  const starGeo=new THREE.BufferGeometry();
-  const starPositions=[];
-  for(let i=0;i<180;i++)starPositions.push((Math.random()-.5)*32,Math.random()*12+1,-Math.random()*70+5);
-  starGeo.setAttribute('position',new THREE.Float32BufferAttribute(starPositions,3));
-  const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x789cff,size:.055,transparent:true,opacity:.72}));scene.add(stars);
+  function makeStars(count,spread,color,size,opacity){
+    const geometry=new THREE.BufferGeometry(),positions=[];
+    for(let i=0;i<count;i++)positions.push((Math.random()-.5)*spread,(Math.random()-.5)*spread*.52,-Math.random()*110+8);
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    const points=new THREE.Points(geometry,new THREE.PointsMaterial({color,size,transparent:true,opacity,depthWrite:false}));scene.add(points);return points;
+  }
+  const farStars=makeStars(520,54,0xaec4ff,.055,.8);
+  const nearStars=makeStars(150,30,0x78e8ff,.095,.82);
+  const goldStars=makeStars(90,46,0xffd299,.07,.62);
 
-  const signalPalette=[0x5be59a,0x7c9fff,0xffc857,0xb995ff];
-  const signalNotes=['curiosity +1','craft +1','courage +1','connection +1','useful signal acquired'];
-  const noiseNotes=['noise detected · dramatically cube-shaped','scope creep has entered the lane','meeting that could have been an email','local maximum · mildly inconvenient'];
+  const planet=new THREE.Group();
+  const planetBody=new THREE.Mesh(new THREE.SphereGeometry(4.1,32,20),new THREE.MeshStandardMaterial({color:0x263977,emissive:0x10183e,emissiveIntensity:.9,roughness:.86}));planet.add(planetBody);
+  const planetClouds=new THREE.Mesh(new THREE.SphereGeometry(4.18,28,16),new THREE.MeshBasicMaterial({color:0x8fb8ff,wireframe:true,transparent:true,opacity:.09}));planet.add(planetClouds);
+  const planetRing=new THREE.Mesh(new THREE.RingGeometry(5.1,7.3,64),new THREE.MeshBasicMaterial({color:0x8ba5df,side:THREE.DoubleSide,transparent:true,opacity:.19}));planetRing.rotation.x=1.18;planetRing.rotation.z=.24;planet.add(planetRing);
+  planet.position.set(12,6,-56);scene.add(planet);
+  const moon=new THREE.Mesh(new THREE.SphereGeometry(1.05,18,12),new THREE.MeshStandardMaterial({color:0x9a83bd,roughness:1}));moon.position.set(-11,6,-43);scene.add(moon);
+
+  const signalNotes=['navigation lock · +1 light','Earth is now one star farther away','new world candidate logged','crew morale: improbably optimistic','the map just became larger'];
+  const noiseNotes=['asteroid impact · hull holding','space remains mostly rocks','minor collision · major paperwork','cosmic speed bump detected'];
   const objects=[];
   let running=false,score=0,best=0,stability=100,lane=1,targetX=0,spawnClock=0,messageTimer=null,lastTime=performance.now();
-  const lanes=[-3,0,3];
+  const lanes=[-3.25,0,3.25];
 
   function disposeObject(item){scene.remove(item.mesh);item.mesh.traverse(child=>{child.geometry?.dispose?.();if(child.material){const materials=Array.isArray(child.material)?child.material:[child.material];materials.forEach(material=>material.dispose?.())}})}
   function clearObjects(){while(objects.length)disposeObject(objects.pop())}
@@ -996,23 +1013,23 @@ try{
   }
   function updateHud(){gameScore.textContent=score;gameBest.textContent=best;gameStability.style.width=stability+'%';gameStability.style.filter=stability<40?'saturate(1.5) hue-rotate(-45deg)':'none'}
   function spawnObject(){
-    const isSignal=Math.random()>.3;
+    const isSignal=Math.random()>.34;
     let mesh;
     if(isSignal){
-      const color=signalPalette[Math.floor(Math.random()*signalPalette.length)];
       mesh=new THREE.Group();
-      const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.52,1),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:1.25,roughness:.2,metalness:.35}));mesh.add(orb);
-      const ring=new THREE.Mesh(new THREE.TorusGeometry(.78,.045,8,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.72}));ring.rotation.x=Math.PI/2;mesh.add(ring);
-      const light=new THREE.PointLight(color,4,4);mesh.add(light);
+      const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.38,1),new THREE.MeshStandardMaterial({color:0xb9f5ff,emissive:0x42cfff,emissiveIntensity:2.4,roughness:.08}));mesh.add(orb);
+      for(const angle of [0,Math.PI/2]){const ring=new THREE.Mesh(new THREE.TorusGeometry(.68,.025,8,40),new THREE.MeshBasicMaterial({color:0x7ce8ff,transparent:true,opacity:.72}));ring.rotation.set(Math.PI/2,angle,0);mesh.add(ring)}
+      mesh.add(new THREE.PointLight(0x58dfff,7,6));
     }else{
-      mesh=new THREE.Mesh(new THREE.DodecahedronGeometry(.7,0),new THREE.MeshStandardMaterial({color:0xff6f59,emissive:0x812315,emissiveIntensity:1.15,roughness:.42,metalness:.28}));
-      const wire=new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry),new THREE.LineBasicMaterial({color:0xffb09f,transparent:true,opacity:.65}));mesh.add(wire);
+      const size=.65+Math.random()*.42;
+      mesh=new THREE.Mesh(new THREE.DodecahedronGeometry(size,1),new THREE.MeshStandardMaterial({color:0x423a4a,emissive:0x2b1114,emissiveIntensity:.45,roughness:.94,metalness:.08,flatShading:true}));
+      mesh.scale.set(1,.72+Math.random()*.45,.8+Math.random()*.55);
     }
-    mesh.position.set(lanes[Math.floor(Math.random()*lanes.length)],isSignal?.72:.68,-42);scene.add(mesh);objects.push({mesh,type:isSignal?'signal':'noise',hit:false});
+    mesh.position.set(lanes[Math.floor(Math.random()*lanes.length)],(Math.random()-.5)*1.4,-54);scene.add(mesh);objects.push({mesh,type:isSignal?'signal':'noise',hit:false});
   }
   function move(direction){if(!running)return;lane=Math.max(0,Math.min(2,lane+direction));targetX=lanes[lane];player.rotation.z=-direction*.18;if(navigator.vibrate)navigator.vibrate(5)}
   function endGame(){
-    running=false;best=Math.max(best,score);updateHud();gameOverline.textContent='Run complete · data emotionally processed';gameTitle.innerHTML='Noise won.<br>Temporary setback.';gameCopy.textContent='You collected '+score+' useful signal'+(score===1?'':'s')+'. The cubes remain under investigation.';gameStart.textContent='Run it back →';gameOverlay.classList.remove('hidden');
+    running=false;best=Math.max(best,score);updateHud();gameOverline.textContent='Mission paused · crew accounted for';gameTitle.innerHTML='The voyage<br>is not over.';gameCopy.textContent='Odyssey carried humanity through '+score+' navigation light'+(score===1?'':'s')+'. Repairs are underway. Hope, inconveniently, remains operational.';gameStart.textContent='Relaunch →';gameOverlay.classList.remove('hidden');
   }
   function startGame(){
     clearObjects();score=0;stability=100;lane=1;targetX=0;spawnClock=0;player.position.x=0;player.rotation.set(0,0,0);updateHud();gameMessage.classList.remove('show');gameOverlay.classList.add('hidden');running=true;lastTime=performance.now();spawnObject();
@@ -1027,28 +1044,34 @@ try{
   function animate(now){
     requestAnimationFrame(animate);
     const dt=Math.min((now-lastTime)/1000,.04);lastTime=now;
-    player.position.x+= (targetX-player.position.x)*Math.min(1,dt*11);player.rotation.z*=Math.pow(.015,dt);player.position.y=.7+Math.sin(now*.004)*.045;body.rotation.y+=dt*.75;core.scale.setScalar(1+Math.sin(now*.009)*.12);
-    stars.rotation.z=Math.sin(now*.00012)*.025;
+    player.position.x+=(targetX-player.position.x)*Math.min(1,dt*9);player.rotation.z*=Math.pow(.025,dt);player.position.y=-.55+Math.sin(now*.003)*.06;archive.scale.setScalar(1+Math.sin(now*.008)*.1);
+    player.children.forEach(child=>{if(child.userData.thruster)child.scale.y=.8+Math.sin(now*.018)*.24});
+    planetBody.rotation.y+=dt*.035;planetClouds.rotation.y-=dt*.018;planetRing.rotation.z+=dt*.004;moon.rotation.y+=dt*.05;
+    for(const field of [farStars,nearStars,goldStars]){
+      const positions=field.geometry.attributes.position;
+      const drift=running?(field===nearStars?18:field===goldStars?9:6):(field===nearStars?1.5:.4);
+      for(let i=2;i<positions.array.length;i+=3){positions.array[i]+=drift*dt;if(positions.array[i]>9)positions.array[i]=-105}
+      positions.needsUpdate=true;
+    }
     if(running){
-      const speed=10+Math.min(score*.18,4);spawnClock+=dt;
-      if(spawnClock>Math.max(.54,.92-score*.008)){spawnClock=0;spawnObject()}
-      laneMarkers.forEach(marker=>{marker.position.z+=speed*dt;if(marker.position.z>7)marker.position.z-=48});
+      const speed=12+Math.min(score*.2,5);spawnClock+=dt;
+      if(spawnClock>Math.max(.58,1.02-score*.008)){spawnClock=0;spawnObject()}
       for(let i=objects.length-1;i>=0;i--){
-        const item=objects[i];item.mesh.position.z+=speed*dt;item.mesh.rotation.y+=dt*(item.type==='signal'?2.2:1.15);item.mesh.rotation.x+=dt*.65;
-        if(!item.hit&&item.mesh.position.z>.7&&item.mesh.position.z<2.7&&Math.abs(item.mesh.position.x-player.position.x)<1.08){
+        const item=objects[i];item.mesh.position.z+=speed*dt;item.mesh.rotation.y+=dt*(item.type==='signal'?2.1:.72);item.mesh.rotation.x+=dt*(item.type==='signal'?.8:.47);
+        if(!item.hit&&item.mesh.position.z>.8&&item.mesh.position.z<3.35&&Math.abs(item.mesh.position.x-player.position.x)<1.12){
           item.hit=true;
-          if(item.type==='signal'){score++;best=Math.max(best,score);stability=Math.min(100,stability+5);showMessage(signalNotes[score%signalNotes.length]);if(score===12)showMessage('system stable · annoyingly competent');}
+          if(item.type==='signal'){score++;best=Math.max(best,score);stability=Math.min(100,stability+4);showMessage(signalNotes[score%signalNotes.length]);if(score===12)showMessage('Proxima route unlocked · humans still curious');}
           else{stability=Math.max(0,stability-18);showMessage(noiseNotes[Math.floor(Math.random()*noiseNotes.length)],'bad');player.rotation.z=.24;if(navigator.vibrate)navigator.vibrate([18,25,18]);}
           updateHud();disposeObject(item);objects.splice(i,1);if(stability<=0)endGame();continue;
         }
         if(item.mesh.position.z>8){disposeObject(item);objects.splice(i,1)}
       }
-    }else{grid.rotation.y=Math.sin(now*.00015)*.01}
+    }
     renderer.render(scene,camera);
   }
   requestAnimationFrame(animate);
 }catch(error){
-  gameOverline.textContent='WebGL unavailable · tasteful fallback';gameTitle.textContent='The 3D took a personal day.';gameCopy.textContent='Signal Run needs WebGL. The rest of the site remains fully operational, which is more than can be said for the cubes.';gameStart.hidden=true;console.warn('Signal Run could not start',error);
+  gameOverline.textContent='WebGL unavailable · mission safely paused';gameTitle.textContent='Odyssey is in the hangar.';gameCopy.textContent='The star mission needs WebGL. The rest of Earth remains available below.';gameStart.hidden=true;console.warn('Odyssey could not launch',error);
 }
 </script>
 </body>
