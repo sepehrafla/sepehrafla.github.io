@@ -1169,6 +1169,8 @@ if(window.speechSynthesis){
 const isIOSDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const audioReady = !!window.speechSynthesis||isIOSDevice;
 let iosSpeechAudio=null;
+let localAudioManifest={};
+fetch('audio/manifest.json').then(response=>response.ok?response.json():{}).then(manifest=>{localAudioManifest=manifest}).catch(()=>{});
 // Keep utterances alive until Safari finishes with them. More importantly, the
 // first real phrase is spoken directly inside the Escuchar button's click
 // handler; a silent "unlock" utterance would race that click on iOS Safari.
@@ -1177,18 +1179,23 @@ function speakEs(text,rate){
   if(!text) return;
   const cleanText=(''+text).replace(/[“”]/g,'').replace(/___/g,'...');
   // iOS Safari exposes Web Speech but can silently produce no audio depending
-  // on its audio session. Use a real HTML audio stream there; play() stays
-  // directly inside the tap, so it also works with iPhone autoplay rules.
+  // on its audio session. Use same-origin, pre-generated pronunciation there;
+  // play() stays inside the tap and no content blocker or voice download is
+  // involved. Native speech remains the fallback for uncommon dynamic text.
   if(isIOSDevice){
     try{
       window.speechSynthesis?.cancel();
       if(iosSpeechAudio){iosSpeechAudio.pause();iosSpeechAudio.src='';}
-      const speed=(rate&&rate<.8)?.7:1;
-      const src='https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&ttsspeed='+speed+'&q='+encodeURIComponent(cleanText.slice(0,190));
-      iosSpeechAudio=new Audio(src);
+      const localFile=localAudioManifest[cleanText];
+      if(!localFile){speakEsNative(cleanText,rate);return;}
+      iosSpeechAudio=new Audio('audio/'+localFile);
       iosSpeechAudio.preload='auto';iosSpeechAudio.playsInline=true;
+      iosSpeechAudio.playbackRate=(rate&&rate<.8)?.72:1;
+      let usedFallback=false;
+      const fallback=()=>{if(!usedFallback){usedFallback=true;speakEsNative(cleanText,rate)}};
+      iosSpeechAudio.onerror=fallback;
       const playback=iosSpeechAudio.play();
-      if(playback?.catch) playback.catch(()=>speakEsNative(cleanText,rate));
+      if(playback?.catch) playback.catch(fallback);
       return;
     }catch(e){/* fall through to the device synthesizer */}
   }

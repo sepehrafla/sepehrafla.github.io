@@ -164,9 +164,14 @@
   .game-hud{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:18px;padding:14px 18px;border-bottom:1px solid rgba(150,174,255,.14);background:rgba(4,8,20,.9);position:relative;z-index:5;backdrop-filter:blur(14px)}.game-brand{display:flex;align-items:center;gap:9px;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}.game-brand i{width:8px;height:8px;border-radius:50%;background:#78e8ff;box-shadow:0 0 14px #52c9ff}.hud-stat{display:flex;align-items:baseline;gap:6px}.hud-stat span{font:500 9px 'JetBrains Mono',monospace;color:#71809f;text-transform:uppercase}.hud-stat b{font:700 14px 'JetBrains Mono',monospace;color:#fff}.stability-track{width:100px;height:6px;border-radius:99px;background:#11182a;overflow:hidden}.stability-track i{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff8a5c,#78e8ff);box-shadow:0 0 12px rgba(120,232,255,.55);transition:width .2s}
   .game-stage{position:relative;min-height:540px;isolation:isolate;background:radial-gradient(ellipse at 68% 24%,rgba(78,61,164,.22),transparent 32%),radial-gradient(ellipse at 20% 70%,rgba(20,105,139,.14),transparent 38%),#02040b}.game-stage::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(90deg,rgba(2,4,11,.2),transparent 20%,transparent 80%,rgba(2,4,11,.2)),linear-gradient(transparent 65%,rgba(2,4,11,.3))}.game-stage canvas{display:block;width:100%;height:100%;position:absolute;inset:0;touch-action:none}.game-message{position:absolute;z-index:3;top:18px;left:50%;transform:translate(-50%,-8px);opacity:0;transition:.22s;padding:7px 12px;border:1px solid rgba(120,232,255,.2);border-radius:999px;background:rgba(3,7,18,.82);color:#fff;font:600 10px 'JetBrains Mono',monospace;white-space:nowrap;pointer-events:none;backdrop-filter:blur(10px)}.game-message.show{opacity:1;transform:translate(-50%,0)}
   .game-overlay{position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:24px;background:linear-gradient(rgba(7,11,17,.28),rgba(7,11,17,.82));backdrop-filter:blur(3px);transition:.3s}.game-overlay.hidden{opacity:0;pointer-events:none}.game-card{text-align:center;max-width:480px}.game-card .game-mini{font:600 10px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}.game-card h3{font-size:clamp(28px,5vw,44px);line-height:1;margin-bottom:14px}.game-card p{color:var(--muted);font-size:14px;margin:0 auto 22px;max-width:48ch}.game-start{border:0;border-radius:999px;background:#fff;color:#090d13;padding:13px 24px;font:700 13px 'Inter',sans-serif;cursor:pointer;box-shadow:0 12px 32px rgba(255,255,255,.12);transition:.2s}.game-start:hover{transform:translateY(-2px) scale(1.02)}
+  .mission-phase{font:600 9px 'JetBrains Mono',monospace;color:#78e8ff;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+  .story-transmission{position:absolute;z-index:6;inset:0;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 44%,rgba(34,61,124,.28),rgba(2,4,11,.82));backdrop-filter:blur(5px);transition:.3s}.story-transmission.hidden{opacity:0;pointer-events:none}.story-card{width:min(570px,100%);padding:24px;border:1px solid rgba(120,232,255,.24);border-radius:22px;background:linear-gradient(145deg,rgba(10,19,39,.96),rgba(4,8,20,.96));box-shadow:0 28px 80px rgba(0,0,0,.5),inset 0 1px rgba(255,255,255,.06)}.story-card::before{content:'';display:block;width:42px;height:2px;margin-bottom:18px;background:#78e8ff;box-shadow:0 0 14px #52c9ff}.story-kicker{font:700 9px 'JetBrains Mono',monospace;color:#78e8ff;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}.story-card h3{font-size:clamp(24px,4vw,36px);line-height:1.08;margin-bottom:10px}.story-card p{font-size:13px;color:#a9b4ca;max-width:58ch}.story-facts{display:flex;gap:7px;flex-wrap:wrap;margin:17px 0}.story-facts span{padding:6px 9px;border:1px solid rgba(142,167,255,.18);border-radius:999px;background:rgba(116,145,255,.08);font:600 9px 'JetBrains Mono',monospace;color:#c4d1ec}.story-choice-label{font:600 10px 'JetBrains Mono',monospace;color:#78869f;text-transform:uppercase;margin:17px 0 8px}.story-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.story-action{min-height:48px;padding:10px 12px;border:1px solid rgba(120,232,255,.22);border-radius:12px;background:rgba(120,232,255,.07);color:#eaf7ff;font:650 11px 'Inter',sans-serif;cursor:pointer;text-align:left;transition:.2s}.story-action:hover{transform:translateY(-2px);background:rgba(120,232,255,.13);border-color:rgba(120,232,255,.45)}.story-action small{display:block;margin-top:3px;color:#7f8ca4;font-size:9px;font-weight:500}.story-ai{display:flex;align-items:center;gap:9px;margin-top:17px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font:600 10px 'JetBrains Mono',monospace;color:#8b9ab5}.story-ai i{width:8px;height:8px;border-radius:50%;background:#b78cff;box-shadow:0 0 12px #b78cff}.story-result{display:none;margin-top:15px;padding:12px;border-radius:11px;background:rgba(91,229,154,.08);border:1px solid rgba(91,229,154,.2);color:#bff8d5;font-size:11px}.story-result.show{display:block;animation:panelIn .25s ease}.story-continue{display:none;margin-top:12px}.story-continue.show{display:inline-flex}
   .game-legend{position:absolute;z-index:3;left:16px;bottom:14px;display:flex;gap:7px;flex-wrap:wrap}.game-legend span{padding:6px 9px;border:1px solid rgba(142,167,255,.16);border-radius:999px;background:rgba(3,7,18,.76);color:#8995ac;font:500 9px 'JetBrains Mono',monospace;backdrop-filter:blur(8px)}.game-legend i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px}.game-legend .signal-dot{background:#78e8ff;box-shadow:0 0 9px #52c9ff}.game-legend .noise-dot{background:#ff8a5c}
   .game-controls{position:absolute;z-index:3;right:16px;bottom:14px;display:flex;gap:9px}.game-control{width:48px;height:48px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(18,25,37,.82);color:#fff;font-size:19px;cursor:pointer;backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent}.game-control:active{transform:scale(.92);background:rgba(124,159,255,.22)}
   .game-footer{display:flex;justify-content:space-between;gap:18px;padding:12px 18px;background:rgba(15,21,31,.94);border-top:1px solid var(--line);color:var(--muted2);font:500 9px 'JetBrains Mono',monospace}.game-footer b{color:var(--muted)}
+  .mission-route{display:flex;align-items:center;gap:5px}.mission-route i{width:18px;height:3px;border-radius:99px;background:#25304a;transition:.35s}.mission-route i.reached{background:#78e8ff;box-shadow:0 0 9px rgba(120,232,255,.65)}
+
+  .game-hud{grid-template-columns:1fr auto auto auto auto}
 
   /* Selected builds */
   .proj-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
@@ -294,7 +299,7 @@
     .about-grid{grid-template-columns:1fr;gap:36px}
     .fact{min-height:76px}
     .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
-    .signal-game{border-radius:22px}.game-hud{grid-template-columns:1fr auto auto;gap:10px;padding:12px}.game-brand{grid-column:1/-1}.hud-stat:nth-of-type(3){display:none}.stability-track{width:76px}.game-stage{min-height:440px}.game-legend{left:10px;bottom:72px;right:10px}.game-controls{right:10px;bottom:12px}.game-control{width:54px;height:54px}.game-footer{display:block;padding:10px 12px}.game-footer span:last-child{display:none}.game-card p{font-size:13px}.game-message{max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
+    .signal-game{border-radius:22px}.game-hud{grid-template-columns:1fr auto auto;gap:10px;padding:12px}.game-brand{grid-column:1/-1}.hud-stat:nth-of-type(3){display:none}.stability-track{width:76px}.game-stage{min-height:470px}.game-legend{left:10px;bottom:72px;right:10px}.game-controls{right:10px;bottom:12px}.game-control{width:54px;height:54px}.game-footer{display:block;padding:10px 12px}.game-footer span:last-child{display:none}.game-card p{font-size:13px}.game-message{max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}.story-transmission{padding:12px}.story-card{padding:18px;border-radius:17px;max-height:calc(100% - 18px);overflow-y:auto}.story-card h3{font-size:24px}.story-actions{grid-template-columns:1fr}.story-action{min-height:44px}.story-ai{margin-top:12px}.mission-phase{display:none}
     .life-console{padding:12px;border-radius:22px}.easter-toast{top:64px;max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis}.life-tabs{grid-template-columns:1fr 1fr}.life-tab{min-height:44px}.life-panel{grid-template-columns:1fr;min-height:0}.life-card{padding:18px}.community-map{grid-template-columns:repeat(2,1fr)}.metric-stack{grid-template-columns:repeat(3,1fr)}.barbell-viz{grid-template-columns:1fr 36px 1fr}.bar-side{padding:15px 8px}.bar-side b{font-size:23px}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
     .proj-card{min-height:0}
@@ -303,6 +308,7 @@
     .contact-card{padding:40px 22px}
     footer{padding-bottom:18px}
   }
+  @media(max-width:760px){.game-hud .hud-stat:nth-of-type(3){display:flex}.game-hud .hud-stat:nth-last-child(2){display:none}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -404,6 +410,7 @@
     <div class="signal-game" id="signal-game" data-reveal>
       <div class="game-hud">
         <div class="game-brand"><i></i> Odyssey · human vessel 01</div>
+        <div class="mission-phase" id="game-phase">Chapter 01 · Leaving Earth</div>
         <div class="hud-stat"><span>Light</span><b id="game-score">0</b></div>
         <div class="hud-stat"><span>Record</span><b id="game-best">0</b></div>
         <div class="hud-stat"><span>Hull</span><div class="stability-track"><i id="game-stability"></i></div></div>
@@ -414,10 +421,23 @@
         <div class="game-overlay" id="game-overlay">
           <div class="game-card"><div class="game-mini" id="game-overline">Earth archive secured · crew awake</div><h3 id="game-title">Take humanity<br>beyond the map.</h3><p id="game-copy">Collect blue navigation stars. Thread Odyssey between the asteroids. Every point carries the voyage—and our improbable little species—farther.</p><button class="game-start" id="game-start" type="button">Launch Odyssey →</button></div>
         </div>
+        <div class="story-transmission hidden" id="story-transmission" aria-live="polite">
+          <div class="story-card">
+            <div class="story-kicker" id="story-kicker"></div>
+            <h3 id="story-title"></h3>
+            <p id="story-copy"></p>
+            <div class="story-facts" id="story-facts"></div>
+            <div class="story-choice-label">Mission decision · you remain in command</div>
+            <div class="story-actions" id="story-actions"></div>
+            <div class="story-result" id="story-result"></div>
+            <button class="game-start story-continue" id="story-continue" type="button">Continue voyage →</button>
+            <div class="story-ai"><i></i><span id="story-ai">MIRA · mission intelligence · advisory mode</span></div>
+          </div>
+        </div>
         <div class="game-legend"><span><i class="signal-dot"></i>navigation light +1</span><span><i class="noise-dot"></i>asteroid −18% hull</span></div>
         <div class="game-controls" aria-label="Game controls"><button class="game-control" id="game-left" type="button" aria-label="Move left">←</button><button class="game-control" id="game-right" type="button" aria-label="Move right">→</button></div>
       </div>
-      <div class="game-footer"><span><b>Pilot:</b> ← → or A D · touch controls on mobile</span><span>Destination: somewhere worth becoming.</span></div>
+      <div class="game-footer"><span><b>Pilot:</b> ← → or A D · touch controls on mobile</span><div class="mission-route" id="mission-route" aria-label="Mission chapter progress"><i class="reached"></i><i></i><i></i><i></i><i></i><i></i></div><span>Destination: somewhere worth becoming.</span></div>
     </div>
     <div class="life-console" hidden>
       <div class="life-console-top"><button class="console-lights" id="console-easter" type="button" aria-label="Run undocumented diagnostic"><i></i><i></i><i></i></button><span class="console-status" id="life-status">trajectory · nominal</span></div>
@@ -943,6 +963,17 @@ const gameStability=document.getElementById('game-stability');
 const gameMessage=document.getElementById('game-message');
 const gameLeft=document.getElementById('game-left');
 const gameRight=document.getElementById('game-right');
+const gamePhase=document.getElementById('game-phase');
+const storyTransmission=document.getElementById('story-transmission');
+const storyKicker=document.getElementById('story-kicker');
+const storyTitle=document.getElementById('story-title');
+const storyCopy=document.getElementById('story-copy');
+const storyFacts=document.getElementById('story-facts');
+const storyActions=document.getElementById('story-actions');
+const storyResult=document.getElementById('story-result');
+const storyContinue=document.getElementById('story-continue');
+const storyAI=document.getElementById('story-ai');
+const missionRoute=[...document.querySelectorAll('#mission-route i')];
 
 try{
   const scene=new THREE.Scene();
@@ -993,6 +1024,14 @@ try{
   const nearStars=makeStars(150,30,0x78e8ff,.095,.82);
   const goldStars=makeStars(90,46,0xffd299,.07,.62);
 
+  const earth=new THREE.Group();
+  const earthBody=new THREE.Mesh(new THREE.SphereGeometry(5.2,36,24),new THREE.MeshStandardMaterial({color:0x1767a1,emissive:0x08284a,emissiveIntensity:.62,roughness:.78}));earth.add(earthBody);
+  const earthClouds=new THREE.Mesh(new THREE.SphereGeometry(5.28,32,20),new THREE.MeshBasicMaterial({color:0xd8f1ff,wireframe:true,transparent:true,opacity:.1}));earth.add(earthClouds);
+  const atmosphere=new THREE.Mesh(new THREE.SphereGeometry(5.48,32,20),new THREE.MeshBasicMaterial({color:0x4ebcff,side:THREE.BackSide,transparent:true,opacity:.12}));earth.add(atmosphere);
+  const orbitalRing=new THREE.Mesh(new THREE.TorusGeometry(6.05,.025,6,96),new THREE.MeshBasicMaterial({color:0x8deaff,transparent:true,opacity:.35}));orbitalRing.rotation.x=1.15;earth.add(orbitalRing);
+  for(let i=0;i<26;i++){const city=new THREE.Mesh(new THREE.SphereGeometry(.035,6,4),new THREE.MeshBasicMaterial({color:0xffd78b}));const phi=Math.acos(2*Math.random()-1),theta=Math.random()*Math.PI*2;city.position.set(5.23*Math.sin(phi)*Math.cos(theta),5.23*Math.cos(phi),5.23*Math.sin(phi)*Math.sin(theta));earth.add(city)}
+  earth.position.set(-7.8,-3.1,2.2);scene.add(earth);
+
   const planet=new THREE.Group();
   const planetBody=new THREE.Mesh(new THREE.SphereGeometry(4.1,32,20),new THREE.MeshStandardMaterial({color:0x263977,emissive:0x10183e,emissiveIntensity:.9,roughness:.86}));planet.add(planetBody);
   const planetClouds=new THREE.Mesh(new THREE.SphereGeometry(4.18,28,16),new THREE.MeshBasicMaterial({color:0x8fb8ff,wireframe:true,transparent:true,opacity:.09}));planet.add(planetClouds);
@@ -1000,10 +1039,32 @@ try{
   planet.position.set(12,6,-56);scene.add(planet);
   const moon=new THREE.Mesh(new THREE.SphereGeometry(1.05,18,12),new THREE.MeshStandardMaterial({color:0x9a83bd,roughness:1}));moon.position.set(-11,6,-43);scene.add(moon);
 
+  const storyChapters=[
+    {at:3,phase:'Chapter 02 · Escape velocity',kicker:'12 minutes after launch · Earth orbit',title:'Leaving home is an engineering problem—and an emotional one.',copy:'Odyssey must become a world that can repair itself. Water loops forever. Food grows under artificial dawn. The fusion drive provides speed; redundancy provides survival.',facts:['11.2 km/s escape velocity','99.7% water recovery','40-year repair horizon'],ai:'MIRA · running 8.4 million failure simulations',choices:[
+      {label:'Design for repair',small:'Slower departure · resilient ship',result:'You choose accessible systems and spare capacity. MIRA predicts 18% less speed—and 63% more ways home.',hull:10},
+      {label:'Design for speed',small:'Faster transit · tighter margins',result:'Odyssey becomes lean and fast. The crew accepts harder maintenance in exchange for years returned to their lives.',hull:4}
+    ]},
+    {at:8,phase:'Chapter 03 · The long dark',kicker:'Beyond the heliopause · no rescue window',title:'AI can see farther. Humans still decide why.',copy:'MIRA watches radiation, dreams up repairs, and predicts paths no crew could calculate alone. It is not the captain. Intelligence holds the probabilities; people hold the purpose.',facts:['4.2 light-years ahead','2.1 sec sensor latency','AI advisory · human authority'],ai:'MIRA · confidence 81% · uncertainty disclosed',choices:[
+      {label:'Take MIRA’s slingshot',small:'Beautiful math · close pass',result:'You accept the AI route after the crew audits its assumptions. Odyssey folds around a rogue planet and gains six months.',hull:7},
+      {label:'Take the human arc',small:'Longer route · wider safety margin',result:'You choose the slower path. MIRA updates without ego. Good tools disagree clearly—and serve the decision.',hull:12}
+    ]},
+    {at:14,phase:'Chapter 04 · Memory of Earth',kicker:'Year 11 · transmission from home',title:'Earth did not freeze in the moment you left it.',copy:'Coastal cities climb into shaded vertical neighborhoods. Former highways become wetlands. Orbital solar arrays send clean power through the night. Progress is uneven, loudly argued, and unmistakably alive.',facts:['61% land rewilded','orbital clean-energy mesh','8.9B lives · no single future'],ai:'MIRA · compressing Earth archive · nothing human discarded',choices:[
+      {label:'Carry the stories',small:'Voices, jokes, recipes, music',result:'The archive prioritizes ordinary life. A new world should inherit more than our achievements; it should inherit our laughter.',hull:8},
+      {label:'Carry open knowledge',small:'Medicine, science, tools, mistakes',result:'The archive preserves what humanity learned—and the failed experiments that made the learning honest.',hull:8}
+    ]},
+    {at:21,phase:'Chapter 05 · First light',kicker:'Proxima system · dawn on Kepler Haven',title:'The new world is strange enough to deserve restraint.',copy:'A copper sun hangs low over dark-blue grass. Two moons pull silver tides across a shallow ocean. Auroras reach the horizon. The air is not breathable yet—but the planet is already fully itself.',facts:['0.91g surface gravity','19-hour day','violet aurora oceans'],ai:'MIRA · life-sign probability 34% · recommending patience',choices:[
+      {label:'Study before landing',small:'Observe one full local year',result:'You wait. The first human act on another living world is attention—not possession.',hull:12},
+      {label:'Build in orbit first',small:'A home without touching the surface',result:'Odyssey becomes the first neighborhood in a new sky while autonomous probes learn how to be careful guests.',hull:10}
+    ]},
+    {at:29,phase:'Final chapter · A second horizon',kicker:'Arrival window · 4.24 light-years from home',title:'Humanity arrives without pretending to be finished.',copy:'AI guided the route. Machines maintained the hull. But courage, restraint, humor, grief, and the decision to continue were never computational requirements. They were the cargo.',facts:['crew awake','Earth remembered','future unwritten'],ai:'MIRA · final recommendation: leave room for surprise',final:true,choices:[
+      {label:'Land at first light',small:'Begin with wonder',result:'The doors open on a violet dawn. Someone laughs at the wrong moment. Humanity is home again.',hull:20},
+      {label:'Circle once more',small:'Some views deserve a second pass',result:'Odyssey makes one quiet orbit. Below: weather, oceans, possibility. No one rushes the first footprint.',hull:20}
+    ]}
+  ];
   const signalNotes=['navigation lock · +1 light','Earth is now one star farther away','new world candidate logged','crew morale: improbably optimistic','the map just became larger'];
   const noiseNotes=['asteroid impact · hull holding','space remains mostly rocks','minor collision · major paperwork','cosmic speed bump detected'];
   const objects=[];
-  let running=false,score=0,best=0,stability=100,lane=1,targetX=0,spawnClock=0,messageTimer=null,lastTime=performance.now();
+  let running=false,storyPaused=false,storyIndex=0,activeChapter=null,score=0,best=0,stability=100,lane=1,targetX=0,spawnClock=0,messageTimer=null,lastTime=performance.now();
   const lanes=[-3.25,0,3.25];
 
   function disposeObject(item){scene.remove(item.mesh);item.mesh.traverse(child=>{child.geometry?.dispose?.();if(child.material){const materials=Array.isArray(child.material)?child.material:[child.material];materials.forEach(material=>material.dispose?.())}})}
@@ -1012,6 +1073,29 @@ try{
     clearTimeout(messageTimer);gameMessage.textContent=text;gameMessage.style.borderColor=tone==='bad'?'rgba(255,138,92,.38)':'rgba(91,229,154,.3)';gameMessage.style.color=tone==='bad'?'#ffc2aa':'#bff8d5';gameMessage.classList.add('show');messageTimer=setTimeout(()=>gameMessage.classList.remove('show'),1250);
   }
   function updateHud(){gameScore.textContent=score;gameBest.textContent=best;gameStability.style.width=stability+'%';gameStability.style.filter=stability<40?'saturate(1.5) hue-rotate(-45deg)':'none'}
+  function openStory(chapter){
+    activeChapter=chapter;storyPaused=true;gamePhase.textContent=chapter.phase;storyKicker.textContent=chapter.kicker;storyTitle.textContent=chapter.title;storyCopy.textContent=chapter.copy;storyAI.textContent=chapter.ai;
+    missionRoute.forEach((step,index)=>step.classList.toggle('reached',index<=storyIndex));
+    storyFacts.innerHTML=chapter.facts.map(fact=>'<span>'+fact+'</span>').join('');
+    storyResult.classList.remove('show');storyResult.textContent='';storyContinue.classList.remove('show');
+    storyActions.innerHTML=chapter.choices.map((choice,index)=>'<button class="story-action" type="button" data-story-choice="'+index+'">'+choice.label+'<small>'+choice.small+'</small></button>').join('');
+    storyTransmission.classList.remove('hidden');
+  }
+  function chooseStory(index){
+    if(!activeChapter||storyResult.classList.contains('show'))return;
+    const choice=activeChapter.choices[index];stability=Math.min(100,stability+choice.hull);updateHud();
+    storyActions.querySelectorAll('button').forEach((button,i)=>{button.disabled=true;button.style.opacity=i===index?'1':'.35'});
+    storyResult.textContent=choice.result;storyResult.classList.add('show');storyContinue.textContent=activeChapter.final?'Open the new world →':'Continue voyage →';storyContinue.classList.add('show');
+  }
+  storyActions.addEventListener('click',event=>{const button=event.target.closest('[data-story-choice]');if(button)chooseStory(Number(button.dataset.storyChoice))});
+  storyContinue.addEventListener('click',()=>{
+    const isFinal=activeChapter?.final;storyTransmission.classList.add('hidden');storyPaused=false;activeChapter=null;
+    if(isFinal){running=false;best=Math.max(best,score);gameOverline.textContent='Mission complete · first light';gameTitle.innerHTML='We made it.<br>Still unmistakably human.';gameCopy.textContent='Odyssey reached a new world with '+score+' navigation lights, one opinionated AI, and every reason to remain curious.';gameStart.textContent='Fly the story again →';gameOverlay.classList.remove('hidden')}
+  });
+  function checkStoryProgress(){
+    const chapter=storyChapters[storyIndex];
+    if(chapter&&score>=chapter.at){storyIndex++;openStory(chapter)}
+  }
   function spawnObject(){
     const isSignal=Math.random()>.34;
     let mesh;
@@ -1032,7 +1116,7 @@ try{
     running=false;best=Math.max(best,score);updateHud();gameOverline.textContent='Mission paused · crew accounted for';gameTitle.innerHTML='The voyage<br>is not over.';gameCopy.textContent='Odyssey carried humanity through '+score+' navigation light'+(score===1?'':'s')+'. Repairs are underway. Hope, inconveniently, remains operational.';gameStart.textContent='Relaunch →';gameOverlay.classList.remove('hidden');
   }
   function startGame(){
-    clearObjects();score=0;stability=100;lane=1;targetX=0;spawnClock=0;player.position.x=0;player.rotation.set(0,0,0);updateHud();gameMessage.classList.remove('show');gameOverlay.classList.add('hidden');running=true;lastTime=performance.now();spawnObject();
+    clearObjects();score=0;stability=100;storyIndex=0;storyPaused=false;activeChapter=null;lane=1;targetX=0;spawnClock=0;player.position.x=0;player.rotation.set(0,0,0);gamePhase.textContent='Chapter 01 · Leaving Earth';missionRoute.forEach((step,index)=>step.classList.toggle('reached',index===0));updateHud();gameMessage.classList.remove('show');storyTransmission.classList.add('hidden');gameOverlay.classList.add('hidden');running=true;lastTime=performance.now();spawnObject();
   }
   gameStart.addEventListener('click',startGame);
   gameLeft.addEventListener('pointerdown',event=>{event.preventDefault();move(-1)});gameRight.addEventListener('pointerdown',event=>{event.preventDefault();move(1)});
@@ -1046,6 +1130,9 @@ try{
     const dt=Math.min((now-lastTime)/1000,.04);lastTime=now;
     player.position.x+=(targetX-player.position.x)*Math.min(1,dt*9);player.rotation.z*=Math.pow(.025,dt);player.position.y=-.55+Math.sin(now*.003)*.06;archive.scale.setScalar(1+Math.sin(now*.008)*.1);
     player.children.forEach(child=>{if(child.userData.thruster)child.scale.y=.8+Math.sin(now*.018)*.24});
+    earthBody.rotation.y+=dt*.025;earthClouds.rotation.y-=dt*.016;orbitalRing.rotation.z+=dt*.006;
+    const earthDistance=Math.min(score,20);earth.position.z=2.2-earthDistance*1.75;earth.position.x=-7.8-earthDistance*.18;earth.scale.setScalar(Math.max(.22,1-earthDistance*.037));
+    planet.position.z=-56+Math.max(0,score-14)*1.05;planet.scale.setScalar(1+Math.max(0,score-14)*.022);
     planetBody.rotation.y+=dt*.035;planetClouds.rotation.y-=dt*.018;planetRing.rotation.z+=dt*.004;moon.rotation.y+=dt*.05;
     for(const field of [farStars,nearStars,goldStars]){
       const positions=field.geometry.attributes.position;
@@ -1053,14 +1140,14 @@ try{
       for(let i=2;i<positions.array.length;i+=3){positions.array[i]+=drift*dt;if(positions.array[i]>9)positions.array[i]=-105}
       positions.needsUpdate=true;
     }
-    if(running){
+    if(running&&!storyPaused){
       const speed=12+Math.min(score*.2,5);spawnClock+=dt;
       if(spawnClock>Math.max(.58,1.02-score*.008)){spawnClock=0;spawnObject()}
       for(let i=objects.length-1;i>=0;i--){
         const item=objects[i];item.mesh.position.z+=speed*dt;item.mesh.rotation.y+=dt*(item.type==='signal'?2.1:.72);item.mesh.rotation.x+=dt*(item.type==='signal'?.8:.47);
         if(!item.hit&&item.mesh.position.z>.8&&item.mesh.position.z<3.35&&Math.abs(item.mesh.position.x-player.position.x)<1.12){
           item.hit=true;
-          if(item.type==='signal'){score++;best=Math.max(best,score);stability=Math.min(100,stability+4);showMessage(signalNotes[score%signalNotes.length]);if(score===12)showMessage('Proxima route unlocked · humans still curious');}
+          if(item.type==='signal'){score++;best=Math.max(best,score);stability=Math.min(100,stability+4);showMessage(signalNotes[score%signalNotes.length]);checkStoryProgress();}
           else{stability=Math.max(0,stability-18);showMessage(noiseNotes[Math.floor(Math.random()*noiseNotes.length)],'bad');player.rotation.z=.24;if(navigator.vibrate)navigator.vibrate([18,25,18]);}
           updateHud();disposeObject(item);objects.splice(i,1);if(stability<=0)endGame();continue;
         }
