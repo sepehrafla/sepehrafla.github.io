@@ -179,6 +179,9 @@
   .proj-card:hover{border-color:rgba(124,159,255,.35)}
   .proj-card .tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:3px 10px;border-radius:999px;margin-bottom:14px;align-self:flex-start}
   .project-title{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+  .project-logos{display:flex;align-items:center;flex:0 0 auto;padding-right:5px}
+  .project-logos .project-logo+ .project-logo{margin-left:-10px}
+  .project-logos .project-logo{box-shadow:0 8px 22px rgba(0,0,0,.28),0 0 0 3px var(--panel)}
   .project-logo{width:48px;height:48px;flex:0 0 48px;border-radius:13px;object-fit:cover;background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.14)}
   .project-title h3{font-size:19px;margin:0;line-height:1.2}
   .project-title small{display:block;color:var(--muted2);font:500 10px 'JetBrains Mono',monospace;margin-top:4px}
@@ -187,6 +190,7 @@
   .proj-card .stack span{font-size:11.5px;font-family:'JetBrains Mono',monospace;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
   .proj-card .link{font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
   .proj-card .link:hover{gap:8px}
+  .project-links{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap}
   .proj-card.live{border-color:rgba(91,229,154,.25)}
 
   /* Interactive voice-agent demo */
@@ -361,7 +365,7 @@
       <div data-reveal>
         <p>I studied <b>Computer Engineering at the University of Waterloo</b> (2016–2021), where co-op took me through mobile engineering at a digital-health startup, backend work at Fleet Complete, and a research role applying spectral imaging to water-quality analysis.</p>
         <p>After graduating I co-founded <b>SeedCI</b> (YC candidate), building unsupervised-learning cyberattack detection and a 97%-accurate real-estate price estimator, before moving into full-stack consulting at <b>Avanade</b> — shipping EV-charging features for Ford's FordPass app and automating cloud infrastructure that cut a client's costs by <b>$1M a year</b>.</p>
-        <p>Today I split my time between <b>security & fraud engineering at EQ Bank</b> — migrating auth infrastructure to Okta and shipping passkey support on iOS — and running <b>LEYOXA</b>, where I build AI-ready platforms and voice agents for dental clinics across North America.</p>
+        <p>Today I split my time between <b>security & fraud engineering at EQ Bank</b> — partnering with IAM during the PC Financial and EQ Bank merger to migrate identity to Okta, help build the unified app, and ship passkey support on iOS — and running <b>LEYOXA</b>, where I build AI-ready platforms and voice agents for dental clinics across North America.</p>
       </div>
       <div class="fact-list" data-reveal>
         <div class="fact"><span class="ic">🎸</span><div><b>1st place, Javan Music Festival</b><span>Also taught guitar for a summer — music stuck around.</span></div></div>
@@ -537,10 +541,19 @@
 
       <div class="proj-card live" data-reveal>
         <span class="tag">Current · Fintech</span>
-        <div class="project-title"><img class="project-logo" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon"><div><h3>EQ Bank Mobile</h3><small>iPhone · Finance</small></div></div>
-        <p>Mobile banking security and identity work, including passkey support on iOS and the foundation for a secure authentication migration.</p>
-        <div class="stack"><span>iOS</span><span>Passkeys</span><span>Identity</span><span>Okta</span></div>
-        <a class="link" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">View on the App Store →</a>
+        <div class="project-title">
+          <div class="project-logos" aria-label="EQ Bank and PC Financial">
+            <img class="project-logo" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon">
+            <img class="project-logo" src="assets/pc-financial-app.jpg" alt="PC Financial app icon">
+          </div>
+          <div><h3>EQ Bank + PC Financial</h3><small>Identity · iOS · Unified banking</small></div>
+        </div>
+        <p>During the PC Financial and EQ Bank merger, I partnered with the IAM team to migrate identity to Okta and help build the unified app—alongside shipping passkey support on iOS.</p>
+        <div class="stack"><span>iOS</span><span>Passkeys</span><span>IAM</span><span>Okta</span><span>Unified App</span></div>
+        <div class="project-links">
+          <a class="link" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank app →</a>
+          <a class="link" href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial app →</a>
+        </div>
       </div>
 
       <div class="proj-card" data-reveal>
