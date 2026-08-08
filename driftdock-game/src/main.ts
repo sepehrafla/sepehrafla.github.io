@@ -6,8 +6,9 @@ import { Sound } from "./core/Sound";
 import { Drone } from "./drone/Drone";
 import { FPVCamera } from "./camera/FPVCamera";
 import { VisualPipeline } from "./render/VisualPipeline";
-import { buildSky, buildGround } from "./world/Environment";
+import { buildSky, buildGround, buildDock } from "./world/Environment";
 import { T } from "./drone/Tuning";
+import { ASSIST_INFO } from "./drone/Assists";
 
 const game = document.querySelector<HTMLElement>("#game")!,
   hud = document.querySelector<HTMLElement>("#hud")!,
@@ -16,6 +17,9 @@ const game = document.querySelector<HTMLElement>("#game")!,
   throttleEl = document.querySelector<HTMLElement>("#throttle")!,
   ladder = document.querySelector<HTMLElement>("#ladder")!,
   velVector = document.querySelector<HTMLElement>("#vel-vector")!,
+  assistEl = document.querySelector<HTMLElement>("#assist")!,
+  assistCostEl = document.querySelector<HTMLElement>("#assist-cost")!,
+  tierEl = document.querySelector<HTMLElement>("#tier")!,
   fallback = document.querySelector<HTMLElement>("#fallback")!;
 
 async function start() {
@@ -23,6 +27,9 @@ async function start() {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(innerWidth, innerHeight);
   renderer.setClearColor(0x0b0e14);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   game.prepend(renderer.domElement);
 
   const scene = new THREE.Scene();
@@ -33,6 +40,7 @@ async function start() {
   scene.add(sun);
   buildSky(scene);
   buildGround(scene);
+  buildDock(scene, new THREE.Vector3(0, 0, 18)); // landmark hangar bay, real weathered-metal materials
 
   const physics = ((globalThis as typeof globalThis & { __ddPhysics?: Physics }).__ddPhysics = await Physics.create()),
     input = ((globalThis as typeof globalThis & { __ddInput?: Input }).__ddInput = new Input()),
@@ -206,6 +214,10 @@ async function start() {
     speedEl.textContent = speed.toFixed(1);
     altEl.textContent = p.y.toFixed(1);
     throttleEl.textContent = Math.round(input.throttle * 100).toString();
+    const info = ASSIST_INFO[drone.assist];
+    assistEl.textContent = info.label;
+    assistCostEl.textContent = drone.assist === "OFF" ? info.cost : `cost: ${info.cost}`;
+    tierEl.textContent = input.gamepadConnected ? (drone.assist === "OFF" ? "ACRO" : "ACRO+ASSIST") : "STAB (keyboard)";
     game.dataset.telemetry = `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)},${v.x.toFixed(2)},${v.y.toFixed(2)},${v.z.toFixed(2)}`;
 
     pipeline.render();

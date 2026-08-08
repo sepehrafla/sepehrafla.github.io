@@ -1,11 +1,18 @@
 import * as THREE from "three";
 import { T } from "./Tuning";
+import type { AssistMode } from "./Assists";
 
 /** Converts commanded pitch/roll/yaw + throttle into 4 per-motor thrusts.
- *  Keyboard tier only for milestone 1: commands are ANGLE targets (capped
- *  at tiltCapKeyboard), not raw rates, because the brief's keyboard tier is
- *  always effectively "stabilized" (can't tumble, capped tilt) -- the full
- *  Assists.ts toggle system that makes this optional is milestone 3.
+ *
+ *  Two input tiers (milestone 3): keyboard is always effectively
+ *  "stabilized" (angle-target PD, tilt capped at tiltCapKeyboard) because a
+ *  digital key can't express the stick-deflection granularity true acro
+ *  needs. A connected gamepad with assist OFF gets true acro: sticks
+ *  command raw angular RATE directly (a rate-damping controller), no angle
+ *  target, no tilt cap -- you can flip and dive with nothing correcting you.
+ *  Any assist mode other than OFF forces the stabilized angle-PD base
+ *  regardless of input source, since POSHOLD/GOVERNOR/AUTOFLARE all assume
+ *  an attitude-holding baseline to layer their own honest cost on top of.
  *
  *  Axis convention (three.js-standard body-local frame): +X = right,
  *  +Y = up, -Z = forward. Pitch = rotation about local X (nose up/down).
@@ -36,27 +43,50 @@ export class FlightModel {
   }
 
   /** Returns {force: Vector3 (world), torque: Vector3 (world), motorThrust}
-   *  for this step. angvel is the body's current world-space angular
-   *  velocity (Rapier gives us this directly). */
+   *  for this step. angvel/linvel are the body's current world-space
+   *  velocities (Rapier gives us these directly). agl is meters above the
+   *  (flat) ground, used only by AUTOFLARE. */
   step(
     quat: THREE.Quaternion,
     angvel: THREE.Vector3,
+    linvel: THREE.Vector3,
     pitchCmd: number,
     rollCmd: number,
     yawCmd: number,
     throttle: number,
     dt: number,
+    mode: AssistMode,
+    trueAcro: boolean,
+    agl: number,
   ) {
-    const { pitch, roll } = this.attitude(quat),
-      targetPitch = pitchCmd * T.tiltCapKeyboard,
-      targetRoll = rollCmd * T.tiltCapKeyboard,
-      // PD toward the tilt target, D term damps actual angular velocity
-      // (not a finite-differenced angle -- see AirAttitudeController's
-      // note in the 2D project's CENTAUR_DESIGN.md for why that matters:
-      // a naive position-derivative spikes at wrap boundaries/fast spins).
-      torquePitch = this.attitudeKp * (targetPitch - pitch) - this.attitudeKd * angvel.x,
-      torqueRoll = this.attitudeKp * (targetRoll - roll) - this.attitudeKd * angvel.z,
-      torqueYaw = this.attitudeKp * 0.4 * (yawCmd * T.maxYawRate - angvel.y);
+    const { pitch, roll } = this.attitude(quat);
+    let torquePitch: number, torqueRoll: number;
+
+    // pitchCmd/rollCmd use an intuitive "stick/key direction" convention:
+    // +pitchCmd = forward (W / stick-forward), +rollCmd = rightward (D /
+    // stick-right). That's the OPPOSITE sign of the body-frame target
+    // angle needed to actually accelerate that way (verified empirically
+    // against the live physics: a raw +pitchCmd target angle produced +Z,
+    // i.e. backward; a raw +rollCmd target angle produced -X, i.e. left)
+    // -- so both are negated here, once, at the point they become angle/
+    // rate targets, rather than flipped in Input.ts's key mapping.
+    if (mode === "OFF" && trueAcro) {
+      // True acro: sticks are a raw rate target, damped toward angular
+      // velocity -- no attitude target exists at all, so nothing stops a
+      // flip. This IS the "full authority" honest benefit of OFF+gamepad.
+      const targetRatePitch = -pitchCmd * T.trueAcroMaxRate,
+        targetRateRoll = -rollCmd * T.trueAcroMaxRate;
+      torquePitch = T.trueAcroKRate * (targetRatePitch - angvel.x);
+      torqueRoll = T.trueAcroKRate * (targetRateRoll - angvel.z);
+    } else {
+      // Stabilized baseline (keyboard tier, or any assist mode on gamepad):
+      // angle-target PD, tilt capped -- can't tumble.
+      const targetPitch = -pitchCmd * T.tiltCapKeyboard,
+        targetRoll = -rollCmd * T.tiltCapKeyboard;
+      torquePitch = this.attitudeKp * (targetPitch - pitch) - this.attitudeKd * angvel.x;
+      torqueRoll = this.attitudeKp * (targetRoll - roll) - this.attitudeKd * angvel.z;
+    }
+    const torqueYaw = this.attitudeKp * 0.4 * (yawCmd * T.maxYawRate - angvel.y);
 
     // Collective thrust: throttle maps linearly to total force, hover sits
     // near throttle ~0.41 (T.mass*g / (4*maxThrustPerMotor)) so there's
@@ -68,11 +98,40 @@ export class FlightModel {
     const totalThrust = this.motorThrust.reduce((a, b) => a + b, 0);
 
     const up = new THREE.Vector3(0, 1, 0).applyQuaternion(quat),
-      force = up.multiplyScalar(totalThrust),
+      force = up.multiplyScalar(totalThrust);
+
+    // --- assist costs: each is an EXTRA force/torque layered on top of the
+    // base above, never a softening of the base itself. ---
+    if (mode === "POSHOLD") {
+      const stickMag = Math.hypot(pitchCmd, rollCmd),
+        horizSpeed = Math.hypot(linvel.x, linvel.z);
+      if (stickMag < T.posHoldDeadzone && horizSpeed > 0.05)
+        // Honest cost: this counter-thrust fights ANY horizontal velocity
+        // whenever the sticks are centered, including velocity you built up
+        // on purpose a moment ago -- it robs carried speed, it doesn't just
+        // prevent drift.
+        force.add(new THREE.Vector3(-linvel.x, 0, -linvel.z).multiplyScalar(T.posHoldGain));
+    }
+    if (mode === "GOVERNOR") {
+      const speed = linvel.length();
+      if (speed > T.governorMaxSpeed)
+        // Soft ceiling via opposing force (never a velocity clamp -- that
+        // would violate "command acceleration, never velocity"), but it's
+        // a real cost: you cannot out-throttle it, full stop.
+        force.add(linvel.clone().normalize().multiplyScalar(-(speed - T.governorMaxSpeed) * 3));
+    }
+    if (mode === "AUTOFLARE" && agl < T.autoflareAGL && linvel.y < -T.autoflareMaxDescent) {
+      const overage = -linvel.y - T.autoflareMaxDescent;
+      // Honest cost: this is exactly as strong pointed straight down
+      // whether you meant to flare or meant to slam it -- AUTOFLARE cannot
+      // tell the difference, so a deliberate fast/hard landing gets fought too.
+      force.y += overage * T.autoflareGain;
+    }
+
+    const torqueLocal = new THREE.Vector3(torquePitch, torqueYaw, torqueRoll),
       // Torque command is expressed in the body's local axes above; rotate
       // it into world space the same way the force already is, since
       // Rapier's addTorque expects world-frame torque.
-      torqueLocal = new THREE.Vector3(torquePitch, torqueYaw, torqueRoll),
       torque = torqueLocal.applyQuaternion(quat);
 
     return { force, torque, motorThrust: this.motorThrust.slice() };

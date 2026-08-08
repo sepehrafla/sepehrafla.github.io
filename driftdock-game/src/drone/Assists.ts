@@ -1,0 +1,20 @@
+/** Milestone 3: flight-assist modules, cyclable via F (keyboard) or the
+ *  gamepad's assist button. Per the brief: each assist is an HONEST TRADE --
+ *  one real benefit, one real mechanical cost -- never a pure difficulty
+ *  setting. FlightModel.ts reads `mode` each step and applies the actual
+ *  physics consequence; this file is just the catalog + cycling order. */
+export type AssistMode = "OFF" | "STABILIZE" | "POSHOLD" | "GOVERNOR" | "AUTOFLARE";
+
+export const ASSIST_ORDER: AssistMode[] = ["OFF", "STABILIZE", "POSHOLD", "GOVERNOR", "AUTOFLARE"];
+
+export const ASSIST_INFO: Record<AssistMode, { label: string; benefit: string; cost: string }> = {
+  OFF: { label: "OFF", benefit: "full authority, true acro on gamepad", cost: "no auto-level, can flip and dive uncorrected" },
+  STABILIZE: { label: "STABILIZE", benefit: "auto-levels, tilt capped -- can't tumble", cost: "hard tilt ceiling caps max acceleration" },
+  POSHOLD: { label: "POSHOLD", benefit: "brakes toward zero velocity when sticks centered", cost: "constant counter-thrust robs top speed in flow sections" },
+  GOVERNOR: { label: "GOVERNOR", benefit: "hard speed ceiling, can't overspeed into a gate", cost: "top speed capped even when you want to push it" },
+  AUTOFLARE: { label: "AUTOFLARE", benefit: "arrests descent rate near the ground automatically", cost: "fights you on purpose-fast, purpose-hard landings" },
+};
+
+export function nextAssist(mode: AssistMode): AssistMode {
+  return ASSIST_ORDER[(ASSIST_ORDER.indexOf(mode) + 1) % ASSIST_ORDER.length];
+}

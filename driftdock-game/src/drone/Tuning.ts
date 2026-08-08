@@ -44,6 +44,23 @@ export const T = {
   attitudeKd: 0.22,
 
   throttleRate: 1.4, // 1/s, how fast Shift/Ctrl move the throttle setpoint 0..1
+
+  // --- milestone 3: gamepad true-acro tier ---
+  // No angle target, no tilt cap -- sticks command RAW angular rate directly
+  // (a rate-damping controller, torque ~ kRate*(targetRate-angvel)), same
+  // shape as a real Betaflight/acro-mode quad. Uncapped means you CAN flip
+  // and dive with nothing correcting you -- that's the honest trade for
+  // full authority, per the brief.
+  trueAcroMaxRate: 5.2, // rad/s, higher than the keyboard tier's capped angle ceiling implies
+  trueAcroKRate: 0.35, // torque gain on (targetRate - angvel), tuned down from attitudeKd's scale for the same tiny-inertia reason as milestone 1
+
+  // --- milestone 3: assist costs ---
+  posHoldGain: 1.6, // extra counter-thrust toward zero horizontal velocity when POSHOLD is active and sticks are near-centered
+  posHoldDeadzone: 0.08, // stick input below this magnitude counts as "centered" for POSHOLD
+  governorMaxSpeed: 14, // m/s hard ceiling while GOVERNOR is active
+  autoflareAGL: 3, // m -- below this height AUTOFLARE starts fighting descent rate
+  autoflareMaxDescent: 2, // m/s -- descent rate AUTOFLARE tries to hold once triggered
+  autoflareGain: 2.2, // extra upward thrust gain per m/s of descent-rate overage
 } as const;
 
 export const gravity = 9.81;

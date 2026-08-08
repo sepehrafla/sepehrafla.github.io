@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "lib": ["ES2022", "DOM"],
-    "types": []
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }

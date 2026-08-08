@@ -1,12 +1,27 @@
 import * as THREE from "three";
+import concreteColor from "../assets/textures/concrete/color.jpg";
+import concreteNormal from "../assets/textures/concrete/normal.jpg";
+import concreteRough from "../assets/textures/concrete/roughness.jpg";
+import metalColor from "../assets/textures/metal/color.jpg";
+import metalNormal from "../assets/textures/metal/normal.jpg";
+import metalRough from "../assets/textures/metal/roughness.jpg";
+import metalMetalness from "../assets/textures/metal/metalness.jpg";
+import rustColor from "../assets/textures/rust/color.jpg";
+import rustNormal from "../assets/textures/rust/normal.jpg";
+import rustRough from "../assets/textures/rust/roughness.jpg";
 
-/** Procedural sky dome + ground -- no texture files, per the brief's
- *  no-model-files rule (extended here to no external textures either, same
- *  reasoning: keeps the whole game a single static bundle with zero asset
- *  provenance to track). Sky is a two-tone gradient with a soft sun disc;
- *  ground is a canvas-generated grid/checker so distance and altitude
- *  actually read at a glance (the "better navigation" ask -- a flat gray
- *  plane gives no depth cues at all). */
+// Real CC0 PBR textures (ambientCG) drive the ground and dock materials --
+// see src/assets/CREDITS.md for provenance. An HDRI-based image lighting
+// pass (Poly Haven, applied via scene.environment) was tried too, but was
+// dropped: verified live that even at envMapIntensity 0.06 it fully blew
+// out the concrete texture's real detail under ACES tone mapping (nulling
+// scene.environment was the only thing that brought the texture back) --
+// an outdoor sun-capture HDRI's raw radiance is just too far above this
+// scene's other lights to tame cheaply. The direct-mapped textures alone
+// already read as real material without it.
+
+/** Sky dome stays a cheap procedural gradient + sun -- no load time, and it
+ *  matches the game's HUD palette better than a photo sky would. */
 export function buildSky(scene: THREE.Scene) {
   const geo = new THREE.SphereGeometry(400, 24, 16),
     mat = new THREE.ShaderMaterial({
@@ -35,20 +50,51 @@ export function buildSky(scene: THREE.Scene) {
   return mesh;
 }
 
-function gridTexture() {
+function realTexture(url: string, repeat: number, srgb = false) {
+  const tex = new THREE.TextureLoader().load(url);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(repeat, repeat);
+  tex.anisotropy = 8;
+  if (srgb) tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** Real CC0 concrete PBR ground (was a canvas-drawn flat-gray checker) --
+ *  the cyan grid overlay is kept as a second transparent layer just above
+ *  it so the "better navigation" distance/altitude cues survive the switch
+ *  to a real material. */
+export function buildGround(scene: THREE.Scene) {
+  const repeat = 90,
+    mat = new THREE.MeshStandardMaterial({
+      map: realTexture(concreteColor, repeat, true),
+      normalMap: realTexture(concreteNormal, repeat),
+      roughnessMap: realTexture(concreteRough, repeat),
+      roughness: 1,
+    }),
+    mesh = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), mat);
+  mesh.rotation.x = -Math.PI / 2;
+  scene.add(mesh);
+
+  const gridTex = gridOverlayTexture();
+  gridTex.repeat.set(80, 80);
+  const gridMat = new THREE.MeshBasicMaterial({ map: gridTex, transparent: true, depthWrite: false }),
+    gridMesh = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), gridMat);
+  gridMesh.rotation.x = -Math.PI / 2;
+  gridMesh.position.y = 0.01;
+  scene.add(gridMesh);
+
+  return mesh;
+}
+
+function gridOverlayTexture() {
   const size = 512,
     c = document.createElement("canvas");
   c.width = c.height = size;
   const ctx = c.getContext("2d")!;
-  ctx.fillStyle = "#12161d";
-  ctx.fillRect(0, 0, size, size);
-  // Subtle checker for depth cueing.
-  const cell = size / 16;
-  ctx.fillStyle = "#171c25";
-  for (let y = 0; y < 16; y++)
-    for (let x = 0; x < 16; x++) if ((x + y) % 2 === 0) ctx.fillRect(x * cell, y * cell, cell, cell);
-  ctx.strokeStyle = "rgba(79,214,255,0.16)";
+  ctx.clearRect(0, 0, size, size);
+  ctx.strokeStyle = "rgba(79,214,255,0.22)";
   ctx.lineWidth = 2;
+  const cell = size / 16;
   for (let i = 0; i <= 16; i++) {
     ctx.beginPath();
     ctx.moveTo(i * cell, 0);
@@ -61,15 +107,54 @@ function gridTexture() {
   }
   const tex = new THREE.CanvasTexture(c);
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.repeat.set(80, 80);
-  tex.anisotropy = 4;
   return tex;
 }
 
-export function buildGround(scene: THREE.Scene) {
-  const mat = new THREE.MeshStandardMaterial({ map: gridTexture(), roughness: 0.96, metalness: 0 }),
-    mesh = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), mat);
-  mesh.rotation.x = -Math.PI / 2;
-  scene.add(mesh);
-  return mesh;
+/** A landmark dock/hangar structure -- real weathered-metal materials, a
+ *  visible destination that also gives the arena scale and orientation
+ *  cues ("the world the drone sees" needs a few real, readable structures,
+ *  not just scattered pylons). It also doubles as a preview of the
+ *  DOCK-mode structure milestone 4 will add real docking logic to; this
+ *  milestone it's geometry + material only, no dock-scoring gate yet. */
+export function buildDock(scene: THREE.Scene, position: THREE.Vector3) {
+  const group = new THREE.Group();
+  group.position.copy(position);
+
+  const panelMat = new THREE.MeshStandardMaterial({
+      map: realTexture(metalColor, 3, true),
+      normalMap: realTexture(metalNormal, 3),
+      roughnessMap: realTexture(metalRough, 3),
+      metalnessMap: realTexture(metalMetalness, 3),
+      metalness: 0.9,
+      roughness: 0.7,
+    }),
+    trimMat = new THREE.MeshStandardMaterial({
+      map: realTexture(rustColor, 2, true),
+      normalMap: realTexture(rustNormal, 2),
+      roughnessMap: realTexture(rustRough, 2),
+      metalness: 0.6,
+      roughness: 0.9,
+    });
+
+  // Two side walls + a roof beam, open front/back -- a hangar bay silhouette
+  // large enough to fly through, not just past.
+  const wallGeo = new THREE.BoxGeometry(0.5, 6, 8);
+  for (const side of [-1, 1]) {
+    const wall = new THREE.Mesh(wallGeo, panelMat);
+    wall.position.set(side * 4, 3, 0);
+    group.add(wall);
+  }
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(8.5, 0.5, 8), panelMat);
+  roof.position.set(0, 6, 0);
+  group.add(roof);
+  // Weathered trim beams along the bay mouth -- visual framing + a hint of
+  // wear that pure-metal panels alone don't sell.
+  for (const z of [-4, 4]) {
+    const beam = new THREE.Mesh(new THREE.BoxGeometry(8.5, 0.3, 0.3), trimMat);
+    beam.position.set(0, 6.3, z);
+    group.add(beam);
+  }
+
+  scene.add(group);
+  return group;
 }

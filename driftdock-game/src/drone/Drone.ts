@@ -4,6 +4,7 @@ import type { Input } from "../core/Input";
 import { FlightModel } from "./FlightModel";
 import { buildDroneMesh } from "./DroneArt";
 import { T } from "./Tuning";
+import { nextAssist, type AssistMode } from "./Assists";
 
 /** One dynamic rigid body, a procedural quadcopter frame whose LED rings =
  *  per-motor thrust and whose props actually spin. No joints, no ragdoll,
@@ -16,6 +17,7 @@ export class Drone {
   private propSpin = [0, 0, 0, 0];
   flight = new FlightModel();
   motorThrust = [0, 0, 0, 0];
+  assist: AssistMode = "OFF"; // milestone 3 -- cycled externally via input.consumeCycleAssist()
 
   constructor(public scene: THREE.Scene, public physics: Physics, public input: Input, spawn = new THREE.Vector3(0, 2, 0)) {
     this.body = physics.world.createRigidBody(
@@ -43,17 +45,25 @@ export class Drone {
 
   /** Fixed-step update, 120Hz. */
   fixed(dt: number) {
+    if (this.input.consumeCycleAssist()) this.assist = nextAssist(this.assist);
     const quat = new THREE.Quaternion(this.body.rotation().x, this.body.rotation().y, this.body.rotation().z, this.body.rotation().w),
       av = this.body.angvel(),
       angvel = new THREE.Vector3(av.x, av.y, av.z),
+      lv = this.body.linvel(),
+      linvel = new THREE.Vector3(lv.x, lv.y, lv.z),
+      agl = this.body.translation().y, // ground is flat at y=0 in this arena
       { force, torque, motorThrust } = this.flight.step(
         quat,
         angvel,
+        linvel,
         this.input.pitch,
         this.input.roll,
         this.input.yaw,
         this.input.throttle,
         dt,
+        this.assist,
+        this.input.gamepadConnected,
+        agl,
       );
     this.motorThrust = motorThrust;
     // body.addForce()/addTorque() (the continuous-force APIs) proved to
