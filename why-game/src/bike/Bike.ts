@@ -114,7 +114,7 @@ export class Bike {
     (globalThis as typeof globalThis & { __whyBike?: Bike }).__whyBike = this;
     this.tier = tier;
     const colors = [0x8d6e58, 0x4ba978, 0x2bbfc1, 0xe2a73b, 0xea6b88];
-    for (const m of this.chassisMesh.userData.paint as THREE.MeshBasicMaterial[])
+    for (const m of this.chassisMesh.userData.paint as THREE.MeshStandardMaterial[])
       m.color.setHex(colors[tier]);
     if (tier >= 4 && !this.chassisMesh.userData.glider) {
       const sail = new THREE.Mesh(

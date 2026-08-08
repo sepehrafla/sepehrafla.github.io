@@ -13,7 +13,7 @@ function inkPoly(pts: Pt[], color: number, z = 0) {
   for (let i = 1; i < pts.length; i++) shape.lineTo(pts[i][0], pts[i][1]);
   shape.closePath();
   const g = new THREE.Group();
-  const mat = new THREE.MeshBasicMaterial({ color });
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.72, metalness: 0.04, side: THREE.DoubleSide });
   const fill = new THREE.Mesh(new THREE.ShapeGeometry(shape), mat);
   fill.position.z = z;
   g.add(fill);
@@ -76,14 +76,14 @@ export function buildWheel() {
     r = T.wheelRadius;
   const tire = new THREE.Mesh(
     new THREE.TorusGeometry(r - 0.09, 0.115, 8, 32),
-    new THREE.MeshBasicMaterial({ color: 0x24262b }),
+    new THREE.MeshStandardMaterial({ color: 0x24262b, roughness: 0.94, metalness: 0.02 }),
   );
   g.add(tire);
   for (let i = 0; i < 18; i++) {
     const a = (i / 18) * Math.PI * 2,
       knob = new THREE.Mesh(
         new THREE.BoxGeometry(0.105, 0.08, 0.3),
-        new THREE.MeshBasicMaterial({ color: 0x15171a }),
+        new THREE.MeshStandardMaterial({ color: 0x15171a, roughness: 1 }),
       );
     knob.position.set(Math.cos(a) * (r - 0.03), Math.sin(a) * (r - 0.03), 0);
     knob.rotation.z = a;
@@ -91,14 +91,14 @@ export function buildWheel() {
   }
   const rim = new THREE.Mesh(
     new THREE.TorusGeometry(r * 0.58, 0.045, 6, 28),
-    new THREE.MeshBasicMaterial({ color: 0xdad6cb }),
+    new THREE.MeshStandardMaterial({ color: 0xdad6cb, roughness: 0.3, metalness: 0.78 }),
   );
   rim.position.z = 0.02;
   g.add(rim);
   for (let i = 0; i < 8; i++) {
     const s = new THREE.Mesh(
       new THREE.BoxGeometry(r * 1.16, 0.022, 0.02),
-      new THREE.MeshBasicMaterial({ color: 0xb9b5aa }),
+      new THREE.MeshStandardMaterial({ color: 0xb9b5aa, roughness: 0.28, metalness: 0.82 }),
     );
     s.rotation.z = (i * Math.PI) / 8;
     s.position.z = 0.01;
@@ -106,7 +106,7 @@ export function buildWheel() {
   }
   const hub = new THREE.Mesh(
     new THREE.CircleGeometry(0.15, 14),
-    new THREE.MeshBasicMaterial({ color: 0x8e9299 }),
+    new THREE.MeshStandardMaterial({ color: 0x8e9299, roughness: 0.24, metalness: 0.86 }),
   );
   hub.position.z = 0.05;
   g.add(hub);
@@ -116,7 +116,7 @@ export function buildWheel() {
 /** Returns the chassis group; userData.paint holds tier-recolourable materials. */
 export function buildChassis() {
   const g = new THREE.Group(),
-    paint: THREE.MeshBasicMaterial[] = [],
+    paint: THREE.MeshStandardMaterial[] = [],
     add = (o: THREE.Group, paintable = false) => {
       g.add(o);
       if (paintable) paint.push(o.userData.mat);

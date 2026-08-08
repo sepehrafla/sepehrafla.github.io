@@ -125,9 +125,11 @@ export class Terrain {
         biome === 1
           ? new THREE.ConeGeometry(0.28, 1.4, 6)
           : new THREE.PlaneGeometry(0.5, 1.5),
-      mat = new THREE.MeshBasicMaterial({
+      mat = new THREE.MeshStandardMaterial({
         color: palettes[biome][0],
         side: THREE.DoubleSide,
+        roughness: 0.92,
+        metalness: 0,
       }),
       inst = new THREE.InstancedMesh(geo, mat, 24),
       m = new THREE.Matrix4();

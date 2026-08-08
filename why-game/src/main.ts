@@ -14,6 +14,8 @@ import { Particles } from "./feel/Particles";
 import { Sound } from "./feel/Sound";
 import { Juice } from "./feel/Juice";
 import { EndMap } from "./ui/EndMap";
+import { VisualPipeline } from "./render/VisualPipeline";
+import { Atmosphere } from "./render/Atmosphere";
 const game = document.querySelector<HTMLElement>("#game")!,
   title = document.querySelector<HTMLElement>("#title")!,
   ride = document.querySelector<HTMLButtonElement>("#ride")!,
@@ -35,11 +37,16 @@ async function start(mode: RideMode) {
     powerPreference: "high-performance",
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.setClearColor(0xd9d7d0);
   game.prepend(renderer.domElement);
-  const scene = new THREE.Scene(),
-    camera = new RideCamera(renderer),
+  const scene = new THREE.Scene();
+  scene.add(
+    new THREE.HemisphereLight(0xfff7e6, 0x355262, 2.25),
+    new THREE.DirectionalLight(0xffd8a8, 2.8),
+  );
+  const sunLight = scene.children[1] as THREE.DirectionalLight;
+  sunLight.position.set(-4, 12, 16);
+  const camera = new RideCamera(renderer),
     physics = await Physics.create(),
     input = new Input(renderer.domElement),
     particles = new Particles(scene),
@@ -56,7 +63,10 @@ async function start(mode: RideMode) {
           }),
     key = dailyKey(),
     seed = mode === "daily" ? hash(key) : hash("why-freeride"),
-    terrain = new Terrain(scene, physics, state, seed);
+    terrain = new Terrain(scene, physics, state, seed),
+    pipeline = new VisualPipeline(renderer, scene, camera.camera),
+    atmosphere = new Atmosphere(scene, seed);
+  addEventListener("resize", () => pipeline.resize(innerWidth, innerHeight));
   terrain.stream(0);
   const sky = new THREE.Mesh(
     new THREE.PlaneGeometry(500, 80),
@@ -212,6 +222,7 @@ async function start(mode: RideMode) {
     skyMat.uniforms.uPaint.value = Math.min(1, sparkCount / 12);
     skyMat.uniforms.uTime.value = now / 1000;
     sky.position.x = p.x + 30;
+    atmosphere.update(p.x, now / 1000);
     hudSparks.textContent = `${sparkCount} ✦`;
     distance.textContent = String(Math.max(0, Math.floor(p.x))).padStart(
       4,
@@ -222,7 +233,7 @@ async function start(mode: RideMode) {
       timer.textContent = `${Math.ceil(left)}`;
       if (left <= 0 || p.x > 160) finish();
     }
-    renderer.render(scene, camera.camera);
+    pipeline.render(scene, camera.camera);
   };
   requestAnimationFrame(loop);
 }
