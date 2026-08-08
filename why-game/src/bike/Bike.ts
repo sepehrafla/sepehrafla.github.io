@@ -4,6 +4,7 @@ import type { Input } from "../core/Input";
 import type { Particles } from "../feel/Particles";
 import type { Sound } from "../feel/Sound";
 import { T } from "./Tuning";
+import { buildWheel, buildChassis, buildRider } from "./BikeArt";
 export class Bike {
   chassis: RAPIER.RigidBody;
   rear: RAPIER.RigidBody;
@@ -99,59 +100,20 @@ export class Bike {
     physics.add(this.front, this.frontMesh);
   }
   makeWheel() {
-    const g = new THREE.Group(),
-      tire = new THREE.Mesh(
-        new THREE.TorusGeometry(T.wheelRadius, 0.13, 8, 24),
-        new THREE.MeshBasicMaterial({ color: 0x25272b }),
-      );
-    g.add(tire);
-    for (let i = 0; i < 6; i++) {
-      const spoke = new THREE.Mesh(
-        new THREE.BoxGeometry(1.05, 0.035, 0.04),
-        new THREE.MeshBasicMaterial({ color: 0x8b8e94 }),
-      );
-      spoke.rotation.z = (i * Math.PI) / 3;
-      g.add(spoke);
-    }
-    return g;
+    return buildWheel();
   }
   makeChassis() {
-    const g = new THREE.Group(),
-      frame = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.65, 0.45), new THREE.MeshBasicMaterial({ color: 0x8d6e58 }));
-    frame.rotation.z = -0.08;
-    g.add(frame);
-    const tank = new THREE.Mesh(
-      new THREE.SphereGeometry(0.58, 12, 8),
-      new THREE.MeshBasicMaterial({ color: 0xb45b42 }),
-    );
-    tank.scale.set(1.3, 0.7, 0.65);
-    tank.position.set(0.45, 0.48, 0);
-    g.add(tank);
-    return g;
+    return buildChassis();
   }
   makeRider() {
-    const g = new THREE.Group(),
-      torso = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.25, 0.35), new THREE.MeshBasicMaterial({ color: 0x424950 }));
-    torso.position.set(-0.25, 1.05, 0.1);
-    torso.rotation.z = -0.15;
-    g.add(torso);
-    const head = new THREE.Mesh(new THREE.CircleGeometry(0.32, 16), new THREE.MeshBasicMaterial({ color: 0xd89b72 }));
-    head.position.set(-0.45, 1.85, 0.1);
-    g.add(head);
-    const helmet = new THREE.Mesh(
-      new THREE.CircleGeometry(0.35, 16, 0, Math.PI),
-      new THREE.MeshBasicMaterial({ color: 0x2a8d92 }),
-    );
-    helmet.position.copy(head.position);
-    helmet.rotation.z = 0.2;
-    g.add(helmet);
-    return g;
+    return buildRider();
   }
   setTier(tier: number) {
     (globalThis as typeof globalThis & { __whyBike?: Bike }).__whyBike = this;
     this.tier = tier;
     const colors = [0x8d6e58, 0x4ba978, 0x2bbfc1, 0xe2a73b, 0xea6b88];
-    ((this.chassisMesh.children[0] as THREE.Mesh).material as THREE.MeshBasicMaterial).color.setHex(colors[tier]);
+    for (const m of this.chassisMesh.userData.paint as THREE.MeshBasicMaterial[])
+      m.color.setHex(colors[tier]);
     if (tier >= 4 && !this.chassisMesh.userData.glider) {
       const sail = new THREE.Mesh(
         new THREE.BufferGeometry().setFromPoints([

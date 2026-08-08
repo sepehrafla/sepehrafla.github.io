@@ -95,7 +95,7 @@ async function start(mode: RideMode) {
   if (matchMedia("(pointer:coarse)").matches) touch.classList.add("show");
   bike.onWipe = () => {
     juice.freeze(7);
-    juice.shake(34);
+    juice.shake(0.7);
     splat.classList.remove("show");
     requestAnimationFrame(() => splat.classList.add("show"));
   };
@@ -111,19 +111,23 @@ async function start(mode: RideMode) {
     route.spark(bike.position().x);
     hudSparks.textContent = `${sparkCount} ✦`;
   };
+  // Measured contact forces: ~306N at rest, ~4.1kN peak riding rough terrain,
+  // ~400kN on a hard landing. Sit the gate above normal riding so only genuine
+  // slams shake, and take the max per step so several contact pairs in one step
+  // can't stack into permanent max trauma.
+  const IMPACT_MIN = 7000;
+  let pendingImpact = 0;
   physics.contact = (force, a, b) => {
     const aa = a as typeof a & { tag?: string },
       bb = b as typeof b & { tag?: string };
     if (
-      force > 8 &&
+      force > IMPACT_MIN &&
       (aa.tag === "bike" ||
         bb.tag === "bike" ||
         aa.tag === "chassis" ||
         bb.tag === "chassis")
-    ) {
-      juice.shake(force);
-      sound.impact(force);
-    }
+    )
+      pendingImpact = Math.max(pendingImpact, force);
   };
   const finish = () => {
     if (ended) return;
@@ -167,6 +171,11 @@ async function start(mode: RideMode) {
         },
         () => {},
       );
+    if (pendingImpact > 0) {
+      juice.shake(Math.min(0.62, (pendingImpact - IMPACT_MIN) / 80000));
+      sound.impact(pendingImpact);
+      pendingImpact = 0;
+    }
     const p = bike.position(),
       v = bike.velocity();
     game.dataset.telemetry = `${p.x.toFixed(2)},${p.y.toFixed(2)},${v.x.toFixed(2)},${bike.chassis.rotation().toFixed(2)},${bike.wiped ? 1 : 0},${input.gas ? 1 : 0}`;
