@@ -36,6 +36,13 @@ export class GhostRecorder {
   encode(): string {
     return encodeGhost(this.samples);
   }
+
+  /** Read-only snapshot for Results.ts's top-down path drawing -- called
+   *  right before reset() on finish, so the just-completed run's samples
+   *  don't disappear before the results screen can use them. */
+  samplesSnapshot(): GhostSample[] {
+    return this.samples.slice();
+  }
 }
 
 /** Plays back recorded samples, interpolating between the two bracketing

@@ -143,13 +143,30 @@ export class CourseRunner {
   elapsed = 0;
   lastMedal: Medal | null = null;
   lastTime = 0;
+  private dailyCourse: CourseDef | null = null;
 
   get course() {
-    return COURSES[this.courseIndex];
+    return this.dailyCourse ?? COURSES[this.courseIndex];
+  }
+
+  get isDaily() {
+    return !!this.dailyCourse;
   }
 
   select(index: number) {
+    this.dailyCourse = null;
     this.courseIndex = THREE.MathUtils.clamp(index, 0, COURSES.length - 1);
+    this.state = "IDLE";
+    this.gateIndex = 0;
+    this.elapsed = 0;
+    this.lastMedal = null;
+  }
+
+  /** Milestone 8: run a generated Daily course instead of an indexed
+   *  authored one. Same runner, same gate/timer machinery -- Daily is a
+   *  different CourseDef, not a different code path. */
+  selectDaily(course: CourseDef) {
+    this.dailyCourse = course;
     this.state = "IDLE";
     this.gateIndex = 0;
     this.elapsed = 0;

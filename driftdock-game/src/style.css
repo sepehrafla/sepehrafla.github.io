@@ -102,7 +102,12 @@ canvas{display:block;width:100%;height:100%}
 .medal-splash .medal.none{color:#8fa0b3}
 .medal-splash .medal-time{margin-top:6px;font-size:16px;color:var(--paper);letter-spacing:.06em}
 .medal-splash .medal-copilot{margin-top:4px;font-size:11px;color:#ffd24a;letter-spacing:.04em}
-.medal-splash .medal-hint{margin-top:6px;font-size:11px;color:rgba(234,242,255,.5)}
+.medal-splash .medal-share{margin-top:6px;font-size:11px;color:rgba(234,242,255,.6);letter-spacing:.02em;font-family:ui-monospace,monospace}
+.medal-splash .medal-download{margin-top:10px;pointer-events:auto;cursor:pointer;background:rgba(79,214,255,.12);
+  border:1px solid rgba(79,214,255,.4);color:var(--accent);font:11px ui-monospace,monospace;letter-spacing:.05em;
+  padding:6px 14px;border-radius:3px}
+.medal-splash .medal-download:hover{background:rgba(79,214,255,.22)}
+.medal-splash .medal-hint{margin-top:8px;font-size:11px;color:rgba(234,242,255,.5)}
 
 /* Copilot status line -- milestone 7. Empty/invisible while locked. */
 .course-copilot{margin-top:5px;font-size:10px;letter-spacing:.05em}

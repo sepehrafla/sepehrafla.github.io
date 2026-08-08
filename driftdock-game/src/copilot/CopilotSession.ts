@@ -20,6 +20,7 @@ export class CopilotSession {
   status: CopilotStatus = "LOCKED";
   syncPercent = 0;
   divergenceCount = 0;
+  divergencePoints: THREE.Vector3[] = []; // milestone 8: where each divergence happened, for Results.ts's map
   private course: CourseDef | null = null;
   private line: CopilotLine | null = null;
   private lineMesh: THREE.Line | null = null;
@@ -65,9 +66,16 @@ export class CopilotSession {
     this.syncedFrames = 0;
     this.totalFrames = 0;
     this.divergenceCount = 0;
+    this.divergencePoints = [];
     this.syncPercent = 0;
     this.wasSynced = true;
     this.lastSuggested = null;
+  }
+
+  /** Raw sampled points of the current course's copilot line, for
+   *  Results.ts's top-down map. Null before a course has been selected. */
+  get linePoints(): THREE.Vector3[] | null {
+    return this.line?.points ?? null;
   }
 
   private unlocked() {
@@ -103,7 +111,10 @@ export class CopilotSession {
     // Count each time the player LEAVES the tolerance band, not every frame
     // spent outside it -- this is what "≥2 documented divergences" means:
     // distinct departures from the line, not a raw time-outside metric.
-    if (!synced && this.wasSynced) this.divergenceCount++;
+    if (!synced && this.wasSynced) {
+      this.divergenceCount++;
+      this.divergencePoints.push(dronePos.clone());
+    }
     this.wasSynced = synced;
     this.syncPercent = this.totalFrames ? (this.syncedFrames / this.totalFrames) * 100 : 0;
 
