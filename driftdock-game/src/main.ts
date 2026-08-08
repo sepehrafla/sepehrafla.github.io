@@ -2,14 +2,20 @@ import "./style.css";
 import * as THREE from "three";
 import { Physics, RAPIER } from "./core/Physics";
 import { Input } from "./core/Input";
+import { Sound } from "./core/Sound";
 import { Drone } from "./drone/Drone";
 import { FPVCamera } from "./camera/FPVCamera";
+import { VisualPipeline } from "./render/VisualPipeline";
+import { buildSky, buildGround } from "./world/Environment";
+import { T } from "./drone/Tuning";
 
 const game = document.querySelector<HTMLElement>("#game")!,
   hud = document.querySelector<HTMLElement>("#hud")!,
   speedEl = document.querySelector<HTMLElement>("#speed")!,
   altEl = document.querySelector<HTMLElement>("#alt")!,
   throttleEl = document.querySelector<HTMLElement>("#throttle")!,
+  ladder = document.querySelector<HTMLElement>("#ladder")!,
+  velVector = document.querySelector<HTMLElement>("#vel-vector")!,
   fallback = document.querySelector<HTMLElement>("#fallback")!;
 
 async function start() {
@@ -20,42 +26,39 @@ async function start() {
   game.prepend(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x0b0e14, 20, 140);
-  scene.add(new THREE.HemisphereLight(0x8fb8ff, 0x1a1208, 1.6));
-  const sun = new THREE.DirectionalLight(0xffe9c4, 2.2);
-  sun.position.set(30, 60, 20);
+  scene.fog = new THREE.Fog(0x263346, 30, 220);
+  scene.add(new THREE.HemisphereLight(0x8fb8ff, 0x1a1208, 1.0));
+  const sun = new THREE.DirectionalLight(0xffe9c4, 1.6);
+  sun.position.set(30, 60, -50); // matches Environment.ts's sky sun direction
   scene.add(sun);
+  buildSky(scene);
+  buildGround(scene);
 
   const physics = ((globalThis as typeof globalThis & { __ddPhysics?: Physics }).__ddPhysics = await Physics.create()),
     input = ((globalThis as typeof globalThis & { __ddInput?: Input }).__ddInput = new Input()),
+    sound = new Sound(),
     drone = ((globalThis as typeof globalThis & { __ddDrone?: Drone }).__ddDrone = new Drone(scene, physics, input)),
-    fpv = new FPVCamera(innerWidth / innerHeight);
+    fpv = new FPVCamera(innerWidth / innerHeight),
+    pipeline = new VisualPipeline(renderer, scene, fpv.camera);
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
+    pipeline.resize(innerWidth, innerHeight);
   });
 
-  // --- flat test arena + a few pylons (milestone 1 scope only; the real
-  // Course/Sections system is a later milestone) ---
-  const groundMat = new THREE.MeshStandardMaterial({ color: 0x14181f, roughness: 0.95 });
-  const groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), groundMat);
-  groundMesh.rotation.x = -Math.PI / 2;
-  scene.add(groundMesh);
+  // Real ground collider matches Environment.ts's visual ground exactly.
   const groundBody = physics.world.createRigidBody(RAPIER.RigidBodyDesc.fixed());
-  physics.world.createCollider(RAPIER.ColliderDesc.cuboid(200, 0.1, 200).setTranslation(0, -0.1, 0), groundBody);
+  physics.world.createCollider(RAPIER.ColliderDesc.cuboid(400, 0.1, 400).setTranslation(0, -0.1, 0), groundBody);
 
-  // grid lines so velocity/motion actually reads visually at milestone 1
-  const grid = new THREE.GridHelper(400, 80, 0x2a3040, 0x1c2028);
-  scene.add(grid);
-
-  const pylonMat = new THREE.MeshStandardMaterial({ color: 0xff8a3d, emissive: 0x552200, roughness: 0.5 });
-  for (const [x, z] of [
-    [10, 0],
-    [10, -8],
-    [-6, 12],
-    [0, 25],
-    [-15, 5],
-  ] as const) {
+  const pylonMat = new THREE.MeshStandardMaterial({ color: 0xff8a3d, emissive: 0x552200, roughness: 0.5 }),
+    pylonPositions: [number, number][] = [
+      [10, 0],
+      [10, -8],
+      [-6, 12],
+      [0, 25],
+      [-15, 5],
+    ];
+  for (const [x, z] of pylonPositions) {
     const h = 4,
       mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, h, 12), pylonMat);
     mesh.position.set(x, h / 2, z);
@@ -63,6 +66,46 @@ async function start() {
     const body = physics.world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(x, h / 2, z));
     physics.world.createCollider(RAPIER.ColliderDesc.cylinder(h / 2, 0.3), body);
   }
+
+  // --- one SlotThread: two wall segments barely wider than the drone,
+  // requiring precision to pass. Geometry-only at this milestone (pose-
+  // gate scoring is a later milestone); the collider IS the challenge. ---
+  const slotCenter = new THREE.Vector3(-8, 2, -20),
+    slotGap = 0.9, // drone frame is ~0.3m across the diagonal; this is tight but flyable
+    wallMat = new THREE.MeshStandardMaterial({ color: 0x2a3040, emissive: 0x0d1622, roughness: 0.7 });
+  for (const side of [-1, 1]) {
+    const w = 3,
+      mesh = new THREE.Mesh(new THREE.BoxGeometry(w, 4, 0.4), wallMat);
+    mesh.position.set(slotCenter.x + side * (slotGap / 2 + w / 2), slotCenter.y, slotCenter.z);
+    scene.add(mesh);
+    const body = physics.world.createRigidBody(
+      RAPIER.RigidBodyDesc.fixed().setTranslation(mesh.position.x, mesh.position.y, mesh.position.z),
+    );
+    physics.world.createCollider(RAPIER.ColliderDesc.cuboid(w / 2, 2, 0.2), body);
+  }
+
+  // --- one boost ring: flying through gives a forward velocity surge.
+  // Distance-to-axis + plane-crossing check each frame, not a Rapier
+  // sensor event -- simpler and more predictable given this session's
+  // track record with this Rapier build's less-common APIs. ---
+  const boostCenter = new THREE.Vector3(10, 3, -8),
+    boostRadius = 1.6,
+    boostRingMat = new THREE.MeshStandardMaterial({
+      color: 0xffd24a,
+      emissive: 0xffb020,
+      emissiveIntensity: 1.6,
+      roughness: 0.3,
+      metalness: 0.4,
+    }),
+    boostRing = new THREE.Mesh(new THREE.TorusGeometry(boostRadius, 0.09, 12, 32), boostRingMat);
+  boostRing.position.copy(boostCenter);
+  scene.add(boostRing);
+  let boostCooldown = 0,
+    lastSideOfBoost = 1; // +1/-1, which side of the ring's plane the drone is on
+
+  const splat = document.createElement("div");
+  splat.className = "streaks";
+  game.appendChild(splat);
 
   // Debug-only kill switch: this environment's document.hidden is not a
   // reliable signal that rAF is actually paused, which caused hours of
@@ -76,12 +119,18 @@ async function start() {
   // devtools after the fact still leaves a window where the loop has
   // already run a few frames before the pause call lands.
   let paused = new URLSearchParams(location.search).has("paused");
-  let last = performance.now();
+  let last = performance.now(),
+    tickTimer = 0,
+    started = false;
   const loop = (now: number) => {
     if (paused) return;
     requestAnimationFrame(loop);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
+    if (!started) {
+      started = true;
+      sound.start();
+    }
 
     physics.step(
       dt,
@@ -103,12 +152,63 @@ async function start() {
     const v = drone.velocity(),
       speed = Math.hypot(v.x, v.y, v.z),
       p = drone.position();
+
+    // --- boost ring trigger: crossed the ring's Z-plane within its radius ---
+    boostCooldown = Math.max(0, boostCooldown - dt);
+    const toDrone = new THREE.Vector3(p.x, p.y, p.z).sub(boostCenter),
+      sideNow = Math.sign(toDrone.z) || 1,
+      radialDist = Math.hypot(toDrone.x, toDrone.y);
+    if (sideNow !== lastSideOfBoost && radialDist < boostRadius && boostCooldown <= 0) {
+      const dir = new THREE.Vector3(v.x, v.y, v.z);
+      if (dir.lengthSq() > 0.01) dir.normalize();
+      else dir.set(0, 0, -1);
+      drone.body.applyImpulse({ x: dir.x * 8, y: dir.y * 8, z: dir.z * 8 }, true);
+      boostCooldown = 1.2;
+      sound.boost();
+      (boostRingMat as THREE.MeshStandardMaterial).emissiveIntensity = 3.2;
+    }
+    lastSideOfBoost = sideNow;
+    boostRingMat.emissiveIntensity += (1.6 - boostRingMat.emissiveIntensity) * Math.min(1, dt * 4);
+    boostRing.rotation.z += dt * 0.4;
+
+    // --- proximity ticker: geiger-style, rate scales with closeness to
+    // the nearest pylon/wall. Cheap O(n) distance check, n is tiny here. ---
+    let nearest = Infinity;
+    for (const [x, z] of pylonPositions) nearest = Math.min(nearest, Math.hypot(p.x - x, p.z - z) - 0.3);
+    nearest = Math.min(nearest, radialDist > boostRadius ? Infinity : Math.abs(toDrone.z));
+    if (nearest < 4) {
+      tickTimer -= dt;
+      if (tickTimer <= 0) {
+        sound.tick(0.05 + (1 - nearest / 4) * 0.15);
+        tickTimer = 0.05 + (nearest / 4) * 0.4;
+      }
+    }
+
+    sound.updateRotors(drone.motorThrust, T.maxThrustPerMotor);
+    sound.updateAirflow(speed);
+
+    // --- HUD: attitude ladder + velocity vector ---
+    const { pitch, roll } = drone.flight.attitude(drone.mesh.quaternion);
+    ladder.style.transform = `rotate(${roll}rad) translateY(${(pitch * 180) / Math.PI / 90 * 260}px)`;
+    if (speed > 1.2) {
+      const aim = new THREE.Vector3(p.x, p.y, p.z).add(new THREE.Vector3(v.x, v.y, v.z).normalize().multiplyScalar(8));
+      aim.project(fpv.camera);
+      if (aim.z < 1 && Math.abs(aim.x) < 1.4 && Math.abs(aim.y) < 1.4) {
+        velVector.classList.remove("hide");
+        velVector.style.left = `${(aim.x * 0.5 + 0.5) * innerWidth}px`;
+        velVector.style.top = `${(1 - (aim.y * 0.5 + 0.5)) * innerHeight}px`;
+      } else velVector.classList.add("hide");
+    } else velVector.classList.add("hide");
+
+    // --- velocity-reactive streaks: fade in above 20 m/s ---
+    splat.style.opacity = Math.max(0, Math.min(0.5, (speed - 20) / 25)).toFixed(2);
+
     speedEl.textContent = speed.toFixed(1);
     altEl.textContent = p.y.toFixed(1);
     throttleEl.textContent = Math.round(input.throttle * 100).toString();
     game.dataset.telemetry = `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)},${v.x.toFixed(2)},${v.y.toFixed(2)},${v.z.toFixed(2)}`;
 
-    renderer.render(scene, fpv.camera);
+    pipeline.render();
   };
   if (!paused) requestAnimationFrame(loop);
   hud.classList.remove("hide");

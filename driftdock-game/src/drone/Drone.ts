@@ -2,14 +2,18 @@ import * as THREE from "three";
 import { Physics, RAPIER } from "../core/Physics";
 import type { Input } from "../core/Input";
 import { FlightModel } from "./FlightModel";
+import { buildDroneMesh } from "./DroneArt";
 import { T } from "./Tuning";
 
-/** One dynamic rigid body, four visual rotor discs whose brightness =
- *  thrust. No joints, no ragdoll, per the brief. */
+/** One dynamic rigid body, a procedural quadcopter frame whose LED rings =
+ *  per-motor thrust and whose props actually spin. No joints, no ragdoll,
+ *  per the brief. */
 export class Drone {
   body: RAPIER.RigidBody;
   mesh: THREE.Group;
-  rotorMeshes: THREE.Mesh[] = [];
+  private ledMats: THREE.MeshBasicMaterial[] = [];
+  private propMeshes: THREE.Mesh[] = [];
+  private propSpin = [0, 0, 0, 0];
   flight = new FlightModel();
   motorThrust = [0, 0, 0, 0];
 
@@ -31,29 +35,10 @@ export class Drone {
   }
 
   private buildMesh() {
-    const g = new THREE.Group(),
-      frame = new THREE.Mesh(
-        new THREE.BoxGeometry(0.28, 0.03, 0.28),
-        new THREE.MeshStandardMaterial({ color: 0x1a1c20, roughness: 0.6 }),
-      );
-    g.add(frame);
-    const armPositions: [number, number][] = [
-      [T.armLength, -T.armLength],
-      [-T.armLength, -T.armLength],
-      [-T.armLength, T.armLength],
-      [T.armLength, T.armLength],
-    ];
-    for (const [x, z] of armPositions) {
-      const disc = new THREE.Mesh(
-        new THREE.CircleGeometry(0.06, 16),
-        new THREE.MeshBasicMaterial({ color: 0x4fd6ff, transparent: true, opacity: 0.3 }),
-      );
-      disc.rotation.x = -Math.PI / 2;
-      disc.position.set(x, 0.02, z);
-      g.add(disc);
-      this.rotorMeshes.push(disc);
-    }
-    return g;
+    const { group, ledMats, propMeshes } = buildDroneMesh();
+    this.ledMats = ledMats;
+    this.propMeshes = propMeshes;
+    return group;
   }
 
   /** Fixed-step update, 120Hz. */
@@ -83,8 +68,12 @@ export class Drone {
     this.body.applyImpulse({ x: force.x * dt, y: force.y * dt, z: force.z * dt }, true);
     this.body.applyTorqueImpulse({ x: torque.x * dt, y: torque.y * dt, z: torque.z * dt }, true);
     for (let i = 0; i < 4; i++) {
-      const mat = this.rotorMeshes[i].material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.25 + (motorThrust[i] / T.maxThrustPerMotor) * 0.75;
+      const level = motorThrust[i] / T.maxThrustPerMotor;
+      this.ledMats[i].opacity = 0.25 + level * 0.75;
+      // Visual-only prop spin, purely cosmetic -- ambient information about
+      // the player's own thrust state, per the brief's art direction.
+      this.propSpin[i] += (8 + level * 70) * dt;
+      this.propMeshes[i].rotation.y = this.propSpin[i];
     }
   }
 

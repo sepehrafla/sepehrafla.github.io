@@ -9,6 +9,15 @@
   </head>
   <body>
     <main id="game" aria-label="DRIFT/DOCK, an FPV drone flight game">
+      <!-- Attitude ladder: a horizon line referenced to true world-level,
+           shown through the tilt-coupled camera exactly like a real FPV
+           OSD -- rotates by roll, shifts by pitch. -->
+      <div id="ladder-wrap" class="ladder-wrap"><div id="ladder" class="ladder"><i></i></div></div>
+      <!-- Velocity vector: where the drone is actually GOING, projected
+           into screen space -- distinct from where the nose points once
+           tilt-coupling is in play. The brief calls this the single most
+           important instrument. -->
+      <div id="vel-vector" class="vel-vector hide"></div>
       <div id="hud" class="hud hide">
         <div class="row"><span class="label">SPD</span><b id="speed">0.0</b><span class="unit">m/s</span></div>
         <div class="row"><span class="label">ALT</span><b id="alt">0.0</b><span class="unit">m</span></div>
