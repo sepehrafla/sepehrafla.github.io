@@ -137,11 +137,18 @@ export class Bike {
       return;
     }
     const gas = this.input.gas ? 1 : 0,
-      brake = this.input.brake ? 1 : 0,
-      target = 0;
-    this.rearJoint.configureMotorVelocity(brake ? 0 : target, brake ? T.brakeTorque : 0);
+      brake = this.input.brake ? 1 : 0;
+    // Propulsion is the rear wheel motor (gasTorque/maxWheelSpeed) so it rolls
+    // WITH ground friction instead of fighting it -- a bare chassis impulse here
+    // gets almost entirely absorbed by the high grip tuned for climbing, so the
+    // bike barely creeps forward even with gas held.
+    // Negative target: positive angular velocity (CCW) rolls the chassis in -x here,
+    // verified empirically -- +27 drove the bike backward.
+    if (brake) this.rearJoint.configureMotorVelocity(0, T.brakeTorque);
+    else if (gas) this.rearJoint.configureMotorVelocity(-T.maxWheelSpeed, T.gasTorque);
+    else this.rearJoint.configureMotorVelocity(0, 0);
     if (gas) {
-      this.chassis.applyImpulse({ x: 110 * dt, y: 0 }, true);
+      this.chassis.applyImpulse({ x: 12 * dt, y: 0 }, true);
     }
     if (brake) this.front.setAngvel(this.front.angvel() * 0.84, true);
     const x = this.chassis.translation().x,
