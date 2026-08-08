@@ -106,11 +106,7 @@ html, body, #game { background: #10051f; }
 .vignette { background: radial-gradient(ellipse at 50% 52%, transparent 42%, rgba(8, 1, 20, .58) 100%); }
 .grain { opacity: .075; mix-blend-mode: soft-light; }
 
-.speedometer { top: auto; right: 18px; bottom: max(18px, env(safe-area-inset-bottom)); width: 122px; height: 82px; border-color: rgba(255, 93, 190, .28); background: rgba(16, 4, 31, .66); box-shadow: 0 0 28px rgba(203, 54, 255, .17); }
-.speedometer path { stroke: rgba(255,255,255,.22); }
-.speedometer strong { font: 900 19px/1 Impact, sans-serif; text-shadow: 2px 2px #10031f; }
-.speedometer small { color: #fff; font-weight: 800; }
-.speedometer i { background: #fff; box-shadow: 0 0 10px #ff4fb4; }
+/* .speedometer rules consolidated into polish.css (single source of truth). */
 
 @media (max-width: 650px) {
   .title:before { left: 60%; top: 18%; }
@@ -120,7 +116,6 @@ html, body, #game { background: #10051f; }
   .modes { margin-top: 48px; }
   .modes button { font-size: 22px; }
   .keys { gap: 60px; }
-  .speedometer { right: 10px; bottom: max(12px, env(safe-area-inset-bottom)); transform: scale(.82); transform-origin: bottom right; }
   .end { right: 10px; }
   .hud { right: 76px; }
 }

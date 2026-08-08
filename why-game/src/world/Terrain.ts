@@ -29,11 +29,16 @@ export class Terrain {
     const base = Math.sin(x * 0.055 + phase) * 0.7 + Math.sin(x * 0.017) * 0.5,
       chunk = Math.floor(x / 60),
       local = x - chunk * 60;
-    // The collider and the bike's ground sensor share this rounded launch.
-    if (chunk % 2 !== 0 || local < 23 || local > 37) return base;
-    const t = 1 - Math.abs(local - 30) / 7,
-      smooth = t * t * (3 - 2 * t);
-    return base + smooth * 1.65;
+    // A kicker every chunk (~60m) so jumps are common enough to actually find:
+    // a short, steep rise to a lip, then a longer, gentler fall so a bike
+    // carrying speed launches clean instead of just cresting a hill.
+    // The collider and the bike's ground sensor share this shape.
+    if (local < 20 || local > 34) return base;
+    const smooth =
+      local <= 26
+        ? ((t) => t * t * (3 - 2 * t))((local - 20) / 6)
+        : ((t) => t * t * (3 - 2 * t))(1 - (local - 26) / 8);
+    return base + smooth * 2.3;
   }
   biome(x: number) {
     return Math.min(3, Math.max(0, Math.floor(x / 420)));

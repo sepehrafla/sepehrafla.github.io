@@ -32,6 +32,7 @@ export class Bike {
   squash = 0;
   streakTick = 0;
   throttle = 0;
+  stuckTime = 0;
   constructor(
     public scene: THREE.Scene,
     public physics: Physics,
@@ -227,13 +228,21 @@ export class Bike {
     const angle = Math.abs(signed),
       chassisLow = y - this.ground(x) < 1.25;
     if ((grounded || chassisLow) && angle > 1.55) this.wipe();
+    // A tipped-over bike can settle in a pose where neither `grounded` nor
+    // `chassisLow` reads true (e.g. resting on the raised part of a ramp) and
+    // wipe() never fires, leaving it stuck forever with gas held and going
+    // nowhere. If it's barely moving and badly tipped for half a second,
+    // force the recovery regardless of the ground-contact specifics.
+    const settled = Math.abs(this.chassis.linvel().x) < 0.25 && Math.abs(this.chassis.linvel().y) < 0.25;
+    this.stuckTime = settled && angle > 1.3 ? this.stuckTime + dt : 0;
+    if (this.stuckTime > 0.5) this.wipe(true);
     this.sound.rpm(this.rear.angvel());
     this.onTrace?.(x, y, Math.abs(this.chassis.linvel().x));
     if (gas && grounded)
       this.particles.emit(this.rear.translation().x, this.rear.translation().y - 0.5, 0x9b9b9b, 1, 1.4);
   }
-  wipe() {
-    if (this.wiped || performance.now() - this.born < 1800) return;
+  wipe(force = false) {
+    if (this.wiped || (!force && performance.now() - this.born < 1800)) return;
     this.wiped = true;
     this.respawnIn = T.respawn;
     this.rider.visible = false;
@@ -266,6 +275,7 @@ export class Bike {
     this.born = performance.now() - 1200;
     this.rider.visible = true;
     this.throttle = 0;
+    this.stuckTime = 0;
     const { x, y } = this.checkpoint;
     for (const [body, dx, dy] of [
       [this.chassis, 0, 0],
