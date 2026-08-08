@@ -30,6 +30,8 @@ const game = document.querySelector<HTMLElement>("#game")!,
   speedometer = document.querySelector<HTMLElement>("#speedometer")!,
   speedValue = document.querySelector<HTMLElement>("#speed-value")!,
   intentGlyph = document.querySelector<HTMLButtonElement>("#intent-glyph")!,
+  brakeGlyph = document.querySelector<HTMLButtonElement>("#brake-glyph")!,
+  airGlyph = document.querySelector<HTMLButtonElement>("#air-glyph")!,
   mapPanel = document.querySelector<HTMLElement>("#map")!,
   mapCanvas = document.querySelector<HTMLCanvasElement>("#map-canvas")!,
   keep = document.querySelector<HTMLButtonElement>("#keep")!,
@@ -104,6 +106,8 @@ async function start(mode: RideMode) {
   const copilot = new Copilot();
   bike.copilot = copilot;
   intentGlyph.addEventListener("click", () => copilot.toggleThrottlePin());
+  brakeGlyph.addEventListener("click", () => copilot.toggle("brake", "safety"));
+  airGlyph.addEventListener("click", () => copilot.toggle("airAttitude", "level"));
   const anomalies = new Anomalies(
       scene,
       state,
@@ -192,8 +196,12 @@ async function start(mode: RideMode) {
     requestAnimationFrame(loop);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (input.consumeToggle()) copilot.toggleThrottlePin();
+    if (input.consumeToggle("throttle")) copilot.toggleThrottlePin();
+    if (input.consumeToggle("brake")) copilot.toggle("brake", "safety");
+    if (input.consumeToggle("airAttitude")) copilot.toggle("airAttitude", "level");
     intentGlyph.classList.toggle("pinned", copilot.isPinned("throttle"));
+    brakeGlyph.classList.toggle("pinned", copilot.isPinned("brake"));
+    airGlyph.classList.toggle("pinned", copilot.isPinned("airAttitude"));
     if (juice.step())
       physics.step(
         dt,

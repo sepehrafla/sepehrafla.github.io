@@ -5,13 +5,17 @@ export class Input {
   left = false;
   right = false;
   release?: number;
-  /** Edge-triggered: true for one read after the pin-toggle key/button fires.
-   *  Consume with consumeToggle() so a held key doesn't retrigger every frame. */
-  togglePin = false;
+  /** Edge-triggered pin-toggle flags, one per delegable subsystem: true for
+   *  one read after the key/button fires. Consume with consumeToggle(key)
+   *  so a held key doesn't retrigger every frame. C=throttle, V=brake,
+   *  B=air attitude. */
+  toggles: Record<"throttle" | "brake" | "airAttitude", boolean> = { throttle: false, brake: false, airAttitude: false };
+  private static readonly PIN_KEYS = { KeyC: "throttle", KeyV: "brake", KeyB: "airAttitude" } as const;
   constructor(canvas: HTMLCanvasElement) {
     addEventListener("keydown", (event) => {
       if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyZ", "KeyX"].includes(event.code)) event.preventDefault();
-      if (event.code === "KeyC" && !this.keys.has("KeyC")) this.togglePin = true;
+      const pin = (Input.PIN_KEYS as Record<string, keyof Input["toggles"]>)[event.code];
+      if (pin && !this.keys.has(event.code)) this.toggles[pin] = true;
       this.keys.add(event.code);
       this.read();
     }, { passive: false });
@@ -38,9 +42,9 @@ export class Input {
     this.left = this.keys.has("ArrowLeft") || this.keys.has("KeyZ");
     this.right = this.keys.has("ArrowRight");
   }
-  consumeToggle() {
-    const v = this.togglePin;
-    this.togglePin = false;
+  consumeToggle(sub: keyof Input["toggles"]) {
+    const v = this.toggles[sub];
+    this.toggles[sub] = false;
     return v;
   }
   touch(event: PointerEvent, canvas: HTMLCanvasElement) {

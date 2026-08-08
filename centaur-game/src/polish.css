@@ -1,16 +1,21 @@
-.title:not(.hide)~.end,.title:not(.hide)~.hud,.title:not(.hide)~.speedometer,.title:not(.hide)~.intent-glyph{opacity:0;pointer-events:none}
+.title:not(.hide)~.end,.title:not(.hide)~.hud,.title:not(.hide)~.speedometer,.title:not(.hide)~.glyph-row{opacity:0;pointer-events:none}
 
-/* Intent glyph -- CENTAUR step 1: the one pinnable subsystem (throttle).
-   Unpinned = outline only. Pinned = filled, glowing -- the copilot is
-   driving this subsystem now. See CENTAUR_DESIGN.md. */
-.intent-glyph{position:absolute;z-index:5;left:20px;bottom:max(18px,env(safe-area-inset-bottom));width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(255,255,255,.32);background:rgba(16,4,31,.66);backdrop-filter:blur(9px);color:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;pointer-events:auto;transition:background .18s,border-color .18s,box-shadow .18s,transform .18s;font-family:inherit}
+/* Intent glyphs -- CENTAUR delegation dial. One button per pinnable
+   subsystem (throttle/brake/air-attitude so far). Unpinned = outline only.
+   Pinned = filled, glowing -- the copilot is driving that subsystem now.
+   Bandwidth caps how many can be pinned at once (Copilot.bandwidth); a
+   click past the cap is silently ignored by Copilot.pin(), not by the UI,
+   so the cap stays legible as a game rule rather than a disabled button.
+   See CENTAUR_DESIGN.md. */
+.glyph-row{position:absolute;z-index:5;left:20px;bottom:max(18px,env(safe-area-inset-bottom));display:flex;gap:10px}
+.intent-glyph{width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(255,255,255,.32);background:rgba(16,4,31,.66);backdrop-filter:blur(9px);color:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;pointer-events:auto;transition:background .18s,border-color .18s,box-shadow .18s,transform .18s;font-family:inherit}
 .intent-glyph:hover{transform:scale(1.05)}
 .intent-glyph .ic{font-size:18px;line-height:1}
 .intent-glyph small{font:700 7px/1 ui-monospace,monospace;letter-spacing:.1em}
 .intent-glyph.pinned{background:rgba(255,79,180,.22);border-color:#ff4fb4;box-shadow:0 0 22px rgba(255,79,180,.45)}
 .intent-glyph.pinned .ic{animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-@media(max-width:650px){.intent-glyph{left:12px;width:54px;height:54px}}
+@media(max-width:650px){.glyph-row{left:12px;gap:7px}.intent-glyph{width:50px;height:50px}.intent-glyph .ic{font-size:15px}.intent-glyph small{font-size:6px}}
 
 /* Single source of truth for the speedometer -- this used to be spread across
    polish.css/speedometer.css/drive.css with three overlapping, conflicting

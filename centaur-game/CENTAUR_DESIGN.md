@@ -164,18 +164,42 @@ Add `syncPercent = matchingSteps / totalSteps` where a step "matches" if the
 player's most recent manual input agrees with what the copilot *would have*
 proposed at tier 5, or trivially 100% for any subsystem currently pinned
 (you asked it to do exactly that, so it's definitionally in sync). Share
-string becomes `"WHY? #211 — 4/5 ✦ 1:07 · 82% sync"`.
+string becomes `"CENTAUR #211 — 4/5 ✦ 1:07 · 82% sync"`.
 
 ## 7. Build order (each step playable alone)
 
-1. `Copilot` + `ThrottleController` + one pinnable intent (`speed`) + a
-   single glyph in the HUD, no conditions, no drone, no bots. This alone
-   proves the core loop: pin throttle, use freed attention to lean through
-   terrain the player couldn't react to manually. **This is the milestone-2
-   fun gate for CENTAUR — if pinning throttle isn't obviously useful and
-   fun within the first ramp encounter, nothing downstream matters.**
-2. `BrakeController` + `AirAttitudeController` + `LandingController`, second
-   pin slot, ink-strand merge visual tied to `pins` count.
+1. ✅ **Shipped.** `Copilot` + `ThrottleController` + one pinnable intent
+   (`speed`) + a single glyph in the HUD, no conditions, no drone, no bots.
+   Verified: pinned throttle with zero manual gas input still accelerated
+   the bike; unpinned falls back to manual with no regression.
+2. ✅ **Shipped**, with two real deviations from the original sketch worth
+   recording:
+   - `LandingController` was folded into `AirAttitudeController` rather
+     than built separately — same actuator (chassis torque), same target
+     (pitch 0), sustained through touchdown. A standalone landing
+     controller would have been near-duplicate code for no behavioral gain.
+   - The PID gains were **not** guessable from first principles, same
+     lesson as the propulsion-motor units earlier in this project: an
+     initial kp=6/ki=0.4/kd=1.1 (finite-differencing the position error)
+     diverged on a hard tumble instead of converging. Root cause: a wrapped
+     `[-pi,pi]` angle still jumps discontinuously by ~2π whenever the body
+     completes a full rotation fast enough (a 3 rad/s tumble does that in
+     ~2s, well within the test window), which spikes a *position*-derivative
+     term. Fix was architectural, not just re-tuning: damp Rapier's actual
+     `angvel()` directly (no 2π discontinuity to spike on) rather than
+     differencing position. Also caught a test-harness trap worth flagging
+     for future controller work here: an early gain sweep showed every
+     single (kp, kd) combination "diverging" at ~t=2.2s — that was the test
+     rig's fault (insufficient drop altitude, the bike was actually hitting
+     the ground mid-test), not the controller; always give free-flight
+     tests enough clearance to stay airborne for the full test window, or
+     you'll tune against a phantom bug. Final gains (kp=20, kd=3, ki=0)
+     converged a 3 rad/s tumble to <0.01 rad and held it there, and
+     recovered a second, harder disturbance to <0.03 rad within ~1s.
+   - Bandwidth is unconditionally 2 for now — tier-gating it to spark
+     progression (the table in §5) is deferred; `Bike.setTier()`'s existing
+     5-color array would need reconciling with the 6-row tier table there
+     first, and that's its own decision, not a mechanical follow-on.
 3. Conditional intents (`until` clause), one-tap swap gesture.
 4. `ScoutDrone` (reuses `Rivals.ts`'s throw-arc/return pattern almost
    directly — same ballistic math, different payload).

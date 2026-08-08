@@ -5,6 +5,7 @@ import type { Particles } from "../feel/Particles";
 import type { Sound } from "../feel/Sound";
 import { T } from "./Tuning";
 import { buildWheel, buildChassis, buildRider } from "./BikeArt";
+import { MergeVisual } from "./MergeVisual";
 import type { Copilot } from "../copilot/Copilot";
 export class Bike {
   chassis: RAPIER.RigidBody;
@@ -16,6 +17,7 @@ export class Bike {
   rearMesh: THREE.Group;
   frontMesh: THREE.Group;
   rider: THREE.Group;
+  merge!: MergeVisual;
   air = 0;
   wasAir = false;
   wiped = false;
@@ -104,6 +106,7 @@ export class Bike {
     this.frontMesh = this.makeWheel();
     this.rider = this.makeRider();
     this.chassisMesh.add(this.rider);
+    this.merge = new MergeVisual(this.chassisMesh);
     scene.add(this.chassisMesh, this.rearMesh, this.frontMesh);
     physics.add(this.chassis, this.chassisMesh);
     physics.add(this.rear, this.rearMesh);
@@ -146,12 +149,15 @@ export class Bike {
       if (this.respawnIn <= 0) this.respawn();
       return;
     }
-    const brake = this.input.brake ? 1 : 0,
+    const nowX = this.chassis.translation().x,
+      speedNow = Math.abs(this.chassis.linvel().x),
       maxSpeedMs = T.maxWheelSpeed * T.wheelRadius,
-      copilotGas = this.copilot?.throttleOutput(Math.abs(this.chassis.linvel().x), maxSpeedMs, dt) ?? null,
-      // Delegated throttle replaces the manual gas signal entirely -- see
-      // CENTAUR_DESIGN.md §3. Braking and lean stay manual in this slice.
-      gas = copilotGas ?? (this.input.gas ? 1 : 0);
+      copilotGas = this.copilot?.throttleOutput(speedNow, maxSpeedMs, dt) ?? null,
+      copilotBrake = this.copilot?.brakeOutput(speedNow, nowX, this.ground) ?? null,
+      // Delegated subsystems replace their manual signal entirely -- see
+      // CENTAUR_DESIGN.md §3. Lean/air-attitude handled further down.
+      gas = copilotGas ?? (this.input.gas ? 1 : 0),
+      brake = copilotBrake !== null ? (copilotBrake > 0.02 ? 1 : 0) : this.input.brake ? 1 : 0;
     // Propulsion is the rear wheel motor (gasTorque/maxWheelSpeed) so it rolls
     // WITH ground friction instead of fighting it -- a bare chassis impulse here
     // gets almost entirely absorbed by the high grip tuned for climbing, so the
@@ -189,12 +195,20 @@ export class Bike {
     if (grounded && !brake && vx < 0)
       this.chassis.applyImpulse({ x: Math.min(0.09, -vx * 0.075), y: 0 }, true);
     this.air = grounded ? 0 : this.air + dt;
-    const lean = (this.input.left ? 1 : 0) - (this.input.right ? 1 : 0),
+    // Air attitude is a delegable subsystem: pinned, the copilot's own
+    // torque impulse replaces manual lean while airborne (same as throttle
+    // ignoring manual gas once pinned) -- see CENTAUR_DESIGN.md §3/§7.
+    const airPinned = !!this.copilot?.isPinned("airAttitude"),
+      lean = airPinned ? 0 : (this.input.left ? 1 : 0) - (this.input.right ? 1 : 0),
       signed = Math.atan2(Math.sin(this.chassis.rotation()), Math.cos(this.chassis.rotation()));
     this.chassis.applyTorqueImpulse(lean * (grounded ? T.leanTorque : T.airLean) * (1 + this.tier * 0.1) * dt, true);
     const settling = y - this.ground(x) < 3 && Math.abs(this.chassis.linvel().x) < 1.5;
     if ((grounded || settling) && !lean)
       this.chassis.applyTorqueImpulse(-signed * (settling ? 24 : 11) * dt, true);
+    if (!grounded && airPinned) {
+      const out = this.copilot!.airAttitudeOutput(signed, this.chassis.angvel(), dt);
+      if (out !== null) this.chassis.applyTorqueImpulse(out * dt, true);
+    }
     if (this.tier >= 4 && this.input.left && this.input.right && !grounded)
       this.chassis.addForce({ x: 0, y: 60 }, true);
     if (this.boost > 0) {
@@ -224,6 +238,8 @@ export class Bike {
     // no gameplay effect.
     this.squash *= Math.exp(-dt * 13);
     this.chassisMesh.scale.set(1 + this.squash * 0.16, 1 - this.squash * 0.22, 1);
+    const trust = this.copilot ? Object.keys(this.copilot.pins).length / this.copilot.bandwidth : 0;
+    this.merge.update(trust, dt);
     const speed = Math.abs(this.chassis.linvel().x);
     this.streakTick += dt;
     if (grounded && speed > 13 && this.streakTick > 0.05) {

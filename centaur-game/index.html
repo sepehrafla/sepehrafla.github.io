@@ -31,9 +31,17 @@
         <svg viewBox="0 0 100 60" aria-hidden="true"><path d="M12 51a38 38 0 0 1 76 0"/></svg>
         <i aria-hidden="true"></i><strong id="speed-value">0</strong><small>KM/H</small>
       </div>
-      <button id="intent-glyph" class="intent-glyph" aria-label="Toggle throttle delegation to the copilot (C)" title="Pin throttle to the copilot (C)">
-        <span class="ic">▲</span><small>THROTTLE</small>
-      </button>
+      <div class="glyph-row">
+        <button id="intent-glyph" class="intent-glyph" aria-label="Toggle throttle delegation to the copilot (C)" title="Pin throttle to the copilot (C)">
+          <span class="ic">▲</span><small>THROTTLE</small>
+        </button>
+        <button id="brake-glyph" class="intent-glyph" aria-label="Toggle braking delegation to the copilot (V)" title="Pin brake to the copilot (V)">
+          <span class="ic">◼</span><small>BRAKE</small>
+        </button>
+        <button id="air-glyph" class="intent-glyph" aria-label="Toggle air-attitude delegation to the copilot (B)" title="Pin air attitude to the copilot (B)">
+          <span class="ic">⟲</span><small>AIR</small>
+        </button>
+      </div>
       <div class="vignette" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
       <div class="touch" aria-hidden="true"><i>↶</i><i>↷</i><i>◼</i><i>▲</i></div>
       <section id="map" class="map"><canvas id="map-canvas" width="1080" height="640"></canvas><div><button id="keep" aria-label="Keep route map">⇩</button><button id="again" aria-label="Ride again">↻</button></div></section>
