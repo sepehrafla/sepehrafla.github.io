@@ -37,8 +37,12 @@
         <div class="row"><span class="label">TIER</span><b id="tier" class="small">STAB (keyboard)</b></div>
         <div class="row"><span class="label">FA</span><b id="assist">OFF</b></div>
         <div class="assist-cost" id="assist-cost"></div>
+        <div class="row"><span class="label">ROTORS</span><b id="rotors" class="small">● ● ● ●</b></div>
         <div class="hint">W/S pitch · A/D roll · ←/→ yaw · ↑/↓ throttle · F cycle assist · R restart · gamepad auto-detected for true-acro tier</div>
       </div>
+      <!-- Crash drift-away message -- shown only while controls are cut
+           during the milestone 5 crash replay. -->
+      <div id="crash-msg" class="crash-msg hide"></div>
       <p id="fallback" class="fallback"></p>
     </main>
     <script type="module" src="/src/main.ts"></script>

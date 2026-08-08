@@ -5,22 +5,33 @@ import { dockMaterials } from "./Environment";
 
 const DOCK_CLEARANCE = 0.45; // m above the pad's physical top surface (0.15 half-height) -- see the ring-position comment below
 
+export type DockOptions = {
+  patrol?: boolean; // false for InvertedDock -- brief describes it as a fixed ceiling pad, not a patrolling one
+  inverted?: boolean; // true for InvertedDock -- pad faces downward, dock point is BELOW it, targetUp points down
+};
+
 /** "Charging pad on a patrolling platform" per the brief -- a kinematic
  *  Rapier body so the drone can physically rest on it, sine-patrolling
  *  along one horizontal axis. Kinematic bodies don't report a meaningful
  *  linvel() from setNextKinematicTranslation, so velocity is derived here
  *  from the position delta each physics step -- Gates.ts's closure-rate
  *  math needs the pad's real velocity, not zero, or docking mid-patrol
- *  would always read as a fast, illegal closure. */
+ *  would always read as a fast, illegal closure. Also reused (patrol:false,
+ *  inverted:true) for milestone 5's InvertedDock -- same pad, same
+ *  clearance/collision lessons, just mounted upside-down and stationary. */
 export class MovingDock {
   body: RAPIER.RigidBody;
   mesh: THREE.Group;
   velocity = new THREE.Vector3();
+  targetUp: THREE.Vector3;
   private center: THREE.Vector3;
   private prevPos: THREE.Vector3;
   private t = 0;
+  private opts: DockOptions;
 
-  constructor(physics: Physics, scene: THREE.Scene, center: THREE.Vector3) {
+  constructor(physics: Physics, scene: THREE.Scene, center: THREE.Vector3, opts: DockOptions = {}) {
+    this.opts = { patrol: true, inverted: false, ...opts };
+    this.targetUp = new THREE.Vector3(0, this.opts.inverted ? -1 : 1, 0);
     this.center = center.clone();
     this.prevPos = center.clone();
     this.body = physics.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(center.x, center.y, center.z));
@@ -38,13 +49,14 @@ export class MovingDock {
     // real docking approaches would hit the same margin eventually, so the
     // dock POINT needs real clearance above the physical surface, not just
     // a hair's breadth.
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.04, 10, 28), new THREE.MeshStandardMaterial({ color: 0x4fd6ff, emissive: 0x2fa8d8, emissiveIntensity: 1.4, roughness: 0.4 }));
+    const clearanceSign = this.opts.inverted ? -1 : 1,
+      ring = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.04, 10, 28), new THREE.MeshStandardMaterial({ color: 0x4fd6ff, emissive: 0x2fa8d8, emissiveIntensity: 1.4, roughness: 0.4 }));
     ring.rotation.x = Math.PI / 2;
-    ring.position.y = DOCK_CLEARANCE;
+    ring.position.y = clearanceSign * DOCK_CLEARANCE;
     this.mesh.add(ring);
     for (const x of [-0.9, 0.9]) {
       const post = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.6, 8), trimMat);
-      post.position.set(x, 0.45, 0.9);
+      post.position.set(x, clearanceSign * 0.45, 0.9);
       this.mesh.add(post);
     }
     scene.add(this.mesh);
@@ -52,16 +64,17 @@ export class MovingDock {
   }
 
   /** The point the drone should actually align to -- the ring, not the pad
-   *  center, and slightly above the deck so "docked" means hovering at the
-   *  marker, not buried in the platform. */
+   *  center, offset toward whichever side the drone approaches from so
+   *  "docked" means hovering at the marker, not buried in the platform. */
   dockPoint() {
-    return this.mesh.position.clone().add(new THREE.Vector3(0, DOCK_CLEARANCE, 0));
+    const sign = this.opts.inverted ? -1 : 1;
+    return this.mesh.position.clone().add(new THREE.Vector3(0, sign * DOCK_CLEARANCE, 0));
   }
 
   /** Call once per fixed physics step. */
   fixed(dt: number) {
     this.t += dt;
-    const x = this.center.x + Math.sin((this.t / T.dockPatrolPeriod) * Math.PI * 2) * T.dockPatrolRadius,
+    const x = this.opts.patrol ? this.center.x + Math.sin((this.t / T.dockPatrolPeriod) * Math.PI * 2) * T.dockPatrolRadius : this.center.x,
       pos = new THREE.Vector3(x, this.center.y, this.center.z);
     this.body.setNextKinematicTranslation(pos);
     this.velocity.subVectors(pos, this.prevPos).divideScalar(dt);

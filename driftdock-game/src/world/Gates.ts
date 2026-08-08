@@ -50,3 +50,48 @@ export function poseError(
 export function withinDockTolerance(e: PoseError): boolean {
   return e.positionError < T.dockPositionTol && Math.abs(e.closureRate) < T.dockClosureTol && e.attitudeErrorDeg < T.dockAttitudeTolDeg;
 }
+
+/** Per-dock runtime state (hold timer + docked flag) + the overlay-driving
+ *  logic itself, factored out so main.ts can run this identically for
+ *  MovingDock and InvertedDock without duplicating the block. One
+ *  DockChecker per dock instance. */
+export class DockChecker {
+  private holdTimer = 0;
+  docked = false;
+
+  update(
+    overlay: { update: (e: PoseError, hold: number, docked: boolean) => void; hide: () => void },
+    dronePos: THREE.Vector3,
+    droneVel: THREE.Vector3,
+    droneQuat: THREE.Quaternion,
+    dockPoint: THREE.Vector3,
+    dockVel: THREE.Vector3,
+    targetUp: THREE.Vector3,
+    camQuat: THREE.Quaternion,
+    dt: number,
+    range: number,
+    onDocked?: () => void,
+  ) {
+    if (dockPoint.distanceTo(dronePos) >= range) {
+      overlay.hide();
+      this.holdTimer = 0;
+      return;
+    }
+    const pe = poseError(dronePos, droneVel, droneQuat, dockPoint, dockVel, targetUp, camQuat);
+    if (!this.docked) {
+      if (withinDockTolerance(pe)) {
+        this.holdTimer += dt;
+        if (this.holdTimer >= T.dockHoldTime) {
+          this.docked = true;
+          onDocked?.();
+        }
+      } else this.holdTimer = 0;
+    }
+    overlay.update(pe, Math.min(1, this.holdTimer / T.dockHoldTime), this.docked);
+  }
+
+  reset() {
+    this.holdTimer = 0;
+    this.docked = false;
+  }
+}

@@ -1,14 +1,16 @@
 import "./style.css";
 import * as THREE from "three";
-import { Physics, RAPIER } from "./core/Physics";
+import { Physics } from "./core/Physics";
 import { Input } from "./core/Input";
 import { Sound } from "./core/Sound";
 import { Drone } from "./drone/Drone";
 import { FPVCamera } from "./camera/FPVCamera";
 import { VisualPipeline } from "./render/VisualPipeline";
 import { buildSky, buildGround, buildDock } from "./world/Environment";
+import { buildArena } from "./world/Arena";
+import { WorldTriggers } from "./world/Triggers";
 import { MovingDock } from "./world/MovingDock";
-import { poseError, withinDockTolerance } from "./world/Gates";
+import { DockChecker } from "./world/Gates";
 import { DockingOverlay } from "./hud/DockingOverlay";
 import { T } from "./drone/Tuning";
 import { ASSIST_INFO } from "./drone/Assists";
@@ -23,7 +25,11 @@ const game = document.querySelector<HTMLElement>("#game")!,
   assistEl = document.querySelector<HTMLElement>("#assist")!,
   assistCostEl = document.querySelector<HTMLElement>("#assist-cost")!,
   tierEl = document.querySelector<HTMLElement>("#tier")!,
+  rotorsEl = document.querySelector<HTMLElement>("#rotors")!,
+  crashEl = document.querySelector<HTMLElement>("#crash-msg")!,
   fallback = document.querySelector<HTMLElement>("#fallback")!;
+
+const SPAWN = new THREE.Vector3(0, 2, 0);
 
 async function start() {
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
@@ -48,78 +54,47 @@ async function start() {
   const physics = ((globalThis as typeof globalThis & { __ddPhysics?: Physics }).__ddPhysics = await Physics.create()),
     input = ((globalThis as typeof globalThis & { __ddInput?: Input }).__ddInput = new Input()),
     sound = new Sound(),
-    drone = ((globalThis as typeof globalThis & { __ddDrone?: Drone }).__ddDrone = new Drone(scene, physics, input)),
+    drone = ((globalThis as typeof globalThis & { __ddDrone?: Drone }).__ddDrone = new Drone(scene, physics, input, SPAWN)),
     fpv = new FPVCamera(innerWidth / innerHeight),
     pipeline = new VisualPipeline(renderer, scene, fpv.camera),
-    // MovingDock section, per milestone 4: "charging pad on a patrolling
-    // platform." Placed ahead of spawn, before the hangar landmark, so a
-    // first-timer meets it early.
+    arena = buildArena(scene, physics),
+    triggers = ((globalThis as typeof globalThis & { __ddTriggers?: WorldTriggers }).__ddTriggers = new WorldTriggers(arena, scene, SPAWN)),
+    // MovingDock, milestone 4: "charging pad on a patrolling platform."
     dock = ((globalThis as typeof globalThis & { __ddDock?: MovingDock }).__ddDock = new MovingDock(physics, scene, new THREE.Vector3(0, 1.2, 12))),
+    dockChecker = new DockChecker(),
+    // InvertedDock, milestone 5: "pad faces downward," fixed (not
+    // patrolling, per the brief), mounted high for real approach room
+    // underneath. Reuses MovingDock/DockChecker/DockingOverlay wholesale --
+    // same pose-gate math, just targetUp flipped.
+    invertedDock = new MovingDock(physics, scene, new THREE.Vector3(-14, 6, 30), { patrol: false, inverted: true }),
+    invertedDockChecker = new DockChecker(),
     dockOverlay = new DockingOverlay();
-  let dockHoldTimer = 0,
-    docked = false;
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
     pipeline.resize(innerWidth, innerHeight);
   });
 
-  // Real ground collider matches Environment.ts's visual ground exactly.
-  const groundBody = physics.world.createRigidBody(RAPIER.RigidBodyDesc.fixed());
-  physics.world.createCollider(RAPIER.ColliderDesc.cuboid(400, 0.1, 400).setTranslation(0, -0.1, 0), groundBody);
-
-  const pylonMat = new THREE.MeshStandardMaterial({ color: 0xff8a3d, emissive: 0x552200, roughness: 0.5 }),
-    pylonPositions: [number, number][] = [
-      [10, 0],
-      [10, -8],
-      [-6, 12],
-      [0, 25],
-      [-15, 5],
-    ];
-  for (const [x, z] of pylonPositions) {
-    const h = 4,
-      mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, h, 12), pylonMat);
-    mesh.position.set(x, h / 2, z);
-    scene.add(mesh);
-    const body = physics.world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(x, h / 2, z));
-    physics.world.createCollider(RAPIER.ColliderDesc.cylinder(h / 2, 0.3), body);
-  }
-
-  // --- one SlotThread: two wall segments barely wider than the drone,
-  // requiring precision to pass. Geometry-only at this milestone (pose-
-  // gate scoring is a later milestone); the collider IS the challenge. ---
-  const slotCenter = new THREE.Vector3(-8, 2, -20),
-    slotGap = 0.9, // drone frame is ~0.3m across the diagonal; this is tight but flyable
-    wallMat = new THREE.MeshStandardMaterial({ color: 0x2a3040, emissive: 0x0d1622, roughness: 0.7 });
-  for (const side of [-1, 1]) {
-    const w = 3,
-      mesh = new THREE.Mesh(new THREE.BoxGeometry(w, 4, 0.4), wallMat);
-    mesh.position.set(slotCenter.x + side * (slotGap / 2 + w / 2), slotCenter.y, slotCenter.z);
-    scene.add(mesh);
-    const body = physics.world.createRigidBody(
-      RAPIER.RigidBodyDesc.fixed().setTranslation(mesh.position.x, mesh.position.y, mesh.position.z),
-    );
-    physics.world.createCollider(RAPIER.ColliderDesc.cuboid(w / 2, 2, 0.2), body);
-  }
-
-  // --- one boost ring: flying through gives a forward velocity surge.
-  // Distance-to-axis + plane-crossing check each frame, not a Rapier
-  // sensor event -- simpler and more predictable given this session's
-  // track record with this Rapier build's less-common APIs. ---
-  const boostCenter = new THREE.Vector3(10, 3, -8),
-    boostRadius = 1.6,
-    boostRingMat = new THREE.MeshStandardMaterial({
-      color: 0xffd24a,
-      emissive: 0xffb020,
-      emissiveIntensity: 1.6,
-      roughness: 0.3,
-      metalness: 0.4,
-    }),
-    boostRing = new THREE.Mesh(new THREE.TorusGeometry(boostRadius, 0.09, 12, 32), boostRingMat);
-  boostRing.position.copy(boostCenter);
-  scene.add(boostRing);
-  let boostCooldown = 0,
-    lastSideOfBoost = 1; // +1/-1, which side of the ring's plane the drone is on
+  // --- damage: contact-force events above threshold on the drone's own
+  // collider (the only one with CONTACT_FORCE_EVENTS + a matching
+  // threshold enabled, see Drone.ts) register a rotor loss. Filtering by
+  // collider handle rather than trusting "a or b" blindly, since either
+  // side of the pair could be the drone depending on creation order. ---
+  const popEffects: { mesh: THREE.Mesh; life: number }[] = [];
+  physics.contact = (force, a, b) => {
+    if (a.handle !== drone.collider.handle && b.handle !== drone.collider.handle) return;
+    const idx = drone.damage.registerContact(force);
+    if (idx === undefined) return;
+    sound.rotorPop();
+    const p = drone.position(),
+      burst = new THREE.Mesh(
+        new THREE.SphereGeometry(0.12, 8, 6),
+        new THREE.MeshBasicMaterial({ color: 0xff6a3d, transparent: true, opacity: 0.9 }),
+      );
+    burst.position.set(p.x, p.y, p.z);
+    scene.add(burst);
+    popEffects.push({ mesh: burst, life: 0.4 });
+  };
 
   const splat = document.createElement("div");
   splat.className = "streaks";
@@ -138,8 +113,19 @@ async function start() {
   // already run a few frames before the pause call lands.
   let paused = new URLSearchParams(location.search).has("paused");
   let last = performance.now(),
-    tickTimer = 0,
-    started = false;
+    started = false,
+    crashTimer = 0, // >0 while the drift-away replay is playing; controls are cut for its duration
+    wasCrashed = false;
+
+  const respawn = (pos: THREE.Vector3) => {
+    drone.body.setTranslation({ x: pos.x, y: pos.y, z: pos.z }, true);
+    drone.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+    drone.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    drone.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    dockChecker.reset();
+    invertedDockChecker.reset();
+  };
+
   const loop = (now: number) => {
     if (paused) return;
     requestAnimationFrame(loop);
@@ -150,99 +136,117 @@ async function start() {
       sound.start();
     }
 
+    // While a crash-drift replay is playing, real control input is cut --
+    // input.step()/drone.fixed() are skipped, so the drone just carries its
+    // last-known momentum under gravity/damping alone (Rapier still steps
+    // it; nothing is re-applying our custom force/torque). That IS the
+    // "drift-away replay of the impact," not a separate fake camera.
+    const controlsActive = crashTimer <= 0;
     physics.step(
       dt,
       (step) => {
-        input.step(step);
-        drone.fixed(step);
+        if (controlsActive) {
+          input.step(step);
+          drone.fixed(step);
+        }
         dock.fixed(step);
+        invertedDock.fixed(step);
       },
       () => {},
     );
 
     if (input.consumeRestart()) {
-      drone.body.setTranslation({ x: 0, y: 2, z: 0 }, true);
-      drone.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
-      drone.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
-      drone.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
-      dockHoldTimer = 0;
-      docked = false;
+      respawn(SPAWN);
+      triggers.resetForRestart(SPAWN);
+      drone.damage.reset();
+      crashTimer = 0;
+      crashEl.classList.add("hide");
+    }
+
+    // --- crash sequence: two rotors lost = crashed (Damage.ts), 3s drift-
+    // away replay, then checkpoint respawn -- "crashes cost time, never
+    // progress." Rotor health resets on respawn so the loop is replayable,
+    // not a one-hit run-ender; the brief doesn't specify either way, but a
+    // permanently-crippled drone after one checkpoint would make the
+    // section itself unplayable rather than "hard but completable." ---
+    if (drone.damage.crashed && !wasCrashed) {
+      crashTimer = T.crashDriftDuration;
+      crashEl.textContent = "ROTORS CRITICAL — DRIFTING";
+      crashEl.classList.remove("hide");
+    }
+    wasCrashed = drone.damage.crashed;
+    if (crashTimer > 0) {
+      crashTimer -= dt;
+      if (crashTimer <= 0) {
+        respawn(triggers.lastCheckpointPos);
+        drone.damage.reset();
+        crashEl.classList.add("hide");
+      }
     }
 
     fpv.update(drone);
     const v = drone.velocity(),
       speed = Math.hypot(v.x, v.y, v.z),
-      p = drone.position();
+      p = drone.position(),
+      dronePos = new THREE.Vector3(p.x, p.y, p.z),
+      droneVel = new THREE.Vector3(v.x, v.y, v.z);
 
-    // --- boost ring trigger: crossed the ring's Z-plane within its radius ---
-    boostCooldown = Math.max(0, boostCooldown - dt);
-    const toDrone = new THREE.Vector3(p.x, p.y, p.z).sub(boostCenter),
-      sideNow = Math.sign(toDrone.z) || 1,
-      radialDist = Math.hypot(toDrone.x, toDrone.y);
-    if (sideNow !== lastSideOfBoost && radialDist < boostRadius && boostCooldown <= 0) {
-      const dir = new THREE.Vector3(v.x, v.y, v.z);
-      if (dir.lengthSq() > 0.01) dir.normalize();
-      else dir.set(0, 0, -1);
-      drone.body.applyImpulse({ x: dir.x * 8, y: dir.y * 8, z: dir.z * 8 }, true);
-      boostCooldown = 1.2;
-      sound.boost();
-      (boostRingMat as THREE.MeshStandardMaterial).emissiveIntensity = 3.2;
-    }
-    lastSideOfBoost = sideNow;
-    boostRingMat.emissiveIntensity += (1.6 - boostRingMat.emissiveIntensity) * Math.min(1, dt * 4);
-    boostRing.rotation.z += dt * 0.4;
-
-    // --- proximity ticker: geiger-style, rate scales with closeness to
-    // the nearest pylon/wall. Cheap O(n) distance check, n is tiny here. ---
-    let nearest = Infinity;
-    for (const [x, z] of pylonPositions) nearest = Math.min(nearest, Math.hypot(p.x - x, p.z - z) - 0.3);
-    nearest = Math.min(nearest, radialDist > boostRadius ? Infinity : Math.abs(toDrone.z));
-    if (nearest < 4) {
-      tickTimer -= dt;
-      if (tickTimer <= 0) {
-        sound.tick(0.05 + (1 - nearest / 4) * 0.15);
-        tickTimer = 0.05 + (nearest / 4) * 0.4;
-      }
-    }
-
-    sound.updateRotors(drone.motorThrust, T.maxThrustPerMotor);
+    triggers.update(dt, dronePos, droneVel, drone, sound);
+    sound.updateRotors(drone.motorThrust, T.maxThrustPerMotor, drone.damage.alive);
     sound.updateAirflow(speed);
 
-    // --- MovingDock: DockingOverlay (ISS-style) + triple-tolerance dock
-    // check, per milestone 4. Overlay only shows up close -- it would
-    // clutter flow-section flying otherwise. ---
-    const dockPoint = dock.dockPoint(),
-      distToDock = dockPoint.distanceTo(new THREE.Vector3(p.x, p.y, p.z));
-    if (distToDock < T.dockOverlayRange) {
-      const pe = poseError(
-        new THREE.Vector3(p.x, p.y, p.z),
-        new THREE.Vector3(v.x, v.y, v.z),
-        drone.mesh.quaternion,
-        dockPoint,
-        dock.velocity,
-        new THREE.Vector3(0, 1, 0),
-        fpv.camera.quaternion,
-      );
-      if (!docked) {
-        if (withinDockTolerance(pe)) {
-          dockHoldTimer += dt;
-          if (dockHoldTimer >= T.dockHoldTime) {
-            docked = true;
-            sound.dockChime();
-          }
-        } else dockHoldTimer = 0;
+    // --- MovingDock + InvertedDock: DockingOverlay (ISS-style) +
+    // triple-tolerance check. Only one overlay element exists, so whichever
+    // dock is currently closer (and in range) claims it each frame -- with
+    // the two docks placed far apart, in practice only one is ever in range
+    // at once. ---
+    const dP = dock.dockPoint(),
+      iP = invertedDock.dockPoint(),
+      nearerIsInverted = dronePos.distanceTo(iP) < dronePos.distanceTo(dP);
+    dockChecker.update(
+      dockOverlay,
+      dronePos,
+      droneVel,
+      drone.mesh.quaternion,
+      dP,
+      dock.velocity,
+      dock.targetUp,
+      fpv.camera.quaternion,
+      dt,
+      nearerIsInverted ? 0 : T.dockOverlayRange, // suppress if the inverted dock has priority this frame
+      () => sound.dockChime(),
+    );
+    invertedDockChecker.update(
+      dockOverlay,
+      dronePos,
+      droneVel,
+      drone.mesh.quaternion,
+      iP,
+      invertedDock.velocity,
+      invertedDock.targetUp,
+      fpv.camera.quaternion,
+      dt,
+      nearerIsInverted ? T.dockOverlayRange : 0,
+      () => sound.dockChime(),
+    );
+
+    // --- rotor-pop particle burst cleanup ---
+    for (let i = popEffects.length - 1; i >= 0; i--) {
+      const e = popEffects[i];
+      e.life -= dt;
+      e.mesh.scale.setScalar(1 + (0.4 - e.life) * 8);
+      (e.mesh.material as THREE.MeshBasicMaterial).opacity = Math.max(0, e.life / 0.4) * 0.9;
+      if (e.life <= 0) {
+        scene.remove(e.mesh);
+        popEffects.splice(i, 1);
       }
-      dockOverlay.update(pe, Math.min(1, dockHoldTimer / T.dockHoldTime), docked);
-    } else {
-      dockOverlay.hide();
-      dockHoldTimer = 0;
     }
 
     // --- HUD: attitude ladder + velocity vector ---
     const { pitch, roll } = drone.flight.attitude(drone.mesh.quaternion);
     ladder.style.transform = `rotate(${roll}rad) translateY(${(pitch * 180) / Math.PI / 90 * 260}px)`;
     if (speed > 1.2) {
-      const aim = new THREE.Vector3(p.x, p.y, p.z).add(new THREE.Vector3(v.x, v.y, v.z).normalize().multiplyScalar(8));
+      const aim = dronePos.clone().add(droneVel.clone().normalize().multiplyScalar(8));
       aim.project(fpv.camera);
       if (aim.z < 1 && Math.abs(aim.x) < 1.4 && Math.abs(aim.y) < 1.4) {
         velVector.classList.remove("hide");
@@ -261,6 +265,8 @@ async function start() {
     assistEl.textContent = info.label;
     assistCostEl.textContent = drone.assist === "OFF" ? info.cost : `cost: ${info.cost}`;
     tierEl.textContent = input.gamepadConnected ? (drone.assist === "OFF" ? "ACRO" : "ACRO+ASSIST") : "STAB (keyboard)";
+    rotorsEl.textContent = drone.damage.alive.map((a) => (a ? "●" : "○")).join(" ");
+    rotorsEl.className = drone.damage.aliveCount() <= 3 ? "warn" : "";
     game.dataset.telemetry = `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)},${v.x.toFixed(2)},${v.y.toFixed(2)},${v.z.toFixed(2)}`;
 
     pipeline.render();

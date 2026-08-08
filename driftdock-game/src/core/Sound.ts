@@ -3,6 +3,8 @@
  *  that "this quad-harmonic IS the soundtrack") plus airflow noise
  *  proportional to speed. Milestone 2 scope: proximity ticker and dock
  *  chime are later milestones (no docking yet to chime for). */
+const ALL_ALIVE = [true, true, true, true];
+
 export class Sound {
   ctx?: AudioContext;
   master?: GainNode;
@@ -61,15 +63,18 @@ export class Sound {
     this.airflow = { src, gain, filter };
   }
 
-  /** motorThrust: 0..maxThrustPerMotor per rotor. Call every render frame. */
-  updateRotors(motorThrust: number[], maxThrust: number) {
+  /** motorThrust: 0..maxThrustPerMotor per rotor. alive: milestone 5 damage
+   *  mask -- a dead rotor's harmonic drops out to true silence (not just
+   *  the idle floor a spun-down-but-alive rotor sits at), per the brief's
+   *  "one harmonic drops out of the soundtrack." Call every render frame. */
+  updateRotors(motorThrust: number[], maxThrust: number, alive: boolean[] = ALL_ALIVE) {
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
     for (let i = 0; i < this.rotors.length; i++) {
       const level = Math.max(0, Math.min(1, motorThrust[i] / maxThrust)),
         { osc, gain } = this.rotors[i];
       osc.frequency.setTargetAtTime(70 + level * 260, t, 0.05);
-      gain.gain.setTargetAtTime(0.02 + level * 0.11, t, 0.08);
+      gain.gain.setTargetAtTime(alive[i] ? 0.02 + level * 0.11 : 0, t, 0.08);
     }
   }
 
@@ -136,5 +141,66 @@ export class Sound {
       o.start(t0);
       o.stop(t0 + 1.1);
     });
+  }
+
+  /** Rotor-loss "pop" -- a short noise burst + falling pitch thud, milestone
+   *  5 damage. Distinct in character from the proximity tick (longer, lower,
+   *  noisier) so a hit reads as damage, not just another proximity warning. */
+  rotorPop() {
+    if (!this.ctx || !this.master) return;
+    const t0 = this.ctx.currentTime,
+      o = this.ctx.createOscillator(),
+      g = this.ctx.createGain(),
+      filter = this.ctx.createBiquadFilter();
+    o.type = "sawtooth";
+    o.frequency.setValueAtTime(220, t0);
+    o.frequency.exponentialRampToValueAtTime(40, t0 + 0.25);
+    filter.type = "lowpass";
+    filter.frequency.value = 800;
+    g.gain.setValueAtTime(0.001, t0);
+    g.gain.exponentialRampToValueAtTime(0.22, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.28);
+    o.connect(filter);
+    filter.connect(g);
+    g.connect(this.master);
+    o.start(t0);
+    o.stop(t0 + 0.29);
+  }
+
+  /** Repair-complete chime -- short, single-note, distinct from dockChime's
+   *  four-note chord and boost's arpeggio (repair pads are a smaller beat). */
+  repairChime() {
+    if (!this.ctx || !this.master) return;
+    const t0 = this.ctx.currentTime,
+      o = this.ctx.createOscillator(),
+      g = this.ctx.createGain();
+    o.type = "triangle";
+    o.frequency.value = 740;
+    g.gain.setValueAtTime(0.001, t0);
+    g.gain.exponentialRampToValueAtTime(0.14, t0 + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.5);
+    o.connect(g);
+    g.connect(this.master);
+    o.start(t0);
+    o.stop(t0 + 0.5);
+  }
+
+  /** Checkpoint pass -- a brief, neutral tick-up, deliberately less showy
+   *  than boost/dock so it doesn't compete with the section's own audio. */
+  checkpoint() {
+    if (!this.ctx || !this.master) return;
+    const t0 = this.ctx.currentTime,
+      o = this.ctx.createOscillator(),
+      g = this.ctx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(600, t0);
+    o.frequency.linearRampToValueAtTime(900, t0 + 0.1);
+    g.gain.setValueAtTime(0.001, t0);
+    g.gain.exponentialRampToValueAtTime(0.08, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.15);
+    o.connect(g);
+    g.connect(this.master);
+    o.start(t0);
+    o.stop(t0 + 0.16);
   }
 }

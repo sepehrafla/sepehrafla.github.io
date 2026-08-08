@@ -69,3 +69,15 @@ canvas{display:block;width:100%;height:100%}
 .dock-status{margin-top:8px;font-size:12px;letter-spacing:.1em;min-height:14px}
 .dock-status.holding{color:#ffcf5c}
 .dock-status.docked{color:#5be08a;text-shadow:0 0 12px rgba(91,224,138,.6)}
+
+/* Rotor-health readout -- filled/empty dots, milestone 5 damage. Turns
+   amber at 3 alive (still flyable but drifting) rather than waiting for
+   the crash itself to announce trouble. */
+.hud b#rotors{letter-spacing:.15em}
+.hud b#rotors.warn{color:#ffcf5c}
+
+/* Crash drift-away message -- shown only while controls are cut. */
+.crash-msg{position:absolute;z-index:7;top:40%;left:50%;transform:translate(-50%,-50%);
+  color:#ff6b6b;font-size:15px;letter-spacing:.12em;text-shadow:0 0 16px rgba(255,107,107,.5),0 2px 6px rgba(0,0,0,.8);
+  pointer-events:none}
+.crash-msg.hide{display:none}

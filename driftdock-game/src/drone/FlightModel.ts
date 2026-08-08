@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { T } from "./Tuning";
 import type { AssistMode } from "./Assists";
 
+const ALL_ALIVE = [true, true, true, true];
+
 /** Converts commanded pitch/roll/yaw + throttle into 4 per-motor thrusts.
  *
  *  Two input tiers (milestone 3): keyboard is always effectively
@@ -58,6 +60,7 @@ export class FlightModel {
     mode: AssistMode,
     trueAcro: boolean,
     agl: number,
+    alive: boolean[] = ALL_ALIVE,
   ) {
     const { pitch, roll } = this.attitude(quat);
     let torquePitch: number, torqueRoll: number;
@@ -93,8 +96,14 @@ export class FlightModel {
     // real climb authority above it and real descent authority below --
     // command acceleration, never velocity, per the physics-honesty pillar.
     const perMotorTarget = throttle * T.maxThrustPerMotor;
-    for (let i = 0; i < 4; i++)
-      this.motorThrust[i] += (perMotorTarget - this.motorThrust[i]) * Math.min(1, T.motorSpinUpRate * dt);
+    for (let i = 0; i < 4; i++) {
+      // A dead rotor (milestone 5 damage) never spins back up regardless of
+      // throttle -- it's not just "weaker," it's gone, which is what makes
+      // the resulting thrust asymmetry (and Drone.ts's added yaw-drift
+      // torque) something the pilot has to actively trim against.
+      const target = alive[i] ? perMotorTarget : 0;
+      this.motorThrust[i] += (target - this.motorThrust[i]) * Math.min(1, T.motorSpinUpRate * dt);
+    }
     const totalThrust = this.motorThrust.reduce((a, b) => a + b, 0);
 
     const up = new THREE.Vector3(0, 1, 0).applyQuaternion(quat),

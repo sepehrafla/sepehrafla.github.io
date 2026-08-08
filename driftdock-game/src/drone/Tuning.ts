@@ -76,6 +76,20 @@ export const T = {
   dockOverlayRange: 12, // m, DockingOverlay fades in inside this distance
   dockPatrolRadius: 3, // m, how far the pad swings from its center
   dockPatrolPeriod: 6, // s, full swing cycle
+
+  // --- milestone 5: damage ---
+  // "Obstacle contact above force threshold at speed = lose a rotor."
+  // totalForceMagnitude() from Rapier's contact-force events is in newtons;
+  // this threshold is a starting point, not measured against a real crash
+  // -- flag for retuning once playtesting happens (same caveat as every
+  // other untested constant in this file).
+  damageForceThreshold: 40, // N
+  damageCooldown: 1.0, // s, minimum time between rotor losses so one hard hit can't strip all four in one contact event
+  rotorLossYawDrift: 0.35, // Nm, constant yaw torque bias per lost rotor -- our FlightModel is an abstracted attitude PD, not a true per-motor mixer, so a missing rotor's real asymmetric-thrust yaw drift is approximated as a fixed bias the pilot must trim against with yaw input, rather than derived from motor geometry
+  repairHoldTime: 1.5, // s, continuous hover inside a repair pad's radius to restore one lost rotor
+  repairPadRadius: 1.5, // m
+  crashDriftDuration: 3, // s, "ISS-style drift-away replay" -- controls cut, camera keeps drifting on last-known velocity while it decays
+  crashDriftDamping: 0.6, // 1/s, how fast the drift-replay's residual velocity decays (cosmetic only, not the real physics body)
 } as const;
 
 export const gravity = 9.81;
