@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { AssistMode } from "../drone/Assists";
 
 /** Course loader, scoped down from the brief's "10 authored courses" to 5
  *  -- each course here is a real, working sequence of gates through the
@@ -12,7 +13,12 @@ import * as THREE from "three";
  *  "flag it, don't fake it" caveat as every other untested constant in
  *  this project; milestone 9's tuning week is where these get calibrated
  *  against real playtesters, per the brief. */
-export type Gate = { pos: THREE.Vector3; radius: number };
+// Milestone 7: each gate optionally carries the copilot's suggested assist
+// for the LEG leading up to it -- "every course contains at least one
+// segment where each equipped assist is a liability and one where it's
+// near-essential," so the copilot's schedule reflects that per section,
+// not one constant setting for the whole course.
+export type Gate = { pos: THREE.Vector3; radius: number; suggestedAssist?: AssistMode };
 export type CourseDef = {
   id: string;
   name: string;
@@ -57,11 +63,11 @@ export const COURSES: CourseDef[] = [
     id: "c3",
     name: "Canyon Run",
     gates: [
-      { pos: new THREE.Vector3(0, 4, -36), radius: 3 }, // canyon mouth
-      { pos: new THREE.Vector3(0, 4, -40), radius: 3 }, // apex 1
-      { pos: new THREE.Vector3(0, 4, -54), radius: 3 }, // apex 2
-      { pos: new THREE.Vector3(0, 4, -68), radius: 3 }, // apex 3
-      { pos: new THREE.Vector3(0, 4, -76), radius: 3 }, // finish, past the canyon
+      { pos: new THREE.Vector3(0, 4, -36), radius: 3, suggestedAssist: "OFF" }, // canyon mouth -- full speed, no assist needed
+      { pos: new THREE.Vector3(0, 4, -40), radius: 3, suggestedAssist: "OFF" }, // apex 1
+      { pos: new THREE.Vector3(0, 4, -54), radius: 3, suggestedAssist: "OFF" }, // apex 2
+      { pos: new THREE.Vector3(0, 4, -68), radius: 3, suggestedAssist: "OFF" }, // apex 3
+      { pos: new THREE.Vector3(0, 4, -76), radius: 3, suggestedAssist: "OFF" }, // finish, past the canyon
     ],
     parBronze: 24,
     parSilver: 17,
@@ -71,10 +77,10 @@ export const COURSES: CourseDef[] = [
     id: "c4",
     name: "Fog IFR",
     gates: [
-      { pos: new THREE.Vector3(0, 3, -90), radius: 3 }, // fog zone entry
-      { pos: new THREE.Vector3(4, 3, -106), radius: 2.5 },
-      { pos: new THREE.Vector3(-3, 3, -103), radius: 2.5 },
-      { pos: new THREE.Vector3(0, 2.5, -120), radius: 3.5 }, // the gold exit gate
+      { pos: new THREE.Vector3(0, 3, -90), radius: 3, suggestedAssist: "STABILIZE" }, // fog zone entry -- stay level going instrument
+      { pos: new THREE.Vector3(4, 3, -106), radius: 2.5, suggestedAssist: "GOVERNOR" }, // pylon threading blind -- can't afford to overspeed into one
+      { pos: new THREE.Vector3(-3, 3, -103), radius: 2.5, suggestedAssist: "GOVERNOR" },
+      { pos: new THREE.Vector3(0, 2.5, -120), radius: 3.5, suggestedAssist: "STABILIZE" }, // the gold exit gate
     ],
     parBronze: 20,
     parSilver: 15,
@@ -90,10 +96,10 @@ export const COURSES: CourseDef[] = [
     // costs the sprint back -- switching it off for the return leg is
     // "demands assist-switching," not just faster if you happen to.
     gates: [
-      { pos: new THREE.Vector3(22, 1, -6), radius: 2.5 }, // duct mouth approach
-      { pos: new THREE.Vector3(22, 0.9, -11.5), radius: 0.8 }, // the beacon itself
-      { pos: new THREE.Vector3(10, 3, -8), radius: 2.5 }, // boost ring, sprint leg
-      { pos: new THREE.Vector3(0, 2, 0), radius: 3 }, // finish, back at spawn
+      { pos: new THREE.Vector3(22, 1, -6), radius: 2.5, suggestedAssist: "GOVERNOR" }, // duct mouth approach
+      { pos: new THREE.Vector3(22, 0.9, -11.5), radius: 0.8, suggestedAssist: "GOVERNOR" }, // the beacon itself
+      { pos: new THREE.Vector3(10, 3, -8), radius: 2.5, suggestedAssist: "OFF" }, // boost ring, sprint leg
+      { pos: new THREE.Vector3(0, 2, 0), radius: 3, suggestedAssist: "OFF" }, // finish, back at spawn
     ],
     parBronze: 30,
     parSilver: 21,

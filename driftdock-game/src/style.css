@@ -101,4 +101,11 @@ canvas{display:block;width:100%;height:100%}
 .medal-splash .medal.bronze{color:#d99a5b;text-shadow:0 0 18px rgba(217,154,91,.6)}
 .medal-splash .medal.none{color:#8fa0b3}
 .medal-splash .medal-time{margin-top:6px;font-size:16px;color:var(--paper);letter-spacing:.06em}
+.medal-splash .medal-copilot{margin-top:4px;font-size:11px;color:#ffd24a;letter-spacing:.04em}
 .medal-splash .medal-hint{margin-top:6px;font-size:11px;color:rgba(234,242,255,.5)}
+
+/* Copilot status line -- milestone 7. Empty/invisible while locked. */
+.course-copilot{margin-top:5px;font-size:10px;letter-spacing:.05em}
+.course-copilot.available{color:#ffd24a}
+.course-copilot.accepted{color:#5be08a}
+.course-copilot.declined{color:rgba(234,242,255,.4)}

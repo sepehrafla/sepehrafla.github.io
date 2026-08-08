@@ -70,7 +70,7 @@ async function start() {
     invertedDock = new MovingDock(physics, scene, new THREE.Vector3(-14, 6, 30), { patrol: false, inverted: true }),
     invertedDockChecker = new DockChecker(),
     dockOverlay = new DockingOverlay(),
-    ghosts = new GhostSession(scene); // milestone 6: course/medal/ghost, see GhostSession.ts
+    ghosts = ((globalThis as typeof globalThis & { __ddGhosts?: GhostSession }).__ddGhosts = new GhostSession(scene)); // milestone 6: course/medal/ghost, see GhostSession.ts
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
@@ -232,8 +232,13 @@ async function start() {
       () => sound.dockChime(),
     );
 
-    // --- milestone 6: course progress + ghost record/playback ---
-    ghosts.update(dt, dronePos, drone.mesh.quaternion);
+    // --- milestone 6/7: course progress, ghost record/playback, copilot
+    // line (accept/reject, pre-armed assists, sync%/divergence tracking).
+    // The magnetism nudge comes back as a velocity-space vector, applied
+    // the same impulse-not-force way as every other custom force in this
+    // project (see Drone.ts's note on why). ---
+    const magnet = ghosts.update(dt, dronePos, drone, speed);
+    if (magnet) drone.body.applyImpulse({ x: magnet.x, y: magnet.y, z: magnet.z }, true);
     if (ghosts.lockStabilize) drone.assist = "STABILIZE"; // progression: courses 1-2 force STABILIZE on, per the brief
 
     // --- rotor-pop particle burst cleanup ---

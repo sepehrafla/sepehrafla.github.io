@@ -90,6 +90,14 @@ export const T = {
   repairPadRadius: 1.5, // m
   crashDriftDuration: 3, // s, "ISS-style drift-away replay" -- controls cut, camera keeps drifting on last-known velocity while it decays
   crashDriftDamping: 0.6, // 1/s, how fast the drift-replay's residual velocity decays (cosmetic only, not the real physics body)
+
+  // --- milestone 7: copilot ghost-line ---
+  copilotSampleSpacing: 1.0, // m, spline sample density -- fine enough for the magnetism/sync distance checks to feel smooth, not so fine it's wasted work over a ~100m course
+  copilotSyncTolerance: 3.5, // m, within this distance of the line counts as "synced" for sync%
+  copilotMagnetRadius: 5, // m, magnetism only pulls inside this distance -- "subtle," not a rail
+  copilotMagnetForce: 1.4, // extra force gain toward the line, scaled by (1 - dist/radius) -- deliberately weak relative to the drone's own ~6N/motor thrust, a nudge the pilot can out-fly, not an autopilot
+  copilotPreviewSeconds: 3, // s, how far ahead the highlighted preview marker sits, per the brief's "3s ahead"
+  copilotCruiseSpeed: 9, // m/s, nominal speed used to convert the 3s preview window into a distance along the line when the drone itself is nearly stationary (e.g. idle before the run starts)
 } as const;
 
 export const gravity = 9.81;
