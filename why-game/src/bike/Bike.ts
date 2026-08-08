@@ -29,6 +29,8 @@ export class Bike {
   onTrace?: (x: number, y: number, speed: number) => void;
   lastAngle = 0;
   spin = 0;
+  squash = 0;
+  streakTick = 0;
   constructor(
     public scene: THREE.Scene,
     public physics: Physics,
@@ -185,9 +187,20 @@ export class Bike {
         this.boost = 0.8;
         this.particles.emit(x, y, 0xe9b949, 35, 5);
       }
+      this.squash = Math.min(1, 0.4 + this.air * 0.3);
       this.onLand?.(flip);
     }
     this.wasAir = !grounded;
+    // Squash-and-stretch on landing, speed streaks at high velocity -- pure juice,
+    // no gameplay effect.
+    this.squash *= Math.exp(-dt * 13);
+    this.chassisMesh.scale.set(1 + this.squash * 0.16, 1 - this.squash * 0.22, 1);
+    const speed = Math.abs(this.chassis.linvel().x);
+    this.streakTick += dt;
+    if (grounded && speed > 13 && this.streakTick > 0.05) {
+      this.streakTick = 0;
+      this.particles.emit(x - Math.sign(this.chassis.linvel().x) * 0.9, y + 0.3, 0xf4f1e8, 1, 0.4);
+    }
     if (x > this.nextCheckpoint) {
       this.checkpoint = { x, y: Math.max(y, this.ground(x) + 3) };
       this.nextCheckpoint += T.checkpoint;

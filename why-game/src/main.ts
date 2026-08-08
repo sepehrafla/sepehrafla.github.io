@@ -8,6 +8,7 @@ import { load, save, fresh, type RideMode } from "./core/SaveState";
 import { dailyKey, hash } from "./core/Seed";
 import { Terrain } from "./world/Terrain";
 import { Anomalies } from "./world/Anomalies";
+import { Rivals } from "./world/Rivals";
 import { Bike } from "./bike/Bike";
 import { Particles } from "./feel/Particles";
 import { Sound } from "./feel/Sound";
@@ -60,9 +61,22 @@ async function start(mode: RideMode) {
   const sky = new THREE.Mesh(
     new THREE.PlaneGeometry(500, 80),
     new THREE.ShaderMaterial({
-      uniforms: { uPaint: { value: 0 } },
+      uniforms: { uPaint: { value: 0 }, uTime: { value: 0 } },
       vertexShader: `varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-      fragmentShader: `uniform float uPaint;varying vec2 v;float n(vec2 p){return fract(sin(dot(p,vec2(41.,289.)))*43758.);}void main(){float paper=n(floor(v*240.))*.05;vec3 g=vec3(.82-paper),c=mix(vec3(.42,.72,.68),vec3(.96,.65,.44),v.y);gl_FragColor=vec4(mix(g,c,uPaint*.38),1.);}`,
+      fragmentShader: `uniform float uPaint,uTime;varying vec2 v;
+        float n(vec2 p){return fract(sin(dot(p,vec2(41.,289.)))*43758.);}
+        float cloud(vec2 p){float c=0.;for(int i=0;i<3;i++){float fi=float(i);vec2 q=p+vec2(uTime*(.006+fi*.003)+fi*17.,fi*9.);c+=smoothstep(.5,.9,n(floor(q*3.))*.6+n(floor(q*1.3))*.4)*(1.-fi*.22);}return clamp(c,0.,1.);}
+        void main(){
+          float paper=n(floor(v*240.))*.05;
+          vec3 g=vec3(.82-paper);
+          vec3 c=mix(vec3(.42,.72,.68),vec3(.96,.65,.44),v.y);
+          float sun=smoothstep(.22,0.,distance(v,vec2(.78,.72)));
+          c+=sun*vec3(1.,.85,.55)*.5;
+          g+=sun*.12;
+          float cl=cloud(v*vec2(6.,2.5))*smoothstep(.15,.6,v.y)*.16;
+          c=mix(c,vec3(1.),cl); g=mix(g,vec3(.95),cl*.6);
+          gl_FragColor=vec4(mix(g,c,uPaint*.38),1.);
+        }`,
     }),
   );
   sky.position.set(100, 12, -10);
@@ -81,8 +95,11 @@ async function start(mode: RideMode) {
       mode,
       seed,
     ),
+    rivals = ((globalThis as typeof globalThis & { __whyRivals?: Rivals }).__whyRivals =
+      new Rivals(scene, sound, particles, (x) => terrain.height(x))),
     route = new EndMap(mapCanvas, state, mode),
     splat = document.createElement("div");
+  let sinceRisk = 0;
   splat.className = "splat";
   game.append(splat);
   let started = performance.now(),
@@ -105,6 +122,7 @@ async function start(mode: RideMode) {
   bike.onTrace = (x, y, speed) => route.point(x, y, speed);
   anomalies.onSpark = (amount) => {
     sparkCount += amount;
+    sinceRisk = 0;
     bike.setTier(
       mode === "free" ? state.tier : Math.min(4, Math.floor(sparkCount / 3)),
     );
@@ -180,13 +198,19 @@ async function start(mode: RideMode) {
       v = bike.velocity();
     game.dataset.telemetry = `${p.x.toFixed(2)},${p.y.toFixed(2)},${v.x.toFixed(2)},${bike.chassis.rotation().toFixed(2)},${bike.wiped ? 1 : 0},${input.gas ? 1 : 0}`;
     anomalies.update(now / 1000, p.x, p.y);
+    // "At risk" = off the safe baseline (exploring above/below road, or airborne)
+    // or a spark was just earned. Staying glued to flat, grounded road is the
+    // one thing that summons a rival rider past you.
+    const offBaseline = Math.abs(p.y - terrain.height(p.x)) > 2.2;
+    if (offBaseline || bike.air > 0.15) sinceRisk = 0;
+    else sinceRisk += dt;
+    rivals.update(dt, p.x, p.y, sinceRisk < 0.05);
     camera.update(dt, p.x, p.y, v.x, bike.air);
     juice.update(dt, camera.camera);
     particles.update(dt);
-    (sky.material as THREE.ShaderMaterial).uniforms.uPaint.value = Math.min(
-      1,
-      sparkCount / 12,
-    );
+    const skyMat = sky.material as THREE.ShaderMaterial;
+    skyMat.uniforms.uPaint.value = Math.min(1, sparkCount / 12);
+    skyMat.uniforms.uTime.value = now / 1000;
     sky.position.x = p.x + 30;
     hudSparks.textContent = `${sparkCount} ✦`;
     distance.textContent = String(Math.max(0, Math.floor(p.x))).padStart(
