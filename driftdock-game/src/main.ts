@@ -12,6 +12,7 @@ import { WorldTriggers } from "./world/Triggers";
 import { MovingDock } from "./world/MovingDock";
 import { DockChecker } from "./world/Gates";
 import { DockingOverlay } from "./hud/DockingOverlay";
+import { GhostSession } from "./replay/GhostSession";
 import { T } from "./drone/Tuning";
 import { ASSIST_INFO } from "./drone/Assists";
 
@@ -68,7 +69,8 @@ async function start() {
     // same pose-gate math, just targetUp flipped.
     invertedDock = new MovingDock(physics, scene, new THREE.Vector3(-14, 6, 30), { patrol: false, inverted: true }),
     invertedDockChecker = new DockChecker(),
-    dockOverlay = new DockingOverlay();
+    dockOverlay = new DockingOverlay(),
+    ghosts = new GhostSession(scene); // milestone 6: course/medal/ghost, see GhostSession.ts
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
@@ -229,6 +231,10 @@ async function start() {
       nearerIsInverted ? T.dockOverlayRange : 0,
       () => sound.dockChime(),
     );
+
+    // --- milestone 6: course progress + ghost record/playback ---
+    ghosts.update(dt, dronePos, drone.mesh.quaternion);
+    if (ghosts.lockStabilize) drone.assist = "STABILIZE"; // progression: courses 1-2 force STABILIZE on, per the brief
 
     // --- rotor-pop particle burst cleanup ---
     for (let i = popEffects.length - 1; i >= 0; i--) {

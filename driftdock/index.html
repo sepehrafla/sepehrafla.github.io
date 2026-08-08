@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#0b0e14" />
     <meta name="description" content="DRIFT/DOCK — an FPV drone game of flow and precision." />
     <title>DRIFT/DOCK</title>
-    <script type="module" crossorigin src="/driftdock/assets/index-Ceiye3Gv.js"></script>
-    <link rel="stylesheet" crossorigin href="/driftdock/assets/index-BhZ_0sok.css">
+    <script type="module" crossorigin src="/driftdock/assets/index-BUqGfMNe.js"></script>
+    <link rel="stylesheet" crossorigin href="/driftdock/assets/index-BUcBuYL4.css">
   </head>
   <body>
     <main id="game" aria-label="DRIFT/DOCK, an FPV drone flight game">
@@ -45,6 +45,16 @@
       <!-- Crash drift-away message -- shown only while controls are cut
            during the milestone 5 crash replay. -->
       <div id="crash-msg" class="crash-msg hide"></div>
+      <!-- Milestone 6: course HUD -- name, gate progress, timer, best time.
+           Top-right so it never collides with the flight HUD. -->
+      <div id="course-hud" class="course-hud">
+        <div class="course-name" id="course-name">1 · First Flight</div>
+        <div class="course-row"><span id="course-gate">GATE 1/4</span><b id="course-timer">0:00.0</b></div>
+        <div class="course-best" id="course-best"></div>
+        <div class="course-hint">1-5 select course · fly through the first gate to start</div>
+      </div>
+      <!-- Medal splash on finish. -->
+      <div id="medal-splash" class="medal-splash hide"></div>
       <p id="fallback" class="fallback"></p>
     </main>
   </body>

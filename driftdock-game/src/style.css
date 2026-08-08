@@ -81,3 +81,24 @@ canvas{display:block;width:100%;height:100%}
   color:#ff6b6b;font-size:15px;letter-spacing:.12em;text-shadow:0 0 16px rgba(255,107,107,.5),0 2px 6px rgba(0,0,0,.8);
   pointer-events:none}
 .crash-msg.hide{display:none}
+
+/* Course HUD -- top-right, name/gate/timer/best. Milestone 6. */
+.course-hud{position:absolute;z-index:5;top:16px;right:16px;text-align:right;color:var(--paper);
+  pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.course-name{font-size:13px;letter-spacing:.08em;color:rgba(234,242,255,.7);margin-bottom:4px}
+.course-row{display:flex;align-items:baseline;gap:10px;justify-content:flex-end;font-size:12px;letter-spacing:.06em}
+.course-row b{color:var(--accent);font-size:20px;font-variant-numeric:tabular-nums}
+.course-best{margin-top:3px;font-size:10.5px;color:rgba(255,207,92,.75)}
+.course-hint{margin-top:8px;font-size:9.5px;color:rgba(234,242,255,.4);letter-spacing:.03em;max-width:200px}
+
+/* Medal splash -- shown briefly on course finish. */
+.medal-splash{position:absolute;z-index:8;top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;pointer-events:none;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+.medal-splash.hide{display:none}
+.medal-splash .medal{font-size:34px;letter-spacing:.15em;font-weight:600}
+.medal-splash .medal.gold{color:#ffd24a;text-shadow:0 0 22px rgba(255,210,74,.7)}
+.medal-splash .medal.silver{color:#d8e2ea;text-shadow:0 0 18px rgba(216,226,234,.6)}
+.medal-splash .medal.bronze{color:#d99a5b;text-shadow:0 0 18px rgba(217,154,91,.6)}
+.medal-splash .medal.none{color:#8fa0b3}
+.medal-splash .medal-time{margin-top:6px;font-size:16px;color:var(--paper);letter-spacing:.06em}
+.medal-splash .medal-hint{margin-top:6px;font-size:11px;color:rgba(234,242,255,.5)}
