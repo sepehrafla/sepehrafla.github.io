@@ -5,9 +5,13 @@ export class Input {
   left = false;
   right = false;
   release?: number;
+  /** Edge-triggered: true for one read after the pin-toggle key/button fires.
+   *  Consume with consumeToggle() so a held key doesn't retrigger every frame. */
+  togglePin = false;
   constructor(canvas: HTMLCanvasElement) {
     addEventListener("keydown", (event) => {
       if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyZ", "KeyX"].includes(event.code)) event.preventDefault();
+      if (event.code === "KeyC" && !this.keys.has("KeyC")) this.togglePin = true;
       this.keys.add(event.code);
       this.read();
     }, { passive: false });
@@ -33,6 +37,11 @@ export class Input {
     this.brake = this.keys.has("ArrowDown");
     this.left = this.keys.has("ArrowLeft") || this.keys.has("KeyZ");
     this.right = this.keys.has("ArrowRight");
+  }
+  consumeToggle() {
+    const v = this.togglePin;
+    this.togglePin = false;
+    return v;
   }
   touch(event: PointerEvent, canvas: HTMLCanvasElement) {
     const rect = canvas.getBoundingClientRect(), x = (event.clientX - rect.left) / rect.width, y = (event.clientY - rect.top) / rect.height;

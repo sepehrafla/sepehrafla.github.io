@@ -5,6 +5,7 @@ import type { Particles } from "../feel/Particles";
 import type { Sound } from "../feel/Sound";
 import { T } from "./Tuning";
 import { buildWheel, buildChassis, buildRider } from "./BikeArt";
+import type { Copilot } from "../copilot/Copilot";
 export class Bike {
   chassis: RAPIER.RigidBody;
   rear: RAPIER.RigidBody;
@@ -33,6 +34,10 @@ export class Bike {
   streakTick = 0;
   throttle = 0;
   stuckTime = 0;
+  /** Set from main.ts once the Copilot exists. When throttle is pinned, its
+   *  PID output replaces this.input.gas as the propulsion signal -- see
+   *  CENTAUR_DESIGN.md §3. Braking and lean stay manual-only in this slice. */
+  copilot: Copilot | null = null;
   constructor(
     public scene: THREE.Scene,
     public physics: Physics,
@@ -141,8 +146,12 @@ export class Bike {
       if (this.respawnIn <= 0) this.respawn();
       return;
     }
-    const gas = this.input.gas ? 1 : 0,
-      brake = this.input.brake ? 1 : 0;
+    const brake = this.input.brake ? 1 : 0,
+      maxSpeedMs = T.maxWheelSpeed * T.wheelRadius,
+      copilotGas = this.copilot?.throttleOutput(Math.abs(this.chassis.linvel().x), maxSpeedMs, dt) ?? null,
+      // Delegated throttle replaces the manual gas signal entirely -- see
+      // CENTAUR_DESIGN.md §3. Braking and lean stay manual in this slice.
+      gas = copilotGas ?? (this.input.gas ? 1 : 0);
     // Propulsion is the rear wheel motor (gasTorque/maxWheelSpeed) so it rolls
     // WITH ground friction instead of fighting it -- a bare chassis impulse here
     // gets almost entirely absorbed by the high grip tuned for climbing, so the
@@ -151,7 +160,7 @@ export class Bike {
     // verified empirically -- +27 drove the bike backward.
     // Ease the throttle in quickly and release it softly. Full motor torque on
     // the first pressed frame made the rear tire snap, chatter and pitch the bike.
-    const throttleRate = gas ? 4.8 : 7;
+    const throttleRate = gas > 0.01 ? 4.8 : 7;
     this.throttle += (gas - this.throttle) * Math.min(1, throttleRate * dt);
     if (brake) this.rearJoint.configureMotorVelocity(0, T.brakeTorque);
     else if (this.throttle > 0.01)

@@ -18,6 +18,7 @@ import { Juice } from "./feel/Juice";
 import { EndMap } from "./ui/EndMap";
 import { VisualPipeline } from "./render/VisualPipeline";
 import { Atmosphere } from "./render/Atmosphere";
+import { Copilot } from "./copilot/Copilot";
 const game = document.querySelector<HTMLElement>("#game")!,
   title = document.querySelector<HTMLElement>("#title")!,
   ride = document.querySelector<HTMLButtonElement>("#ride")!,
@@ -28,6 +29,7 @@ const game = document.querySelector<HTMLElement>("#game")!,
   timer = document.querySelector<HTMLElement>("#timer")!,
   speedometer = document.querySelector<HTMLElement>("#speedometer")!,
   speedValue = document.querySelector<HTMLElement>("#speed-value")!,
+  intentGlyph = document.querySelector<HTMLButtonElement>("#intent-glyph")!,
   mapPanel = document.querySelector<HTMLElement>("#map")!,
   mapCanvas = document.querySelector<HTMLCanvasElement>("#map-canvas")!,
   keep = document.querySelector<HTMLButtonElement>("#keep")!,
@@ -99,6 +101,9 @@ async function start(mode: RideMode) {
     terrain.height(x),
   );
   bike.setTier(state.tier);
+  const copilot = new Copilot();
+  bike.copilot = copilot;
+  intentGlyph.addEventListener("click", () => copilot.toggleThrottlePin());
   const anomalies = new Anomalies(
       scene,
       state,
@@ -187,6 +192,8 @@ async function start(mode: RideMode) {
     requestAnimationFrame(loop);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
+    if (input.consumeToggle()) copilot.toggleThrottlePin();
+    intentGlyph.classList.toggle("pinned", copilot.isPinned("throttle"));
     if (juice.step())
       physics.step(
         dt,
