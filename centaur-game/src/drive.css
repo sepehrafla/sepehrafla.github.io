@@ -53,7 +53,7 @@ html, body, #game { background: #10051f; }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font: 1000 clamp(112px, 22vw, 260px)/0.72 Impact, "Arial Black", sans-serif;
+  font: 1000 clamp(64px, 13.5vw, 160px)/0.72 Impact, "Arial Black", sans-serif;
   letter-spacing: -0.065em;
   -webkit-text-stroke: 3px #140522;
   text-shadow: 0 12px 0 rgba(19, 3, 37, 0.28), 0 0 32px rgba(210, 64, 255, 0.28);
@@ -111,7 +111,7 @@ html, body, #game { background: #10051f; }
 @media (max-width: 650px) {
   .title:before { left: 60%; top: 18%; }
   .title-kicker { max-width: 280px; text-align: center; line-height: 1.5; }
-  .title h1 { font-size: 36vw; -webkit-text-stroke-width: 2px; }
+  .title h1 { font-size: 20vw; -webkit-text-stroke-width: 2px; }
   .title-lockup p { font-size: 12vw; }
   .modes { margin-top: 48px; }
   .modes button { font-size: 22px; }

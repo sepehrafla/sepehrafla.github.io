@@ -119,7 +119,7 @@ export class Bike {
     return buildRider();
   }
   setTier(tier: number) {
-    (globalThis as typeof globalThis & { __whyBike?: Bike }).__whyBike = this;
+    (globalThis as typeof globalThis & { __centaurBike?: Bike }).__centaurBike = this;
     this.tier = tier;
     const colors = [0xa746ff, 0xff4f9a, 0x28d7e8, 0xffa33a, 0xf9ef72];
     for (const m of this.chassisMesh.userData.paint as THREE.MeshStandardMaterial[])

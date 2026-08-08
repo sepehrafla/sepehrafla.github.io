@@ -160,11 +160,11 @@
   .signal-stack{display:grid;gap:12px;margin-top:18px}.signal-row{display:flex;gap:13px;align-items:center;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line)}.signal-icon{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:linear-gradient(145deg,rgba(124,159,255,.24),rgba(124,159,255,.07));border:1px solid rgba(124,159,255,.22);color:#dfe7ff;font:700 13px 'JetBrains Mono',monospace}.signal-icon.warm{background:linear-gradient(145deg,rgba(255,138,92,.25),rgba(255,138,92,.06));border-color:rgba(255,138,92,.24);color:#ffc2aa}.signal-icon.good{background:linear-gradient(145deg,rgba(91,229,154,.22),rgba(91,229,154,.05));border-color:rgba(91,229,154,.22);color:#9df4c2}.signal-row b{display:block;font-size:13px}.signal-row small{color:var(--muted);font-size:11px}
 
 
-  /* WHY? — embedded physics ride */
-  .why-shell{position:relative;border:1px solid rgba(241,188,69,.32);border-radius:28px;overflow:hidden;background:#17191d;box-shadow:0 35px 110px rgba(0,0,0,.46),0 0 70px rgba(72,214,200,.08)}
-  .why-shell iframe{display:block;width:100%;height:min(78vh,760px);min-height:620px;border:0;background:#17191d}
-  .why-open{position:absolute;z-index:4;right:22px;top:20px;padding:8px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(23,25,29,.76);backdrop-filter:blur(12px);color:#ece8df;text-decoration:none;font:600 10px 'Inter',sans-serif;letter-spacing:.02em;transition:.2s}
-  .why-open:hover{transform:translateY(-2px);border-color:rgba(241,188,69,.75);color:#f1bc45}
+  /* CENTAUR — embedded physics ride */
+  .centaur-shell{position:relative;border:1px solid rgba(241,188,69,.32);border-radius:28px;overflow:hidden;background:#17191d;box-shadow:0 35px 110px rgba(0,0,0,.46),0 0 70px rgba(72,214,200,.08)}
+  .centaur-shell iframe{display:block;width:100%;height:min(78vh,760px);min-height:620px;border:0;background:#17191d}
+  .centaur-open{position:absolute;z-index:4;right:22px;top:20px;padding:8px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(23,25,29,.76);backdrop-filter:blur(12px);color:#ece8df;text-decoration:none;font:600 10px 'Inter',sans-serif;letter-spacing:.02em;transition:.2s}
+  .centaur-open:hover{transform:translateY(-2px);border-color:rgba(241,188,69,.75);color:#f1bc45}
 
   /* Selected builds */
   .proj-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
@@ -296,7 +296,7 @@
     .about-grid{grid-template-columns:1fr;gap:36px}
     .fact{min-height:76px}
     .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
-    .why-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.why-shell iframe{height:72vh;min-height:560px}.why-open{right:16px;top:15px}
+    .centaur-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.centaur-shell iframe{height:72vh;min-height:560px}.centaur-open{right:16px;top:15px}
     .life-console{padding:12px;border-radius:22px}.easter-toast{top:64px;max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis}.life-tabs{grid-template-columns:1fr 1fr}.life-tab{min-height:44px}.life-panel{grid-template-columns:1fr;min-height:0}.life-card{padding:18px}.community-map{grid-template-columns:repeat(2,1fr)}.metric-stack{grid-template-columns:repeat(3,1fr)}.barbell-viz{grid-template-columns:1fr 36px 1fr}.bar-side{padding:15px 8px}.bar-side b{font-size:23px}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
     .proj-card{min-height:0}
@@ -316,7 +316,7 @@
     <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
     <div class="navlinks">
       <a href="#about">About</a>
-      <a href="#life-os">WHY?</a>
+      <a href="#life-os">CENTAUR</a>
       <a href="#projects">Shipped</a>
       <a href="#voice-demo">Praxis Lab</a>
       <a href="#contact" class="cta">Get in touch</a>
@@ -403,9 +403,9 @@
     <div class="section-kicker">Playable experiment · physics freeride</div>
     <h2 class="section-title">The safe road goes forever. The interesting things don’t.</h2>
     <p class="section-lede">Ride the gray line or follow whatever glows beyond it. Curiosity paints the world, changes the bike, and leaves a shareable map of the route you actually took.</p>
-    <div class="why-shell" data-reveal>
-      <iframe src="why/" title="WHY? — a physics motorbike game about curiosity" loading="lazy" allow="web-share"></iframe>
-      <a class="why-open" href="why/" target="_blank" rel="noopener">Open full ride ↗</a>
+    <div class="centaur-shell" data-reveal>
+      <iframe src="centaur/" title="CENTAUR — a physics motorbike game about curiosity" loading="lazy" allow="web-share"></iframe>
+      <a class="centaur-open" href="centaur/" target="_blank" rel="noopener">Open full ride ↗</a>
     </div>
     <div class="life-console" hidden>
       <div class="life-console-top"><button class="console-lights" id="console-easter" type="button" aria-label="Run undocumented diagnostic"><i></i><i></i><i></i></button><span class="console-status" id="life-status">trajectory · nominal</span></div>
@@ -923,6 +923,6 @@ document.querySelectorAll('.proj-card').forEach(card=>{
   card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
 });
 </script>
-<!-- WHY? runs as a standalone, static physics game embedded above. -->
+<!-- CENTAUR runs as a standalone, static physics game embedded above. -->
 </body>
 </html>

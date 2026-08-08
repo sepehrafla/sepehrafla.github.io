@@ -68,7 +68,7 @@ async function start(mode: RideMode) {
             lastDaily: saved.lastDaily,
           }),
     key = dailyKey(),
-    seed = mode === "daily" ? hash(key) : hash("why-freeride"),
+    seed = mode === "daily" ? hash(key) : hash("centaur-freeride"),
     terrain = new Terrain(scene, physics, state, seed),
     pipeline = new VisualPipeline(renderer, scene, camera.camera),
     atmosphere = new Atmosphere(scene, seed);
@@ -114,7 +114,7 @@ async function start(mode: RideMode) {
       mode,
       seed,
     ),
-    rivals = ((globalThis as typeof globalThis & { __whyRivals?: Rivals }).__whyRivals =
+    rivals = ((globalThis as typeof globalThis & { __centaurRivals?: Rivals }).__centaurRivals =
       new Rivals(scene, sound, particles, (x) => terrain.height(x))),
     route = new EndMap(mapCanvas, state, mode),
     splat = document.createElement("div");
