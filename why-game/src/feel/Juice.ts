@@ -1,0 +1,2 @@
+import * as THREE from 'three';export class Juice{trauma=0;stop=0;t=0;shake(force:number){this.trauma=Math.min(1,this.trauma+force*.018)}freeze(frames:number){this.stop=Math.max(this.stop,frames)}step(){if(this.stop<=0)return true;this.stop--;return false}update(dt:number,camera:THREE.Camera){this.t+=dt;this.trauma=Math.max(0,this.trauma-dt*2);const n=this.trauma*this.trauma;camera.position.x+=Math.sin(this.t*73)*n*.35;camera.position.y+=Math.sin(this.t*57)*n*.24;camera.rotation.z=Math.sin(this.t*61)*n*.012}}
+

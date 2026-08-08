@@ -1,0 +1,2 @@
+.title:not(.hide)~.end,.title:not(.hide)~.hud{opacity:0;pointer-events:none}
+
