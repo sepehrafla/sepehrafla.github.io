@@ -12,12 +12,20 @@ export class Input {
       this.read();
     }, { passive: false });
     addEventListener("keyup", (event) => { this.keys.delete(event.code); this.read(); });
-    canvas.addEventListener("pointerdown", (event) => { clearTimeout(this.release); canvas.setPointerCapture(event.pointerId); this.touch(event, canvas); });
-    canvas.addEventListener("pointermove", (event) => { if (event.buttons) this.touch(event, canvas); });
-    canvas.addEventListener("pointerup", (event) => {
-      canvas.releasePointerCapture(event.pointerId);
-      this.release = window.setTimeout(() => { this.gas = this.brake = this.left = this.right = false; }, 260);
+    canvas.addEventListener("pointerdown", (event) => {
+      clearTimeout(this.release);
+      try { canvas.setPointerCapture(event.pointerId); } catch { /* some mobile browsers reject capture on rapid re-taps */ }
+      this.touch(event, canvas);
     });
+    canvas.addEventListener("pointermove", (event) => { if (event.buttons) this.touch(event, canvas); });
+    const clearTouch = (event: PointerEvent) => {
+      try { canvas.releasePointerCapture(event.pointerId); } catch { /* capture may already be gone, e.g. after pointercancel */ }
+      this.release = window.setTimeout(() => { this.gas = this.brake = this.left = this.right = false; }, 260);
+    };
+    canvas.addEventListener("pointerup", clearTouch);
+    // iOS Safari fires pointercancel instead of pointerup when a system gesture or
+    // focus change interrupts the touch -- without this, inputs could stick on.
+    canvas.addEventListener("pointercancel", clearTouch);
     addEventListener("blur", () => { this.keys.clear(); this.read(); });
   }
   read() {
