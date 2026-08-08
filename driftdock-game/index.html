@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0e14" />
+    <meta name="description" content="DRIFT/DOCK — an FPV drone game of flow and precision." />
+    <title>DRIFT/DOCK</title>
+  </head>
+  <body>
+    <main id="game" aria-label="DRIFT/DOCK, an FPV drone flight game">
+      <div id="hud" class="hud hide">
+        <div class="row"><span class="label">SPD</span><b id="speed">0.0</b><span class="unit">m/s</span></div>
+        <div class="row"><span class="label">ALT</span><b id="alt">0.0</b><span class="unit">m</span></div>
+        <div class="row"><span class="label">THR</span><b id="throttle">50</b><span class="unit">%</span></div>
+        <div class="hint">W/S pitch · A/D roll · Q/E yaw · Shift/Ctrl throttle · R restart</div>
+      </div>
+      <p id="fallback" class="fallback"></p>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
