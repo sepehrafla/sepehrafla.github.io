@@ -1,6 +1,7 @@
 import "./style.css";
 import "./polish.css";
 import "./speedometer.css";
+import "./drive.css";
 import * as THREE from "three";
 import { Physics } from "./core/Physics";
 import { RideCamera } from "./core/Camera";
@@ -40,12 +41,12 @@ async function start(mode: RideMode) {
     powerPreference: "high-performance",
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setClearColor(0xd9d7d0);
+  renderer.setClearColor(0x10051f);
   game.prepend(renderer.domElement);
   const scene = new THREE.Scene();
   scene.add(
-    new THREE.HemisphereLight(0xfff7e6, 0x355262, 2.25),
-    new THREE.DirectionalLight(0xffd8a8, 2.8),
+    new THREE.HemisphereLight(0xff8dbb, 0x16062c, 2.4),
+    new THREE.DirectionalLight(0xff6d8d, 3.2),
   );
   const sunLight = scene.children[1] as THREE.DirectionalLight;
   sunLight.position.set(-4, 12, 16);
@@ -81,14 +82,14 @@ async function start(mode: RideMode) {
         float cloud(vec2 p){float c=0.;for(int i=0;i<3;i++){float fi=float(i);vec2 q=p+vec2(uTime*(.006+fi*.003)+fi*17.,fi*9.);c+=smoothstep(.5,.9,n(floor(q*3.))*.6+n(floor(q*1.3))*.4)*(1.-fi*.22);}return clamp(c,0.,1.);}
         void main(){
           float paper=n(floor(v*240.))*.05;
-          vec3 g=vec3(.82-paper);
-          vec3 c=mix(vec3(.42,.72,.68),vec3(.96,.65,.44),v.y);
+          vec3 g=mix(vec3(.035,.012,.10),vec3(.20,.035,.28),v.y)-paper*.2;
+          vec3 c=mix(vec3(.17,.035,.38),vec3(1.,.23,.48),v.y);
           float sun=smoothstep(.22,0.,distance(v,vec2(.78,.72)));
-          c+=sun*vec3(1.,.85,.55)*.5;
-          g+=sun*.12;
+          c+=sun*vec3(1.,.32,.18)*.45;
+          g+=sun*vec3(.22,.035,.09);
           float cl=cloud(v*vec2(6.,2.5))*smoothstep(.15,.6,v.y)*.16;
-          c=mix(c,vec3(1.),cl); g=mix(g,vec3(.95),cl*.6);
-          gl_FragColor=vec4(mix(g,c,uPaint*.38),1.);
+          c=mix(c,vec3(.48,.17,.62),cl); g=mix(g,vec3(.22,.06,.32),cl*.35);
+          gl_FragColor=vec4(mix(g,c,.72+uPaint*.28),1.);
         }`,
     }),
   );

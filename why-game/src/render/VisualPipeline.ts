@@ -18,7 +18,7 @@ export class VisualPipeline {
   ) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.14;
     renderer.shadowMap.enabled = false;
     const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
     this.enabled = !matchMedia("(prefers-reduced-motion: reduce)").matches && memory >= 4;
@@ -29,7 +29,7 @@ export class VisualPipeline {
     // retina-sharp. This keeps the expensive blur passes comfortably mobile.
     this.composer.setPixelRatio(innerWidth < 720 ? 1 : Math.min(devicePixelRatio, 1.5));
     this.composer.addPass(new RenderPass(scene, camera));
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.32, 0.5, 0.82);
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.48, 0.62, 0.72);
     this.composer.addPass(this.bloom);
     this.composer.addPass(new OutputPass());
   }

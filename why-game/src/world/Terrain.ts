@@ -10,10 +10,10 @@ type Chunk = {
   points: THREE.Vector2[];
 };
 const palettes = [
-  [0x60c989, 0xf1ca6d],
-  [0x22c9bd, 0x825cff],
-  [0xee7451, 0xf0bf62],
-  [0x80d8ff, 0xf7a7d4],
+  [0x6f2cff, 0xff3f99],
+  [0x1bd7dc, 0x7752ff],
+  [0xff5e62, 0xffb24a],
+  [0x7c5cff, 0xff74c8],
 ];
 export class Terrain {
   chunks = new Map<number, Chunk>();
@@ -87,12 +87,17 @@ export class Terrain {
     const mesh = new THREE.Mesh(geometry, paint),
       root = new THREE.Group();
     root.add(mesh);
+    const neonEdge = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(points.map((p) => new THREE.Vector3(p.x, p.y + 0.035, 0.42))),
+      new THREE.LineBasicMaterial({ color: 0xff4ca3, transparent: true, opacity: 0.82, toneMapped: false }),
+    );
+    root.add(neonEdge);
     const cave = new THREE.Mesh(
       new THREE.BufferGeometry().setFromPoints(
         points.map((p) => new THREE.Vector3(p.x, p.y - 7, -2)),
       ),
       new THREE.LineBasicMaterial({
-        color: 0x42444b,
+        color: 0x5b287d,
         transparent: true,
         opacity: 0.45,
       }),
@@ -122,7 +127,7 @@ export class Terrain {
         uColor2: { value: new THREE.Color(c2) },
       },
       vertexShader: `varying vec2 vP;void main(){vP=position.xy;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-      fragmentShader: `uniform float uPaint,uBloom,uBloomX;uniform vec3 uColor1,uColor2;varying vec2 vP;float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5);}void main(){float bloom=smoothstep(18.,0.,abs(vP.x-uBloomX))*uBloom;float p=clamp(max(uPaint,bloom),0.,1.);float hatch=step(.62,fract((gl_FragCoord.x+gl_FragCoord.y)*.13+hash(floor(vP*2.))*.35));vec3 gray=mix(vec3(.16),vec3(.56),hatch*.28);float wash=sin(vP.x*.18+vP.y*.31)*.12+hash(floor(vP*1.6))*.11;vec3 color=mix(uColor1,uColor2,clamp((vP.y+6.)*.07+wash,0.,1.));float edge=smoothstep(0.,.8,fract(vP.y*2.3));color*=.82+edge*.18;gl_FragColor=vec4(mix(gray,color,p),1.);}`,
+      fragmentShader: `uniform float uPaint,uBloom,uBloomX;uniform vec3 uColor1,uColor2;varying vec2 vP;float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5);}void main(){float bloom=smoothstep(18.,0.,abs(vP.x-uBloomX))*uBloom;float p=clamp(max(uPaint,bloom),0.,1.);float grid=step(.92,fract(vP.y*.85))+step(.96,fract(vP.x*.24));float noise=hash(floor(vP*2.))*0.035;vec3 asphalt=vec3(.035,.018,.075)+grid*vec3(.15,.035,.22);float wash=sin(vP.x*.18+vP.y*.31)*.12+hash(floor(vP*1.6))*.11;vec3 color=mix(uColor1,uColor2,clamp((vP.y+6.)*.07+wash,0.,1.));color*=.62+grid*.32;gl_FragColor=vec4(mix(asphalt+noise,color,.28+p*.52),1.);}`,
     });
   }
   props(points: THREE.Vector2[], biome: number) {
@@ -131,7 +136,7 @@ export class Terrain {
           ? new THREE.ConeGeometry(0.28, 1.4, 6)
           : new THREE.PlaneGeometry(0.5, 1.5),
       mat = new THREE.MeshStandardMaterial({
-        color: palettes[biome][0],
+        color: 0x210b3d,
         side: THREE.DoubleSide,
         roughness: 0.92,
         metalness: 0,
