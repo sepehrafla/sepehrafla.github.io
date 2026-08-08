@@ -18,6 +18,18 @@
            tilt-coupling is in play. The brief calls this the single most
            important instrument. -->
       <div id="vel-vector" class="vel-vector hide"></div>
+      <!-- ISS-style docking overlay: fades in near a dock/gate. All values
+           computed live from physics state in Gates.ts -- nothing here is
+           decorative. -->
+      <div id="dock-overlay" class="dock-overlay hide">
+        <div class="dock-ring"><div id="dock-crosshair" class="dock-crosshair"></div></div>
+        <div class="dock-readout">
+          <div><span class="label">CLOSURE</span><b id="dock-closure">0.00</b><span class="unit">m/s</span></div>
+          <div><span class="label">ATT ERR</span><b id="dock-attitude">0</b><span class="unit">deg</span></div>
+          <div><span class="label">DIST</span><b id="dock-distance">0.0</b><span class="unit">m</span></div>
+        </div>
+        <div id="dock-status" class="dock-status"></div>
+      </div>
       <div id="hud" class="hud hide">
         <div class="row"><span class="label">SPD</span><b id="speed">0.0</b><span class="unit">m/s</span></div>
         <div class="row"><span class="label">ALT</span><b id="alt">0.0</b><span class="unit">m</span></div>

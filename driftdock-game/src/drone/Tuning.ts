@@ -61,6 +61,21 @@ export const T = {
   autoflareAGL: 3, // m -- below this height AUTOFLARE starts fighting descent rate
   autoflareMaxDescent: 2, // m/s -- descent rate AUTOFLARE tries to hold once triggered
   autoflareGain: 2.2, // extra upward thrust gain per m/s of descent-rate overage
+
+  // --- milestone 4: docking ---
+  // Triple tolerance per the brief exactly: position <0.3m, closure <0.4
+  // m/s, attitude <10deg -- all three must hold simultaneously.
+  dockPositionTol: 0.3, // m
+  dockClosureTol: 0.4, // m/s
+  dockAttitudeTolDeg: 10, // deg
+  // Not in the brief verbatim -- added deliberately so a single lucky frame
+  // at the tolerance boundary can't register as a dock; the pose has to
+  // actually be held, which is also what makes POSHOLD's "docking becomes
+  // deliberate" benefit real rather than cosmetic.
+  dockHoldTime: 0.35, // s, continuous within-tolerance time required
+  dockOverlayRange: 12, // m, DockingOverlay fades in inside this distance
+  dockPatrolRadius: 3, // m, how far the pad swings from its center
+  dockPatrolPeriod: 6, // s, full swing cycle
 } as const;
 
 export const gravity = 9.81;

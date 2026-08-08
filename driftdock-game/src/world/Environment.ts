@@ -110,16 +110,10 @@ function gridOverlayTexture() {
   return tex;
 }
 
-/** A landmark dock/hangar structure -- real weathered-metal materials, a
- *  visible destination that also gives the arena scale and orientation
- *  cues ("the world the drone sees" needs a few real, readable structures,
- *  not just scattered pylons). It also doubles as a preview of the
- *  DOCK-mode structure milestone 4 will add real docking logic to; this
- *  milestone it's geometry + material only, no dock-scoring gate yet. */
-export function buildDock(scene: THREE.Scene, position: THREE.Vector3) {
-  const group = new THREE.Group();
-  group.position.copy(position);
-
+/** Shared real-metal materials -- used by the hangar landmark below and by
+ *  MovingDock.ts's patrolling pad, so every dock-adjacent surface in the
+ *  world reads as the same material family. */
+export function dockMaterials() {
   const panelMat = new THREE.MeshStandardMaterial({
       map: realTexture(metalColor, 3, true),
       normalMap: realTexture(metalNormal, 3),
@@ -135,6 +129,18 @@ export function buildDock(scene: THREE.Scene, position: THREE.Vector3) {
       metalness: 0.6,
       roughness: 0.9,
     });
+  return { panelMat, trimMat };
+}
+
+/** A landmark dock/hangar structure -- real weathered-metal materials, a
+ *  visible destination that also gives the arena scale and orientation
+ *  cues ("the world the drone sees" needs a few real, readable structures,
+ *  not just scattered pylons). Geometry/material only, a flythrough
+ *  silhouette -- the actual dockable target is MovingDock.ts's pad. */
+export function buildDock(scene: THREE.Scene, position: THREE.Vector3) {
+  const group = new THREE.Group();
+  group.position.copy(position);
+  const { panelMat, trimMat } = dockMaterials();
 
   // Two side walls + a roof beam, open front/back -- a hangar bay silhouette
   // large enough to fly through, not just past.

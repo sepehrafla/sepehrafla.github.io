@@ -7,6 +7,9 @@ import { Drone } from "./drone/Drone";
 import { FPVCamera } from "./camera/FPVCamera";
 import { VisualPipeline } from "./render/VisualPipeline";
 import { buildSky, buildGround, buildDock } from "./world/Environment";
+import { MovingDock } from "./world/MovingDock";
+import { poseError, withinDockTolerance } from "./world/Gates";
+import { DockingOverlay } from "./hud/DockingOverlay";
 import { T } from "./drone/Tuning";
 import { ASSIST_INFO } from "./drone/Assists";
 
@@ -47,7 +50,14 @@ async function start() {
     sound = new Sound(),
     drone = ((globalThis as typeof globalThis & { __ddDrone?: Drone }).__ddDrone = new Drone(scene, physics, input)),
     fpv = new FPVCamera(innerWidth / innerHeight),
-    pipeline = new VisualPipeline(renderer, scene, fpv.camera);
+    pipeline = new VisualPipeline(renderer, scene, fpv.camera),
+    // MovingDock section, per milestone 4: "charging pad on a patrolling
+    // platform." Placed ahead of spawn, before the hangar landmark, so a
+    // first-timer meets it early.
+    dock = ((globalThis as typeof globalThis & { __ddDock?: MovingDock }).__ddDock = new MovingDock(physics, scene, new THREE.Vector3(0, 1.2, 12))),
+    dockOverlay = new DockingOverlay();
+  let dockHoldTimer = 0,
+    docked = false;
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
@@ -145,6 +155,7 @@ async function start() {
       (step) => {
         input.step(step);
         drone.fixed(step);
+        dock.fixed(step);
       },
       () => {},
     );
@@ -154,6 +165,8 @@ async function start() {
       drone.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
       drone.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
       drone.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+      dockHoldTimer = 0;
+      docked = false;
     }
 
     fpv.update(drone);
@@ -194,6 +207,36 @@ async function start() {
 
     sound.updateRotors(drone.motorThrust, T.maxThrustPerMotor);
     sound.updateAirflow(speed);
+
+    // --- MovingDock: DockingOverlay (ISS-style) + triple-tolerance dock
+    // check, per milestone 4. Overlay only shows up close -- it would
+    // clutter flow-section flying otherwise. ---
+    const dockPoint = dock.dockPoint(),
+      distToDock = dockPoint.distanceTo(new THREE.Vector3(p.x, p.y, p.z));
+    if (distToDock < T.dockOverlayRange) {
+      const pe = poseError(
+        new THREE.Vector3(p.x, p.y, p.z),
+        new THREE.Vector3(v.x, v.y, v.z),
+        drone.mesh.quaternion,
+        dockPoint,
+        dock.velocity,
+        new THREE.Vector3(0, 1, 0),
+        fpv.camera.quaternion,
+      );
+      if (!docked) {
+        if (withinDockTolerance(pe)) {
+          dockHoldTimer += dt;
+          if (dockHoldTimer >= T.dockHoldTime) {
+            docked = true;
+            sound.dockChime();
+          }
+        } else dockHoldTimer = 0;
+      }
+      dockOverlay.update(pe, Math.min(1, dockHoldTimer / T.dockHoldTime), docked);
+    } else {
+      dockOverlay.hide();
+      dockHoldTimer = 0;
+    }
 
     // --- HUD: attitude ladder + velocity vector ---
     const { pitch, roll } = drone.flight.attitude(drone.mesh.quaternion);

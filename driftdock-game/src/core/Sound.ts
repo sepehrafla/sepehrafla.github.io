@@ -116,4 +116,25 @@ export class Sound {
       o.stop(t0 + 0.36);
     });
   }
+
+  /** Dock chime -- a held CHORD (all notes at once), distinct from boost's
+   *  arpeggio, per the brief's "dock chime chord." Major-ish stack, longer
+   *  decay, reads as "arrival" rather than "pickup." */
+  dockChime() {
+    if (!this.ctx || !this.master) return;
+    const t0 = this.ctx.currentTime;
+    [523.25, 659.25, 783.99, 1046.5].forEach((f) => {
+      const o = this.ctx!.createOscillator(),
+        g = this.ctx!.createGain();
+      o.type = "sine";
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.1, t0 + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.1);
+      o.connect(g);
+      g.connect(this.master!);
+      o.start(t0);
+      o.stop(t0 + 1.1);
+    });
+  }
 }
