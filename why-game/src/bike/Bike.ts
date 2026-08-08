@@ -31,6 +31,7 @@ export class Bike {
   spin = 0;
   squash = 0;
   streakTick = 0;
+  throttle = 0;
   constructor(
     public scene: THREE.Scene,
     public physics: Physics,
@@ -47,8 +48,8 @@ export class Bike {
       const b = physics.world.createRigidBody(
           RAPIER.RigidBodyDesc.dynamic()
             .setTranslation(x, y)
-            .setLinearDamping(0.12)
-            .setAngularDamping(0.12)
+            .setLinearDamping(0.2)
+            .setAngularDamping(0.2)
             .setCcdEnabled(true),
         ),
         c = physics.world.createCollider(
@@ -66,7 +67,8 @@ export class Bike {
       RAPIER.RigidBodyDesc.dynamic()
         .setTranslation(0, chassisY)
         .setRotation(startAngle)
-        .setAngularDamping(1.2)
+        .setLinearDamping(0.08)
+        .setAngularDamping(1.65)
         .setCcdEnabled(true),
     );
     const cc = physics.world.createCollider(
@@ -146,12 +148,24 @@ export class Bike {
     // bike barely creeps forward even with gas held.
     // Negative target: positive angular velocity (CCW) rolls the chassis in -x here,
     // verified empirically -- +27 drove the bike backward.
+    // Ease the throttle in quickly and release it softly. Full motor torque on
+    // the first pressed frame made the rear tire snap, chatter and pitch the bike.
+    const throttleRate = gas ? 4.8 : 7;
+    this.throttle += (gas - this.throttle) * Math.min(1, throttleRate * dt);
     if (brake) this.rearJoint.configureMotorVelocity(0, T.brakeTorque);
-    else if (gas) this.rearJoint.configureMotorVelocity(-T.maxWheelSpeed, T.gasTorque);
+    else if (this.throttle > 0.01)
+      this.rearJoint.configureMotorVelocity(
+        -T.maxWheelSpeed * this.throttle,
+        T.gasTorque * (0.45 + this.throttle * 0.55),
+      );
     else this.rearJoint.configureMotorVelocity(0, 0);
-    if (gas) {
-      this.chassis.applyImpulse({ x: 12 * dt, y: 0 }, true);
-    }
+    // A small speed-error assist bridges steep seams without overriding Rapier.
+    // It fades out at cruising speed, so jumps and coasting remain physical.
+    const vx = this.chassis.linvel().x,
+      targetVx = T.maxWheelSpeed * T.wheelRadius * this.throttle,
+      assist = Math.max(0, Math.min(3.2, targetVx - vx));
+    if (this.throttle > 0.01)
+      this.chassis.applyImpulse({ x: assist * 0.42 * dt, y: 0 }, true);
     if (brake) this.front.setAngvel(this.front.angvel() * 0.84, true);
     const x = this.chassis.translation().x,
       y = this.chassis.translation().y,
@@ -160,12 +174,17 @@ export class Bike {
           this.rear.translation().y - this.ground(this.rear.translation().x),
           this.front.translation().y - this.ground(this.front.translation().x),
         ) < 0.82;
+    // Stop gravity from turning a short throttle release into a surprising
+    // backwards roll on a hill; braking still allows intentional reverse motion.
+    if (grounded && !brake && vx < 0)
+      this.chassis.applyImpulse({ x: Math.min(0.09, -vx * 0.075), y: 0 }, true);
     this.air = grounded ? 0 : this.air + dt;
     const lean = (this.input.left ? 1 : 0) - (this.input.right ? 1 : 0),
       signed = Math.atan2(Math.sin(this.chassis.rotation()), Math.cos(this.chassis.rotation()));
     this.chassis.applyTorqueImpulse(lean * (grounded ? T.leanTorque : T.airLean) * (1 + this.tier * 0.1) * dt, true);
     const settling = y - this.ground(x) < 3 && Math.abs(this.chassis.linvel().x) < 1.5;
-    if ((grounded || settling) && !lean) this.chassis.applyTorqueImpulse(-signed * (settling ? 34 : 8) * dt, true);
+    if ((grounded || settling) && !lean)
+      this.chassis.applyTorqueImpulse(-signed * (settling ? 24 : 11) * dt, true);
     if (this.tier >= 4 && this.input.left && this.input.right && !grounded)
       this.chassis.addForce({ x: 0, y: 60 }, true);
     if (this.boost > 0) {
@@ -246,6 +265,7 @@ export class Bike {
     this.wiped = false;
     this.born = performance.now() - 1200;
     this.rider.visible = true;
+    this.throttle = 0;
     const { x, y } = this.checkpoint;
     for (const [body, dx, dy] of [
       [this.chassis, 0, 0],

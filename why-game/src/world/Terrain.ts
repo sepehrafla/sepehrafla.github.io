@@ -26,7 +26,14 @@ export class Terrain {
   ) {}
   height(x: number) {
     const phase = (this.seed % 628) / 100;
-    return Math.sin(x * 0.055 + phase) * 0.7 + Math.sin(x * 0.017) * 0.5;
+    const base = Math.sin(x * 0.055 + phase) * 0.7 + Math.sin(x * 0.017) * 0.5,
+      chunk = Math.floor(x / 60),
+      local = x - chunk * 60;
+    // The collider and the bike's ground sensor share this rounded launch.
+    if (chunk % 2 !== 0 || local < 23 || local > 37) return base;
+    const t = 1 - Math.abs(local - 30) / 7,
+      smooth = t * t * (3 - 2 * t);
+    return base + smooth * 1.65;
   }
   biome(x: number) {
     return Math.min(3, Math.max(0, Math.floor(x / 420)));
@@ -53,11 +60,9 @@ export class Terrain {
   make(id: number) {
     const start = id * 60,
       points: THREE.Vector2[] = [];
-    for (let i = 0; i <= 20; i++) {
-      const x = start + i * 3;
-      let y = this.height(x);
-      if (i === 9 || i === 10) y += id % 2 === 0 ? (i - 8) * 0.9 : 0;
-      points.push(new THREE.Vector2(x, y));
+    for (let i = 0; i <= 40; i++) {
+      const x = start + i * 1.5;
+      points.push(new THREE.Vector2(x, this.height(x)));
     }
     const positions: number[] = [],
       indices: number[] = [];

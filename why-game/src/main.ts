@@ -1,5 +1,6 @@
 import "./style.css";
 import "./polish.css";
+import "./speedometer.css";
 import * as THREE from "three";
 import { Physics } from "./core/Physics";
 import { RideCamera } from "./core/Camera";
@@ -24,6 +25,8 @@ const game = document.querySelector<HTMLElement>("#game")!,
   hudSparks = document.querySelector<HTMLElement>("#sparks")!,
   distance = document.querySelector<HTMLElement>("#distance")!,
   timer = document.querySelector<HTMLElement>("#timer")!,
+  speedometer = document.querySelector<HTMLElement>("#speedometer")!,
+  speedValue = document.querySelector<HTMLElement>("#speed-value")!,
   mapPanel = document.querySelector<HTMLElement>("#map")!,
   mapCanvas = document.querySelector<HTMLCanvasElement>("#map-canvas")!,
   keep = document.querySelector<HTMLButtonElement>("#keep")!,
@@ -228,6 +231,10 @@ async function start(mode: RideMode) {
       4,
       "0",
     );
+    const kmh = Math.round(Math.abs(v.x) * 3.6);
+    speedValue.textContent = String(kmh);
+    speedometer.style.setProperty("--speed", String(Math.min(1, kmh / 72)));
+    speedometer.setAttribute("aria-label", `Speed: ${kmh} kilometers per hour`);
     if (mode === "daily") {
       const left = Math.max(0, 75 - (now - started) / 1000);
       timer.textContent = `${Math.ceil(left)}`;
