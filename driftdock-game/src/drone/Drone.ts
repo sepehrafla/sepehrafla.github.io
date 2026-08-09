@@ -52,7 +52,27 @@ export class Drone {
     const { group, ledMats, propMeshes } = buildDroneMesh();
     this.ledMats = ledMats;
     this.propMeshes = propMeshes;
-    return group;
+    // The physics collider is a small cuboid (half-height 0.05) sized for
+    // FLIGHT dynamics (mass/inertia carefully tuned against it, see
+    // Tuning.ts's attitude-PD comment) -- it does NOT reach down as far as
+    // the visual landing-gear feet, which extend to y=-0.112 in the art's
+    // local space. Physics.ts syncs a body's transform straight onto
+    // whatever mesh is passed to physics.add(), so with the art group
+    // itself as that mesh, the collider rests on a surface (feet 0.062m
+    // below where the collider actually stops) -- exactly what was
+    // reported as "when I want to land it just goes below [the surface]":
+    // the legs visually plunge through the pad while the (invisible)
+    // collider is still sitting on top of it. Wrapping the art in an outer
+    // group and shifting the INNER art up by that 0.062m gap fixes the
+    // visual without touching the collider/mass/inertia the flight model
+    // and the damage-force calibration both depend on -- physics.add()
+    // syncs the outer wrapper (= the body's real transform, unchanged);
+    // the inner offset is untouched by that sync since it only ever writes
+    // the wrapper's own position/quaternion, never a child's.
+    group.position.y = 0.062;
+    const wrapper = new THREE.Group();
+    wrapper.add(group);
+    return wrapper;
   }
 
   /** Fixed-step update, 120Hz. */

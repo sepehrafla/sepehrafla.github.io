@@ -5,6 +5,7 @@ import { Input } from "./core/Input";
 import { Sound } from "./core/Sound";
 import { Drone } from "./drone/Drone";
 import { FPVCamera } from "./camera/FPVCamera";
+import { ChaseCamera } from "./camera/ChaseCamera";
 import { VisualPipeline } from "./render/VisualPipeline";
 import { buildSky, buildGround } from "./world/Environment";
 import { MoonBaseState } from "./world/MoonBase";
@@ -55,17 +56,24 @@ async function start() {
     input = ((globalThis as typeof globalThis & { __ddInput?: Input }).__ddInput = new Input()),
     sound = new Sound(),
     drone = ((globalThis as typeof globalThis & { __ddDrone?: Drone }).__ddDrone = new Drone(scene, physics, input, SPAWN)),
-    fpv = new FPVCamera(innerWidth / innerHeight),
-    pipeline = new VisualPipeline(renderer, scene, fpv.camera),
+    fpv = ((globalThis as typeof globalThis & { __ddFpv?: FPVCamera }).__ddFpv = new FPVCamera(innerWidth / innerHeight)),
+    chase = new ChaseCamera(innerWidth / innerHeight),
+    pipeline = ((globalThis as typeof globalThis & { __ddPipeline?: VisualPipeline }).__ddPipeline = new VisualPipeline(renderer, scene, fpv.camera)),
     moonBase = ((globalThis as typeof globalThis & { __ddMoonBase?: MoonBaseState }).__ddMoonBase = new MoonBaseState(scene, physics)),
     moonBaseHUD = new MoonBaseHUD();
   let aiCommand: { pitch: number; roll: number; yaw: number; throttle: number } | null = null;
+  // Camera toggle -- FPV was the only view available, which left no way to
+  // judge distance/altitude to the pad or a node from outside the cockpit
+  // (reported directly). C cycles to a smoothed third-person chase view.
+  let cameraMode: "fpv" | "chase" = "fpv";
   addEventListener("keydown", (e) => {
     if (e.code === "KeyV") moonBase.toggleAI();
+    if (e.code === "KeyC") cameraMode = cameraMode === "fpv" ? "chase" : "fpv";
   });
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
+    chase.resize(innerWidth / innerHeight);
     pipeline.resize(innerWidth, innerHeight);
   });
 
@@ -182,6 +190,9 @@ async function start() {
     }
 
     fpv.update(drone);
+    chase.update(drone, dt);
+    const activeCamera = cameraMode === "fpv" ? fpv.camera : chase.camera;
+    pipeline.setCamera(activeCamera);
     const v = drone.velocity(),
       speed = Math.hypot(v.x, v.y, v.z),
       p = drone.position(),
@@ -211,7 +222,7 @@ async function start() {
     ladder.style.transform = `rotate(${roll}rad) translateY(${(pitch * 180) / Math.PI / 90 * 260}px)`;
     if (speed > 1.2) {
       const aim = dronePos.clone().add(droneVel.clone().normalize().multiplyScalar(8));
-      aim.project(fpv.camera);
+      aim.project(activeCamera);
       if (aim.z < 1 && Math.abs(aim.x) < 1.4 && Math.abs(aim.y) < 1.4) {
         velVector.classList.remove("hide");
         velVector.style.left = `${(aim.x * 0.5 + 0.5) * innerWidth}px`;

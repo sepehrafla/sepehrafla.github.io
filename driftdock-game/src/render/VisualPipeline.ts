@@ -24,6 +24,13 @@ export class VisualPipeline {
     this.composer.setSize(w, h);
   }
 
+  /** Swaps the active camera the RenderPass renders from -- lets main.ts
+   *  toggle between FPV and the chase camera without rebuilding the whole
+   *  pipeline. RenderPass keeps a mutable `camera` field for exactly this. */
+  setCamera(camera: THREE.Camera) {
+    (this.composer.passes[0] as RenderPass).camera = camera;
+  }
+
   render() {
     this.composer.render();
   }

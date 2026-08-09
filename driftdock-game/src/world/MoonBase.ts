@@ -46,6 +46,17 @@ export class MoonBaseState {
     const body = physics.world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(BASE_POS.x, 0, BASE_POS.z));
     physics.world.createCollider(RAPIER.ColliderDesc.cylinder(0.15, 5), body);
 
+    // The visual ground (Environment.ts's buildGround(), an 800x800 plane at
+    // y=0) had NO matching collider anywhere except this 5m pad -- reported
+    // as "press the down arrow and it goes below the surface": land/descend
+    // literally anywhere off the pad (i.e. almost the entire visible
+    // ground) and there was nothing to stop the drone, so it fell straight
+    // through the regolith with zero resistance. One large flat collider
+    // under the whole play area fixes it everywhere at once, not just near
+    // the base.
+    const groundBody = physics.world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(0, -0.1, 0));
+    physics.world.createCollider(RAPIER.ColliderDesc.cuboid(400, 0.1, 400), groundBody);
+
     this.beaconLine = new THREE.Line(
       new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
       new THREE.LineDashedMaterial({ color: 0x6fe8d8, dashSize: 0.6, gapSize: 0.35, transparent: true, opacity: 0.7 }),

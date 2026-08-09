@@ -8,11 +8,29 @@ export type AssistMode = "OFF" | "STABILIZE" | "POSHOLD" | "GOVERNOR" | "AUTOFLA
 export const ASSIST_ORDER: AssistMode[] = ["OFF", "STABILIZE", "POSHOLD", "GOVERNOR", "AUTOFLARE"];
 
 export const ASSIST_INFO: Record<AssistMode, { label: string; benefit: string; cost: string }> = {
+  // Keyboard is ALWAYS the stabilized angle-PD baseline already (see
+  // FlightModel.ts's top comment) -- STABILIZE only changes anything for a
+  // connected gamepad (forces that same safe baseline over true acro).
+  // Reported directly as "F doesn't really change anything" -- true, for
+  // exactly this one step, on keyboard -- so the benefit text now says so
+  // instead of silently doing nothing.
   OFF: { label: "OFF", benefit: "full authority, true acro on gamepad", cost: "no auto-level, can flip and dive uncorrected" },
-  STABILIZE: { label: "STABILIZE", benefit: "auto-levels, tilt capped -- can't tumble", cost: "hard tilt ceiling caps max acceleration" },
-  POSHOLD: { label: "POSHOLD", benefit: "brakes toward zero velocity when sticks centered", cost: "constant counter-thrust robs top speed in flow sections" },
-  GOVERNOR: { label: "GOVERNOR", benefit: "hard speed ceiling, can't overspeed into a gate", cost: "top speed capped even when you want to push it" },
-  AUTOFLARE: { label: "AUTOFLARE", benefit: "arrests descent rate near the ground automatically", cost: "fights you on purpose-fast, purpose-hard landings" },
+  STABILIZE: {
+    label: "STABILIZE",
+    benefit: "auto-levels, tilt capped -- can't tumble (gamepad only; keyboard is always this)",
+    cost: "hard tilt ceiling caps max acceleration",
+  },
+  POSHOLD: {
+    label: "POSHOLD",
+    benefit: "brakes toward zero velocity when centered -- steadies mining hover",
+    cost: "constant counter-thrust robs top speed",
+  },
+  GOVERNOR: { label: "GOVERNOR", benefit: "hard speed ceiling, can't overspeed", cost: "top speed capped even when you want to push it" },
+  AUTOFLARE: {
+    label: "AUTOFLARE",
+    benefit: "arrests descent rate near the ground -- softens pad touchdowns",
+    cost: "fights you on purpose-fast, purpose-hard landings",
+  },
 };
 
 export function nextAssist(mode: AssistMode): AssistMode {

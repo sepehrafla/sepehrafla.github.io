@@ -6,6 +6,9 @@ import metalMetalness from "../assets/textures/metal/metalness.jpg";
 import rustColor from "../assets/textures/rust/color.jpg";
 import rustNormal from "../assets/textures/rust/normal.jpg";
 import rustRough from "../assets/textures/rust/roughness.jpg";
+import moonColor from "../assets/textures/moon/color.jpg";
+import moonNormal from "../assets/textures/moon/normal.jpg";
+import moonRough from "../assets/textures/moon/roughness.jpg";
 
 // Lunar re-theme: the sky and ground are now a real airless-moon look
 // (starfield, black sky, cratered regolith) instead of the earlier blue-
@@ -131,18 +134,25 @@ function realTexture(url: string, repeat: number, srgb = false) {
   return tex;
 }
 
-/** Cratered regolith ground -- procedural (canvas-drawn craters: dark
- *  interior, bright rim highlight facing the sun, same trick real crater-
- *  shading uses) rather than a photo texture, since no CC0 lunar-surface
- *  photo was sourced for this pass and the crater look benefits from
- *  hand-placed rim lighting more than a flat photo tile would anyway. The
- *  cyan grid overlay is kept as a second transparent layer -- the
- *  "better navigation" distance/altitude cues survive the reskin. */
+/** Cratered regolith ground -- real photoscanned CC0 lunar regolith
+ *  (Poly Haven's "Moon 01," scanned from an actual regolith simulant, see
+ *  src/assets/CREDITS.md) instead of the earlier canvas-drawn procedural
+ *  craters. A real diffuse+normal+roughness scan reads as genuine surface
+ *  detail up close in a way procedural noise couldn't -- this is the same
+ *  "reads as real material" upgrade already applied to the base's metal
+ *  panels, now extended to the ground itself. The cyan grid overlay stays
+ *  as a second transparent layer -- the "better navigation" distance/
+ *  altitude cues survive the reskin either way. */
 export function buildGround(scene: THREE.Scene) {
-  const repeat = 70,
-    mat = new THREE.MeshStandardMaterial({ map: regolithTexture(), roughness: 1, metalness: 0 }),
+  const repeat = 55,
+    mat = new THREE.MeshStandardMaterial({
+      map: realTexture(moonColor, repeat, true),
+      normalMap: realTexture(moonNormal, repeat),
+      roughnessMap: realTexture(moonRough, repeat),
+      roughness: 1,
+      metalness: 0,
+    }),
     mesh = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), mat);
-  (mat.map as THREE.Texture).repeat.set(repeat, repeat);
   mesh.rotation.x = -Math.PI / 2;
   scene.add(mesh);
 
@@ -155,49 +165,6 @@ export function buildGround(scene: THREE.Scene) {
   scene.add(gridMesh);
 
   return mesh;
-}
-
-function regolithTexture() {
-  const size = 1024,
-    c = document.createElement("canvas");
-  c.width = c.height = size;
-  const ctx = c.getContext("2d")!;
-  ctx.fillStyle = "#8f8a82";
-  ctx.fillRect(0, 0, size, size);
-  // Fine speckle for grain at close range.
-  for (let i = 0; i < 9000; i++) {
-    const x = Math.random() * size,
-      y = Math.random() * size,
-      v = Math.random() * 30 - 15;
-    ctx.fillStyle = `rgba(${v > 0 ? 255 : 0},${v > 0 ? 255 : 0},${v > 0 ? 255 : 0},${Math.abs(v) / 60})`;
-    ctx.fillRect(x, y, 1.5, 1.5);
-  }
-  // Craters: dark bowl + a bright rim on the sun-facing edge -- reads as
-  // real relief even on a flat plane, no actual displacement needed.
-  const sunDir = { x: -0.4, y: -0.6 }; // matches uSun's rough screen-space lean
-  for (let i = 0; i < 46; i++) {
-    const x = Math.random() * size,
-      y = Math.random() * size,
-      r = 8 + Math.random() * 46;
-    const bowl = ctx.createRadialGradient(x, y, r * 0.1, x, y, r);
-    bowl.addColorStop(0, "rgba(50,46,40,0.55)");
-    bowl.addColorStop(0.7, "rgba(60,55,48,0.3)");
-    bowl.addColorStop(1, "rgba(60,55,48,0)");
-    ctx.fillStyle = bowl;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = `rgba(220,212,198,${0.25 + Math.random() * 0.2})`;
-    ctx.lineWidth = Math.max(1, r * 0.08);
-    ctx.beginPath();
-    ctx.arc(x - sunDir.x * r * 0.3, y - sunDir.y * r * 0.3, r * 0.92, 0, Math.PI * 2);
-    ctx.stroke();
-  }
-  const tex = new THREE.CanvasTexture(c);
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 8;
-  return tex;
 }
 
 function gridOverlayTexture() {

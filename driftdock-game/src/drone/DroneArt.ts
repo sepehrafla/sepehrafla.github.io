@@ -1,5 +1,9 @@
 import * as THREE from "three";
 import { T } from "./Tuning";
+import metalColor from "../assets/textures/metal/color.jpg";
+import metalNormal from "../assets/textures/metal/normal.jpg";
+import metalRough from "../assets/textures/metal/roughness.jpg";
+import metalMetalness from "../assets/textures/metal/metalness.jpg";
 
 /** Procedural FPV racing-drone frame: carbon-arm X frame, stacked
  *  flight-controller body, forward camera pod (reads orientation at a
@@ -7,17 +11,26 @@ import { T } from "./Tuning";
  *  canopy does), motor bells, spinning props, LED accent strips, plus
  *  (lunar re-theme) four angled landing legs and an underside thruster
  *  glow disc per rotor -- a lander silhouette without changing the actual
- *  racing-drone physics or thrust-point layout at all. No model files,
- *  per the brief -- searched online first (Poly Pizza's CC-BY "Drone
- *  Core"/"Anti-Gravity Drone" were the closest fits) but a mismatched
- *  external rig risks breaking the now-verified thrust-point alignment,
- *  and the low-poly look is exactly what primitives do best. Returns the
- *  visual group plus references needed for per-frame updates (rotor LED
- *  materials, spinning prop meshes). */
+ *  racing-drone physics or thrust-point layout at all. No model FILES, per
+ *  the brief and the earlier decision recorded here -- searched online
+ *  first (Poly Pizza's CC-BY "Drone Core"/"Anti-Gravity Drone" were the
+ *  closest fits) but a mismatched external rig risks breaking the now-
+ *  verified thrust-point alignment, and the low-poly look is exactly what
+ *  primitives do best; that reasoning still holds. What CAN safely reuse a
+ *  real asset without touching geometry/collider/thrust points at all is
+ *  the MATERIAL -- the frame plates and landing legs now wear the same
+ *  real CC0 weathered-metal PBR scan (ambientCG's Metal032, see
+ *  src/assets/CREDITS.md) already used on the base's own panels, at a
+ *  much tighter UV repeat suited to a ~0.1m frame instead of a multi-
+ *  meter module wall, so the two read as the same hardware family up
+ *  close instead of a flat procedural color. Returns the visual group
+ *  plus references needed for per-frame updates (rotor LED materials,
+ *  spinning prop meshes). */
 export function buildDroneMesh() {
   const g = new THREE.Group(),
-    carbon = new THREE.MeshStandardMaterial({ color: 0x15161a, roughness: 0.35, metalness: 0.55 }),
-    accent = new THREE.MeshStandardMaterial({ color: 0x2a2d33, roughness: 0.5, metalness: 0.3 });
+    carbon = frameMetal(0x33363c, 0.35, 0.55),
+    accent = frameMetal(0x555a62, 0.5, 0.3),
+    legMetal = frameMetal(0xaab0b8, 0.4, 0.6);
 
   // Stacked body: bottom plate, FC/ESC stack, top plate.
   const bottom = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.012, 0.09), carbon);
@@ -91,7 +104,7 @@ export function buildDroneMesh() {
     // Angled landing leg -- strut from near the body out past the rotor,
     // down to a small foot pad. Lander silhouette only; no landing-gear
     // physics or collider, the body's own cuboid collider is unchanged.
-    const legMat = new THREE.MeshStandardMaterial({ color: 0xaab0b8, roughness: 0.4, metalness: 0.6 }),
+    const legMat = legMetal,
       legFrom = new THREE.Vector3(x * 0.55, -0.015, z * 0.55),
       legTo = new THREE.Vector3(x * 1.05, -0.11, z * 1.05),
       legLen = legFrom.distanceTo(legTo),
@@ -121,4 +134,30 @@ export function buildDroneMesh() {
   function add(o: THREE.Object3D) {
     g.add(o);
   }
+}
+
+/** Real CC0 weathered-metal PBR scan, tinted per-part and tiled at repeat=1
+ *  (a full single tile across each tiny ~0.1m frame face reads as detail,
+ *  not a repeating pattern -- the multi-tile repeat counts BaseModules.ts
+ *  uses are tuned for meter-scale panels, wrong at this scale). `color`
+ *  multiplies the scan's own albedo rather than replacing it, so the real
+ *  scratches/grime detail stays visible under the tint instead of washing
+ *  out to a flat swatch. */
+function frameMetal(color: number, roughness: number, metalness: number) {
+  const load = (url: string) => {
+    const tex = new THREE.TextureLoader().load(url);
+    tex.anisotropy = 8;
+    return tex;
+  };
+  const map = load(metalColor);
+  map.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.MeshStandardMaterial({
+    map,
+    normalMap: load(metalNormal),
+    roughnessMap: load(metalRough),
+    metalnessMap: load(metalMetalness),
+    color,
+    roughness,
+    metalness,
+  });
 }
