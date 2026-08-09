@@ -1,5 +1,10 @@
 :root{color-scheme:dark;--paper:#eaf2ff;--accent:#4fd6ff}
 *{box-sizing:border-box}
+/* Standard accessible-hidden pattern -- present for screen readers and
+   crawlers, invisible on screen (not display:none, which both hide from
+   screen readers too). Used for the real, genuine SEO intro copy in
+   index.html; a canvas-only game has no other indexable text. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 html,body,#game{margin:0;width:100%;height:100%;overflow:hidden;background:#05050a}
 body{font-family:ui-monospace,monospace}
 canvas{display:block;width:100%;height:100%}

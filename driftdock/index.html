@@ -4,12 +4,66 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="theme-color" content="#05050a" />
-    <meta name="description" content="MOON BASE — fly, gather, and build a lunar base yourself or hand it to the AI autopilot." />
-    <title>MOON BASE</title>
-    <script type="module" crossorigin src="/driftdock/assets/index-C4zRXKYy.js"></script>
-    <link rel="stylesheet" crossorigin href="/driftdock/assets/index-rSGBclqc.css">
+    <meta
+      name="description"
+      content="MOON BASE — a free browser moon lander game. Pilot a drone across a real-physics lunar surface, mine resources, and build a moon base by hand or hand the controls to an AI autopilot that scans, targets, and narrates every decision. No download, play instantly."
+    />
+    <meta
+      name="keywords"
+      content="moon lander game, moon base game, lunar drone game, drone game, AI autopilot game, space drone simulator, resource gathering game, lunar resource gathering game, moon base builder, browser game, free online game, physics flight simulator, AI drone game"
+    />
+    <link rel="canonical" href="https://sepehrafla.github.io/driftdock/" />
+    <title>Moon Base — Free Moon Lander & AI Drone Resource-Gathering Game</title>
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Moon Base — Free Moon Lander & AI Drone Resource-Gathering Game" />
+    <meta
+      property="og:description"
+      content="Fly a real-physics drone across the lunar surface, mine resources, and build a moon base yourself or hand it to an AI autopilot. Free, instant, plays in the browser."
+    />
+    <meta property="og:url" content="https://sepehrafla.github.io/driftdock/" />
+    <meta property="og:site_name" content="Moon Base" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Moon Base — Free Moon Lander & AI Drone Resource-Gathering Game" />
+    <meta
+      name="twitter:description"
+      content="Fly a real-physics drone across the lunar surface, mine resources, and build a moon base yourself or hand it to an AI autopilot."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Moon Base",
+        "alternateName": ["Moon Lander Game", "Moon Base Game", "AI Drone Game"],
+        "description": "A free browser-based moon lander and resource-gathering game. Fly a real-physics drone across a lunar surface, mine resources, and build a moon base by hand or hand the controls to an AI autopilot.",
+        "genre": ["Simulation", "Flight Simulator", "Sandbox"],
+        "gamePlatform": ["Web Browser"],
+        "applicationCategory": "Game",
+        "operatingSystem": "Any",
+        "url": "https://sepehrafla.github.io/driftdock/",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <script type="module" crossorigin src="/driftdock/assets/index-Bc0UDMZT.js"></script>
+    <link rel="stylesheet" crossorigin href="/driftdock/assets/index-Boq68RwI.css">
   </head>
   <body>
+    <!-- Visually hidden (not display:none -- genuinely accessible to screen
+         readers, not just crawlers) heading + intro: a canvas-only game has
+         almost no real text content otherwise, which search engines have
+         nothing to index or match query intent against. This describes
+         exactly what's on the page, so it's real content, not stuffing. -->
+    <h1 class="sr-only">Moon Base — a free moon lander and AI drone resource-gathering game</h1>
+    <p class="sr-only">
+      Play Moon Base free in your browser: a real-physics moon lander drone game where you fly across the lunar
+      surface, mine resource crystals, and build a moon base one tier at a time. Fly manually with keyboard or
+      gamepad, or engage the AI autopilot and watch it scan for resources, lock a target, fly out, mine, and return
+      to base on its own — every decision narrated live. No install, no signup, just an instant browser drone game.
+    </p>
     <main id="game" aria-label="Moon Base, an FPV drone resource-gathering and base-building game">
       <!-- Attitude ladder: a horizon line referenced to true world-level,
            shown through the tilt-coupled camera exactly like a real FPV

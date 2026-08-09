@@ -272,8 +272,7 @@
     .about-grid{grid-template-columns:1fr;gap:36px}
     .fact{min-height:76px}
     .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
-    .centaur-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.centaur-shell iframe{height:72vh;min-height:560px}.centaur-open{right:16px;top:15px}
-    .life-console{padding:12px;border-radius:22px}.easter-toast{top:64px;max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis}.life-tabs{grid-template-columns:1fr 1fr}.life-tab{min-height:44px}.life-panel{grid-template-columns:1fr;min-height:0}.life-card{padding:18px}.community-map{grid-template-columns:repeat(2,1fr)}.metric-stack{grid-template-columns:repeat(3,1fr)}.barbell-viz{grid-template-columns:1fr 36px 1fr}.bar-side{padding:15px 8px}.bar-side b{font-size:23px}
+    .moonbase-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.moonbase-shell iframe{height:72vh;min-height:560px}.moonbase-open{right:16px;top:15px}.moonbase-points{grid-template-columns:1fr}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
     .proj-card{min-height:0}
     .voice-demo{padding:18px;border-radius:22px}.voice-grid,.product-experience{grid-template-columns:1fr}.voice-panel,.product-stage{padding:18px}.voice-wave{height:76px}.voice-transcript{font-size:16px;min-height:100px}.voice-top{align-items:flex-start}.call-status{margin-top:5px}
@@ -292,7 +291,7 @@
     <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
     <div class="navlinks">
       <a href="#about">About</a>
-      <a href="#life-os">CENTAUR</a>
+      <a href="#moon-base">MOON BASE</a>
       <a href="#projects">Shipped</a>
       <a href="#voice-demo">Praxis Lab</a>
       <a href="#contact" class="cta">Get in touch</a>
@@ -374,100 +373,19 @@
   </div>
 </section>
 
-<section id="life-os">
+<section id="moon-base">
   <div class="wrap">
-    <div class="section-kicker">Playable experiment · physics freeride</div>
-    <h2 class="section-title">The safe road goes forever. The interesting things don’t.</h2>
-    <p class="section-lede">Ride the gray line or follow whatever glows beyond it. Curiosity paints the world, changes the bike, and leaves a shareable map of the route you actually took.</p>
-    <div class="centaur-shell" data-reveal>
-      <iframe src="centaur/" title="CENTAUR — a physics motorbike game about curiosity" loading="lazy" allow="web-share"></iframe>
-      <a class="centaur-open" href="centaur/" target="_blank" rel="noopener">Open full ride ↗</a>
+    <div class="section-kicker">Playable experiment · AI-copiloted lunar sim</div>
+    <h2 class="section-title">Autonomy you can actually watch think.</h2>
+    <p class="section-lede">A real-physics drone on a real lunar surface. Fly it by hand, or hand it to an AI that scans, targets, and narrates every decision live — what it's mining, why, and where it's headed next. Ten resource nodes, five buildable base tiers, one honest experiment in legible autonomy.</p>
+    <div class="moonbase-shell" data-reveal>
+      <iframe src="driftdock/" title="Moon Base — a moon lander game where an AI drone gathers resources and builds a lunar base" loading="lazy" allow="web-share"></iframe>
+      <a class="moonbase-open" href="driftdock/" target="_blank" rel="noopener">Open full base ↗</a>
     </div>
-    <div class="life-console" hidden>
-      <div class="life-console-top"><button class="console-lights" id="console-easter" type="button" aria-label="Run undocumented diagnostic"><i></i><i></i><i></i></button><span class="console-status" id="life-status">trajectory · nominal</span></div>
-      <div class="easter-toast" id="easter-toast" aria-live="polite"></div>
-      <div class="life-tabs" role="tablist" aria-label="Personal operating system views">
-        <button class="life-tab active" type="button" role="tab" aria-selected="true" data-life-tab="identity">Identity check</button>
-        <button class="life-tab" type="button" role="tab" aria-selected="false" data-life-tab="community">Community map</button>
-        <button class="life-tab" type="button" role="tab" aria-selected="false" data-life-tab="barbell">Barbell mode</button>
-        <button class="life-tab" type="button" role="tab" aria-selected="false" data-life-tab="human">Human layer</button>
-      </div>
-
-      <div class="life-panel active" data-life-panel="identity">
-        <div class="life-card">
-          <div class="terminal-line">quarterly.identity_check()</div>
-          <h3>Who am I becoming?</h3>
-          <p>Direction gets reviewed before momentum turns into drift. The check is built around evidence—not mood.</p>
-          <div class="scan-list">
-            <div class="scan-item"><span>Direction matches stated priorities</span><b>Aligned</b><div class="scan-track"><i style="--score:92%"></i></div></div>
-            <div class="scan-item"><span>Complexity remains intentional</span><b>Stable</b><div class="scan-track"><i style="--score:88%"></i></div></div>
-            <div class="scan-item"><span>Important decisions have deadlines</span><b>On track</b><div class="scan-track"><i style="--score:84%"></i></div></div>
-          </div>
-          <button class="check-button" type="button" id="run-life-check">Run identity check</button>
-        </div>
-        <div class="life-card">
-          <div class="terminal-line">pre-written falsifiers</div>
-          <div class="guardrails">
-            <div class="guardrail"><i></i><div><b>Meaning before accumulation</b><span>Progress is only useful if the life around it still feels worth building.</span></div></div>
-            <div class="guardrail"><i></i><div><b>Decisions need deadlines</b><span>Unmade choices are treated as open incidents, not passive patience.</span></div></div>
-            <div class="guardrail"><i></i><div><b>Repeated misses are a signal</b><span>Patterns trigger a redesign before they harden into identity.</span></div></div>
-          </div>
-          <div class="human-signal"><b>Design principle:</b> instrumentation should protect a meaningful life, not turn life into a dashboard.</div>
-        </div>
-      </div>
-
-      <div class="life-panel" data-life-panel="community">
-        <div class="life-card">
-          <div class="terminal-line">community.graph()</div>
-          <h3>Build a resilient life graph.</h3>
-          <p>Six directional domains keep the system from collapsing into a single identity. Tap one to inspect it.</p>
-          <div class="community-map">
-            <button class="circle-node active" type="button" data-circle="Core" data-circle-copy="Protect the few things that make every other system worth operating."><span>∞</span>Core</button>
-            <button class="circle-node" type="button" data-circle="Craft" data-circle-copy="Keep increasing the quality of judgment, not only the volume of output."><span>⌘</span>Craft</button>
-            <button class="circle-node" type="button" data-circle="Vitality" data-circle-copy="Energy is infrastructure. Maintain it before trying to scale everything else."><span>◎</span>Vitality</button>
-            <button class="circle-node" type="button" data-circle="Curiosity" data-circle-copy="Stay permeable to new places, ideas, and ways of seeing the same problem."><span>?</span>Curiosity</button>
-            <button class="circle-node" type="button" data-circle="Belonging" data-circle-copy="Return often enough that people and places become part of the operating context."><span>⌖</span>Belonging</button>
-            <button class="circle-node" type="button" data-circle="Play" data-circle-copy="Keep something joyful, expressive, and completely uninterested in productivity."><span>✦</span>Play</button>
-          </div>
-        </div>
-        <div class="life-card">
-          <div class="terminal-line">community health signals</div>
-          <div class="metric-stack"><div class="life-metric"><b>Known</b><span>familiar faces</span></div><div class="life-metric"><b>Active</b><span>shared work</span></div><div class="life-metric"><b>Rooted</b><span>recurring rooms</span></div></div>
-          <div class="circle-detail" id="circle-detail"><b>Core</b>Protect the few things that make every other system worth operating.</div>
-        </div>
-      </div>
-
-      <div class="life-panel" data-life-panel="barbell">
-        <div class="life-card">
-          <div class="terminal-line">strategy.allocate()</div>
-          <h3>Conviction at the edges.</h3>
-          <p>One resilient anchor on one side. One concentrated, high-conviction bet on the other. Very little performative middle.</p>
-          <div class="barbell-viz"><div class="bar-side"><b id="anchor-value">Steady</b><span>anchor</span></div><div class="bar-mid"></div><div class="bar-side bet"><b id="bet-value">Focused</b><span>conviction bet</span></div></div>
-          <input class="conviction-range" id="conviction-range" type="range" min="25" max="75" value="40" aria-label="Conviction allocation">
-          <div class="range-labels"><span>more ballast</span><span>more conviction</span></div>
-        </div>
-        <div class="life-card">
-          <div class="terminal-line">live interpretation</div>
-          <h3 id="barbell-title">Anchored enough to bet boldly.</h3>
-          <p id="barbell-copy">The anchor preserves resilience. The concentrated side creates room for courage, creativity, and asymmetric upside.</p>
-          <div class="signal-stack"><div class="signal-row"><span class="signal-icon">▰</span><div><b>Hard ballast</b><small>Stability is there to increase courage—not reduce ambition.</small></div></div><div class="signal-row"><span class="signal-icon warm">↗</span><div><b>One serious bet</b><small>Energy goes where conviction is highest.</small></div></div></div>
-        </div>
-      </div>
-
-      <div class="life-panel" data-life-panel="human">
-        <div class="life-card">
-          <div class="terminal-line">human_layer.balance()</div>
-          <h3>Warmth beats efficiency when it matters.</h3>
-          <p>The system protects connection, play, and taste without naming or measuring the private details underneath them.</p>
-          <div class="signal-stack"><div class="signal-row"><span class="signal-icon warm">∞</span><div><b>Connection over completion</b><small>Some outcomes are felt, not counted.</small></div></div><div class="signal-row"><span class="signal-icon good">◎</span><div><b>Play stays unproductive</b><small>Joy does not need a growth loop.</small></div></div><div class="signal-row"><span class="signal-icon">✦</span><div><b>Taste is a constraint</b><small>Utility is required. Delight is part of quality.</small></div></div></div>
-        </div>
-        <div class="life-card">
-          <div class="terminal-line">core principle</div>
-          <h3>Rigorous + warm.</h3>
-          <p>The goal isn't to engineer every human moment. It's to use systems to defend attention, relationships, and the courage to keep building across complexity.</p>
-          <div class="human-signal"><b>Current hypothesis:</b> the best systems disappear into a life that feels fully lived.</div>
-        </div>
-      </div>
+    <div class="moonbase-points">
+      <div class="moonbase-point"><b>Fly it yourself</b><span>Real Rapier physics, keyboard or gamepad, a lunar surface with actual landing gear and contact forces — not a scripted flythrough.</span></div>
+      <div class="moonbase-point"><b>Or hand it to the AI</b><span>Watch it scan for resources, lock a target, fly out, mine, and return — every decision shown as a beacon line and a live narration log, not a black box.</span></div>
+      <div class="moonbase-point"><b>Build as you go</b><span>Ten crystal deposits fund five real base modules — a habitat dome, solar array, storage tank, perimeter lighting, a vehicle bay — that go up as you deliver.</span></div>
     </div>
   </div>
 </section>
@@ -589,7 +507,7 @@
 
 <nav class="mobile-dock" aria-label="Mobile navigation">
   <a href="#top" data-dock="top" class="active"><span class="dock-icon">⌂</span><span>Home</span></a>
-  <a href="#life-os" data-dock="life-os"><span class="dock-icon">◎</span><span>Play</span></a>
+  <a href="#moon-base" data-dock="moon-base"><span class="dock-icon">◎</span><span>Play</span></a>
   <a href="#projects" data-dock="projects"><span class="dock-icon">◇</span><span>Shipped</span></a>
   <a href="#contact" data-dock="contact"><span class="dock-icon">✉</span><span>Contact</span></a>
 </nav>
@@ -601,11 +519,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
 const heroBlock = document.getElementById('top');
 const playgroundSection = document.getElementById('voice-demo');
 const shippedSection = document.getElementById('projects');
-const lifeSection = document.getElementById('life-os');
+const moonBaseSection = document.getElementById('moon-base');
 const aboutSection = document.getElementById('about');
 heroBlock.insertAdjacentElement('afterend',playgroundSection);
 playgroundSection.insertAdjacentElement('afterend',shippedSection);
-aboutSection.insertAdjacentElement('afterend',lifeSection);
+aboutSection.insertAdjacentElement('afterend',moonBaseSection);
 if(location.hash){
   requestAnimationFrame(()=>setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(),120));
 }
@@ -633,7 +551,7 @@ const io = new IntersectionObserver(entries=>{
 document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
 
 const dockLinks = [...document.querySelectorAll('[data-dock]')];
-const dockTargets = ['top','life-os','projects','contact'];
+const dockTargets = ['top','moon-base','projects','contact'];
 const dockObserver = new IntersectionObserver(entries=>{
   const visible = entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
   if(!visible) return;
@@ -686,64 +604,6 @@ function renderJourney(step){
 journeyNodes.forEach(node=>node.addEventListener('click',()=>renderJourney(Number(node.dataset.waypoint))));
 journeyPrev.addEventListener('click',()=>renderJourney(journeyStep-1));journeyNext.addEventListener('click',()=>renderJourney(journeyStep+1));
 journeyDetour.addEventListener('click',()=>{detourMessage.textContent=detours[detourIndex%detours.length];detourIndex++;detourMessage.classList.remove('pop');requestAnimationFrame(()=>detourMessage.classList.add('pop'));journeyStatus.textContent='detour · accepted';if(navigator.vibrate)navigator.vibrate([6,28,6])});
-
-const lifeTabs = [...document.querySelectorAll('[data-life-tab]')];
-const lifePanels = [...document.querySelectorAll('[data-life-panel]')];
-const lifeStatus = document.getElementById('life-status');
-lifeTabs.forEach(tab=>tab.addEventListener('click',()=>{
-  const view=tab.dataset.lifeTab;
-  lifeTabs.forEach(item=>{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))});
-  lifePanels.forEach(panel=>panel.classList.toggle('active',panel.dataset.lifePanel===view));
-  lifeStatus.textContent=view==='identity'?'trajectory · nominal':view+' · online';
-  if(navigator.vibrate) navigator.vibrate(8);
-}));
-
-const lifeConsole = document.querySelector('.life-console');
-const consoleEaster = document.getElementById('console-easter');
-const easterToast = document.getElementById('easter-toast');
-const easterMessages = ['undocumented feature · found','tiny bug · promoted to feature','taste check · suspiciously high','production deploy · on a friday'];
-const debugGlyphs = ['//','<>','404','✓','?','*','01'];
-let easterRun = 0, easterTimer = null, titleClicks = 0;
-function launchEaster(message){
-  clearTimeout(easterTimer);lifeConsole.classList.add('easter-mode');easterToast.textContent=message;easterToast.classList.add('show');lifeStatus.textContent='diagnostic · delightful';
-  for(let i=0;i<14;i++){
-    const bit=document.createElement('span');bit.className='debug-bit';bit.textContent=debugGlyphs[(i+easterRun)%debugGlyphs.length];
-    bit.style.setProperty('--x',(8+Math.random()*84)+'%');bit.style.setProperty('--y',(38+Math.random()*54)+'%');bit.style.setProperty('--size',(9+Math.random()*5)+'px');bit.style.setProperty('--spin',(-18+Math.random()*36)+'deg');
-    bit.style.setProperty('--bit-color',i%3===0?'var(--accent2)':i%2===0?'var(--accent)':'var(--good)');bit.style.animationDelay=(Math.random()*.25)+'s';lifeConsole.appendChild(bit);setTimeout(()=>bit.remove(),1750);
-  }
-  easterTimer=setTimeout(()=>{lifeConsole.classList.remove('easter-mode');easterToast.classList.remove('show')},1900);
-}
-consoleEaster.addEventListener('click',()=>{launchEaster(easterMessages[easterRun%easterMessages.length]);easterRun++;if(navigator.vibrate)navigator.vibrate([8,35,8])});
-document.querySelector('#life-os .section-title').addEventListener('click',()=>{titleClicks++;if(titleClicks===3){launchEaster('you found the undocumented documentation');titleClicks=0}});
-
-const runLifeCheck = document.getElementById('run-life-check');
-runLifeCheck.addEventListener('click',()=>{
-  runLifeCheck.classList.add('running');runLifeCheck.textContent='Scanning trajectory…';lifeStatus.textContent='identity check · running';
-  document.querySelectorAll('.scan-track i').forEach(bar=>{bar.style.transition='none';bar.style.transform='scaleX(0)';requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition='transform 1.15s cubic-bezier(.2,.8,.2,1)';bar.style.transform='scaleX(1)'}))});
-  setTimeout(()=>{runLifeCheck.classList.remove('running');runLifeCheck.textContent='Check complete ✓';lifeStatus.textContent='trajectory · aligned'},1250);
-});
-
-const circleDetail = document.getElementById('circle-detail');
-document.querySelectorAll('[data-circle]').forEach(node=>node.addEventListener('click',()=>{
-  document.querySelectorAll('[data-circle]').forEach(item=>item.classList.toggle('active',item===node));
-  circleDetail.innerHTML='<b>'+node.dataset.circle+'</b>'+node.dataset.circleCopy;
-  if(navigator.vibrate) navigator.vibrate(8);
-}));
-
-const convictionRange = document.getElementById('conviction-range');
-const anchorValue = document.getElementById('anchor-value');
-const betValue = document.getElementById('bet-value');
-const barbellTitle = document.getElementById('barbell-title');
-const barbellCopy = document.getElementById('barbell-copy');
-function updateBarbell(){
-  const bet=Number(convictionRange.value);
-  anchorValue.textContent=bet<38?'Strong':bet>58?'Light':'Steady';
-  betValue.textContent=bet<38?'Exploring':bet>58?'All in':'Focused';
-  if(bet<38){barbellTitle.textContent='Ballast is doing the heavy lifting.';barbellCopy.textContent='The anchor is dominant: useful during consolidation, but worth checking before safety becomes drift.'}
-  else if(bet>58){barbellTitle.textContent='High-conviction mode.';barbellCopy.textContent='The bet is concentrated. Guardrails protect the downside while attention stays fixed on the highest-upside direction.'}
-  else{barbellTitle.textContent='Anchored enough to bet boldly.';barbellCopy.textContent='The anchor preserves resilience. The concentrated side creates room for courage, creativity, and asymmetric upside.'}
-}
-convictionRange.addEventListener('input',updateBarbell);
 
 const voiceScenarios = {
   booking:{name:'New patient booking',frames:[
@@ -899,6 +759,6 @@ document.querySelectorAll('.proj-card').forEach(card=>{
   card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
 });
 </script>
-<!-- CENTAUR runs as a standalone, static physics game embedded above. -->
+<!-- Moon Base runs as a standalone, static build embedded above. -->
 </body>
 </html>
