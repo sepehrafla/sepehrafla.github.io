@@ -18,7 +18,20 @@ export function buildBaseModules(scene: THREE.Scene, position: THREE.Vector3): B
   const { panelMat, trimMat } = dockMaterials(),
     blueprintMat = new THREE.MeshBasicMaterial({ color: 0x6fe8d8, wireframe: true, transparent: true, opacity: 0.35 });
 
-  const pad = new THREE.Mesh(new THREE.CylinderGeometry(5, 5.4, 0.3, 24), panelMat);
+  // The pad is a big (5m radius) near-horizontal disc directly under the
+  // hover point -- reusing panelMat's mirror-ish metalness (0.9) here blew
+  // out into a full-screen white specular highlight the moment the drone
+  // hovered low and close above it (sun's DirectionalLight reflecting at a
+  // steep/grazing angle off a huge flat reflector, then smeared further by
+  // the bloom pass) -- this is what was reported as "the ground goes below
+  // the horizon"/a white blob. A cloned, much duller variant (regolith dust
+  // scuffs a landing surface fast anyway, so less-mirror-like is the more
+  // realistic look too) keeps the same real metal texture detail without
+  // the blowout. Confirmed via live repro at the pad center, low altitude.
+  const padMat = panelMat.clone();
+  padMat.metalness = 0.1;
+  padMat.roughness = 1;
+  const pad = new THREE.Mesh(new THREE.CylinderGeometry(5, 5.4, 0.3, 24), padMat);
   pad.position.copy(position);
   scene.add(pad);
   const beacon = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 3, 8), new THREE.MeshBasicMaterial({ color: 0xffd24a }));

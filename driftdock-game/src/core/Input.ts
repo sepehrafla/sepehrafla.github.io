@@ -29,6 +29,20 @@ export class Input {
     addEventListener(
       "keydown",
       (e) => {
+        // Cmd/Meta (macOS) suppresses the keyup for any other key still
+        // physically held once Meta itself is pressed -- a documented OS/
+        // browser quirk, not a bug in this code -- so a player who taps Cmd
+        // mid-flight (even by accident, e.g. reaching for Cmd+Tab) can leave
+        // a movement key permanently stuck "held" in `keys` with no keyup
+        // ever coming to clear it, producing exactly the kind of sustained
+        // un-commanded drift/instability a player would describe as the
+        // drone "getting confused." Bailing out entirely on any keydown
+        // carrying metaKey (and clearing below) means we never add a key
+        // that might not get a matching keyup.
+        if (e.metaKey) {
+          this.keys.clear();
+          return;
+        }
         if (
           ["KeyW", "KeyS", "KeyA", "KeyD", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Space"].includes(e.code)
         )
@@ -41,6 +55,12 @@ export class Input {
     );
     addEventListener("keyup", (e) => this.keys.delete(e.code));
     addEventListener("blur", () => this.keys.clear());
+    // Defense in depth: some browsers fire visibilitychange on a tab/app
+    // switch without a matching window blur (blur is the common path, but
+    // not guaranteed on every platform) -- clearing here too closes that gap.
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) this.keys.clear();
+    });
 
     addEventListener("gamepadconnected", (e) => {
       this.gamepadIndex = e.gamepad.index;

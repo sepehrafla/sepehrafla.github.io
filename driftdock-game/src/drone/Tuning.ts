@@ -80,10 +80,22 @@ export const T = {
   // --- milestone 5: damage ---
   // "Obstacle contact above force threshold at speed = lose a rotor."
   // totalForceMagnitude() from Rapier's contact-force events is in newtons;
-  // this threshold is a starting point, not measured against a real crash
-  // -- flag for retuning once playtesting happens (same caveat as every
-  // other untested constant in this file).
-  damageForceThreshold: 40, // N
+  // 40N was a starting-point guess, never measured against a real contact --
+  // and it turned out to be drastically too sensitive once the moon base
+  // pivot made the landing pad (a 5m disc players are explicitly meant to
+  // touch down on) the ONLY collidable surface in the whole game: F=m*dv/dt
+  // with mass=1, step=1/120 means 40N trips at a touchdown speed of just
+  // ~0.33 m/s -- live-physics-tested (`?paused=1`, real Rapier steps, not a
+  // guess): a genuinely gentle, throttle-controlled soft landing (peak
+  // descent 0.72 m/s) already spiked to 89N under the old threshold, i.e.
+  // normal play was reliably losing a rotor on touchdown -- exactly the
+  // "easily got confused and crash" report. Swept up empirically the same
+  // way: an uncorrected careless constant-throttle descent (3.19 m/s at
+  // impact) hit ~399N, and a real free-fall crash (2m drop) hit ~741N.
+  // 200N sits cleanly between "gentle landing" and "hard/reckless impact"
+  // (~1.7 m/s cutoff) -- soft landings on the pad are now safe, slamming
+  // into it still costs a rotor.
+  damageForceThreshold: 200, // N
   damageCooldown: 1.0, // s, minimum time between rotor losses so one hard hit can't strip all four in one contact event
   rotorLossYawDrift: 0.35, // Nm, constant yaw torque bias per lost rotor -- our FlightModel is an abstracted attitude PD, not a true per-motor mixer, so a missing rotor's real asymmetric-thrust yaw drift is approximated as a fixed bias the pilot must trim against with yaw input, rather than derived from motor geometry
   repairHoldTime: 1.5, // s, continuous hover inside a repair pad's radius to restore one lost rotor
