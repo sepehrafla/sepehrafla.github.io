@@ -12,6 +12,7 @@ import { MoonBaseState } from "./world/MoonBase";
 import { MoonBaseHUD } from "./hud/MoonBaseHUD";
 import { T, hoverThrottle } from "./drone/Tuning";
 import { ASSIST_INFO } from "./drone/Assists";
+import { TouchControls } from "./core/TouchControls";
 
 const game = document.querySelector<HTMLElement>("#game")!,
   hud = document.querySelector<HTMLElement>("#hud")!,
@@ -61,6 +62,15 @@ async function start() {
     pipeline = ((globalThis as typeof globalThis & { __ddPipeline?: VisualPipeline }).__ddPipeline = new VisualPipeline(renderer, scene, fpv.camera)),
     moonBase = ((globalThis as typeof globalThis & { __ddMoonBase?: MoonBaseState }).__ddMoonBase = new MoonBaseState(scene, physics)),
     moonBaseHUD = new MoonBaseHUD();
+  // Touch controls -- only constructed (listeners wired, DOM un-hidden) on
+  // an actual touch-capable device; a mouse/keyboard visitor never pays for
+  // this or sees it at all (CSS also force-hides it when a fine hover
+  // pointer is the primary input, belt-and-suspenders for touch-laptops).
+  const touchEl = document.querySelector<HTMLElement>("#touch-controls")!;
+  const touch =
+    ((globalThis as typeof globalThis & { __ddTouch?: TouchControls }).__ddTouch = TouchControls.isTouchDevice
+      ? new TouchControls(touchEl)
+      : undefined);
   let aiCommand: { pitch: number; roll: number; yaw: number; throttle: number } | null = null;
   // Camera toggle -- FPV was the only view available, which left no way to
   // judge distance/altitude to the pad or a node from outside the cockpit
@@ -150,11 +160,20 @@ async function start() {
           // position (one frame of lag) -- overrides input.step()'s real
           // key-reading entirely when engaged. Reuses the same FlightModel
           // either way, just a different command source.
+          const touchState = touch?.read();
           if (moonBase.aiEngaged && aiCommand) {
             input.pitch = aiCommand.pitch;
             input.roll = aiCommand.roll;
             input.yaw = aiCommand.yaw;
             input.throttle = aiCommand.throttle;
+          } else if (touchState?.active) {
+            // Touch overrides the same way AI does -- direct axis values,
+            // input.step()'s keyboard chase()/rate logic skipped entirely
+            // (there's no keyboard on a touch device anyway).
+            input.pitch = touchState.pitch;
+            input.roll = touchState.roll;
+            input.yaw = touchState.yaw;
+            input.throttle = touchState.throttle;
           } else {
             input.step(step);
           }
@@ -193,6 +212,7 @@ async function start() {
     chase.update(drone, dt);
     const activeCamera = cameraMode === "fpv" ? fpv.camera : chase.camera;
     pipeline.setCamera(activeCamera);
+    touch?.setAiEngaged(moonBase.aiEngaged);
     const v = drone.velocity(),
       speed = Math.hypot(v.x, v.y, v.z),
       p = drone.position(),

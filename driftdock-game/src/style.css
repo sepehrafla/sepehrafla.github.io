@@ -81,4 +81,31 @@ canvas{display:block;width:100%;height:100%}
 .mb-log{position:absolute;z-index:5;top:16px;left:50%;transform:translateX(-50%);
   text-align:center;pointer-events:none;color:#ffd24a;text-shadow:0 2px 6px rgba(0,0,0,.7);
   font-size:12px;letter-spacing:.03em;max-width:420px}
+
+/* Touch controls -- two virtual sticks (Mode-2 RC layout, same axis
+   mapping as the gamepad tier) plus a small button column. The wrapper
+   itself never intercepts pointer events (pointer-events:none) so it
+   can cover the whole screen without blocking anything; only the stick
+   bases and buttons re-enable it. touch-action:none on the sticks stops
+   the browser's own scroll/pull-to-refresh/pinch-zoom gestures from
+   fighting a drag. env(safe-area-inset-*) keeps everything clear of
+   notches/home-indicators on real devices. */
+.touch-controls{position:absolute;z-index:8;inset:0;pointer-events:none}
+.touch-controls.hide{display:none}
+.tc-stick{position:absolute;bottom:max(26px,env(safe-area-inset-bottom));width:112px;height:112px;
+  border-radius:50%;background:rgba(234,242,255,.05);border:1px solid rgba(79,214,255,.32);
+  pointer-events:auto;touch-action:none;-webkit-tap-highlight-color:transparent}
+.tc-left{left:max(20px,env(safe-area-inset-left))}
+.tc-right{right:max(20px,env(safe-area-inset-right))}
+.tc-knob{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;
+  border-radius:50%;background:rgba(79,214,255,.24);border:1px solid rgba(79,214,255,.6);
+  pointer-events:none;will-change:transform}
+.tc-buttons{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));
+  display:flex;flex-direction:column;gap:10px;pointer-events:auto}
+.tc-btn{width:52px;height:52px;border-radius:50%;border:1px solid rgba(234,242,255,.28);
+  background:rgba(9,14,20,.7);backdrop-filter:blur(6px);color:var(--paper);
+  font:700 11px inherit;letter-spacing:.04em;-webkit-tap-highlight-color:transparent}
+.tc-btn:active{background:rgba(111,232,216,.22);border-color:rgba(111,232,216,.6)}
+.tc-ai.active{border-color:#ffd24a;color:#ffd24a;box-shadow:0 0 14px rgba(255,210,74,.35)}
+@media(hover:hover) and (pointer:fine){.touch-controls{display:none!important}}
 .mb-log-line{margin-bottom:3px}

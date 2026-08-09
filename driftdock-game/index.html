@@ -100,6 +100,23 @@
            can read the last decision. -->
       <div id="mb-log" class="mb-log"></div>
 
+      <!-- Touch controls -- the only way to play this on a phone/tablet at
+           all, since there's no keyboard. Hidden by default; TouchControls.ts
+           only removes .hide (and only wires up any listeners in the first
+           place) when the device actually reports touch support, so a
+           mouse/keyboard visitor never sees or pays for this. Mode-2 RC
+           layout, same axis mapping as the existing gamepad tier: left
+           stick = throttle (Y) + yaw (X), right stick = pitch (Y) + roll (X). -->
+      <div id="touch-controls" class="touch-controls hide">
+        <div class="tc-stick tc-left" id="tc-left"><div class="tc-knob" id="tc-left-knob"></div></div>
+        <div class="tc-stick tc-right" id="tc-right"><div class="tc-knob" id="tc-right-knob"></div></div>
+        <div class="tc-buttons">
+          <button type="button" class="tc-btn tc-ai" id="tc-ai" aria-label="Toggle AI autopilot">AI</button>
+          <button type="button" class="tc-btn" id="tc-cam" aria-label="Switch camera">CAM</button>
+          <button type="button" class="tc-btn" id="tc-restart" aria-label="Restart">↺</button>
+        </div>
+      </div>
+
       <p id="fallback" class="fallback"></p>
     </main>
     <script type="module" src="/src/main.ts"></script>
