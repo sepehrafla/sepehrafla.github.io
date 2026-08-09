@@ -3,35 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-    <meta name="theme-color" content="#0b0e14" />
-    <meta name="description" content="DRIFT/DOCK — an FPV drone game of flow and precision." />
-    <title>DRIFT/DOCK</title>
-    <script type="module" crossorigin src="/driftdock/assets/index-BEgChQux.js"></script>
-    <link rel="stylesheet" crossorigin href="/driftdock/assets/index-DGoPP9-n.css">
+    <meta name="theme-color" content="#05050a" />
+    <meta name="description" content="MOON BASE — fly, gather, and build a lunar base yourself or hand it to the AI autopilot." />
+    <title>MOON BASE</title>
+    <script type="module" crossorigin src="/driftdock/assets/index-BPq71QED.js"></script>
+    <link rel="stylesheet" crossorigin href="/driftdock/assets/index-rSGBclqc.css">
   </head>
   <body>
-    <main id="game" aria-label="DRIFT/DOCK, an FPV drone flight game">
+    <main id="game" aria-label="Moon Base, an FPV drone resource-gathering and base-building game">
       <!-- Attitude ladder: a horizon line referenced to true world-level,
            shown through the tilt-coupled camera exactly like a real FPV
            OSD -- rotates by roll, shifts by pitch. -->
       <div id="ladder-wrap" class="ladder-wrap"><div id="ladder" class="ladder"><i></i></div></div>
       <!-- Velocity vector: where the drone is actually GOING, projected
            into screen space -- distinct from where the nose points once
-           tilt-coupling is in play. The brief calls this the single most
-           important instrument. -->
+           tilt-coupling is in play. -->
       <div id="vel-vector" class="vel-vector hide"></div>
-      <!-- ISS-style docking overlay: fades in near a dock/gate. All values
-           computed live from physics state in Gates.ts -- nothing here is
-           decorative. -->
-      <div id="dock-overlay" class="dock-overlay hide">
-        <div class="dock-ring"><div id="dock-crosshair" class="dock-crosshair"></div></div>
-        <div class="dock-readout">
-          <div><span class="label">CLOSURE</span><b id="dock-closure">0.00</b><span class="unit">m/s</span></div>
-          <div><span class="label">ATT ERR</span><b id="dock-attitude">0</b><span class="unit">deg</span></div>
-          <div><span class="label">DIST</span><b id="dock-distance">0.0</b><span class="unit">m</span></div>
-        </div>
-        <div id="dock-status" class="dock-status"></div>
-      </div>
       <div id="hud" class="hud hide">
         <div class="row"><span class="label">SPD</span><b id="speed">0.0</b><span class="unit">m/s</span></div>
         <div class="row"><span class="label">ALT</span><b id="alt">0.0</b><span class="unit">m</span></div>
@@ -40,33 +27,27 @@
         <div class="row"><span class="label">FA</span><b id="assist">OFF</b></div>
         <div class="assist-cost" id="assist-cost"></div>
         <div class="row"><span class="label">ROTORS</span><b id="rotors" class="small">● ● ● ●</b></div>
-        <div class="hint">W/S pitch · A/D roll · ←/→ yaw · ↑/↓ throttle · F cycle assist · R restart · gamepad auto-detected for true-acro tier</div>
+        <div class="hint">W/S pitch · A/D roll · ←/→ yaw · ↑/↓ throttle · F cycle assist · V toggle AI · R restart</div>
       </div>
       <!-- Crash drift-away message -- shown only while controls are cut
-           during the milestone 5 crash replay. -->
+           during the crash replay. -->
       <div id="crash-msg" class="crash-msg hide"></div>
-      <!-- Milestone 6: course HUD -- name, gate progress, timer, best time.
-           Top-right so it never collides with the flight HUD. -->
-      <div id="course-hud" class="course-hud">
-        <div class="course-name" id="course-name">1 · First Flight</div>
-        <div class="course-row"><span id="course-gate">GATE 1/4</span><b id="course-timer">0:00.0</b></div>
-        <div class="course-best" id="course-best"></div>
-        <!-- Milestone 7: copilot ghost-line status -- unlocks once all
-             courses have a recorded best time. -->
-        <div class="course-copilot" id="course-copilot"></div>
-        <div class="course-hint">1-5 select course · 0 for today's Daily · M for Moon Base · fly through the first gate to start</div>
-      </div>
-      <!-- Medal splash on finish. -->
-      <div id="medal-splash" class="medal-splash hide"></div>
-      <!-- Moon Base mode HUD -- resource count, base progress, AI status.
-           Bottom-left, hidden outside Moon Base mode. -->
-      <div id="moonbase-hud" class="moonbase-hud hide">
+
+      <!-- Moon Base HUD -- the whole game now. Resource count, base build
+           progress bar, AI status, and a narration log of AI decisions. -->
+      <div id="moonbase-hud" class="moonbase-hud">
         <div class="mb-title">MOON BASE</div>
         <div class="mb-row"><span class="label">CARRIED</span><b id="mb-carried">0/3</b></div>
-        <div class="mb-row"><span class="label">DELIVERED</span><b id="mb-delivered">0/6</b></div>
-        <div class="mb-ai" id="mb-ai"></div>
+        <div class="mb-row"><span class="label">DELIVERED</span><b id="mb-delivered">0/10</b></div>
+        <div class="mb-bar"><div class="mb-bar-fill" id="mb-bar-fill"></div></div>
+        <div class="mb-ai" id="mb-ai">MANUAL</div>
         <div class="mb-hint">hover to mine · fly to the pad to deliver · V toggles AI autopilot</div>
       </div>
+      <!-- AI narration log -- top-center, only meaningful while the AI is
+           doing something, but left visible briefly after so the player
+           can read the last decision. -->
+      <div id="mb-log" class="mb-log"></div>
+
       <p id="fallback" class="fallback"></p>
     </main>
   </body>

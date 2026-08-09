@@ -1,6 +1,6 @@
 :root{color-scheme:dark;--paper:#eaf2ff;--accent:#4fd6ff}
 *{box-sizing:border-box}
-html,body,#game{margin:0;width:100%;height:100%;overflow:hidden;background:#0b0e14}
+html,body,#game{margin:0;width:100%;height:100%;overflow:hidden;background:#05050a}
 body{font-family:ui-monospace,monospace}
 canvas{display:block;width:100%;height:100%}
 .hud{position:absolute;z-index:5;top:16px;left:16px;color:var(--paper);pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6)}
@@ -27,52 +27,24 @@ canvas{display:block;width:100%;height:100%}
 .ladder i:after{right:0}
 
 /* Velocity vector -- where the drone is actually going, projected into
-   screen space. The brief calls this the most important instrument given
-   tilt-coupling: it's the one honest readout of true trajectory. */
+   screen space -- the one honest readout of true trajectory once tilt
+   couples pitch/roll to translation. */
 .vel-vector{position:absolute;z-index:4;width:16px;height:16px;margin:-8px 0 0 -8px;border:1.5px solid var(--accent);border-radius:50%;pointer-events:none;box-shadow:0 0 8px rgba(79,214,255,.6)}
 .vel-vector:before,.vel-vector:after{content:"";position:absolute;background:var(--accent)}
 .vel-vector:before{left:50%;top:-6px;width:1.5px;height:5px;margin-left:-.75px}
 .vel-vector:after{left:-6px;top:50%;width:5px;height:1.5px;margin-top:-.75px}
 .vel-vector.hide{display:none}
 
-/* Velocity streaks -- radial speed-lines that fade in above ~20 m/s, per
-   the brief's ask that speed actually READ on screen instead of just
-   being a HUD number. Pure CSS radial-gradient, cheap, no extra draw
-   calls -- opacity is driven each frame from main.ts. */
+/* Velocity streaks -- radial speed-lines that fade in above ~20 m/s so
+   speed actually READS on screen, not just as a HUD number. Pure CSS
+   radial-gradient; opacity is driven each frame from main.ts. */
 .streaks{position:absolute;z-index:3;inset:0;pointer-events:none;opacity:0;
   background:radial-gradient(ellipse at center,transparent 38%,rgba(234,242,255,.05) 55%,rgba(79,214,255,.14) 100%);
   mix-blend-mode:screen}
 
-/* Docking overlay -- ISS-style: crosshair shows lateral offset, three live
-   numbers (closure/attitude-error/distance) color-coded by the brief's
-   exact thresholds, a status line for hold-progress/DOCKED. Fades in only
-   near a dock (main.ts toggles .hide by distance) so it never competes
-   with the flow-section HUD. */
-.dock-overlay{position:absolute;z-index:6;top:50%;left:50%;transform:translate(-50%,-50%);
-  display:flex;flex-direction:column;align-items:center;pointer-events:none;
-  text-shadow:0 2px 6px rgba(0,0,0,.7);transition:opacity .25s}
-.dock-overlay.hide{display:none}
-.dock-ring{width:140px;height:140px;border:1px solid rgba(79,214,255,.35);border-radius:50%;position:relative;
-  box-shadow:0 0 18px rgba(79,214,255,.15) inset}
-.dock-ring:before,.dock-ring:after{content:"";position:absolute;background:rgba(79,214,255,.3)}
-.dock-ring:before{left:50%;top:0;bottom:0;width:1px;margin-left:-.5px}
-.dock-ring:after{top:50%;left:0;right:0;height:1px;margin-top:-.5px}
-.dock-crosshair{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;
-  border:1.5px solid var(--accent);border-radius:50%;box-shadow:0 0 10px rgba(79,214,255,.7);transition:transform .05s linear}
-.dock-readout{display:flex;gap:16px;margin-top:10px;font-size:11px;letter-spacing:.06em;color:var(--paper)}
-.dock-readout .label{color:rgba(234,242,255,.5);display:block;font-size:9.5px}
-.dock-readout b{font-size:15px;display:block}
-.dock-readout b.good{color:#5be08a}
-.dock-readout b.warn{color:#ffcf5c}
-.dock-readout b.bad{color:#ff6b6b}
-.dock-readout .unit{font-size:9px;color:rgba(234,242,255,.4)}
-.dock-status{margin-top:8px;font-size:12px;letter-spacing:.1em;min-height:14px}
-.dock-status.holding{color:#ffcf5c}
-.dock-status.docked{color:#5be08a;text-shadow:0 0 12px rgba(91,224,138,.6)}
-
-/* Rotor-health readout -- filled/empty dots, milestone 5 damage. Turns
-   amber at 3 alive (still flyable but drifting) rather than waiting for
-   the crash itself to announce trouble. */
+/* Rotor-health readout -- filled/empty dots. Turns amber at 3 alive
+   (still flyable but drifting) rather than waiting for the crash itself
+   to announce trouble. */
 .hud b#rotors{letter-spacing:.15em}
 .hud b#rotors.warn{color:#ffcf5c}
 
@@ -82,48 +54,26 @@ canvas{display:block;width:100%;height:100%}
   pointer-events:none}
 .crash-msg.hide{display:none}
 
-/* Course HUD -- top-right, name/gate/timer/best. Milestone 6. */
-.course-hud{position:absolute;z-index:5;top:16px;right:16px;text-align:right;color:var(--paper);
-  pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-.course-hud.hide{display:none}
-.course-name{font-size:13px;letter-spacing:.08em;color:rgba(234,242,255,.7);margin-bottom:4px}
-.course-row{display:flex;align-items:baseline;gap:10px;justify-content:flex-end;font-size:12px;letter-spacing:.06em}
-.course-row b{color:var(--accent);font-size:20px;font-variant-numeric:tabular-nums}
-.course-best{margin-top:3px;font-size:10.5px;color:rgba(255,207,92,.75)}
-.course-hint{margin-top:8px;font-size:9.5px;color:rgba(234,242,255,.4);letter-spacing:.03em;max-width:200px}
-
-/* Medal splash -- shown briefly on course finish. */
-.medal-splash{position:absolute;z-index:8;top:50%;left:50%;transform:translate(-50%,-50%);
-  text-align:center;pointer-events:none;text-shadow:0 2px 10px rgba(0,0,0,.8)}
-.medal-splash.hide{display:none}
-.medal-splash .medal{font-size:34px;letter-spacing:.15em;font-weight:600}
-.medal-splash .medal.gold{color:#ffd24a;text-shadow:0 0 22px rgba(255,210,74,.7)}
-.medal-splash .medal.silver{color:#d8e2ea;text-shadow:0 0 18px rgba(216,226,234,.6)}
-.medal-splash .medal.bronze{color:#d99a5b;text-shadow:0 0 18px rgba(217,154,91,.6)}
-.medal-splash .medal.none{color:#8fa0b3}
-.medal-splash .medal-time{margin-top:6px;font-size:16px;color:var(--paper);letter-spacing:.06em}
-.medal-splash .medal-copilot{margin-top:4px;font-size:11px;color:#ffd24a;letter-spacing:.04em}
-.medal-splash .medal-share{margin-top:6px;font-size:11px;color:rgba(234,242,255,.6);letter-spacing:.02em;font-family:ui-monospace,monospace}
-.medal-splash .medal-download{margin-top:10px;pointer-events:auto;cursor:pointer;background:rgba(79,214,255,.12);
-  border:1px solid rgba(79,214,255,.4);color:var(--accent);font:11px ui-monospace,monospace;letter-spacing:.05em;
-  padding:6px 14px;border-radius:3px}
-.medal-splash .medal-download:hover{background:rgba(79,214,255,.22)}
-.medal-splash .medal-hint{margin-top:8px;font-size:11px;color:rgba(234,242,255,.5)}
-
-/* Copilot status line -- milestone 7. Empty/invisible while locked. */
-.course-copilot{margin-top:5px;font-size:10px;letter-spacing:.05em}
-.course-copilot.available{color:#ffd24a}
-.course-copilot.accepted{color:#5be08a}
-.course-copilot.declined{color:rgba(234,242,255,.4)}
-
-/* Moon Base mode HUD -- bottom-left, mirrors the flight HUD's palette. */
+/* Moon Base HUD -- bottom-left. The whole game's objective readout: carry
+   capacity, base build progress (bar fills as delivered approaches the
+   final tier), and AI status. */
 .moonbase-hud{position:absolute;z-index:5;bottom:16px;left:16px;color:var(--paper);
-  pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-.moonbase-hud.hide{display:none}
-.mb-title{font-size:13px;letter-spacing:.1em;color:#6fe8d8;margin-bottom:4px}
+  pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6);width:240px}
+.mb-title{font-size:14px;letter-spacing:.12em;color:#6fe8d8;margin-bottom:6px;text-shadow:0 0 10px rgba(111,232,216,.4)}
 .mb-row{display:flex;align-items:baseline;gap:8px;font-size:12px;letter-spacing:.05em;margin-bottom:2px}
 .mb-row .label{color:rgba(234,242,255,.55);width:70px}
 .mb-row b{color:#6fe8d8;font-size:16px}
-.mb-ai{margin-top:4px;font-size:11px;color:rgba(234,242,255,.4);letter-spacing:.04em}
-.mb-ai.active{color:#ffd24a}
-.mb-hint{margin-top:8px;font-size:9.5px;color:rgba(234,242,255,.4);letter-spacing:.03em;max-width:220px}
+.mb-bar{margin-top:6px;height:6px;border-radius:3px;background:rgba(111,232,216,.15);overflow:hidden;border:1px solid rgba(111,232,216,.3)}
+.mb-bar-fill{height:100%;width:0;background:linear-gradient(90deg,#2f8f80,#6fe8d8);transition:width .4s ease}
+.mb-ai{margin-top:8px;font-size:12px;color:rgba(234,242,255,.5);letter-spacing:.05em}
+.mb-ai.active{color:#ffd24a;text-shadow:0 0 8px rgba(255,210,74,.4)}
+.mb-hint{margin-top:10px;font-size:9.5px;color:rgba(234,242,255,.4);letter-spacing:.03em;max-width:230px}
+
+/* AI narration log -- top-center, a short rolling feed of what the AI just
+   decided (target locked, mining, returning, delivered, tier unlocked).
+   Newest on top, older lines fade (opacity set inline per-line by
+   MoonBaseHUD.ts). */
+.mb-log{position:absolute;z-index:5;top:16px;left:50%;transform:translateX(-50%);
+  text-align:center;pointer-events:none;color:#ffd24a;text-shadow:0 2px 6px rgba(0,0,0,.7);
+  font-size:12px;letter-spacing:.03em;max-width:420px}
+.mb-log-line{margin-bottom:3px}

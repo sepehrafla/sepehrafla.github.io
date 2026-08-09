@@ -106,12 +106,25 @@ export const T = {
   // drone's current body-local frame (accounting for yaw), then expressed
   // as a pitch/roll command in the SAME units and sign convention Input.ts
   // produces -- it drives the actual FlightModel a human pilot uses, not a
-  // parallel fake-physics path. Verified empirically (not just asserted)
-  // that it actually reaches a target position, same rigor as every other
-  // physics claim in this project.
-  autopilotKp: 0.35, // 1/s^2-ish gain on position error -> normalized tilt command
-  autopilotKd: 0.55, // damping gain on velocity
-  autopilotMaxTiltCmd: 0.8, // never commands full deflection -- leaves headroom so it doesn't oscillate at the tilt cap
+  // parallel fake-physics path.
+  //
+  // The first gain set here (kp=0.35, kd=0.55, cap=0.8) LOOKED right and
+  // passed a naive "does it ever cross the arrival radius" check, but a
+  // longer live test caught it in a genuine limit-cycle orbit: it flew
+  // straight through the target at 6+ m/s, overshot by ~10m, and swung
+  // back and forth indefinitely -- never actually arriving in any
+  // meaningful sense. The bug was outer-loop gains tuned as if tilt
+  // produces acceleration instantly; the real inner attitude-PD loop
+  // (FlightModel's own kp/kd) has real lag, and an outer loop that
+  // aggressive rings against it. Swept down empirically (same rigor as
+  // milestone 1's attitude-PD tuning) checking for genuine SETTLING --
+  // staying within arrival tolerance for the back half of a 30s run, not
+  // just touching it once -- across both a ~17m and a ~52m test distance.
+  // This set settles cleanly at both (final distance <0.1m, zero
+  // oscillation) in a still-reasonable ~11s/~21s respectively.
+  autopilotKp: 0.15, // 1/s^2-ish gain on position error -> normalized tilt command
+  autopilotKd: 0.9, // damping gain on velocity -- deliberately large relative to kp, see above
+  autopilotMaxTiltCmd: 0.6, // never commands full deflection -- leaves headroom so it doesn't oscillate at the tilt cap
   autopilotThrottleKp: 0.6,
   autopilotThrottleKd: 0.9,
   autopilotArriveRadius: 1.2, // m, "close enough" to a waypoint to advance the state machine
