@@ -85,6 +85,7 @@ canvas{display:block;width:100%;height:100%}
 /* Course HUD -- top-right, name/gate/timer/best. Milestone 6. */
 .course-hud{position:absolute;z-index:5;top:16px;right:16px;text-align:right;color:var(--paper);
   pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.course-hud.hide{display:none}
 .course-name{font-size:13px;letter-spacing:.08em;color:rgba(234,242,255,.7);margin-bottom:4px}
 .course-row{display:flex;align-items:baseline;gap:10px;justify-content:flex-end;font-size:12px;letter-spacing:.06em}
 .course-row b{color:var(--accent);font-size:20px;font-variant-numeric:tabular-nums}
@@ -114,3 +115,15 @@ canvas{display:block;width:100%;height:100%}
 .course-copilot.available{color:#ffd24a}
 .course-copilot.accepted{color:#5be08a}
 .course-copilot.declined{color:rgba(234,242,255,.4)}
+
+/* Moon Base mode HUD -- bottom-left, mirrors the flight HUD's palette. */
+.moonbase-hud{position:absolute;z-index:5;bottom:16px;left:16px;color:var(--paper);
+  pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.moonbase-hud.hide{display:none}
+.mb-title{font-size:13px;letter-spacing:.1em;color:#6fe8d8;margin-bottom:4px}
+.mb-row{display:flex;align-items:baseline;gap:8px;font-size:12px;letter-spacing:.05em;margin-bottom:2px}
+.mb-row .label{color:rgba(234,242,255,.55);width:70px}
+.mb-row b{color:#6fe8d8;font-size:16px}
+.mb-ai{margin-top:4px;font-size:11px;color:rgba(234,242,255,.4);letter-spacing:.04em}
+.mb-ai.active{color:#ffd24a}
+.mb-hint{margin-top:8px;font-size:9.5px;color:rgba(234,242,255,.4);letter-spacing:.03em;max-width:220px}

@@ -1,7 +1,4 @@
 import * as THREE from "three";
-import concreteColor from "../assets/textures/concrete/color.jpg";
-import concreteNormal from "../assets/textures/concrete/normal.jpg";
-import concreteRough from "../assets/textures/concrete/roughness.jpg";
 import metalColor from "../assets/textures/metal/color.jpg";
 import metalNormal from "../assets/textures/metal/normal.jpg";
 import metalRough from "../assets/textures/metal/roughness.jpg";
@@ -10,44 +7,119 @@ import rustColor from "../assets/textures/rust/color.jpg";
 import rustNormal from "../assets/textures/rust/normal.jpg";
 import rustRough from "../assets/textures/rust/roughness.jpg";
 
-// Real CC0 PBR textures (ambientCG) drive the ground and dock materials --
-// see src/assets/CREDITS.md for provenance. An HDRI-based image lighting
-// pass (Poly Haven, applied via scene.environment) was tried too, but was
-// dropped: verified live that even at envMapIntensity 0.06 it fully blew
-// out the concrete texture's real detail under ACES tone mapping (nulling
-// scene.environment was the only thing that brought the texture back) --
-// an outdoor sun-capture HDRI's raw radiance is just too far above this
-// scene's other lights to tame cheaply. The direct-mapped textures alone
-// already read as real material without it.
+// Lunar re-theme: the sky and ground are now a real airless-moon look
+// (starfield, black sky, cratered regolith) instead of the earlier blue-
+// sky/concrete arena. Physics gravity is deliberately NOT changed to real
+// lunar gravity (1.62 m/s^2) -- every tuned constant across 8 milestones
+// (hover throttle, assist gains, all course par times) was calibrated
+// against the current gravity, and retuning all of it is out of scope for
+// a reskin. This is a visual/thematic change, not a physics one. The
+// hangar/dock still uses the real CC0 metal textures (see
+// src/assets/CREDITS.md) -- weathered metal reads just as well as a lunar
+// base module as it did as an Earth hangar.
 
-/** Sky dome stays a cheap procedural gradient + sun -- no load time, and it
- *  matches the game's HUD palette better than a photo sky would. */
+/** Airless-moon sky: black gradient (no atmosphere = no horizon haze),
+ *  a hard sun disc, and a scattered starfield -- stars are visible in
+ *  real lunar-surface photos precisely because there's no air to scatter
+ *  light and wash them out. A small painted Earth sits low on the
+ *  horizon, the classic "lunar surface" signature shot. */
 export function buildSky(scene: THREE.Scene) {
   const geo = new THREE.SphereGeometry(400, 24, 16),
     mat = new THREE.ShaderMaterial({
       side: THREE.BackSide,
       depthWrite: false,
       uniforms: {
-        uTop: { value: new THREE.Color(0x1a2740) },
-        uHorizon: { value: new THREE.Color(0x3d5570) },
+        uTop: { value: new THREE.Color(0x000000) },
+        uHorizon: { value: new THREE.Color(0x0a0a12) },
         uSun: { value: new THREE.Vector3(0.35, 0.25, -0.6).normalize() },
+        uStars: { value: starTexture() },
       },
       vertexShader: `varying vec3 vDir;void main(){vDir=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
       fragmentShader: `
-        uniform vec3 uTop,uHorizon,uSun;varying vec3 vDir;
+        uniform vec3 uTop,uHorizon,uSun;uniform sampler2D uStars;varying vec3 vDir;
         void main(){
-          float h=clamp(vDir.y*0.5+0.15,0.,1.);
-          vec3 col=mix(uHorizon,uTop,pow(h,0.7));
-          float sun=smoothstep(0.9992,0.9999,dot(normalize(vDir),normalize(uSun)));
-          col+=sun*vec3(1.,0.85,0.55)*1.1;
-          float glow=pow(max(dot(normalize(vDir),normalize(uSun)),0.),80.)*0.18;
-          col+=glow*vec3(1.,0.7,0.4);
+          vec3 d=normalize(vDir);
+          float h=clamp(d.y*0.5+0.15,0.,1.);
+          vec3 col=mix(uHorizon,uTop,pow(h,0.4));
+          // equirectangular lookup for the star sprite sheet
+          vec2 uv=vec2(atan(d.z,d.x)/6.2831853+0.5, acos(clamp(d.y,-1.,1.))/3.1415926);
+          vec3 stars=texture2D(uStars,uv).rgb*clamp(d.y*3.0+0.2,0.,1.); // fade near the ground
+          col+=stars;
+          float sun=smoothstep(0.9993,0.9999,dot(d,normalize(uSun)));
+          col+=sun*vec3(1.,0.97,0.9)*1.6;
+          float glow=pow(max(dot(d,normalize(uSun)),0.),60.)*0.12;
+          col+=glow*vec3(1.,0.85,0.6);
           gl_FragColor=vec4(col,1.);
         }`,
     }),
     mesh = new THREE.Mesh(geo, mat);
   scene.add(mesh);
+  scene.add(buildEarth());
   return mesh;
+}
+
+function starTexture() {
+  const size = 1024,
+    c = document.createElement("canvas");
+  c.width = size;
+  c.height = size / 2;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, c.width, c.height);
+  for (let i = 0; i < 2200; i++) {
+    const x = Math.random() * c.width,
+      y = Math.random() * c.height * 0.85, // keep the lower strip starless, near the "ground" band
+      r = Math.random() < 0.08 ? Math.random() * 1.1 + 0.6 : Math.random() * 0.5 + 0.15,
+      b = 0.4 + Math.random() * 0.6;
+    ctx.fillStyle = `rgba(255,255,255,${b})`;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** A small painted Earth, low on the horizon -- procedural (a swirled
+ *  blue/green/white canvas texture on a sphere), not a photo, per the
+ *  no-model/no-external-image-asset habit this project has kept even
+ *  after adopting real PBR textures for close-up surfaces. */
+function buildEarth() {
+  const size = 256,
+    c = document.createElement("canvas");
+  c.width = c.height = size;
+  const ctx = c.getContext("2d")!,
+    grad = ctx.createRadialGradient(size * 0.4, size * 0.35, 4, size * 0.5, size * 0.5, size * 0.55);
+  grad.addColorStop(0, "#6fb8e8");
+  grad.addColorStop(0.55, "#2f6fb0");
+  grad.addColorStop(1, "#173a63");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = "rgba(255,255,255,0.75)";
+  for (let i = 0; i < 14; i++) {
+    const x = Math.random() * size,
+      y = Math.random() * size,
+      w = 20 + Math.random() * 40,
+      h = 8 + Math.random() * 14;
+    ctx.beginPath();
+    ctx.ellipse(x, y, w, h, Math.random() * Math.PI, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = "rgba(70,140,70,0.55)";
+  for (let i = 0; i < 6; i++) {
+    const x = Math.random() * size,
+      y = Math.random() * size,
+      r = 15 + Math.random() * 25;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const earth = new THREE.Mesh(new THREE.SphereGeometry(14, 24, 24), new THREE.MeshBasicMaterial({ map: tex }));
+  earth.position.set(-180, 55, -260);
+  return earth;
 }
 
 function realTexture(url: string, repeat: number, srgb = false) {
@@ -59,19 +131,18 @@ function realTexture(url: string, repeat: number, srgb = false) {
   return tex;
 }
 
-/** Real CC0 concrete PBR ground (was a canvas-drawn flat-gray checker) --
- *  the cyan grid overlay is kept as a second transparent layer just above
- *  it so the "better navigation" distance/altitude cues survive the switch
- *  to a real material. */
+/** Cratered regolith ground -- procedural (canvas-drawn craters: dark
+ *  interior, bright rim highlight facing the sun, same trick real crater-
+ *  shading uses) rather than a photo texture, since no CC0 lunar-surface
+ *  photo was sourced for this pass and the crater look benefits from
+ *  hand-placed rim lighting more than a flat photo tile would anyway. The
+ *  cyan grid overlay is kept as a second transparent layer -- the
+ *  "better navigation" distance/altitude cues survive the reskin. */
 export function buildGround(scene: THREE.Scene) {
-  const repeat = 90,
-    mat = new THREE.MeshStandardMaterial({
-      map: realTexture(concreteColor, repeat, true),
-      normalMap: realTexture(concreteNormal, repeat),
-      roughnessMap: realTexture(concreteRough, repeat),
-      roughness: 1,
-    }),
+  const repeat = 70,
+    mat = new THREE.MeshStandardMaterial({ map: regolithTexture(), roughness: 1, metalness: 0 }),
     mesh = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), mat);
+  (mat.map as THREE.Texture).repeat.set(repeat, repeat);
   mesh.rotation.x = -Math.PI / 2;
   scene.add(mesh);
 
@@ -84,6 +155,49 @@ export function buildGround(scene: THREE.Scene) {
   scene.add(gridMesh);
 
   return mesh;
+}
+
+function regolithTexture() {
+  const size = 1024,
+    c = document.createElement("canvas");
+  c.width = c.height = size;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#8f8a82";
+  ctx.fillRect(0, 0, size, size);
+  // Fine speckle for grain at close range.
+  for (let i = 0; i < 9000; i++) {
+    const x = Math.random() * size,
+      y = Math.random() * size,
+      v = Math.random() * 30 - 15;
+    ctx.fillStyle = `rgba(${v > 0 ? 255 : 0},${v > 0 ? 255 : 0},${v > 0 ? 255 : 0},${Math.abs(v) / 60})`;
+    ctx.fillRect(x, y, 1.5, 1.5);
+  }
+  // Craters: dark bowl + a bright rim on the sun-facing edge -- reads as
+  // real relief even on a flat plane, no actual displacement needed.
+  const sunDir = { x: -0.4, y: -0.6 }; // matches uSun's rough screen-space lean
+  for (let i = 0; i < 46; i++) {
+    const x = Math.random() * size,
+      y = Math.random() * size,
+      r = 8 + Math.random() * 46;
+    const bowl = ctx.createRadialGradient(x, y, r * 0.1, x, y, r);
+    bowl.addColorStop(0, "rgba(50,46,40,0.55)");
+    bowl.addColorStop(0.7, "rgba(60,55,48,0.3)");
+    bowl.addColorStop(1, "rgba(60,55,48,0)");
+    ctx.fillStyle = bowl;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = `rgba(220,212,198,${0.25 + Math.random() * 0.2})`;
+    ctx.lineWidth = Math.max(1, r * 0.08);
+    ctx.beginPath();
+    ctx.arc(x - sunDir.x * r * 0.3, y - sunDir.y * r * 0.3, r * 0.92, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  return tex;
 }
 
 function gridOverlayTexture() {

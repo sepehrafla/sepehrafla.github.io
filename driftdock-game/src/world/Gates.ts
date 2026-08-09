@@ -1,5 +1,8 @@
 import * as THREE from "three";
 import { T } from "../drone/Tuning";
+import type { MovingDock } from "./MovingDock";
+import type { DockingOverlay } from "../hud/DockingOverlay";
+import type { Sound } from "../core/Sound";
 
 /** Pose-gate math: position + velocity + attitude tolerance checks, shared
  *  by every precision section (MovingDock now, SlotThread/InvertedDock
@@ -93,5 +96,41 @@ export class DockChecker {
   reset() {
     this.holdTimer = 0;
     this.docked = false;
+  }
+}
+
+/** Runs a MovingDock + InvertedDock pair through the same DockingOverlay,
+ *  whichever is closer claiming it each frame -- extracted out of main.ts
+ *  purely to keep it under the brief's 300-line rule (this was two
+ *  DockChecker.update() calls plus the nearer-dock math duplicated
+ *  inline). Both docks' state lives here now instead of two separate
+ *  DockChecker instances in main.ts. */
+export class DockPair {
+  private primary = new DockChecker();
+  private inverted = new DockChecker();
+
+  reset() {
+    this.primary.reset();
+    this.inverted.reset();
+  }
+
+  update(
+    overlay: DockingOverlay,
+    dock: MovingDock,
+    invertedDock: MovingDock,
+    dronePos: THREE.Vector3,
+    droneVel: THREE.Vector3,
+    droneQuat: THREE.Quaternion,
+    camQuat: THREE.Quaternion,
+    dt: number,
+    range: number,
+    sound: Sound,
+  ) {
+    const dP = dock.dockPoint(),
+      iP = invertedDock.dockPoint(),
+      nearerIsInverted = dronePos.distanceTo(iP) < dronePos.distanceTo(dP),
+      chime = () => sound.dockChime();
+    this.primary.update(overlay, dronePos, droneVel, droneQuat, dP, dock.velocity, dock.targetUp, camQuat, dt, nearerIsInverted ? 0 : range, chime);
+    this.inverted.update(overlay, dronePos, droneVel, droneQuat, iP, invertedDock.velocity, invertedDock.targetUp, camQuat, dt, nearerIsInverted ? range : 0, chime);
   }
 }

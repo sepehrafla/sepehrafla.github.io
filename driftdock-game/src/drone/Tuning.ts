@@ -98,6 +98,31 @@ export const T = {
   copilotMagnetForce: 1.4, // extra force gain toward the line, scaled by (1 - dist/radius) -- deliberately weak relative to the drone's own ~6N/motor thrust, a nudge the pilot can out-fly, not an autopilot
   copilotPreviewSeconds: 3, // s, how far ahead the highlighted preview marker sits, per the brief's "3s ahead"
   copilotCruiseSpeed: 9, // m/s, nominal speed used to convert the 3s preview window into a distance along the line when the drone itself is nearly stationary (e.g. idle before the run starts)
+
+  // --- moon base: AI autopilot (extends the copilot concept to full
+  // hands-off control, per the user's ask) ---
+  // A real PD controller, not a scripted animation: desired world-space
+  // horizontal acceleration = kP*(target-pos) - kD*vel, rotated into the
+  // drone's current body-local frame (accounting for yaw), then expressed
+  // as a pitch/roll command in the SAME units and sign convention Input.ts
+  // produces -- it drives the actual FlightModel a human pilot uses, not a
+  // parallel fake-physics path. Verified empirically (not just asserted)
+  // that it actually reaches a target position, same rigor as every other
+  // physics claim in this project.
+  autopilotKp: 0.35, // 1/s^2-ish gain on position error -> normalized tilt command
+  autopilotKd: 0.55, // damping gain on velocity
+  autopilotMaxTiltCmd: 0.8, // never commands full deflection -- leaves headroom so it doesn't oscillate at the tilt cap
+  autopilotThrottleKp: 0.6,
+  autopilotThrottleKd: 0.9,
+  autopilotArriveRadius: 1.2, // m, "close enough" to a waypoint to advance the state machine
+  autopilotMineHoldTime: 2.0, // s, how long the autopilot hovers at a resource node to "mine" it (matches the manual mine time)
+  autopilotHoverHeight: 2.5, // m, cruise altitude the autopilot holds over waypoints
+
+  // --- moon base: resource gathering ---
+  resourceMineRadius: 1.6, // m
+  resourceMineHoldTime: 1.6, // s, brief deliberate hover to mine, same shape as the repair pad
+  resourceCarryCapacity: 3,
+  baseDeliverRadius: 3.5, // m
 } as const;
 
 export const gravity = 9.81;

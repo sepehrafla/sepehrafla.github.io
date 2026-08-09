@@ -10,10 +10,13 @@ import { buildSky, buildGround, buildDock } from "./world/Environment";
 import { buildArena } from "./world/Arena";
 import { WorldTriggers } from "./world/Triggers";
 import { MovingDock } from "./world/MovingDock";
-import { DockChecker } from "./world/Gates";
+import { DockPair } from "./world/Gates";
 import { DockingOverlay } from "./hud/DockingOverlay";
 import { GhostSession } from "./replay/GhostSession";
-import { T } from "./drone/Tuning";
+import { MoonBaseState } from "./world/MoonBase";
+import { MoonBaseHUD } from "./hud/MoonBaseHUD";
+import { ModeSwitch } from "./world/ModeSwitch";
+import { T, hoverThrottle } from "./drone/Tuning";
 import { ASSIST_INFO } from "./drone/Assists";
 
 const game = document.querySelector<HTMLElement>("#game")!,
@@ -43,9 +46,15 @@ async function start() {
   game.prepend(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x263346, 30, 220);
-  scene.add(new THREE.HemisphereLight(0x8fb8ff, 0x1a1208, 1.0));
-  const sun = new THREE.DirectionalLight(0xffe9c4, 1.6);
+  // Lunar re-theme: fog reads as a thin haze at this render distance more
+  // than literal atmosphere (the moon has none), tinted near-black to
+  // match the starfield sky rather than the old blue. Hemisphere light's
+  // "sky" color is now near-black too (no blue-sky bounce light without
+  // an atmosphere) -- direct sunlight does almost all the work, harsher
+  // and more contrasty than the old scene, which is the real look.
+  scene.fog = new THREE.Fog(0x05050a, 40, 260);
+  scene.add(new THREE.HemisphereLight(0x2a2a35, 0x0a0806, 0.5));
+  const sun = new THREE.DirectionalLight(0xfff4e0, 2.0);
   sun.position.set(30, 60, -50); // matches Environment.ts's sky sun direction
   scene.add(sun);
   buildSky(scene);
@@ -62,15 +71,21 @@ async function start() {
     triggers = ((globalThis as typeof globalThis & { __ddTriggers?: WorldTriggers }).__ddTriggers = new WorldTriggers(arena, scene, SPAWN)),
     // MovingDock, milestone 4: "charging pad on a patrolling platform."
     dock = ((globalThis as typeof globalThis & { __ddDock?: MovingDock }).__ddDock = new MovingDock(physics, scene, new THREE.Vector3(0, 1.2, 12))),
-    dockChecker = new DockChecker(),
     // InvertedDock, milestone 5: "pad faces downward," fixed (not
     // patrolling, per the brief), mounted high for real approach room
     // underneath. Reuses MovingDock/DockChecker/DockingOverlay wholesale --
     // same pose-gate math, just targetUp flipped.
     invertedDock = new MovingDock(physics, scene, new THREE.Vector3(-14, 6, 30), { patrol: false, inverted: true }),
-    invertedDockChecker = new DockChecker(),
+    dockPair = new DockPair(),
     dockOverlay = new DockingOverlay(),
-    ghosts = ((globalThis as typeof globalThis & { __ddGhosts?: GhostSession }).__ddGhosts = new GhostSession(scene)); // milestone 6: course/medal/ghost, see GhostSession.ts
+    ghosts = ((globalThis as typeof globalThis & { __ddGhosts?: GhostSession }).__ddGhosts = new GhostSession(scene)), // milestone 6: course/medal/ghost, see GhostSession.ts
+    // Moon Base mode: resource gathering + base building, alongside (not
+    // replacing) Trial/Daily racing -- same drone/physics/world, a
+    // different objective. M toggles into it, V toggles the AI autopilot.
+    moonBase = ((globalThis as typeof globalThis & { __ddMoonBase?: MoonBaseState }).__ddMoonBase = new MoonBaseState(scene, physics)),
+    moonBaseHUD = new MoonBaseHUD();
+  const modeSwitch = new ModeSwitch(moonBase, moonBaseHUD, document.querySelector<HTMLElement>("#course-hud")!);
+  let aiCommand: { pitch: number; roll: number; yaw: number; throttle: number } | null = null;
   addEventListener("resize", () => {
     renderer.setSize(innerWidth, innerHeight);
     fpv.resize(innerWidth / innerHeight);
@@ -124,8 +139,7 @@ async function start() {
     drone.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
     drone.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
     drone.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
-    dockChecker.reset();
-    invertedDockChecker.reset();
+    dockPair.reset();
   };
 
   const loop = (now: number) => {
@@ -148,7 +162,19 @@ async function start() {
       dt,
       (step) => {
         if (controlsActive) {
-          input.step(step);
+          // AI autopilot: computed from the END of the PREVIOUS frame's
+          // position (one frame of lag) -- overrides input.step()'s real
+          // key-reading entirely, same "skip real input" shape as the
+          // crash-drift sequence above, just driven by a controller
+          // instead of nothing. Reused FlightModel either way.
+          if (modeSwitch.mode === "moonbase" && moonBase.aiEngaged && aiCommand) {
+            input.pitch = aiCommand.pitch;
+            input.roll = aiCommand.roll;
+            input.yaw = aiCommand.yaw;
+            input.throttle = aiCommand.throttle;
+          } else {
+            input.step(step);
+          }
           drone.fixed(step);
         }
         dock.fixed(step);
@@ -197,49 +223,25 @@ async function start() {
     sound.updateRotors(drone.motorThrust, T.maxThrustPerMotor, drone.damage.alive);
     sound.updateAirflow(speed);
 
-    // --- MovingDock + InvertedDock: DockingOverlay (ISS-style) +
-    // triple-tolerance check. Only one overlay element exists, so whichever
-    // dock is currently closer (and in range) claims it each frame -- with
-    // the two docks placed far apart, in practice only one is ever in range
-    // at once. ---
-    const dP = dock.dockPoint(),
-      iP = invertedDock.dockPoint(),
-      nearerIsInverted = dronePos.distanceTo(iP) < dronePos.distanceTo(dP);
-    dockChecker.update(
-      dockOverlay,
-      dronePos,
-      droneVel,
-      drone.mesh.quaternion,
-      dP,
-      dock.velocity,
-      dock.targetUp,
-      fpv.camera.quaternion,
-      dt,
-      nearerIsInverted ? 0 : T.dockOverlayRange, // suppress if the inverted dock has priority this frame
-      () => sound.dockChime(),
-    );
-    invertedDockChecker.update(
-      dockOverlay,
-      dronePos,
-      droneVel,
-      drone.mesh.quaternion,
-      iP,
-      invertedDock.velocity,
-      invertedDock.targetUp,
-      fpv.camera.quaternion,
-      dt,
-      nearerIsInverted ? T.dockOverlayRange : 0,
-      () => sound.dockChime(),
-    );
+    // MovingDock + InvertedDock share one DockingOverlay -- whichever is
+    // closer (and in range) claims it each frame. See Gates.ts's DockPair.
+    dockPair.update(dockOverlay, dock, invertedDock, dronePos, droneVel, drone.mesh.quaternion, fpv.camera.quaternion, dt, T.dockOverlayRange, sound);
 
-    // --- milestone 6/7: course progress, ghost record/playback, copilot
-    // line (accept/reject, pre-armed assists, sync%/divergence tracking).
-    // The magnetism nudge comes back as a velocity-space vector, applied
-    // the same impulse-not-force way as every other custom force in this
-    // project (see Drone.ts's note on why). ---
-    const magnet = ghosts.update(dt, dronePos, drone, speed);
-    if (magnet) drone.body.applyImpulse({ x: magnet.x, y: magnet.y, z: magnet.z }, true);
-    if (ghosts.lockStabilize) drone.assist = "STABILIZE"; // progression: courses 1-2 force STABILIZE on, per the brief
+    // --- race mode: course progress, ghost record/playback, copilot line
+    // (accept/reject, pre-armed assists, sync%/divergence tracking). The
+    // magnetism nudge comes back as a velocity-space vector, applied the
+    // same impulse-not-force way as every other custom force in this
+    // project (see Drone.ts's note on why). Moon Base mode: resource
+    // gather/deliver + AI autopilot -- see MoonBase.ts. Mutually exclusive
+    // with race mode (M switches between them). ---
+    if (modeSwitch.mode === "race") {
+      const magnet = ghosts.update(dt, dronePos, drone, speed);
+      if (magnet) drone.body.applyImpulse({ x: magnet.x, y: magnet.y, z: magnet.z }, true);
+      if (ghosts.lockStabilize) drone.assist = "STABILIZE"; // progression: courses 1-2 force STABILIZE on, per the brief
+    } else {
+      aiCommand = moonBase.update(dt, dronePos, droneVel, drone.mesh.quaternion, drone, sound, hoverThrottle);
+      moonBaseHUD.update(moonBase);
+    }
 
     // --- rotor-pop particle burst cleanup ---
     for (let i = popEffects.length - 1; i >= 0; i--) {

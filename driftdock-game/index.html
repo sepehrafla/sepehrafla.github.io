@@ -52,10 +52,19 @@
         <!-- Milestone 7: copilot ghost-line status -- unlocks once all
              courses have a recorded best time. -->
         <div class="course-copilot" id="course-copilot"></div>
-        <div class="course-hint">1-5 select course · 0 for today's Daily · fly through the first gate to start</div>
+        <div class="course-hint">1-5 select course · 0 for today's Daily · M for Moon Base · fly through the first gate to start</div>
       </div>
       <!-- Medal splash on finish. -->
       <div id="medal-splash" class="medal-splash hide"></div>
+      <!-- Moon Base mode HUD -- resource count, base progress, AI status.
+           Bottom-left, hidden outside Moon Base mode. -->
+      <div id="moonbase-hud" class="moonbase-hud hide">
+        <div class="mb-title">MOON BASE</div>
+        <div class="mb-row"><span class="label">CARRIED</span><b id="mb-carried">0/3</b></div>
+        <div class="mb-row"><span class="label">DELIVERED</span><b id="mb-delivered">0/6</b></div>
+        <div class="mb-ai" id="mb-ai"></div>
+        <div class="mb-hint">hover to mine · fly to the pad to deliver · V toggles AI autopilot</div>
+      </div>
       <p id="fallback" class="fallback"></p>
     </main>
     <script type="module" src="/src/main.ts"></script>
