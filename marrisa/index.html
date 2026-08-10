@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0f1120">
+<title>Learn Farsi 🇮🇷</title>
+<meta name="description" content="Bite-sized Farsi reels — conversational phrases, learned a swipe at a time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1120; --bg2:#171a2e; --panel:#1b1e33; --panel2:#242847;
+    --line:rgba(255,255,255,.09); --txt:#f4f2ff; --muted:#9b98c4;
+    --teal:#2dd4bf; --teal-dim:rgba(45,212,191,.16);
+    --gold:#f5c451; --rose:#ff6f91;
+    --radius:22px; --safe-b:env(safe-area-inset-bottom); --safe-t:env(safe-area-inset-top);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    background:
+      radial-gradient(900px 500px at 15% -10%, rgba(45,212,191,.14), transparent 60%),
+      radial-gradient(700px 500px at 100% 0%, rgba(245,196,81,.10), transparent 55%),
+      var(--bg);
+    color:var(--txt); min-height:100vh; line-height:1.5; overflow-x:hidden;
+  }
+  .farsi{font-family:'Vazirmatn',sans-serif; direction:rtl; unicode-bidi:isolate}
+  a{color:inherit}
+  .hidden{display:none!important}
+
+  /* ---------- HOME ---------- */
+  #home{max-width:640px;margin:0 auto;padding:calc(22px + var(--safe-t)) 18px 70px}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;letter-spacing:.2px}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal)}
+  .streak-pill{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:var(--muted);display:flex;gap:7px;align-items:center;font-weight:600}
+
+  .hero{margin:30px 0 8px}
+  .hero h1{font-size:34px;line-height:1.14;margin:0 0 12px;font-weight:800;letter-spacing:-.3px}
+  .hero h1 span{color:var(--teal)}
+  .hero p{color:var(--muted);margin:0;font-size:15.5px;max-width:46ch}
+
+  .overall{margin:26px 0 4px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .overall .ring{flex:0 0 auto}
+  .overall .txt b{display:block;font-size:15px}
+  .overall .txt span{color:var(--muted);font-size:12.5px}
+
+  .section-title{font-size:12.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:32px 2px 14px;font-weight:800}
+
+  .decks{display:grid;gap:14px}
+  .deck-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 18px; cursor:pointer; transition:.15s; display:flex; align-items:center; gap:16px;
+    position:relative; overflow:hidden;
+  }
+  .deck-card:active{transform:scale(.98)}
+  .deck-card:hover{border-color:rgba(255,255,255,.22); transform:translateY(-2px)}
+  .deck-card .ic{
+    width:52px;height:52px;flex:0 0 52px;border-radius:16px;display:grid;place-items:center;
+    font-size:26px; background:linear-gradient(145deg, rgba(45,212,191,.22), rgba(45,212,191,.05));
+    border:1px solid rgba(45,212,191,.25);
+  }
+  .deck-card .body{flex:1;min-width:0}
+  .deck-card h3{margin:0 0 3px;font-size:17px;font-weight:750}
+  .deck-card p{margin:0;color:var(--muted);font-size:13px}
+  .deck-card .prog{margin-top:9px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+  .deck-card .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#5eead4);border-radius:inherit;transition:width .4s ease}
+  .deck-card .count{font-size:11.5px;color:var(--muted);white-space:nowrap;margin-top:6px;display:block}
+  .deck-card .chev{color:var(--muted);font-size:20px;flex:0 0 auto}
+  .deck-card.done{border-color:rgba(45,212,191,.4)}
+  .deck-card .badge{position:absolute;top:12px;right:14px;font-size:10.5px;background:rgba(45,212,191,.16);color:var(--teal);border:1px solid rgba(45,212,191,.3);border-radius:999px;padding:3px 8px;font-weight:700}
+
+  .foot{text-align:center;color:var(--muted);font-size:12.5px;margin-top:40px;line-height:1.8}
+  .foot .heart{color:var(--rose)}
+
+  /* ---------- REEL VIEW ---------- */
+  #reel{
+    position:fixed; inset:0; background:var(--bg); z-index:20;
+    display:flex; flex-direction:column;
+  }
+  .reel-top{padding:calc(12px + var(--safe-t)) 16px 10px; flex:0 0 auto}
+  .reel-progress{display:flex;gap:5px;margin-bottom:14px}
+  .reel-progress i{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+  .reel-progress i b{position:absolute;inset:0;background:var(--teal);border-radius:inherit;transform-origin:left;transform:scaleX(0);transition:transform .25s ease}
+  .reel-progress i.done b{transform:scaleX(1)}
+  .reel-head{display:flex;justify-content:space-between;align-items:center}
+  .reel-deck-name{font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .reel-deck-name .ic{font-size:17px}
+  .reel-close{width:34px;height:34px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);font-size:16px;display:grid;place-items:center;cursor:pointer}
+
+  .reel-stage{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+  .card-stack{position:absolute;inset:0}
+  .rcard{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:10px 26px 26px; text-align:center; opacity:0; transform:translateY(24px) scale(.97);
+    transition:opacity .32s ease, transform .32s cubic-bezier(.2,.8,.2,1); pointer-events:none;
+  }
+  .rcard.active{opacity:1; transform:translateY(0) scale(1); pointer-events:auto}
+  .rcard.leaving-up{opacity:0; transform:translateY(-26px) scale(.97)}
+
+  .rcard .fa-word{font-size:min(15vw,64px);font-weight:800;line-height:1.25;margin-bottom:14px;text-shadow:0 4px 30px rgba(45,212,191,.18)}
+  .rcard .translit{font-size:17px;color:var(--teal);font-weight:700;letter-spacing:.2px;margin-bottom:6px}
+  .rcard .en{font-size:21px;font-weight:700;margin-bottom:22px}
+  .rcard .say-btn{
+    width:60px;height:60px;border-radius:50%;border:1px solid rgba(45,212,191,.35);
+    background:var(--teal-dim);color:var(--teal);font-size:24px;display:grid;place-items:center;
+    cursor:pointer;margin-bottom:22px;transition:.15s;
+  }
+  .rcard .say-btn:active{transform:scale(.92)}
+  .rcard .say-btn.speaking{animation:pulse 1s ease infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(45,212,191,.35)}50%{box-shadow:0 0 0 14px rgba(45,212,191,0)}}
+  .rcard .no-audio{font-size:11.5px;color:var(--muted);margin:-14px 0 22px}
+
+  .rcard .note{
+    max-width:38ch; background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:14px 16px; font-size:13.5px; color:var(--muted); line-height:1.55;
+  }
+  .rcard .note b{color:var(--gold);font-weight:700}
+
+  .reel-actions{flex:0 0 auto; padding:16px 20px calc(18px + var(--safe-b)); display:flex; gap:12px}
+  .rbtn{
+    flex:1; border-radius:16px; border:1px solid var(--line); background:var(--panel);
+    color:var(--txt); font-weight:700; font-size:14px; padding:15px 10px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px; transition:.15s;
+  }
+  .rbtn:active{transform:scale(.97)}
+  .rbtn.got-it{background:linear-gradient(135deg,var(--teal),#22b8a8); border-color:transparent; color:#052b26}
+  .rbtn.got-it.on{background:var(--panel2); color:var(--teal); border-color:rgba(45,212,191,.4)}
+
+  .reel-hint{position:absolute; bottom:96px; left:0; right:0; text-align:center; color:var(--muted); font-size:12px; pointer-events:none; opacity:.75}
+
+  /* ---------- DONE screen ---------- */
+  .reel-done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px}
+  .reel-done .emoji{font-size:56px;margin-bottom:14px}
+  .reel-done h2{margin:0 0 8px;font-size:24px}
+  .reel-done p{color:var(--muted);margin:0 0 26px;font-size:14.5px}
+  .reel-done .rbtn{max-width:220px}
+
+  @media(min-width:720px){
+    .rcard .fa-word{font-size:56px}
+  }
+</style>
+</head>
+<body>
+
+<div id="home">
+  <div class="top">
+    <div class="brand"><span class="dot"></span> Farsi</div>
+    <div class="streak-pill">🔥 <span id="streakTxt">0 day streak</span></div>
+  </div>
+
+  <div class="hero">
+    <h1>Learn <span>Farsi</span></h1>
+    <p>Real conversational phrases, one swipe at a time.</p>
+  </div>
+
+  <div class="overall">
+    <svg class="ring" id="overallRing" width="52" height="52" viewBox="0 0 52 52">
+      <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/>
+      <circle id="overallRingFill" cx="26" cy="26" r="22" fill="none" stroke="#2dd4bf" stroke-width="6"
+        stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2" transform="rotate(-90 26 26)"/>
+    </svg>
+    <div class="txt">
+      <b id="overallCount">0 of 38 phrases</b>
+      <span>tap a deck below to start swiping</span>
+    </div>
+  </div>
+
+  <div class="section-title">Decks</div>
+  <div class="decks" id="deckList"></div>
+
+  <div class="foot">Come back anytime — your progress is saved on this device.</div>
+</div>
+
+<div id="reel" class="hidden">
+  <div class="reel-top">
+    <div class="reel-progress" id="reelProgress"></div>
+    <div class="reel-head">
+      <div class="reel-deck-name"><span class="ic" id="reelIcon">👋</span><span id="reelDeckTitle">Deck</span></div>
+      <div class="reel-close" id="reelClose">✕</div>
+    </div>
+  </div>
+  <div class="reel-stage" id="reelStage">
+    <div class="card-stack" id="cardStack"></div>
+    <div class="reel-hint" id="reelHint">swipe up for next · tap 🔊 to hear it</div>
+  </div>
+  <div class="reel-actions" id="reelActions">
+    <button class="rbtn" id="practiceBtn">🔁 Practice more</button>
+    <button class="rbtn got-it" id="gotItBtn">✓ Got it</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Content: real conversational Farsi, organized as bite-sized
+   "reel" decks. translit = simple phonetic Finglish (not formal
+   transliteration) since Marissa reads English, not the Farsi
+   script yet -- the script is shown big and bold so it becomes
+   familiar by repetition, without being a decoding barrier.
+   ============================================================ */
+const DECKS = [
+  { id:'hellos', title:'First Hellos', icon:'👋', desc:'Greetings for Baba’s side', cards:[
+    { fa:'سلام', tr:'salâm', en:'Hello / Hi', note:'The all-purpose greeting. Works any time of day, with anyone — you really can’t use this one wrong.' },
+    { fa:'چطوری؟', tr:'chetori?', en:'How are you?', note:'Casual, for family and friends. Say it right after salâm and you’re already sounding natural.' },
+    { fa:'خوبم، مرسی', tr:'khoobam, merci', en:'I’m good, thanks', note:'Fun fact: <b>merci</b> is genuinely how Farsi says "thanks" day to day — borrowed from French, used constantly.' },
+    { fa:'خوشحالم می‌بینمت', tr:'khoshhâlam mibinamet', en:'I’m happy to see you', note:'Warm and a little formal-feeling in English, but totally normal in Farsi — say it and mean it.' },
+    { fa:'فعلاً', tr:'felan', en:'See you later / bye for now', note:'The casual goodbye for texting cousins or leaving a family hangout. Lighter than khodâhâfez.' },
+    { fa:'خداحافظ', tr:'khodâhâfez', en:'Goodbye', note:'The classic goodbye — use it when you’re actually leaving for a while, like hanging up a call.' },
+  ]},
+  { id:'family', title:'Family Words', icon:'👨‍👩‍👧‍👦', desc:'Who’s who on Baba’s side', cards:[
+    { fa:'بابا', tr:'bâbâ', en:'Dad', note:'You already know this one — it’s exactly the word you use every day.' },
+    { fa:'مامان', tr:'mâmân', en:'Mom', note:'Same story — nearly identical to the English, easy to remember.' },
+    { fa:'بابابزرگ', tr:'bâbâ bozorg', en:'Grandpa', note:'Literally "big dad." Persian family words often build like this — once you notice it, they get easier.' },
+    { fa:'مامان‌بزرگ', tr:'mâmân bozorg', en:'Grandma', note:'"Big mom" — same pattern as bâbâ bozorg.' },
+    { fa:'عمو', tr:'amoo', en:'Uncle (dad’s brother)', note:'Farsi has a different word for uncle depending on which side of the family — this is Baba’s brother.' },
+    { fa:'عمه', tr:'ammeh', en:'Aunt (dad’s sister)', note:'And this is Baba’s sister. Two totally different words — no generic "uncle/aunt" in Farsi.' },
+    { fa:'دایی', tr:'dâyi', en:'Uncle (mom’s brother)', note:'For the record — this is the word for a mom’s brother, in case that side comes up too.' },
+    { fa:'خاله', tr:'khâleh', en:'Aunt (mom’s sister)', note:'And this is a mom’s sister. Four distinct words where English just has "aunt" and "uncle."' },
+    { fa:'خواهر', tr:'khâhar', en:'Sister', note:'Straightforward — no side-of-family split for siblings.' },
+    { fa:'برادر', tr:'barâdar', en:'Brother', note:'Same family of words as "brother" in English if you squint — they share a distant root.' },
+  ]},
+  { id:'table', title:'At the Table', icon:'🍽️', desc:'Persian hospitality basics', cards:[
+    { fa:'نوش جان', tr:'nooshe jân', en:'Enjoy your meal', note:'Said before or during eating — the Persian "bon appétit." You’ll hear this constantly at family dinners.' },
+    { fa:'دستت درد نکنه', tr:'dastet dard nakoneh', en:'Thanks for the food', note:'Literally "may your hand not hurt" — said to whoever cooked. It’s the real way to thank a Persian grandma for a meal.' },
+    { fa:'خیلی خوشمزه بود', tr:'kheyli khoshmazé bood', en:'It was so delicious', note:'Say this and watch the second helping appear before you’ve finished the first.' },
+    { fa:'گشنمه', tr:'goshnamé', en:'I’m hungry', note:'Casual and direct — exactly what you’d text a cousin before showing up.' },
+    { fa:'سیرم، مرسی', tr:'siram, merci', en:'I’m full, thank you', note:'You will need this one. Persian hospitality means being offered food long after you’re full.' },
+    { fa:'بازم می‌خوام', tr:'bâzam mikhâm', en:'I want more, please', note:'The phrase that makes every host’s day.' },
+  ]},
+  { id:'warm', title:'Warm Words', icon:'❤️', desc:'Persian affection, explained', cards:[
+    { fa:'عزیزم', tr:'azizam', en:'My dear / sweetheart', note:'Used constantly — for kids, cousins, friends, anyone you love. Not overly formal or romantic, just warm.' },
+    { fa:'قربونت برم', tr:'ghorbunet beram', en:'You’re the best (lit. "I’d sacrifice myself for you")', note:'Sounds intense translated literally, but it’s said casually and often — classic Persian warmth, dialed up on purpose.' },
+    { fa:'دوستت دارم', tr:'doostet dâram', en:'I love you', note:'The direct one — for family, not just romance.' },
+    { fa:'دلم برات تنگ شده', tr:'delam barât tang shodé', en:'I miss you', note:'Literally "my heart has become tight for you." Great one to text after a visit.' },
+    { fa:'ماشالله', tr:'mâshâllah', en:'Wonderful! (a blessing said on a compliment)', note:'Said right after complimenting someone or something good — traditionally to ward off the "evil eye." You’ll hear it after every compliment.' },
+    { fa:'چشم', tr:'chashm', en:'Sure, will do', note:'Literally means "eye," but it’s the go-to way to agree to a request — like saying "you got it."' },
+  ]},
+  { id:'basics', title:'Everyday Basics', icon:'🗣️', desc:'The small words you’ll use most', cards:[
+    { fa:'بله', tr:'baleh', en:'Yes', note:'A slightly more polite "yes" — fine to use anywhere.' },
+    { fa:'آره', tr:'âre', en:'Yeah', note:'The casual version — what you’d actually say with cousins.' },
+    { fa:'نه', tr:'na', en:'No', note:'Short, simple, universal.' },
+    { fa:'لطفاً', tr:'lotfan', en:'Please', note:'Drop this into any request and it instantly sounds more natural.' },
+    { fa:'ببخشید', tr:'bebakhshid', en:'Sorry / excuse me', note:'Does double duty — apology or "excuse me" to get someone’s attention.' },
+    { fa:'کجایی؟', tr:'kojâi?', en:'Where are you?', note:'The universal "where you at" text.' },
+    { fa:'چیکار می‌کنی؟', tr:'chikâr mikoni?', en:'What are you doing?', note:'Great conversation starter, casual and open-ended.' },
+  ]},
+  { id:'grandma', title:'Talking to Grandma', icon:'👵', desc:'What to actually say on a call or visit', cards:[
+    { fa:'سلام مامان‌بزرگ', tr:'salâm mâmân bozorg', en:'Hi Grandma', note:'The opener for every call or visit.' },
+    { fa:'حالت چطوره؟', tr:'hâlet chetore?', en:'How are you?', note:'Ask this right after hello — she’ll love that you asked.' },
+    { fa:'خوبم، تو خوبی؟', tr:'khoobam, to khoobi?', en:'I’m good, are you?', note:'The natural reply-and-return — keeps the conversation going.' },
+    { fa:'دلم برات تنگ شده', tr:'delam barât tang shodé', en:'I miss you', note:'Say it any time — it always lands well, especially over the phone.' },
+    { fa:'دوستت دارم مامان‌بزرگ', tr:'doostet dâram mâmân bozorg', en:'I love you, Grandma', note:'Simple, direct, and exactly what she wants to hear.' },
+    { fa:'دستت درد نکنه', tr:'dastet dard nakoneh', en:'Thank you (lit. "may your hand not hurt")', note:'The real way to thank a Persian grandma — especially for food.' },
+    { fa:'مراقب خودت باش', tr:'morâghebe khodet bâsh', en:'Take care of yourself', note:'A warm way to end a call.' },
+    { fa:'زود می‌بینمت', tr:'zud mibinamet', en:'I’ll see you soon', note:'A good closer, whether it’s true tomorrow or in a few months.' },
+  ]},
+  { id:'texting', title:'Texting Cousins', icon:'📱', desc:'Casual phrases for group chats', cards:[
+    { fa:'چه خبر؟', tr:'che khabar?', en:'What’s up?', note:'The Farsi "what’s new" — perfect opener for a group chat.' },
+    { fa:'خبری نیست', tr:'khabari nist', en:'Nothing much', note:'The classic reply to che khabar — pairs with it like a set.' },
+    { fa:'باشه', tr:'bâshé', en:'Okay', note:'Short, casual, used everywhere — the Farsi "k."' },
+    { fa:'جدی؟', tr:'jeddi?', en:'Really? / Seriously?', note:'For when a cousin drops some news in the chat.' },
+    { fa:'بیا بریم', tr:'biâ berim', en:'Let’s go', note:'Literally "come, let’s go" — said as one phrase, all the time.' },
+    { fa:'عالیه!', tr:'âliyé!', en:'Awesome!', note:'High-energy enthusiasm, exactly like it sounds.' },
+  ]},
+];
+
+/* ---------- state ---------- */
+const LS_KEY = 'marrisa-farsi-progress-v1';
+const state = loadState();
+function loadState(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || { known:{}, lastVisit:null, streak:0 }; }
+  catch(e){ return { known:{}, lastVisit:null, streak:0 }; }
+}
+function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+function cardKey(deckId, idx){ return deckId+':'+idx; }
+function totalCards(){ return DECKS.reduce((n,d)=>n+d.cards.length,0); }
+function knownCount(){ return Object.values(state.known).filter(Boolean).length; }
+function deckKnownCount(deck){ return deck.cards.filter((_,i)=>state.known[cardKey(deck.id,i)]).length; }
+
+/* streak: bump once per new calendar day visited */
+(function bumpStreak(){
+  const today = new Date().toDateString();
+  if (state.lastVisit === today) return;
+  const y = new Date(); y.setDate(y.getDate()-1);
+  state.streak = (state.lastVisit === y.toDateString()) ? state.streak+1 : 1;
+  state.lastVisit = today;
+  saveState();
+})();
+
+/* ---------- home render ---------- */
+function renderHome(){
+  document.getElementById('streakTxt').textContent = state.streak + (state.streak===1?' day streak':' day streak');
+  const total = totalCards(), known = knownCount();
+  document.getElementById('overallCount').textContent = known + ' of ' + total + ' phrases';
+  const ring = document.getElementById('overallRingFill');
+  const C = 2*Math.PI*22;
+  ring.setAttribute('stroke-dasharray', C.toFixed(1));
+  ring.setAttribute('stroke-dashoffset', (C - C*(total?known/total:0)).toFixed(1));
+
+  const list = document.getElementById('deckList');
+  list.innerHTML = '';
+  DECKS.forEach(deck=>{
+    const k = deckKnownCount(deck), n = deck.cards.length, done = k===n;
+    const card = document.createElement('div');
+    card.className = 'deck-card' + (done?' done':'');
+    card.innerHTML =
+      '<div class="ic">'+deck.icon+'</div>'+
+      '<div class="body">'+
+        '<h3>'+deck.title+'</h3>'+
+        '<p>'+deck.desc+'</p>'+
+        '<div class="prog"><i style="width:'+Math.round(100*k/n)+'%"></i></div>'+
+        '<span class="count">'+k+' / '+n+' learned</span>'+
+      '</div>'+
+      '<div class="chev">'+(done?'✓':'›')+'</div>'+
+      (done?'<div class="badge">mastered</div>':'');
+    card.addEventListener('click', ()=>openReel(deck.id));
+    list.appendChild(card);
+  });
+}
+
+/* ---------- reel view ---------- */
+let activeDeck = null, activeIdx = 0, speaking = false;
+
+function openReel(deckId){
+  activeDeck = DECKS.find(d=>d.id===deckId);
+  activeIdx = 0;
+  document.getElementById('reelIcon').textContent = activeDeck.icon;
+  document.getElementById('reelDeckTitle').textContent = activeDeck.title;
+  buildProgressBar();
+  buildCardStack();
+  document.getElementById('reel').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  showCard(0, false);
+}
+function closeReel(){
+  document.getElementById('reel').classList.add('hidden');
+  document.body.style.overflow = '';
+  renderHome();
+}
+function buildProgressBar(){
+  const wrap = document.getElementById('reelProgress');
+  wrap.innerHTML = '';
+  activeDeck.cards.forEach(()=>{
+    const i = document.createElement('i');
+    i.innerHTML = '<b></b>';
+    wrap.appendChild(i);
+  });
+}
+function updateProgressBar(){
+  const bars = document.getElementById('reelProgress').children;
+  for(let i=0;i<bars.length;i++) bars[i].classList.toggle('done', i<=activeIdx);
+}
+function buildCardStack(){
+  const stack = document.getElementById('cardStack');
+  stack.innerHTML = '';
+  activeDeck.cards.forEach((c,i)=>{
+    const el = document.createElement('div');
+    el.className = 'rcard';
+    el.dataset.idx = i;
+    const known = !!state.known[cardKey(activeDeck.id,i)];
+    el.innerHTML =
+      '<div class="fa-word farsi">'+c.fa+'</div>'+
+      '<div class="translit">'+c.tr+'</div>'+
+      '<div class="en">'+c.en+'</div>'+
+      '<button class="say-btn" aria-label="Hear pronunciation">🔊</button>'+
+      '<div class="note">'+c.note+'</div>';
+    el.querySelector('.say-btn').addEventListener('click', (e)=>{ e.stopPropagation(); speak(c.fa, el.querySelector('.say-btn')); });
+    stack.appendChild(el);
+  });
+}
+function showCard(idx, animateDir){
+  const cards = document.getElementById('cardStack').children;
+  for(let i=0;i<cards.length;i++){
+    cards[i].classList.remove('active','leaving-up');
+  }
+  cards[idx].classList.add('active');
+  activeIdx = idx;
+  updateProgressBar();
+  updateActionButtons();
+  document.getElementById('reelHint').style.opacity = idx===0 ? '.75' : '0';
+}
+function updateActionButtons(){
+  const known = !!state.known[cardKey(activeDeck.id, activeIdx)];
+  document.getElementById('gotItBtn').classList.toggle('on', known);
+  document.getElementById('gotItBtn').innerHTML = known ? '✓ Got it!' : '✓ Got it';
+}
+function markKnown(v){
+  state.known[cardKey(activeDeck.id, activeIdx)] = v;
+  saveState();
+  updateActionButtons();
+  advance();
+}
+function advance(){
+  if (activeIdx < activeDeck.cards.length - 1) {
+    showCard(activeIdx+1);
+  } else {
+    showDone();
+  }
+}
+function back(){
+  if (activeIdx > 0) showCard(activeIdx-1);
+}
+function showDone(){
+  const stage = document.getElementById('reelStage');
+  const k = deckKnownCount(activeDeck), n = activeDeck.cards.length;
+  stage.innerHTML =
+    '<div class="reel-done">'+
+      '<div class="emoji">'+(k===n?'🎉':'👏')+'</div>'+
+      '<h2>Deck complete!</h2>'+
+      '<p>You’ve got '+k+' of '+n+' phrases down in <b style="color:var(--teal)">'+activeDeck.title+'</b>.</p>'+
+      '<button class="rbtn got-it" id="doneCloseBtn" style="width:100%">Back to decks</button>'+
+    '</div>';
+  document.getElementById('reelActions').classList.add('hidden');
+  document.getElementById('doneCloseBtn').addEventListener('click', closeReel);
+}
+
+/* ---------- speech ---------- */
+let farsiVoice = null, voiceChecked = false;
+function pickFarsiVoice(){
+  const voices = speechSynthesis.getVoices();
+  farsiVoice = voices.find(v => /^fa(-|_|$)/i.test(v.lang)) || null;
+  voiceChecked = true;
+}
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = pickFarsiVoice;
+  pickFarsiVoice();
+}
+function speak(text, btnEl){
+  if (!('speechSynthesis' in window)) { flashNoAudio(btnEl); return; }
+  if (!voiceChecked) pickFarsiVoice();
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'fa-IR';
+  if (farsiVoice) u.voice = farsiVoice;
+  u.rate = 0.85;
+  btnEl.classList.add('speaking');
+  u.onend = () => btnEl.classList.remove('speaking');
+  u.onerror = () => { btnEl.classList.remove('speaking'); if(!farsiVoice) flashNoAudio(btnEl); };
+  speechSynthesis.speak(u);
+  if (!farsiVoice) { setTimeout(()=>flashNoAudio(btnEl), 300); }
+}
+function flashNoAudio(btnEl){
+  if (btnEl.parentElement.querySelector('.no-audio')) return;
+  const note = document.createElement('div');
+  note.className = 'no-audio';
+  note.textContent = 'No Farsi voice on this device — try reading it out loud instead!';
+  btnEl.insertAdjacentElement('afterend', note);
+}
+
+/* ---------- swipe + buttons + keys ---------- */
+let touchStartY = null;
+const stage = document.getElementById('reelStage');
+stage.addEventListener('touchstart', e=>{ touchStartY = e.touches[0].clientY; }, {passive:true});
+stage.addEventListener('touchend', e=>{
+  if (touchStartY===null || !activeDeck) return;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  touchStartY = null;
+  if (Math.abs(dy) < 40) return;
+  if (dy < 0) advance(); else back();
+}, {passive:true});
+
+document.addEventListener('keydown', e=>{
+  if (document.getElementById('reel').classList.contains('hidden')) return;
+  if (e.key==='ArrowDown' || e.key==='ArrowRight') advance();
+  if (e.key==='ArrowUp' || e.key==='ArrowLeft') back();
+  if (e.key==='Escape') closeReel();
+});
+
+document.getElementById('reelClose').addEventListener('click', closeReel);
+document.getElementById('gotItBtn').addEventListener('click', ()=>markKnown(true));
+document.getElementById('practiceBtn').addEventListener('click', ()=>markKnown(false));
+
+renderHome();
+</script>
+</body>
+</html>
