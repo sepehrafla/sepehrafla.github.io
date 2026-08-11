@@ -123,25 +123,6 @@
   .fact b{display:block;font-size:14px;margin-bottom:2px}
   .fact span{font-size:13px;color:var(--muted)}
 
-  /* Credibility strip -- flagship credentials pulled out of the prose so
-     they're scannable at a glance, not buried mid-paragraph. */
-  .credibility-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
-  .cred-pill{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;transition:.15s}
-  .cred-pill:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
-  .cred-pill .cred-ic{font-size:20px;flex-shrink:0}
-  .cred-pill b{display:block;font-size:14.5px;margin-bottom:3px}
-  .cred-pill span{font-size:12px;color:var(--muted);line-height:1.5}
-  .cred-pill:first-child{border-color:rgba(91,229,154,.35);background:linear-gradient(145deg,rgba(91,229,154,.1),var(--panel))}
-  .cred-pill:first-child b{color:var(--good)}
-
-  /* Field Notes -- intentional empty state, not a blank section */
-  .notes-empty{margin-top:30px;border:1px dashed rgba(255,255,255,.18);border-radius:22px;padding:44px 32px;text-align:center;background:var(--panel)}
-  .notes-empty-ic{font-size:34px;margin-bottom:14px}
-  .notes-empty h3{font-size:20px;margin-bottom:8px}
-  .notes-empty p{color:var(--muted);font-size:14.5px;max-width:52ch;margin:0 auto 22px}
-  .notes-topics{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:24px}
-  .note-topic{font-size:12px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
-
   /* Interactive journey */
   .journey-game{margin-top:58px;border:1px solid rgba(255,138,92,.22);border-radius:26px;padding:24px;background:linear-gradient(145deg,rgba(18,23,34,.96),rgba(11,16,23,.98));position:relative;overflow:hidden;box-shadow:0 26px 70px rgba(0,0,0,.25)}
   .journey-game::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(440px 220px at 10% 0%,rgba(255,138,92,.1),transparent 65%),radial-gradient(420px 240px at 100% 100%,rgba(124,159,255,.09),transparent 64%)}
@@ -290,7 +271,6 @@
     section{padding:60px 0}
     .about-grid{grid-template-columns:1fr;gap:36px}
     .fact{min-height:76px}
-    .credibility-strip{grid-template-columns:1fr}
     .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
     .moonbase-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.moonbase-shell iframe{height:72vh;min-height:560px}.moonbase-open{right:16px;top:15px}.moonbase-points{grid-template-columns:1fr}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
@@ -311,7 +291,7 @@
     <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
     <div class="navlinks">
       <a href="#about">About</a>
-      <a href="#field-notes">Writing</a>
+      <a href="https://leyoxa.com/blog.html" target="_blank" rel="noopener">Writing</a>
       <a href="#moon-base">MOON BASE</a>
       <a href="#projects">Shipped</a>
       <a href="#voice-demo">Praxis Lab</a>
@@ -363,21 +343,6 @@
       </div>
     </div>
 
-    <div class="credibility-strip" data-reveal>
-      <div class="cred-pill">
-        <span class="cred-ic">🛡️</span>
-        <div><b>SeedCI</b><span>Co-founded · unsupervised-learning cyberattack detection · YC candidate</span></div>
-      </div>
-      <div class="cred-pill">
-        <span class="cred-ic">🏦</span>
-        <div><b>EQ Bank</b><span>Security & fraud engineering · IAM, Okta migration, passkeys</span></div>
-      </div>
-      <div class="cred-pill">
-        <span class="cred-ic">🦷</span>
-        <div><b>LEYOXA</b><span>Founder · AI-ready platforms & voice agents for dental clinics</span></div>
-      </div>
-    </div>
-
     <div class="journey-game" id="journey-game" data-reveal style="--journey-progress:0%">
       <div class="journey-head">
         <div><div class="section-kicker">Journey mode</div><h3>Take the scenic route.</h3><p>A slightly unserious tour of the serious patterns behind the work: curiosity, systems, movement, shipping, and whatever is over the next hill.</p></div>
@@ -405,25 +370,6 @@
           <div class="detour-message" id="detour-message" aria-live="polite">No detour selected. Suspiciously efficient.</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="field-notes">
-  <div class="wrap">
-    <div class="section-kicker">Field Notes</div>
-    <h2 class="section-title">Writing, one real piece a month.</h2>
-    <p class="section-lede">Short field notes from the work itself, deeper build-ups of a single idea, and the occasional synthesis across banking security, healthcare AI, and whatever else the month surfaced. No content calendar filler — real pieces or nothing.</p>
-    <div class="notes-empty" data-reveal>
-      <div class="notes-empty-ic">✍️</div>
-      <h3>First piece is in progress.</h3>
-      <p>This section is live before the writing is, on purpose — the home comes first. Check back, or get a nudge when the first one goes up.</p>
-      <div class="notes-topics">
-        <span class="note-topic">Security & fraud</span>
-        <span class="note-topic">Healthcare AI</span>
-        <span class="note-topic">Building in public</span>
-      </div>
-      <a class="btn ghost" href="mailto:leyoxa.tech@gmail.com?subject=Notify%20me%20about%20new%20writing">Get notified →</a>
     </div>
   </div>
 </section>
@@ -548,7 +494,7 @@
   <div class="wrap">
     <p>© <span id="year"></span> Sepehr Aflatounian · Greater Toronto Area, Canada</p>
     <div class="foot-links">
-      <a href="#field-notes">Writing</a>
+      <a href="https://leyoxa.com/blog.html" target="_blank" rel="noopener">Writing</a>
     </div>
   </div>
 </footer>
