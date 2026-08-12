@@ -123,6 +123,19 @@
   .fact b{display:block;font-size:14px;margin-bottom:2px}
   .fact span{font-size:13px;color:var(--muted)}
 
+  /* Throughline -- the actual proof-of-ability list: each row is one
+     client/engagement, tagged by which layer of the stack it was
+     (model, serving, monitoring, product, security, agents) so the
+     repeated pattern across unrelated industries is the visible point,
+     not any single row. */
+  .through-list{display:grid;gap:12px;margin-top:8px}
+  .through-row{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px;display:flex;gap:18px;align-items:center;transition:.15s}
+  .through-row:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
+  .through-layer{flex:0 0 auto;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);
+    background:rgba(124,159,255,.12);border:1px solid rgba(124,159,255,.28);border-radius:999px;padding:6px 12px;white-space:nowrap}
+  .through-body b{display:block;font-size:14.5px;margin-bottom:2px}
+  .through-body span{font-size:13px;color:var(--muted);line-height:1.5}
+
   /* Interactive journey */
   .journey-game{margin-top:58px;border:1px solid rgba(255,138,92,.22);border-radius:26px;padding:24px;background:linear-gradient(145deg,rgba(18,23,34,.96),rgba(11,16,23,.98));position:relative;overflow:hidden;box-shadow:0 26px 70px rgba(0,0,0,.25)}
   .journey-game::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(440px 220px at 10% 0%,rgba(255,138,92,.1),transparent 65%),radial-gradient(420px 240px at 100% 100%,rgba(124,159,255,.09),transparent 64%)}
@@ -271,6 +284,7 @@
     section{padding:60px 0}
     .about-grid{grid-template-columns:1fr;gap:36px}
     .fact{min-height:76px}
+    .through-row{flex-direction:column;align-items:flex-start;gap:8px}
     .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
     .moonbase-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.moonbase-shell iframe{height:72vh;min-height:560px}.moonbase-open{right:16px;top:15px}.moonbase-points{grid-template-columns:1fr}
     .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
@@ -293,6 +307,7 @@
       <a href="#about">About</a>
       <a href="https://leyoxa.com/blog.html" target="_blank" rel="noopener">Writing</a>
       <a href="#moon-base">MOON BASE</a>
+      <a href="#throughline">Proof</a>
       <a href="#projects">Shipped</a>
       <a href="#voice-demo">Praxis Lab</a>
       <a href="#contact" class="cta">Get in touch</a>
@@ -332,8 +347,8 @@
     <div class="about-grid">
       <div data-reveal>
         <p>I studied <b>Computer Engineering at the University of Waterloo</b> (2016–2021), where co-op took me through mobile engineering at a digital-health startup, backend work at Fleet Complete, and a research role applying spectral imaging to water-quality analysis.</p>
-        <p>After graduating I co-founded <b>SeedCI</b> (YC candidate), building unsupervised-learning cyberattack detection and a 97%-accurate real-estate price estimator, before moving into full-stack consulting at <b>Avanade</b> — shipping EV-charging features for Ford's FordPass app and automating cloud infrastructure that cut a client's costs by <b>$1M a year</b>.</p>
-        <p>Today I split my time between <b>security & fraud engineering at EQ Bank</b> — partnering with IAM during the PC Financial and EQ Bank merger to migrate identity to Okta, help build the unified app, and ship passkey support on iOS — and running <b>LEYOXA</b>, where I build AI-ready platforms and voice agents for dental clinics across North America.</p>
+        <p>After graduating I co-founded <b>SeedCI</b> (YC candidate), building unsupervised-learning cyberattack detection, before moving into full-stack consulting at <b>Avanade</b> — shipping EV-charging features for Ford's FordPass app and automating cloud infrastructure that cut a client's costs by <b>$1M a year</b>.</p>
+        <p>Today I split my time between <b>security & fraud engineering at EQ Bank</b> — partnering with IAM during the PC Financial and EQ Bank merger to migrate identity to Okta, help build the unified app, and ship passkey support on iOS — and running <b>LEYOXA</b>, where I build a Realtime-API + ElevenLabs voice AI agent integrated into NexHealth's EHR, live with paying dental clinics across North America.</p>
       </div>
       <div class="fact-list" data-reveal>
         <div class="fact"><span class="ic">🎸</span><div><b>1st place, Javan Music Festival</b><span>Also taught guitar for a summer — music stuck around.</span></div></div>
@@ -391,6 +406,40 @@
   </div>
 </section>
 
+<section id="throughline">
+  <div class="wrap">
+    <div class="section-kicker">The pattern, not the pitch</div>
+    <h2 class="section-title">One thing keeps happening, across industries that have nothing to do with each other.</h2>
+    <p class="section-lede">Model. Serving infrastructure. Production monitoring. User-facing product. Most people specialize in one layer of that stack — this is what happens when the same person keeps getting handed all four, in security, real estate, healthcare, banking, and marketing, with no overlap between the industries at all.</p>
+    <div class="through-list">
+      <div class="through-row" data-reveal>
+        <span class="through-layer">ML detection</span>
+        <div class="through-body"><b>ezSec</b><span>Unsupervised-learning cyberattack detection for EVA, ezSec's production AI security-ops platform.</span></div>
+      </div>
+      <div class="through-row" data-reveal>
+        <span class="through-layer">Model + serving</span>
+        <div class="through-body"><b>CRELHUB</b><span>A FastAI image classifier and a 97%-accurate real-estate price model, then the Flask API that actually served it.</span></div>
+      </div>
+      <div class="through-row" data-reveal>
+        <span class="through-layer">Production ML ops</span>
+        <div class="through-body"><b>Client tooling</b><span>Real-time Splunk monitoring for model drift and prediction accuracy in live systems — the layer most ML projects skip.</span></div>
+      </div>
+      <div class="through-row" data-reveal>
+        <span class="through-layer">Voice AI product</span>
+        <div class="through-body"><b>LEYOXA / Praxis</b><span>Realtime-API + ElevenLabs voice agent integrated into NexHealth's EHR — live with paying dental clinics.</span></div>
+      </div>
+      <div class="through-row" data-reveal>
+        <span class="through-layer">Security infra</span>
+        <div class="through-body"><b>EQ Bank</b><span>Fraud/IAM engineering, Okta migration, passkeys — inside a live bank merger.</span></div>
+      </div>
+      <div class="through-row" data-reveal>
+        <span class="through-layer">AI agents</span>
+        <div class="through-body"><b>DDSMarketing</b><span>Voice + content/SEO AI agents for a Miami marketing team.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="projects">
   <div class="wrap">
     <div class="section-kicker">Out in the world</div>
@@ -415,10 +464,11 @@
         </div>
       </div>
 
-      <div class="proj-card" data-reveal>
-        <span class="tag">Founder</span>
+      <div class="proj-card live" data-reveal>
+        <span class="tag">Founder · Live</span>
         <div class="project-title"><img class="project-logo" src="assets/leyoxa-app.svg" alt="Leyoxa logo"><div><h3>LEYOXA</h3><small>Healthcare AI studio</small></div></div>
-        <p>AI-ready platforms, voice agents, and marketing automation for dental clinics.</p>
+        <p>A voice AI agent built on OpenAI's Realtime API + ElevenLabs, integrated into NexHealth's EHR/scheduling — live with paying dental clinics across North America, plus the marketing automation that feeds them.</p>
+        <div class="stack"><span>Realtime API</span><span>ElevenLabs</span><span>NexHealth</span></div>
         <a class="link" href="https://leyoxa.com" target="_blank" rel="noopener">Visit leyoxa.com →</a>
       </div>
 
