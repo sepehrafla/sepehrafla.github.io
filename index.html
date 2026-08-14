@@ -36,7 +36,6 @@
     background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(124,159,255,.08), transparent 70%);
     transition:background .15s ease-out}
   h1,h2,h3,.logo{font-family:'Space Grotesk',sans-serif}
-  .mono{font-family:'JetBrains Mono',monospace}
   a{color:inherit}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
   img{max-width:100%}
@@ -67,10 +66,7 @@
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .hero h1{font-size:clamp(36px,5.2vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.06}
   .accent{background:linear-gradient(100deg,var(--accent),#a9c0ff 60%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lede{font-size:16px;color:var(--muted);max-width:520px;margin:22px 0 34px;font-weight:500;min-height:1.6em}
-  .hero .lede b{color:var(--txt);font-weight:600}
-  #typeline::after{content:'';display:inline-block;width:8px;height:15px;margin-left:2px;background:var(--accent);vertical-align:middle;animation:pulse 1s steps(2) infinite}
-  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
   /* Portrait with a subtle orbital system */
   .hero-visual{position:relative;height:320px;display:flex;align-items:center;justify-content:center}
   .avatar-mark{width:196px;height:196px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -234,7 +230,6 @@
     .float-chip{font-size:11.5px;padding:6px 11px}
     .float-chip.c1{top:4%;left:2%}.float-chip.c2{bottom:10%;right:0}.float-chip.c3{bottom:-1%;left:7%}
     .hero h1{font-size:clamp(36px,10vw,44px)}
-    .hero .lede{margin:18px 0 28px;font-size:14px}
     .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .hero-actions .btn{justify-content:center;min-height:48px;padding:11px 13px;font-size:13px}
     .hero-actions .btn:first-child{grid-column:1/-1}
@@ -276,7 +271,6 @@
     <div class="hero-copy">
       <div class="eyebrow"><span class="pulse"></span> Currently building at EQ Bank & LEYOXA</div>
       <h1>I build secure authentication systems for banks <span class="accent">and AI products for clinics.</span></h1>
-      <p class="lede mono" id="typeline">&nbsp;</p>
       <div class="hero-actions">
         <a class="btn primary" href="#contact">✉️ Get in touch</a>
         <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
@@ -486,23 +480,6 @@ if(location.hash){
   requestAnimationFrame(()=>setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(),120));
 }
 
-const typeLines = ['Ships the model, the API, and the monitoring for it.', 'Reads the term sheet before it reads him.', 'Ex-Watonomous. Ex-Avanade × Ford. Not really "ex-" anything.'];
-const typeEl = document.getElementById('typeline');
-let tLine = 0, tChar = 0, tDeleting = false;
-function typeTick(){
-  const full = typeLines[tLine];
-  if(!tDeleting){
-    tChar++;
-    typeEl.textContent = full.slice(0,tChar);
-    if(tChar === full.length){ tDeleting = true; setTimeout(typeTick, 1400); return; }
-  } else {
-    tChar--;
-    typeEl.textContent = full.slice(0,tChar);
-    if(tChar === 0){ tDeleting = false; tLine = (tLine+1) % typeLines.length; }
-  }
-  setTimeout(typeTick, tDeleting ? 28 : 42);
-}
-typeTick();
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 },{threshold:0.12});
