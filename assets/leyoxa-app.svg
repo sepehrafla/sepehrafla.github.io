@@ -1,15 +1,8 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Leyoxa">
-  <defs>
-    <linearGradient id="leyoxaApp" x1="10%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#14d3bf"/>
-      <stop offset="55%" stop-color="#0ea5e9"/>
-      <stop offset="100%" stop-color="#6366f1"/>
-    </linearGradient>
-  </defs>
-  <rect width="128" height="128" rx="28" fill="#0F172A"/>
-  <circle cx="64" cy="64" r="40" stroke="url(#leyoxaApp)" stroke-width="5" fill="none"/>
-  <rect x="50" y="54" width="5" height="20" rx="2.5" fill="url(#leyoxaApp)"/>
-  <rect x="60" y="46" width="5" height="36" rx="2.5" fill="url(#leyoxaApp)"/>
-  <rect x="70" y="54" width="5" height="20" rx="2.5" fill="url(#leyoxaApp)"/>
-  <circle cx="84" cy="64" r="3" fill="url(#leyoxaApp)"/>
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Leyoxa connected operating layer">
+  <defs><radialGradient id="appGlow"><stop stop-color="#252544"/><stop offset="1" stop-color="#09090B"/></radialGradient></defs>
+  <rect width="128" height="128" rx="28" fill="url(#appGlow)"/>
+  <circle cx="64" cy="64" r="50" stroke="#F5F3EE" stroke-width="5" opacity=".92"/>
+  <g fill="none" stroke="#9B9BFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M64 64L64 24M64 64L88 30M64 64L104 52M64 64L101 80M64 64L82 101M64 64L53 104M64 64L29 88M64 64L24 59M64 64L38 34"/><path d="M64 24L88 30L104 52L101 80L82 101L53 104L29 88L24 59L38 34Z" opacity=".55"/></g>
+  <g fill="#D8F85A"><circle cx="64" cy="24" r="4.5"/><circle cx="88" cy="30" r="4.5"/><circle cx="104" cy="52" r="4.5"/><circle cx="101" cy="80" r="4.5"/><circle cx="82" cy="101" r="4.5"/><circle cx="53" cy="104" r="4.5"/><circle cx="29" cy="88" r="4.5"/><circle cx="24" cy="59" r="4.5"/><circle cx="38" cy="34" r="4.5"/></g>
+  <circle cx="64" cy="64" r="16" fill="#111117" stroke="#F5F3EE" stroke-width="4"/><circle cx="64" cy="64" r="7" fill="#F5F3EE"/>
 </svg>
