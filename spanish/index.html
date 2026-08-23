@@ -87,7 +87,6 @@
   .feedback.good{color:var(--good)}
   .feedback.bad{color:var(--bad)}
   .qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}
-  .swatch{width:100%;height:90px;border-radius:12px;margin-bottom:20px;border:1px solid var(--line)}
 
   /* MATCH */
   .matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:10px}
@@ -130,7 +129,6 @@
   .reel-prompt{font-size:30px;font-weight:700;line-height:1.35;margin-bottom:30px;max-width:500px;text-shadow:0 2px 16px rgba(0,0,0,.3)}
   .reel-big{font-size:74px}
   .reel-blank{display:inline-block;min-width:80px;border-bottom:4px solid rgba(255,255,255,.9);padding:0 8px}
-  .reel-swatch{width:150px;height:150px;border-radius:26px;margin-bottom:26px;box-shadow:0 10px 36px rgba(0,0,0,.35);border:3px solid rgba(255,255,255,.6)}
   .reel-opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:380px}
   .reel-opt{background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.4);color:#fff;border-radius:16px;padding:16px;font-size:19px;font-weight:600;cursor:pointer;transition:.13s;font-family:inherit;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
   .reel-opt:hover:not(:disabled){background:rgba(255,255,255,.3);transform:scale(1.02)}
@@ -344,18 +342,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/ts-fsrs/dist/index.umd.min.js"></script>
 <script>
-/* ============ NUMBER -> SPANISH ============ */
-function numToSpanish(n){
-  const u=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
-  const tens={30:'treinta',40:'cuarenta',50:'cincuenta',60:'sesenta',70:'setenta',80:'ochenta',90:'noventa'};
-  const hund={100:'cien',200:'doscientos',300:'trescientos',400:'cuatrocientos',500:'quinientos',600:'seiscientos',700:'setecientos',800:'ochocientos',900:'novecientos',1000:'mil'};
-  if(n<=29) return u[n];
-  if(n<100){const t=Math.floor(n/10)*10,r=n%10;return r===0?tens[t]:tens[t]+' y '+u[r];}
-  if(n===100) return 'cien';
-  if(n<1000){const h=Math.floor(n/100)*100,r=n%100;const hw=h===100?'ciento':hund[h];return r===0?hund[h]:hw+' '+numToSpanish(r);}
-  return 'mil';
-}
-
 /* ============ LESSON DATA ============ */
 const LESSONS = [
   {
@@ -385,32 +371,6 @@ const LESSONS = [
       {p:'Después de mañana es pasado ___.', t:'day after tomorrow', a:'mañana'},
       {p:'El mes después de junio es ___.', t:'after June', a:'julio'},
       {p:'Año Nuevo es en ___.', t:'New Year month', a:'enero'}
-    ]
-  },
-  {
-    id:'numeros', emoji:'🔢', title:'Números y Colores',
-    desc:'Numbers 1–1000 & colors',
-    modes:['numbers','mc','match','swatch'],
-    match:[
-      {a:'green',b:'verde'},{a:'blue',b:'azul'},{a:'yellow',b:'amarillo'},{a:'red',b:'rojo'},
-      {a:'pink',b:'rosa'},{a:'orange',b:'naranja'},{a:'black',b:'negro'},{a:'white',b:'blanco'},
-      {a:'gray',b:'gris'},{a:'brown',b:'marrón'},{a:'purple',b:'violeta'}
-    ],
-    swatches:[
-      {hex:'#2ecc40',a:'verde'},{hex:'#0074d9',a:'azul'},{hex:'#ffdc00',a:'amarillo'},
-      {hex:'#ff4136',a:'rojo'},{hex:'#ff80cc',a:'rosa'},{hex:'#ff851b',a:'naranja'},
-      {hex:'#111111',a:'negro'},{hex:'#ffffff',a:'blanco'},{hex:'#aaaaaa',a:'gris'},
-      {hex:'#8b5a2b',a:'marrón'},{hex:'#b10dc9',a:'violeta'}
-    ],
-    bank:[
-      {p:'500 en español se escribe ___.', t:'number', a:'quinientos'},
-      {p:'1000 en español se escribe ___.', t:'number', a:'mil'},
-      {p:'200 en español se escribe ___.', t:'number', a:'doscientos'},
-      {p:'700 en español se escribe ___.', t:'number', a:'setecientos'},
-      {p:'100 en español se escribe ___.', t:'number', a:'cien'},
-      {p:'El color de la nieve es ___.', t:'color of snow', a:'blanco'},
-      {p:'El color del sol es ___.', t:'color of the sun', a:'amarillo'},
-      {p:'El color de la sangre es ___.', t:'color of blood', a:'rojo'}
     ]
   },
   {
@@ -934,6 +894,30 @@ const LESSONS = [
       {p:'Respuesta: Yo ___ 28 años.', t:'I have ... years', a:'tengo'},
       {p:'Respuesta: Yo ___ en Caracas.', t:'I live', a:'vivo'}
     ]
+  },
+  {
+    id:'cotidiano', emoji:'🌤️', title:'Frases de Todos los Días',
+    desc:'Everyday phrases, greetings & things you use daily',
+    modes:['match','mc','fill'],
+    match:[
+      {a:'Good morning',b:'Buenos días'},{a:'Good night',b:'Buenas noches'},{a:"How's it going?",b:'¿Qué tal?'},
+      {a:'See you later',b:'Hasta luego'},{a:'See you tomorrow',b:'Hasta mañana'},{a:'Please',b:'Por favor'},
+      {a:'Thank you',b:'Gracias'},{a:"You're welcome",b:'De nada'},{a:'Excuse me',b:'Perdón'},
+      {a:"I'm sorry",b:'Lo siento'},{a:'Enjoy your meal',b:'Buen provecho'},{a:'Of course',b:'Claro'}
+    ],
+    bank:[
+      {p:'___ mucho sueño esta mañana.', t:'tener expression — "I am" (state)', a:'Tengo', opts:['Tengo','Soy','Estoy','Hago']},
+      {p:'¿___ hambre? Hay comida en la cocina.', t:'tener expression — "are you"', a:'Tienes', opts:['Tienes','Eres','Estás','Quieres']},
+      {p:'Un café con leche, ___.', t:'polite — please', a:'por favor', opts:['por favor','gracias','de nada','perdón']},
+      {p:'Me voy, ¡___ mañana!', t:'see you tomorrow', a:'hasta'},
+      {p:'___. No fue mi intención.', t:"I'm sorry", a:'Lo siento', opts:['Lo siento','Por favor','De nada','Salud']},
+      {p:'Reviso el ___ cada cinco minutos. (phone)', t:'cell phone', a:'celular'},
+      {p:'Antes de dormir me lavo los dientes con el ___.', t:'toothbrush', a:'cepillo de dientes'},
+      {p:'Me lavo las manos con ___.', t:'soap', a:'jabón'},
+      {p:'Con sol fuerte uso ___.', t:'sunglasses', a:'gafas de sol'},
+      {p:'Uso el ___ para despertarme temprano.', t:'alarm clock', a:'despertador'},
+      {p:'¿Me das un café con ___ y azúcar, por favor?', t:'milk', a:'leche'}
+    ]
   }
 ];
 
@@ -965,7 +949,14 @@ const VERBS={
   abrazar:{m:'to hug',present:{yo:'abrazo',tú:'abrazas',él:'abraza',nosotros:'abrazamos',ellos:'abrazan'},preterite:{yo:'abracé',tú:'abrazaste',él:'abrazó',nosotros:'abrazamos',ellos:'abrazaron'},imperfect:{yo:'abrazaba',tú:'abrazabas',él:'abrazaba',nosotros:'abrazábamos',ellos:'abrazaban'},future:{yo:'abrazaré',tú:'abrazarás',él:'abrazará',nosotros:'abrazaremos',ellos:'abrazarán'},conditional:{yo:'abrazaría',tú:'abrazarías',él:'abrazaría',nosotros:'abrazaríamos',ellos:'abrazarían'}},
   limpiar:{m:'to clean',present:{yo:'limpio',tú:'limpias',él:'limpia',nosotros:'limpiamos',ellos:'limpian'},preterite:{yo:'limpié',tú:'limpiaste',él:'limpió',nosotros:'limpiamos',ellos:'limpiaron'},imperfect:{yo:'limpiaba',tú:'limpiabas',él:'limpiaba',nosotros:'limpiábamos',ellos:'limpiaban'},future:{yo:'limpiaré',tú:'limpiarás',él:'limpiará',nosotros:'limpiaremos',ellos:'limpiarán'},conditional:{yo:'limpiaría',tú:'limpiarías',él:'limpiaría',nosotros:'limpiaríamos',ellos:'limpiarían'}},
   pensar:{m:'to think',present:{yo:'pienso',tú:'piensas',él:'piensa',nosotros:'pensamos',ellos:'piensan'},preterite:{yo:'pensé',tú:'pensaste',él:'pensó',nosotros:'pensamos',ellos:'pensaron'},imperfect:{yo:'pensaba',tú:'pensabas',él:'pensaba',nosotros:'pensábamos',ellos:'pensaban'},future:{yo:'pensaré',tú:'pensarás',él:'pensará',nosotros:'pensaremos',ellos:'pensarán'},conditional:{yo:'pensaría',tú:'pensarías',él:'pensaría',nosotros:'pensaríamos',ellos:'pensarían'}},
-  manejar:{m:'to drive',present:{yo:'manejo',tú:'manejas',él:'maneja',nosotros:'manejamos',ellos:'manejan'},preterite:{yo:'manejé',tú:'manejaste',él:'manejó',nosotros:'manejamos',ellos:'manejaron'},imperfect:{yo:'manejaba',tú:'manejabas',él:'manejaba',nosotros:'manejábamos',ellos:'manejaban'},future:{yo:'manejaré',tú:'manejarás',él:'manejará',nosotros:'manejaremos',ellos:'manejarán'},conditional:{yo:'manejaría',tú:'manejarías',él:'manejaría',nosotros:'manejaríamos',ellos:'manejarían'}}
+   manejar:{m:'to drive',present:{yo:'manejo',tú:'manejas',él:'maneja',nosotros:'manejamos',ellos:'manejan'},preterite:{yo:'manejé',tú:'manejaste',él:'manejó',nosotros:'manejamos',ellos:'manejaron'},imperfect:{yo:'manejaba',tú:'manejabas',él:'manejaba',nosotros:'manejábamos',ellos:'manejaban'},future:{yo:'manejaré',tú:'manejarás',él:'manejará',nosotros:'manejaremos',ellos:'manejarán'},conditional:{yo:'manejaría',tú:'manejarías',él:'manejaría',nosotros:'manejaríamos',ellos:'manejarían'}},
+   venir:{m:'to come',present:{yo:'vengo',tú:'vienes',él:'viene',nosotros:'venimos',ellos:'vienen'},preterite:{yo:'vine',tú:'viniste',él:'vino',nosotros:'vinimos',ellos:'vinieron'},imperfect:{yo:'venía',tú:'venías',él:'venía',nosotros:'veníamos',ellos:'venían'},future:{yo:'vendré',tú:'vendrás',él:'vendrá',nosotros:'vendremos',ellos:'vendrán'},conditional:{yo:'vendría',tú:'vendrías',él:'vendría',nosotros:'vendríamos',ellos:'vendrían'}},
+   poner:{m:'to put / set',present:{yo:'pongo',tú:'pones',él:'pone',nosotros:'ponemos',ellos:'ponen'},preterite:{yo:'puse',tú:'pusiste',él:'puso',nosotros:'pusimos',ellos:'pusieron'},imperfect:{yo:'ponía',tú:'ponías',él:'ponía',nosotros:'poníamos',ellos:'ponían'},future:{yo:'pondré',tú:'pondrás',él:'pondrá',nosotros:'pondremos',ellos:'pondrán'},conditional:{yo:'pondría',tú:'pondrías',él:'pondría',nosotros:'pondríamos',ellos:'pondrían'}},
+   salir:{m:'to leave / go out',present:{yo:'salgo',tú:'sales',él:'sale',nosotros:'salimos',ellos:'salen'},preterite:{yo:'salí',tú:'saliste',él:'salió',nosotros:'salimos',ellos:'salieron'},imperfect:{yo:'salía',tú:'salías',él:'salía',nosotros:'salíamos',ellos:'salían'},future:{yo:'saldré',tú:'saldrás',él:'saldrá',nosotros:'saldremos',ellos:'saldrán'},conditional:{yo:'saldría',tú:'saldrías',él:'saldría',nosotros:'saldríamos',ellos:'saldrían'}},
+   dar:{m:'to give',present:{yo:'doy',tú:'das',él:'da',nosotros:'damos',ellos:'dan'},preterite:{yo:'di',tú:'diste',él:'dio',nosotros:'dimos',ellos:'dieron'},imperfect:{yo:'daba',tú:'dabas',él:'daba',nosotros:'dábamos',ellos:'daban'},future:{yo:'daré',tú:'darás',él:'dará',nosotros:'daremos',ellos:'darán'},conditional:{yo:'daría',tú:'darías',él:'daría',nosotros:'daríamos',ellos:'darían'}},
+   ver:{m:'to see',present:{yo:'veo',tú:'ves',él:'ve',nosotros:'vemos',ellos:'ven'},preterite:{yo:'vi',tú:'viste',él:'vio',nosotros:'vimos',ellos:'vieron'},imperfect:{yo:'veía',tú:'veías',él:'veía',nosotros:'veíamos',ellos:'veían'},future:{yo:'veré',tú:'verás',él:'verá',nosotros:'veremos',ellos:'verán'},conditional:{yo:'vería',tú:'verías',él:'vería',nosotros:'veríamos',ellos:'verían'}},
+   saber:{m:'to know (a fact)',present:{yo:'sé',tú:'sabes',él:'sabe',nosotros:'sabemos',ellos:'saben'},preterite:{yo:'supe',tú:'supiste',él:'supo',nosotros:'supimos',ellos:'supieron'},imperfect:{yo:'sabía',tú:'sabías',él:'sabía',nosotros:'sabíamos',ellos:'sabían'},future:{yo:'sabré',tú:'sabrás',él:'sabrá',nosotros:'sabremos',ellos:'sabrán'},conditional:{yo:'sabría',tú:'sabrías',él:'sabría',nosotros:'sabríamos',ellos:'sabrían'}},
+   conocer:{m:'to know / be familiar with',present:{yo:'conozco',tú:'conoces',él:'conoce',nosotros:'conocemos',ellos:'conocen'},preterite:{yo:'conocí',tú:'conociste',él:'conoció',nosotros:'conocimos',ellos:'conocieron'},imperfect:{yo:'conocía',tú:'conocías',él:'conocía',nosotros:'conocíamos',ellos:'conocían'},future:{yo:'conoceré',tú:'conocerás',él:'conocerá',nosotros:'conoceremos',ellos:'conocerán'},conditional:{yo:'conocería',tú:'conocerías',él:'conocería',nosotros:'conoceríamos',ellos:'conocerían'}}
 };
 const VERB_SENTENCES=[
   {verb:'hablar',subject:'tú',context:'texting a friend',en:'You speak really fast, slow down.',es:'___ muy rápido, baja un poco.',tenses:['present']},
@@ -1059,7 +1050,23 @@ const VERB_SENTENCES=[
   {verb:'decir',subject:'yo',context:'hypothetical honesty',en:'I would tell you if I knew.',es:'___ si lo supiera.',tenses:['conditional']},
   {verb:'vivir',subject:'nosotros',context:'hypothetical',en:"We'd live somewhere warmer if we could.",es:'___ en un lugar más cálido si pudiéramos.',tenses:['conditional']},
   {verb:'cocinar',subject:'tú',context:'flirty hypothetical',en:'Would you cook for me sometime?',es:'¿___ para mí alguna vez?',tenses:['conditional']},
-  {verb:'querer',subject:'yo',context:'polite wish',en:"I'd love a coffee right now.",es:'Ahora mismo ___ un café.',tenses:['conditional']}
+   {verb:'querer',subject:'yo',context:'polite wish',en:"I'd love a coffee right now.",es:'Ahora mismo ___ un café.',tenses:['conditional']},
+   /* ---- Verbos irregulares nuevos: venir, poner, salir, dar, ver, saber, conocer ---- */
+   {verb:'venir',subject:'tú',context:'inviting',en:'Are you coming to dinner on Sunday?',es:'¿___ a cenar el domingo?',tenses:['present']},
+   {verb:'venir',subject:'yo',context:'on my way',en:"I'm coming now, don't start without me.",es:'___ ahora mismo, no empieces sin mí.',tenses:['present']},
+   {verb:'venir',subject:'ellos',context:'party planning',en:"They'll come for Christmas, right?",es:'___ por Navidad, ¿no?',tenses:['future']},
+   {verb:'poner',subject:'yo',context:'at the table',en:"I'll set the table, you cook.",es:'___ la mesa tú, yo cocino.',tenses:['present']},
+   {verb:'poner',subject:'tú',context:'lost keys',en:'Where did you put my keys?',es:'¿Dónde ___ mis llaves?',tenses:['preterite']},
+   {verb:'salir',subject:'nosotros',context:'plans',en:'Are we going out tonight or staying in?',es:'¿___ esta noche o nos quedamos?',tenses:['present']},
+   {verb:'salir',subject:'él',context:'work talk',en:'He leaves work at five sharp.',es:'___ del trabajo a las cinco en punto.',tenses:['present']},
+   {verb:'dar',subject:'tú',context:'walking the dog',en:'Can you walk the dog? Just a quick lap.',es:'¿Me ___ una vuelta con el perro?',tenses:['present']},
+   {verb:'dar',subject:'yo',context:'wanting something',en:"I'd give anything for a coffee right now.",es:'___ lo que fuera por un café.',tenses:['conditional']},
+   {verb:'ver',subject:'nosotros',context:'movie night',en:'Shall we watch a movie tonight?',es:'¿___ una película esta noche?',tenses:['present']},
+   {verb:'ver',subject:'él',context:'gossip',en:'He sees her every day after class.',es:'La ___ todos los días después de clase.',tenses:['present']},
+   {verb:'saber',subject:'tú',context:'curious',en:'Do you know if the bakery is still open?',es:'¿___ si la panadería sigue abierta?',tenses:['present']},
+   {verb:'saber',subject:'yo',context:'confession',en:"I found out yesterday — I swear I didn't know.",es:'Lo supe ayer, juro que no ___.',tenses:['imperfect']},
+   {verb:'conocer',subject:'tú',context:'introductions',en:'Have you met my cousin?',es:'¿___ a mi primo?',tenses:['present']},
+   {verb:'conocer',subject:'nosotros',context:'storytime',en:'We met at university, ages ago.',es:'___ en la universidad, hace siglos.',tenses:['preterite']}
 ];
 
 /* ============ STATE & HELPERS ============ */
@@ -1353,9 +1360,7 @@ function renderHome(){
 const MODE_INFO={
   fill:{ic:'✍️',h:'Fill in the blank',p:'Type the missing word'},
   mc:{ic:'🔘',h:'Multiple choice',p:'Pick the right answer'},
-  match:{ic:'🔗',h:'Matching game',p:'Connect the pairs'},
-  numbers:{ic:'🎲',h:'Number quiz',p:'Endless number challenge'},
-  swatch:{ic:'🌈',h:'Color quiz',p:'Name the color you see'}
+  match:{ic:'🔗',h:'Matching game',p:'Connect the pairs'}
 };
 let curLesson=null;
 function openLesson(id){
@@ -1374,8 +1379,6 @@ function openLesson(id){
 }
 function startMode(m){
   if(m==='match') startMatch(curLesson);
-  else if(m==='numbers') startNumbers();
-  else if(m==='swatch') startSwatch(curLesson);
   else startQuiz(curLesson,m);
 }
 
@@ -1457,71 +1460,6 @@ function checkOrNext(){
   quiz.i++;
   if(quiz.i>=quiz.items.length) showResults(quiz.correct,quiz.items.length,()=>startQuiz(quiz.lesson,quiz.mode),quiz.lesson.id);
   else renderQ();
-}
-
-/* ============ NUMBER QUIZ (endless) ============ */
-let numState=null;
-function startNumbers(){ numState={correct:0,total:0,answered:false}; go('quiz'); renderNum(); }
-function renderNum(){
-  numState.answered=false;
-  let big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1;
-  let answer=numToSpanish(big);
-  // distractors
-  let opts=new Set([answer]);
-  while(opts.size<4){
-    let d = big<=100 ? Math.max(0,big+rand([-5,-3,-2,2,3,7,10,-10])) : rand([100,200,300,400,500,600,700,800,900,1000]).valueOf()+rand([0,0,0,1,2]);
-    let w=numToSpanish(Math.min(1000,Math.max(0,d))); opts.add(w);
-  }
-  numState.answer=answer;
-  let list=shuffle([...opts]);
-  $('#view-quiz').innerHTML=`
-    <div class="back" onclick="openLesson('numeros')">← Back</div>
-    <div class="quizbox">
-      <div class="context">¿Qué número es?</div>
-      <div class="prompt" style="font-size:56px;text-align:center;letter-spacing:1px">${big}</div>
-      <div class="opts">${list.map(o=>`<button class="opt" onclick="answerNum(this,'${o}')">${o}</button>`).join('')}</div>
-      <div class="feedback" id="fb"></div>
-      <div class="qfoot"><span class="qn">✅ ${numState.correct} / ${numState.total}</span><button class="btn primary" id="next" onclick="renderNum()">Next number →</button></div>
-    </div>`;
-}
-function answerNum(btn,val){
-  if(numState.answered)return; numState.answered=true; numState.total++;
-  let good=val===numState.answer;
-  if(good)numState.correct++;
-  document.querySelectorAll('.opt').forEach(b=>{
-    if(b.textContent===numState.answer)b.classList.add('correct');
-    else if(b===btn)b.classList.add('wrong');
-    b.disabled=true;
-  });
-  let fb=$('#fb'); fb.className='feedback '+(good?'good':'bad'); fb.textContent=good?rand(['¡Correcto! 🎉','¡Exacto! ✨']):'Answer: '+numState.answer;
-  bump(good);
-}
-
-/* ============ COLOR SWATCH QUIZ ============ */
-let swState=null;
-function startSwatch(lesson){ swState={lesson,correct:0,total:0,answered:false}; go('quiz'); renderSwatch(); }
-function renderSwatch(){
-  swState.answered=false;
-  let sw=rand(swState.lesson.swatches);
-  let pool=swState.lesson.swatches.map(s=>s.a).filter(a=>a!==sw.a);
-  let opts=shuffle([sw.a,...shuffle(pool).slice(0,3)]);
-  swState.answer=sw.a;
-  $('#view-quiz').innerHTML=`
-    <div class="back" onclick="openLesson('numeros')">← Back</div>
-    <div class="quizbox">
-      <div class="context">¿De qué color es?</div>
-      <div class="swatch" style="background:${sw.hex};height:120px"></div>
-      <div class="opts">${opts.map(o=>`<button class="opt" onclick="answerSwatch(this,'${o}')">${o}</button>`).join('')}</div>
-      <div class="feedback" id="fb"></div>
-      <div class="qfoot"><span class="qn">✅ ${swState.correct} / ${swState.total}</span><button class="btn primary" onclick="renderSwatch()">Next color →</button></div>
-    </div>`;
-}
-function answerSwatch(btn,val){
-  if(swState.answered)return; swState.answered=true; swState.total++;
-  let good=val===swState.answer; if(good)swState.correct++;
-  document.querySelectorAll('.opt').forEach(b=>{ if(b.textContent===swState.answer)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); b.disabled=true; });
-  let fb=$('#fb'); fb.className='feedback '+(good?'good':'bad'); fb.textContent=good?'¡Correcto! 🎨':'Answer: '+swState.answer;
-  bump(good);
 }
 
 /* ============ MATCHING GAME ============ */
@@ -1842,7 +1780,7 @@ function randAvoid(arr,lastKey,keyFn){
   do{ item=rand(arr); tries++; } while(keyFn(item)===lastKey && tries<8);
   return item;
 }
-let lastVerbKey=null, lastVocabKey=null, lastGrammarKey=null, lastNumberKey=null, lastColorKey=null;
+let lastVerbKey=null, lastVocabKey=null, lastGrammarKey=null;
 const verbCardId=(row,tense)=>'r|'+row.verb+'|'+tense+'|'+row.subject+'|'+row.es;
 let sprintMode=false;
 function card_verb(){
@@ -1902,10 +1840,10 @@ function loadClozeData(){
 }
 function buildPools(){
   VOCAB_POOL=[]; GRAMMAR_POOL=[];
-  const vocabLessons=['dias','numeros','adjetivos','descripcion','objetos','lugares','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos'];
+  const vocabLessons=['dias','cotidiano','adjetivos','descripcion','objetos','lugares','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos'];
   vocabLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(l&&l.match) l.match.forEach(p=>VOCAB_POOL.push({a:p.a,b:p.b,cat:l.title})); });
   EXTRA_VOCAB.forEach(v=>VOCAB_POOL.push(v));
-  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos','conversa'];
+  const grammarLessons=['pronombres','serestar','adjetivos','descripcion','articulos','objetos','lugares','preguntas','presente','frecuencia','irregulares','raiz','progresivo','reflexivos','gustar','posesivos','objeto','comparativos','mandatos','conversa','cotidiano'];
   grammarLessons.forEach(id=>{ let l=LESSONS.find(x=>x.id===id); if(!l||!l.bank) return;
     l.bank.forEach(item=>{
       let opts = item.opts ? item.opts.slice() : [item.a,...mcDistract(item.a,l.bank.map(b=>b.a))];
@@ -1950,20 +1888,6 @@ function card_grammar(){
   }
   return {cat:item.cat,emoji:item.emoji,en:item.en,prompt:item.prompt,opts:shuffle(item.opts.slice()),answer:item.answer,srsId:id,es};
 }
-function card_number(){
-  let big,tries=0;
-  do{ big = Math.random()<0.4 ? rand([100,200,300,400,500,600,700,800,900,1000]) : Math.floor(Math.random()*99)+1; tries++; }
-  while(big===lastNumberKey && tries<8);
-  lastNumberKey=big;
-  let answer=numToSpanish(big), set=new Set([answer]);
-  while(set.size<4){ let d = big<=100 ? Math.min(100,Math.max(0,big+rand([-7,-5,-3,-2,2,3,5,7,10]))) : rand([100,200,300,400,500,600,700,800,900,1000]); set.add(numToSpanish(d)); }
-  return {cat:'Números',emoji:'🔢',en:'What number is this?',prompt:String(big),opts:shuffle([...set]),answer,big:true,es:answer};
-}
-function card_color(){
-  let lesson=LESSONS.find(l=>l.id==='numeros'), sw=randAvoid(lesson.swatches,lastColorKey,s=>s.a);
-  lastColorKey=sw.a;
-  return {cat:'Colores',emoji:'🌈',en:'¿De qué color es?',prompt:'',opts:shuffle([sw.a,...mcDistract(sw.a,lesson.swatches.map(s=>s.a))]),answer:sw.a,swatch:sw.hex,es:sw.a};
-}
 let lastClozeKey=null;
 const clozeCardId=item=>'z|'+item.id;
 function card_cloze(){
@@ -1989,8 +1913,7 @@ function makeReelCard(){
   if(reelMode==='sprint'){
     if(r<0.38) c=card_vocab(); else if(r<0.72) c=card_verb(); else c=card_grammar();
   } else if(reelMode==='vocab'){
-    if(hasCloze && r<0.16) c=card_cloze();
-    else if(r<0.74) c=card_vocab(); else if(r<0.88) c=card_number(); else c=card_color();
+    if(hasCloze && r<0.18) c=card_cloze(); else c=card_vocab();
   } else {
     if(hasCloze && r<0.18) c=card_cloze();
     else if(r<0.59) c=card_verb(); else c=card_grammar();
@@ -2012,7 +1935,6 @@ function reelCardHTML(cid,c){
   return `<div class="reel" data-cid="${cid}" style="background:${c.bg}">
     <div class="reel-cat">${c.emoji} ${c.cat}</div>
     ${c.en?`<div class="reel-en">${c.en}</div>`:''}
-    ${c.swatch?`<div class="reel-swatch" style="background:${c.swatch}"></div>`:''}
     ${promptHtml?`<div class="reel-prompt${c.big?' reel-big':''}">${promptHtml}</div>`:''}
     ${body}
     <div class="reel-fb" id="fb-${cid}"></div>
