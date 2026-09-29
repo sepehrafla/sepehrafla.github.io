@@ -2,566 +2,363 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0e14">
-<meta name="description" content="Sepehr Aflatounian, Software Engineer & Founder. IAM & fraud engineering at EQ Bank (Okta/SSO migration, WebAuthn passkeys), AI platforms for healthcare at LEYOXA, full-stack & mobile engineering.">
-<title>Sepehr Aflatounian · Software Engineer & Founder</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Sepehr Aflatounian · iOS Engineer</title>
+<meta name="description" content="Sepehr Aflatounian, iOS engineer in Toronto. Five years building iPhone apps: the new EQ Bank and PC Financial app, passkeys on iOS, FordPass EV charging, Smile Link, and on-device Core ML.">
+<meta property="og:title" content="Sepehr Aflatounian · iOS Engineer">
+<meta property="og:description" content="Five years building iPhone apps, from bank sign-in to EV charging.">
+<meta property="og:image" content="https://sepehrafla.github.io/assets/sepehr-aflatounian.jpeg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%231d1d1f%22/><text x=%2250%22 y=%2268%22 font-family=%22-apple-system,Helvetica,Arial%22 font-size=%2252%22 font-weight=%22700%22 fill=%22white%22 text-anchor=%22middle%22>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 <style>
-  :root{
-    --bg:#0a0d12; --bg2:#0d1219; --panel:#121722; --panel2:#171e2c; --line:rgba(255,255,255,.08);
-    --txt:#eef1f7; --muted:#8b93a7; --muted2:#5c6478;
-    --accent:#7c9fff; --accent2:#ff8a5c; --good:#5be59a;
-    --radius:18px; --maxw:1080px;
+  /* ── hero ── */
+  .hero{padding:96px 0 0;text-align:center;overflow:hidden}
+  .hero .eyebrow{margin-bottom:10px}
+  .hero .lede{max-width:640px;margin:18px auto 30px}
+  .dock{display:flex;justify-content:center;align-items:flex-start;gap:clamp(18px,4vw,44px);margin:72px auto 0;padding-bottom:96px}
+  .dock figure{width:clamp(64px,11vw,108px);text-align:center}
+  .dock figcaption{margin-top:12px;font-size:12px;color:var(--ink-2);letter-spacing:-.01em;line-height:1.25}
+  .dock figure:nth-child(odd){transform:translateY(18px)}
+  .dock .icon{transition:transform .5s var(--ease)}
+  .dock figure:hover .icon{transform:translateY(-6px)}
+
+  /* ── now ── */
+  .now-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;margin-top:56px}
+  .now-copy .lede{margin:14px 0 26px}
+  .features{display:grid;gap:26px;margin-top:8px}
+  .feature{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
+  .feature svg{width:30px;height:30px;color:var(--blue)}
+  .feature h3{font-size:17px;font-weight:600;letter-spacing:-.022em;margin-bottom:2px}
+  .feature p{font-size:15px;line-height:1.47;color:var(--ink-2);letter-spacing:-.016em}
+  .now-links{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap}
+
+  /* iPhone, drawn */
+  .phone{position:relative;width:min(300px,78vw);aspect-ratio:9/19.5;margin:0 auto;border-radius:54px;padding:12px;
+    background:linear-gradient(145deg,#2c2c2e,#0b0b0c);box-shadow:0 0 0 1.5px #3a3a3c inset,0 40px 80px -30px rgba(0,0,0,.45),0 18px 36px -18px rgba(0,0,0,.35)}
+  .phone::before{content:"";position:absolute;right:-3px;top:28%;width:3px;height:64px;border-radius:0 2px 2px 0;background:#2c2c2e}
+  .screen{position:relative;height:100%;border-radius:43px;overflow:hidden;background:#fff;display:flex;flex-direction:column;align-items:center}
+  .island{margin-top:11px;width:92px;height:27px;border-radius:20px;background:#000}
+  .status{position:absolute;top:15px;left:28px;right:24px;display:flex;justify-content:space-between;font-size:12px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+  .status i{font-style:normal;letter-spacing:1px}
+  .sheet{margin-top:auto;width:100%;padding:0 14px 16px}
+  .sheet-card{background:var(--bg-alt);border-radius:26px;padding:24px 18px 18px;text-align:center}
+  .faceid{width:56px;height:56px;margin:0 auto 14px;color:var(--blue)}
+  .faceid .check{stroke-dasharray:40;stroke-dashoffset:40}
+  .phone.in .faceid .scan{animation:scan 1.6s var(--ease) .5s both}
+  .phone.in .faceid .face{animation:out .3s var(--ease) 2s forwards}
+  .phone.in .faceid .check{animation:draw .5s var(--ease) 2.1s forwards}
+  @keyframes scan{0%{opacity:.25}50%{opacity:1}100%{opacity:.25}}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes out{to{opacity:0}}
+  .sheet-card b{display:block;font-size:15px;font-weight:600;letter-spacing:-.02em}
+  .sheet-card span{display:block;margin-top:3px;font-size:12px;color:var(--ink-2);letter-spacing:-.01em}
+  .sheet-btn{margin-top:16px;background:var(--blue);color:#fff;border-radius:14px;padding:12px;font-size:15px;font-weight:600;letter-spacing:-.02em}
+  .home-bar{width:118px;height:5px;border-radius:3px;background:var(--ink);margin:8px auto 8px}
+  .screen .greeting{margin-top:62px;width:100%;padding:0 22px;text-align:left}
+  .screen .greeting small{display:block;font-size:12px;color:var(--ink-2);letter-spacing:-.01em}
+  .screen .greeting strong{display:block;font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+  .ghost-row{width:calc(100% - 44px);height:52px;border-radius:14px;background:var(--bg-alt);margin-top:12px}
+  .ghost-row:first-of-type{margin-top:20px}
+
+  /* ── work tiles ── */
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:56px}
+  .tile{background:#fff;border-radius:var(--tile-r);padding:44px 40px 40px;display:flex;flex-direction:column;
+    transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+  .tile:hover{transform:scale(1.012);box-shadow:0 22px 50px -24px rgba(0,0,0,.18)}
+  .tile .icon{width:76px;margin-bottom:26px}
+  .tile .kicker{margin-bottom:8px}
+  .tile .title{margin-bottom:12px}
+  .tile .body{flex:1}
+  .tile .more{margin-top:22px}
+  .tile.span{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .timeline{list-style:none;border-left:1px solid var(--hair);padding-left:22px;display:grid;gap:22px}
+  .timeline li{position:relative}
+  .timeline li::before{content:"";position:absolute;left:-26.5px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
+  .timeline time{display:block;font-size:12px;font-weight:600;color:var(--ink-3);letter-spacing:.02em}
+  .timeline b{display:block;font-size:17px;font-weight:600;letter-spacing:-.022em;color:var(--ink);margin-top:1px}
+  .timeline span{font-size:15px;color:var(--ink-2);letter-spacing:-.016em}
+
+  /* ── toolkit ── */
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:760px;margin:36px auto 0}
+  .chips span{font-size:15px;letter-spacing:-.016em;padding:9px 18px;border-radius:980px;background:#fff;color:var(--ink);box-shadow:0 0 0 .5px var(--hair)}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:72px;text-align:center}
+  .stat b{display:block;font-size:clamp(40px,5vw,56px);font-weight:700;letter-spacing:-.015em;line-height:1.05}
+  .stat span{display:block;margin-top:6px;font-size:15px;color:var(--ink-2);letter-spacing:-.016em}
+
+  /* ── beyond ── */
+  .beyond{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+  .beyond a{display:block;background:#fff;border-radius:22px;padding:30px 28px;color:var(--ink);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+  .beyond a:hover{text-decoration:none;transform:scale(1.015);box-shadow:0 22px 50px -24px rgba(0,0,0,.18)}
+  .beyond h3{font-size:21px;font-weight:600;letter-spacing:.011em;margin:6px 0 8px}
+  .beyond p{font-size:15px;color:var(--ink-2);letter-spacing:-.016em}
+  .beyond p.kicker{font-size:12px;letter-spacing:.06em;color:var(--ink-3)}
+  .beyond .more{display:inline-block;margin-top:16px;color:var(--link);font-size:15px}
+
+  /* ── about ── */
+  .about{display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:center}
+  .portrait{border-radius:var(--tile-r);aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;width:100%;height:auto;background:var(--bg-alt)}
+  .about .lede{margin-top:16px}
+  .facts{list-style:none;margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+  .facts b{display:block;font-size:15px;font-weight:600;letter-spacing:-.016em}
+  .facts span{font-size:15px;color:var(--ink-2);letter-spacing:-.016em}
+
+  /* ── contact ── */
+  .contact{padding:140px 0}
+  .contact .headline{max-width:760px;margin:0 auto 34px}
+
+  @media (max-width:880px){
+    .now-grid,.tile.span,.about{grid-template-columns:1fr}
+    .now-grid{gap:64px}
+    .about{gap:40px}.portrait{max-width:320px}
+    .beyond{grid-template-columns:1fr}
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);
-    line-height:1.6;overflow-x:hidden}
-  body::before{content:'';position:fixed;inset:0;z-index:-1;
-    background:
-      radial-gradient(900px 500px at 12% -8%, rgba(124,159,255,.16), transparent 60%),
-      radial-gradient(700px 500px at 100% 10%, rgba(255,138,92,.10), transparent 55%),
-      var(--bg);
-    animation:auroraDrift 18s ease-in-out infinite alternate}
-  @keyframes auroraDrift{
-    0%{background-position:0% 0%,0% 0%,0 0}
-    100%{background-position:6% 4%,-5% -3%,0 0}
+  @media (max-width:640px){
+    section{padding:88px 0}
+    .hero{padding-top:64px}
+    .tiles{grid-template-columns:1fr}
+    .tile{padding:34px 26px 30px}
+    .dock{gap:12px;padding:0 16px 72px}
+    .dock figure{width:calc((100% - 48px)/5)}
+    .dock figure:nth-child(odd){transform:none}
+    .stat-row{grid-template-columns:1fr;gap:34px}
+    .facts{grid-template-columns:1fr}
   }
-  /* Cursor-follow spotlight -- purely decorative, updated via JS */
-  #spotlight{position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(124,159,255,.08), transparent 70%);
-    transition:background .15s ease-out}
-  h1,h2,h3,.logo{font-family:'Space Grotesk',sans-serif}
-  a{color:inherit}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  img{max-width:100%}
-
-  /* ===== Nav ===== */
-  nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    background:rgba(10,13,18,.72);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
-  .logo{font-weight:700;font-size:17px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;text-decoration:none}
-  .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
-  .navlinks{display:flex;align-items:center;gap:6px}
-  .navlinks a{font-size:14px;color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:9px;transition:.15s;font-weight:500}
-  .navlinks a:hover{color:var(--txt);background:var(--panel2)}
-  .navlinks a.cta{color:var(--bg);background:var(--txt);font-weight:600;margin-left:6px}
-  .navlinks a.cta:hover{background:var(--accent);color:#fff}
-  .hamburger{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:8px}
-  .hamburger span{width:22px;height:2px;background:var(--txt);border-radius:2px}
-  .mobile-menu{display:none}
-
-  /* ===== Hero ===== */
-  .hero{padding:100px 0 80px;position:relative}
-  .hero.wrap{padding-left:24px;padding-right:24px}
-  .hero-top{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
-  .hero-copy{min-width:0}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);
-    background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:7px 14px;border-radius:999px;margin-bottom:26px}
-  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .hero h1{font-size:clamp(36px,5.2vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.06}
-  .accent{background:linear-gradient(100deg,var(--accent),#a9c0ff 60%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-  /* Portrait with a subtle orbital system */
-  .hero-visual{position:relative;height:320px;display:flex;align-items:center;justify-content:center}
-  .avatar-mark{width:196px;height:196px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(150deg,var(--accent),#5a6fe0 55%,var(--accent2));padding:3px;
-    box-shadow:0 24px 70px -14px rgba(124,159,255,.52),inset 0 2px 0 rgba(255,255,255,.25);position:relative;z-index:2;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;animation:portraitGlow 4s ease-in-out infinite}
-  .avatar-mark::after{content:'';position:absolute;inset:3px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);pointer-events:none}
-  .avatar-mark img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 23%;border-radius:50%;background:var(--panel)}
-  .hero-visual:hover .avatar-mark{transform:translateY(-5px) rotate(-1deg);box-shadow:0 30px 80px -14px rgba(124,159,255,.62)}
-  @keyframes portraitGlow{0%,100%{box-shadow:0 24px 70px -14px rgba(124,159,255,.46),0 0 0 0 rgba(124,159,255,.16)}50%{box-shadow:0 28px 80px -12px rgba(124,159,255,.64),0 0 0 10px rgba(124,159,255,0)}}
-  .orbit-ring{position:absolute;border:1.5px dashed rgba(255,255,255,.14);border-radius:50%}
-  .orbit-ring.r1{width:250px;height:250px;animation:spin 40s linear infinite}
-  .orbit-ring.r2{width:310px;height:310px;animation:spin 60s linear infinite reverse}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .float-chip{position:absolute;font-size:13px;font-weight:600;background:var(--panel);border:1px solid var(--line);
-    padding:8px 14px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.35);white-space:nowrap;z-index:3;animation:bob 4s ease-in-out infinite}
-  .float-chip.c1{top:6%;left:-4%;animation-delay:0s}
-  .float-chip.c2{bottom:14%;right:-8%;animation-delay:1.3s}
-  .float-chip.c3{bottom:-2%;left:14%;animation-delay:2.6s}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  .orbit-dot{position:absolute;z-index:1;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:var(--good);box-shadow:0 0 16px var(--good);animation:orbitDot 10s linear infinite}
-  .orbit-dot.d2{width:7px;height:7px;margin:-3.5px;background:var(--accent2);box-shadow:0 0 14px var(--accent2);animation-duration:15s;animation-direction:reverse}
-  @keyframes orbitDot{from{transform:rotate(0deg) translateX(126px) rotate(0deg)}to{transform:rotate(360deg) translateX(126px) rotate(-360deg)}}
-  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:12px;font-size:14.5px;font-weight:600;
-    text-decoration:none;cursor:pointer;border:1px solid var(--line);transition:.18s;font-family:inherit}
-  .btn.primary{background:var(--txt);color:var(--bg);border-color:transparent}
-  .btn.primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
-  .btn.ghost{background:var(--panel2);color:var(--txt)}
-  .btn.ghost:hover{border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
-  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:52px}
-  .hero-stats div{background:var(--panel);padding:20px 18px}
-  .hero-stats b{display:block;font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--txt)}
-  .hero-stats span{font-size:12.5px;color:var(--muted);font-weight:500}
-
-  /* ===== Sections ===== */
-  section{padding:90px 0}
-  section,.hero{scroll-margin-top:72px}
-  section.tight{padding:70px 0}
-  .section-kicker{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;font-family:'JetBrains Mono',monospace}
-  .section-title{font-size:clamp(28px,4vw,38px);font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
-  .section-lede{color:var(--muted);font-size:16px;max-width:600px;margin-bottom:48px}
-
-  /* About */
-  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:start}
-  .about-grid p{color:var(--muted);font-size:16px;margin-bottom:16px}
-  .about-grid p b{color:var(--txt);font-weight:600}
-  .fact-list{display:grid;gap:14px}
-  .fact{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
-  .fact .ic{font-size:20px;flex-shrink:0}
-  .fact b{display:block;font-size:14px;margin-bottom:2px}
-  .fact span{font-size:13px;color:var(--muted)}
-
-  /* Throughline -- the actual proof-of-ability list: each row is one
-     client/engagement, tagged by which layer of the stack it was
-     (model, serving, monitoring, product, security, agents) so the
-     repeated pattern across unrelated industries is the visible point,
-     not any single row. */
-  .through-list{display:grid;gap:12px;margin-top:8px}
-  .through-row{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px;display:flex;gap:18px;align-items:center;transition:.15s}
-  .through-row:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
-  .through-layer{flex:0 0 auto;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);
-    background:rgba(124,159,255,.12);border:1px solid rgba(124,159,255,.28);border-radius:999px;padding:6px 12px;white-space:nowrap}
-  .through-body b{display:block;font-size:14.5px;margin-bottom:2px}
-  .through-body span{font-size:13px;color:var(--muted);line-height:1.5}
-  .through-body span a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;font-weight:600}
-
-  /* Interactive journey */
-  .journey-game{margin-top:58px;border:1px solid rgba(255,138,92,.22);border-radius:26px;padding:24px;background:linear-gradient(145deg,rgba(18,23,34,.96),rgba(11,16,23,.98));position:relative;overflow:hidden;box-shadow:0 26px 70px rgba(0,0,0,.25)}
-  .journey-game::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(440px 220px at 10% 0%,rgba(255,138,92,.1),transparent 65%),radial-gradient(420px 240px at 100% 100%,rgba(124,159,255,.09),transparent 64%)}
-  .journey-head{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:22px;margin-bottom:28px}.journey-head h3{font-size:24px;margin:4px 0}.journey-head p{font-size:13px;color:var(--muted);max-width:480px}.journey-status{font:600 10px 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
-  .journey-route{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:4px 8px 28px}.journey-line,.journey-progress{position:absolute;left:8%;right:8%;top:21px;height:2px;border-radius:99px;background:var(--line)}.journey-progress{right:auto;width:var(--journey-progress,0%);max-width:84%;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--good));box-shadow:0 0 14px rgba(124,159,255,.25);transition:width .5s cubic-bezier(.2,.8,.2,1)}
-  .journey-node{position:relative;z-index:2;border:0;background:transparent;color:var(--muted);font:600 10px 'Inter',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}.journey-node i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font:700 11px 'JetBrains Mono',monospace;transition:.25s}.journey-node:hover i,.journey-node.active i{transform:translateY(-2px);border-color:rgba(124,159,255,.45);color:#fff}.journey-node.visited i{background:linear-gradient(145deg,rgba(124,159,255,.28),rgba(91,229,154,.12));border-color:rgba(124,159,255,.35);color:#fff}.journey-node.active i{box-shadow:0 0 0 5px rgba(124,159,255,.09),0 8px 24px rgba(0,0,0,.28)}
-  .journey-body{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.journey-story,.journey-passport{border:1px solid var(--line);border-radius:18px;background:rgba(8,12,19,.72);padding:22px;min-height:220px}.journey-kicker{font:600 10px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}.journey-story h4{font-family:'Space Grotesk',sans-serif;font-size:22px;margin-bottom:8px}.journey-story p{color:var(--muted);font-size:14px;max-width:54ch}.journey-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.journey-btn{border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:#fff;padding:10px 14px;font:600 11px 'Inter',sans-serif;cursor:pointer;transition:.18s}.journey-btn:hover{border-color:rgba(124,159,255,.4);transform:translateY(-1px)}.journey-btn.primary{background:#fff;color:#0a0d12;border-color:transparent}.journey-btn:disabled{opacity:.35;pointer-events:none}
-  .stamp-row{display:flex;gap:8px;margin:14px 0 20px}.stamp-row i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;border:1px dashed var(--muted2);color:var(--muted2);font:700 10px 'JetBrains Mono',monospace;transform:rotate(var(--tilt,-3deg));transition:.3s}.stamp-row i.collected{border-style:solid;border-color:rgba(91,229,154,.35);background:rgba(91,229,154,.1);color:var(--good);transform:rotate(0) scale(1.05)}.journey-passport p{color:var(--muted);font-size:13px}.detour-message{margin-top:16px;padding:13px 14px;border:1px solid rgba(255,138,92,.24);border-radius:13px;background:rgba(255,138,92,.07);color:#e7c3b5;font:500 11px 'JetBrains Mono',monospace;min-height:64px;display:flex;align-items:center;transition:.2s}.detour-message.pop{animation:detourPop .35s ease}@keyframes detourPop{50%{transform:rotate(-.6deg) scale(1.015)}}
-
-  /* MOON BASE: embedded AI-copiloted lunar sim */
-  .moonbase-shell{position:relative;border:1px solid rgba(111,232,216,.32);border-radius:28px;overflow:hidden;background:#05050a;box-shadow:0 35px 110px rgba(0,0,0,.46),0 0 70px rgba(111,232,216,.1)}
-  .moonbase-shell iframe{display:block;width:100%;height:min(78vh,760px);min-height:620px;border:0;background:#05050a}
-  .moonbase-open{position:absolute;z-index:4;right:22px;top:20px;padding:8px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(10,10,16,.76);backdrop-filter:blur(12px);color:#e3f7f2;text-decoration:none;font:600 10px 'Inter',sans-serif;letter-spacing:.02em;transition:.2s}
-  .moonbase-open:hover{transform:translateY(-2px);border-color:rgba(111,232,216,.75);color:#6fe8d8}
-  .moonbase-points{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
-  .moonbase-point{border:1px solid var(--line);background:rgba(8,12,19,.72);border-radius:16px;padding:16px}
-  .moonbase-point b{display:block;font-size:13px;margin-bottom:4px;color:#fff}
-  .moonbase-point span{display:block;font-size:12px;color:var(--muted)}
-
-  /* Selected builds */
-  .proj-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-  .proj-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:transform .12s ease-out,border-color .2s;display:flex;flex-direction:column;will-change:transform}
-  .proj-card:hover{border-color:rgba(124,159,255,.35)}
-  .proj-card .tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);background:rgba(124,159,255,.1);border:1px solid rgba(124,159,255,.25);padding:3px 10px;border-radius:999px;margin-bottom:14px;align-self:flex-start}
-  .project-title{display:flex;align-items:center;gap:13px;margin-bottom:12px}
-  .project-logos{display:flex;align-items:center;flex:0 0 auto;padding-right:5px}
-  .project-logos .project-logo+ .project-logo{margin-left:-10px}
-  .project-logos .project-logo{box-shadow:0 8px 22px rgba(0,0,0,.28),0 0 0 3px var(--panel)}
-  .project-logo{width:48px;height:48px;flex:0 0 48px;border-radius:13px;object-fit:cover;background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.14)}
-  .project-title h3{font-size:19px;margin:0;line-height:1.2}
-  .project-title small{display:block;color:var(--muted2);font:500 10px 'JetBrains Mono',monospace;margin-top:4px}
-  .proj-card p{color:var(--muted);font-size:14px;flex:1;margin-bottom:16px}
-  .proj-card .stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-  .proj-card .stack span{font-size:11.5px;font-family:'JetBrains Mono',monospace;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
-  .proj-card .link{font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
-  .proj-card .link:hover{gap:8px}
-  .project-links{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap}
-  .proj-card.live{border-color:rgba(91,229,154,.25)}
-
-  /* Skills */
-  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:24px}
-  .skill-group h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted2);margin-bottom:14px;font-weight:700}
-  .skill-pills{display:flex;flex-wrap:wrap;gap:8px}
-  .skill-pills span{font-size:13.5px;font-weight:500;background:var(--panel);border:1px solid var(--line);color:var(--txt);padding:7px 13px;border-radius:9px}
-
-  /* Certs */
-  .cert-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-  .cert{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px}
-  .cert .ic{font-size:24px;flex-shrink:0}
-  .cert b{display:block;font-size:14px;line-height:1.3}
-  .cert span{font-size:12px;color:var(--muted)}
-
-  /* Contact / footer */
-  .contact-card{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:24px;padding:56px 40px;text-align:center;position:relative;overflow:hidden}
-  .contact-card::before{content:'';position:absolute;inset:0;background:radial-gradient(500px 260px at 50% -10%,rgba(124,159,255,.16),transparent 60%)}
-  .contact-card h2{font-size:clamp(26px,4vw,36px);margin-bottom:14px;position:relative}
-  .contact-card p{color:var(--muted);max-width:460px;margin:0 auto 30px;position:relative}
-  .contact-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
-  footer{border-top:1px solid var(--line);padding:36px 0;margin-top:20px}
-  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-  footer p{font-size:13px;color:var(--muted2)}
-  .foot-links{display:flex;gap:18px}
-  .foot-links a{font-size:13px;color:var(--muted);text-decoration:none;font-weight:500}
-  .foot-links a:hover{color:var(--accent)}
-
-  /* Native-feeling mobile navigation */
-  .mobile-dock{display:none}
-  .mobile-dock a{-webkit-tap-highlight-color:transparent}
-
-  [data-reveal]{opacity:0;transform:translateY(16px);animation:reveal .7s cubic-bezier(.2,.7,.3,1) forwards;animation-play-state:paused}
-  [data-reveal].in{animation-play-state:running}
-  @keyframes reveal{to{opacity:1;transform:translateY(0)}}
-
-  @media(max-width:760px){
-    body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
-    .navlinks{display:none}
-    .hamburger,.mobile-menu{display:none!important}
-    nav .wrap{padding:13px 18px}
-    .logo{font-size:15px}
-    .mobile-dock{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;z-index:200;top:auto;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));
-      min-height:64px;padding:6px;border:1px solid rgba(255,255,255,.12);border-radius:22px;background:rgba(18,23,34,.86);
-      box-shadow:0 18px 50px rgba(0,0,0,.48);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-    .mobile-dock a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:50px;border-radius:16px;
-      color:var(--muted);text-decoration:none;font-size:10px;font-weight:600;transition:.2s ease}
-    .mobile-dock .dock-icon{font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.2}
-    .mobile-dock a.active{color:#fff;background:rgba(124,159,255,.16);box-shadow:inset 0 0 0 1px rgba(124,159,255,.2)}
-    .mobile-dock a:active,.btn:active,.proj-card:active,.fact:active{transform:scale(.96)}
-    .hero{padding:38px 0 42px}
-    .hero.wrap{padding-left:20px;padding-right:20px}
-    .hero-top{grid-template-columns:1fr;gap:12px}
-    .hero-visual{height:220px;order:-1}
-    .avatar-mark{width:148px;height:148px;border-radius:50%;padding:2px}
-    .avatar-mark img,.avatar-mark::after{border-radius:50%}.avatar-mark::after{inset:2px}
-    .orbit-ring.r1{width:190px;height:190px}
-    .orbit-ring.r2{width:235px;height:235px}
-    .float-chip{font-size:11.5px;padding:6px 11px}
-    .float-chip.c1{top:4%;left:2%}.float-chip.c2{bottom:10%;right:0}.float-chip.c3{bottom:-1%;left:7%}
-    .hero h1{font-size:clamp(36px,10vw,44px)}
-    .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .hero-actions .btn{justify-content:center;min-height:48px;padding:11px 13px;font-size:13px}
-    .hero-actions .btn:first-child{grid-column:1/-1}
-    .hero-actions{margin-bottom:32px}
-    .hero-stats{grid-template-columns:1fr 1fr;margin-top:8px}
-    section{padding:60px 0}
-    .about-grid{grid-template-columns:1fr;gap:36px}
-    .fact{min-height:76px}
-    .through-row{flex-direction:column;align-items:flex-start;gap:8px}
-    .journey-game{margin-top:40px;padding:16px;border-radius:22px}.journey-head{display:block;margin-bottom:24px}.journey-status{display:inline-block;margin-top:8px}.journey-route{gap:3px;margin-left:0;margin-right:0}.journey-line,.journey-progress{left:9%;max-width:82%}.journey-node{font-size:9px}.journey-node i{width:38px;height:38px}.journey-body{grid-template-columns:1fr}.journey-story,.journey-passport{padding:18px;min-height:0}.journey-story h4{font-size:20px}.stamp-row{gap:6px}.stamp-row i{width:31px;height:31px}
-    .moonbase-shell{border-radius:20px;margin-left:-8px;margin-right:-8px}.moonbase-shell iframe{height:72vh;min-height:560px}.moonbase-open{right:16px;top:15px}.moonbase-points{grid-template-columns:1fr}
-    .proj-grid{display:grid;grid-template-columns:1fr;grid-auto-flow:row;grid-auto-columns:auto;overflow:visible;scroll-snap-type:none;margin:0;padding:0;gap:14px}
-    .proj-card{min-height:0}
-    .contact-card{padding:40px 22px}
-    footer{padding-bottom:18px}
-  }
-  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div id="spotlight"></div>
 
-<nav>
+<header class="nav" id="nav">
   <div class="wrap">
-    <a class="logo" href="#top"><span class="dot"></span>Sepehr Aflatounian</a>
-    <div class="navlinks">
-      <a href="#about">About</a>
-      <a href="https://leyoxa.com/blog.html" target="_blank" rel="noopener">Writing</a>
-      <a href="#moon-base">MOON BASE</a>
-      <a href="#throughline">Proof</a>
-      <a href="#projects">Shipped</a>
-      <a href="#contact" class="cta">Get in touch</a>
-    </div>
-  </div>
-</nav>
-
-<header class="hero wrap" id="top">
-  <div class="hero-top">
-    <div class="hero-copy">
-      <h1>I build secure authentication systems for banks <span class="accent">and AI products for clinics.</span></h1>
-      <div class="hero-actions">
-        <a class="btn primary" href="#contact">✉️ Get in touch</a>
-        <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
-        <a class="btn ghost" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn ↗</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="orbit-ring r1" aria-hidden="true"></div>
-      <div class="orbit-ring r2" aria-hidden="true"></div>
-      <span class="orbit-dot d1" aria-hidden="true"></span>
-      <span class="orbit-dot d2" aria-hidden="true"></span>
-      <div class="avatar-mark"><img src="assets/sepehr-aflatounian.jpeg" alt="Portrait of Sepehr Aflatounian" width="798" height="984"></div>
-      <span class="float-chip c1" aria-hidden="true">🏦 Banking</span>
-      <span class="float-chip c2" aria-hidden="true">🦷 Dental AI</span>
-      <span class="float-chip c3" aria-hidden="true">🎙️ Voice AI</span>
-    </div>
+    <a class="name" href="#top">Sepehr Aflatounian</a>
+    <ul>
+      <li class="hide-sm"><a href="#now">Now</a></li>
+      <li class="hide-sm"><a href="#work">Work</a></li>
+      <li class="hide-sm"><a href="#about">About</a></li>
+      <li><a href="moonbase/">Moon Base</a></li>
+      <li><a class="pill" href="assets/Sepehr_Aflatounian_Resume.pdf">Résumé</a></li>
+    </ul>
   </div>
 </header>
 
-<section id="about">
-  <div class="wrap">
-    <div class="section-kicker">The person behind the products</div>
-    <h2 class="section-title">A bit about how I got here</h2>
-    <div class="about-grid">
-      <div data-reveal>
-        <p>I studied <b>Computer Engineering at the University of Waterloo</b> (2016–2021), where co-op took me through mobile engineering at a digital-health startup, backend work at Fleet Complete, and a research role applying spectral imaging to water-quality analysis.</p>
-        <p>After graduating I co-founded <b>SeedCI</b> (YC candidate), building unsupervised-learning cyberattack detection, before moving into full-stack consulting at <b>Avanade</b>, shipping EV-charging features for Ford's FordPass app and automating cloud infrastructure that cut a client's costs by <b>$1M a year</b>.</p>
-        <p>Today I split my time between <b>security, fraud, and identity & access management (IAM) engineering at EQ Bank</b>, where I partner with the IAM team on a live SSO/Okta identity migration during the PC Financial and EQ Bank merger, help build the unified app, and ship WebAuthn passkey (passwordless) support on iOS. I also run <b>LEYOXA</b>, the operating layer connecting AI across a dental practice, alongside Praxis, a Realtime-API + ElevenLabs voice AI agent integrated into NexHealth's EHR, live with paying dental clinics across North America.</p>
-      </div>
-      <div class="fact-list" data-reveal>
-        <div class="fact"><span class="ic">🎸</span><div><b>1st place, Javan Music Festival</b><span>Also taught guitar for a summer. Music stuck around.</span></div></div>
-        <div class="fact"><span class="ic">🎾</span><div><b>Tennis & basketball</b><span>Racquet sessions and Waterloo intramural basketball.</span></div></div>
-        <div class="fact"><span class="ic">🔬</span><div><b>4th place, Persian Young Physicist Tournament</b><span>Before engineering, there was physics.</span></div></div>
-        <div class="fact"><span class="ic">🚗</span><div><b>Led Watonomous</b><span>Waterloo's SAE Autonomous Driving Challenge team.</span></div></div>
-      </div>
-    </div>
+<main id="top">
 
-    <div class="journey-game" id="journey-game" data-reveal style="--journey-progress:0%">
-      <div class="journey-head">
-        <div><div class="section-kicker">Journey mode</div><h3>Take the scenic route.</h3><p>A slightly unserious tour of the serious patterns behind the work: curiosity, systems, movement, shipping, and whatever is over the next hill.</p></div>
-        <span class="journey-status" id="journey-status">route quality · scenic</span>
-      </div>
-      <div class="journey-route" aria-label="Journey waypoints">
-        <span class="journey-line" aria-hidden="true"></span><span class="journey-progress" aria-hidden="true"></span>
-        <button class="journey-node active visited" type="button" data-waypoint="0"><i>?</i><span>Curiosity</span></button>
-        <button class="journey-node" type="button" data-waypoint="1"><i>&lt;&gt;</i><span>Systems</span></button>
-        <button class="journey-node" type="button" data-waypoint="2"><i>⌖</i><span>Explore</span></button>
-        <button class="journey-node" type="button" data-waypoint="3"><i>✓</i><span>Ship</span></button>
-        <button class="journey-node" type="button" data-waypoint="4"><i>…</i><span>Horizon</span></button>
-      </div>
-      <div class="journey-body">
-        <div class="journey-story">
-          <div class="journey-kicker" id="journey-kicker">Waypoint 01 · origin</div>
-          <h4 id="journey-title">Curiosity before credentials.</h4>
-          <p id="journey-copy">The route usually begins with a question that is slightly too interesting to leave alone. Better questions have been the most reliable compass.</p>
-          <div class="journey-controls"><button class="journey-btn" id="journey-prev" type="button" disabled>← Previous</button><button class="journey-btn primary" id="journey-next" type="button">Next waypoint →</button><button class="journey-btn" id="journey-detour" type="button">Take a detour</button></div>
-        </div>
-        <div class="journey-passport">
-          <div class="journey-kicker">Field passport · mildly overused</div>
-          <div class="stamp-row" id="stamp-row" aria-label="Collected journey stamps"><i class="collected">01</i><i>02</i><i>03</i><i>04</i><i>05</i></div>
-          <p>Visit every waypoint to complete the route. Detours are encouraged; straight lines are mostly a presentation choice.</p>
-          <div class="detour-message" id="detour-message" aria-live="polite">No detour selected. Suspiciously efficient.</div>
-        </div>
-      </div>
+<!-- hero -->
+<section class="hero">
+  <div class="wrap rv">
+    <p class="eyebrow">Sepehr Aflatounian</p>
+    <h1 class="display">iOS Engineer.</h1>
+    <p class="lede">Five years building iPhone apps people open every day. From bank sign‑in to EV charging.</p>
+    <div class="actions">
+      <a class="btn" href="#work">See the work</a>
+      <a class="more" href="#contact">Get in touch</a>
     </div>
+  </div>
+  <div class="dock rv" aria-label="Apps I've built for">
+    <figure><img class="icon" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon" width="108" height="108"><figcaption>EQ Bank</figcaption></figure>
+    <figure><img class="icon" src="assets/pc-financial-app.jpg" alt="PC Financial app icon" width="108" height="108"><figcaption>PC Financial</figcaption></figure>
+    <figure><img class="icon" src="assets/ford-app.jpg" alt="Ford app icon" width="108" height="108"><figcaption>FordPass</figcaption></figure>
+    <figure><img class="icon" src="assets/smile-link-app.jpg" alt="Smile Link app icon" width="108" height="108"><figcaption>Smile Link</figcaption></figure>
+    <figure><img class="icon" src="assets/gym-app.svg" alt="Gym app icon" width="108" height="108"><figcaption>Gym</figcaption></figure>
   </div>
 </section>
 
-<section id="moon-base">
+<!-- now -->
+<section class="alt" id="now">
   <div class="wrap">
-    <div class="section-kicker">Playable experiment · AI-copiloted lunar sim</div>
-    <h2 class="section-title">Autonomy you can actually watch think.</h2>
-    <p class="section-lede">A real-physics drone on a real lunar surface. Fly it by hand, or hand it to an AI that scans, targets, and narrates every decision live: what it's mining, why, and where it's headed next. Ten resource nodes, five buildable base tiers, one honest experiment in legible autonomy.</p>
-    <div class="moonbase-shell" data-reveal>
-      <iframe src="driftdock/" title="Moon Base: a moon lander game where an AI drone gathers resources and builds a lunar base" loading="lazy" allow="web-share"></iframe>
-      <a class="moonbase-open" href="driftdock/" target="_blank" rel="noopener">Open full base ↗</a>
+    <div class="center rv">
+      <p class="kicker">Now · EQ Bank × PC Financial</p>
+      <h2 class="headline" style="margin-top:10px">Two banks. One new app.</h2>
     </div>
-    <div class="moonbase-points">
-      <div class="moonbase-point"><b>Fly it yourself</b><span>Real Rapier physics, keyboard or gamepad, a lunar surface with actual landing gear and contact forces, not a scripted flythrough.</span></div>
-      <div class="moonbase-point"><b>Or hand it to the AI</b><span>Watch it scan for resources, lock a target, fly out, mine, and return. Every decision shown as a beacon line and a live narration log, not a black box.</span></div>
-      <div class="moonbase-point"><b>Build as you go</b><span>Ten crystal deposits fund five real base modules (a habitat dome, solar array, storage tank, perimeter lighting, a vehicle bay) that go up as you deliver.</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="throughline">
-  <div class="wrap">
-    <div class="section-kicker">The pattern, not the pitch</div>
-    <h2 class="section-title">I take on hard challenges and build technical products.</h2>
-    <p class="section-lede">Model. Serving infrastructure. Production monitoring. User-facing product. Most people specialize in one layer of that stack. This is what happens when the same person keeps getting handed all four, in security, real estate, healthcare, banking, and marketing, with no overlap between the industries at all.</p>
-    <div class="through-list">
-      <div class="through-row" data-reveal>
-        <span class="through-layer">Simulation + AI</span>
-        <div class="through-body"><b>Moon Base, above</b><span>Took on a from-scratch challenge (real physics, a hand-tuned flight controller, an AI autopilot that's legible instead of a black box) and actually shipped it, empirically debugged through real testing instead of guesswork.</span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">ML detection</span>
-        <div class="through-body"><b>ezSec</b><span>Unsupervised-learning cyberattack detection for EVA, ezSec's production AI security-ops platform.</span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">Model + serving</span>
-        <div class="through-body"><b>CRELHUB</b><span>A FastAI image classifier and a 97%-accurate real-estate price model, then the Flask API that actually served it.</span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">Production ML ops</span>
-        <div class="through-body"><b>Client tooling</b><span>Real-time Splunk monitoring for model drift and prediction accuracy in live systems, the layer most ML projects skip.</span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">Voice AI product</span>
-        <div class="through-body"><b>LEYOXA / Praxis</b><span>Realtime-API + ElevenLabs voice agent integrated into NexHealth's EHR, live with paying dental clinics.</span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">Patient app</span>
-        <div class="through-body"><b>Smile Link</b><span>Patient-facing iOS/Android app with end-to-end encrypted messaging, scheduling, and Open Dental integration, deployed at a dental practice in Texas. <a href="https://apps.apple.com/ca/app/smile-link/id1645696642" target="_blank" rel="noopener">Live on the App Store →</a></span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">IAM + security</span>
-        <div class="through-body"><b>EQ Bank</b><span>IAM engineering: SSO/Okta identity migration, WebAuthn passkey rollout, and fraud engineering. All inside a live bank merger.</span></div>
-      </div>
-      <div class="through-row" data-reveal>
-        <span class="through-layer">AI agents</span>
-        <div class="through-body"><b>DDSMarketing</b><span>Voice + content/SEO AI agents for a Miami marketing team.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="projects">
-  <div class="wrap">
-    <div class="section-kicker">Out in the world</div>
-    <h2 class="section-title">Things I've shipped</h2>
-    <p class="section-lede">Products people can use, infrastructure they can trust, and experiments that made it past the whiteboard.</p>
-    <div class="proj-grid">
-
-      <div class="proj-card live" data-reveal>
-        <span class="tag">Current · Fintech</span>
-        <div class="project-title">
-          <div class="project-logos" aria-label="EQ Bank and PC Financial">
-            <img class="project-logo" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon">
-            <img class="project-logo" src="assets/pc-financial-app.jpg" alt="PC Financial app icon">
+    <div class="now-grid">
+      <div class="now-copy rv">
+        <p class="lede">As EQ Bank and PC Financial come together, I'm helping build <b>the new iOS app</b>, while keeping the sign‑in and identity customers rely on in today's app working all the way through.</p>
+        <div class="features">
+          <div class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 9.5v1M15 9.5v1M12 9.5v3.5h-1M9.5 15.5c1.4 1 3.6 1 5 0"/></svg>
+            <div><h3>Passkeys on iPhone</h3><p>Built the app's passkey support, so customers sign in with Face ID instead of a password.</p></div>
           </div>
-          <div><h3>EQ Bank + PC Financial</h3><small>Identity · iOS · Unified banking</small></div>
+          <div class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+            <div><h3>Identity, migrated</h3><p>Part of the customer identity team moving sign‑in to Okta and OAuth 2.0.</p></div>
+          </div>
+          <div class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="M17.5 14v7M14 17.5h7"/></svg>
+            <div><h3>One app for both banks</h3><p>Building the unified iOS app while today's app keeps its existing sign‑in.</p></div>
+          </div>
         </div>
-        <p>During the PC Financial and EQ Bank merger, I partnered with the IAM team on a live identity migration to Okta (SSO, unified identity across two banking apps), helped build the unified app, and shipped WebAuthn passkey (passwordless) support on iOS.</p>
-        <div class="stack"><span>IAM</span><span>Okta</span><span>SSO</span><span>WebAuthn</span><span>Passkeys</span><span>iOS</span></div>
-        <div class="project-links">
-          <a class="link" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank app →</a>
-          <a class="link" href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial app →</a>
-        </div>
-      </div>
-
-      <div class="proj-card live" data-reveal>
-        <span class="tag">Founder · Live</span>
-        <div class="project-title"><img class="project-logo" src="assets/leyoxa-app.svg" alt="Leyoxa logo"><div><h3>LEYOXA</h3><small>The operating layer for AI in dentistry</small></div></div>
-        <p>Patient app, capacity-aware scheduling, SEO/marketing automation, and HIPAA-aligned infrastructure connecting AI across a dental practice, plus Praxis, a Realtime-API + ElevenLabs voice agent integrated into NexHealth's EHR, live with paying clinics.</p>
-        <div class="stack"><span>Realtime API</span><span>ElevenLabs</span><span>NexHealth</span><span>HIPAA</span></div>
-        <div class="project-links">
-          <a class="link" href="https://leyoxa.com" target="_blank" rel="noopener">Visit leyoxa.com →</a>
-          <a class="link" href="https://itspraxis.ai" target="_blank" rel="noopener">Visit itspraxis.ai →</a>
+        <div class="now-links">
+          <a class="more out" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank on the App Store</a>
+          <a class="more out" href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial on the App Store</a>
         </div>
       </div>
-
-      <div class="proj-card" data-reveal>
-        <span class="tag">Avanade · Ford</span>
-        <div class="project-title"><img class="project-logo" src="assets/ford-app.jpg" alt="Ford app icon"><div><h3>FordPass EV Charging</h3><small>iPhone · Automotive</small></div></div>
-        <p>Intelligent + manual EV charging scheduling, shipped inside the Ford app.</p>
-        <a class="link" href="https://apps.apple.com/ca/app/ford/id1095418609" target="_blank" rel="noopener">View on the App Store →</a>
+      <div class="rv">
+        <div class="phone" id="phone" role="img" aria-label="Illustration of an iPhone signing in with a passkey and Face ID">
+          <div class="screen">
+            <div class="island"></div>
+            <div class="status"><span>9:41</span><i>●●●</i></div>
+            <div class="greeting"><small>Good morning</small><strong>Welcome back</strong></div>
+            <div class="ghost-row"></div><div class="ghost-row"></div>
+            <div class="sheet">
+              <div class="sheet-card">
+                <svg class="faceid" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <g class="scan"><path d="M6 17V12a6 6 0 0 1 6-6h5M39 6h5a6 6 0 0 1 6 6v5M50 39v5a6 6 0 0 1-6 6h-5M17 50h-5a6 6 0 0 1-6-6v-5"/><path class="face" d="M20 21v4M36 21v4M28 21v10h-2.5M21 37c3.8 3 10.2 3 14 0"/></g>
+                  <path class="check" d="M19 29l6 6 12-13"/>
+                </svg>
+                <b>Sign in with a passkey</b>
+                <span>No password needed</span>
+                <div class="sheet-btn">Continue with Face ID</div>
+              </div>
+            </div>
+            <div class="home-bar"></div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
 </section>
 
-
-<section id="contact">
+<!-- work -->
+<section id="work">
   <div class="wrap">
-    <div class="contact-card" data-reveal>
-      <h2>Got something worth building? <span class="accent">Let's talk.</span></h2>
-      <div class="contact-actions">
-        <a class="btn primary" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">💬 Message me on LinkedIn</a>
-        <a class="btn ghost" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub ↗</a>
-      </div>
+    <div class="center rv">
+      <p class="kicker">Selected work</p>
+      <h2 class="headline" style="margin-top:10px">Built for iPhone.</h2>
+    </div>
+  </div>
+  <div class="wide">
+    <div class="tiles" style="--tile-bg:#f5f5f7">
+      <article class="tile rv" style="background:var(--bg-alt)">
+        <img class="icon" src="assets/ford-app.jpg" alt="Ford app icon" width="76" height="76">
+        <p class="kicker">Avanade · Ford</p>
+        <h3 class="title">Charging, on your schedule.</h3>
+        <p class="body">Built intelligent and manual EV charging schedules into the FordPass iPhone app.</p>
+        <a class="more out" href="https://apps.apple.com/ca/app/ford/id1095418609" target="_blank" rel="noopener">View on the App Store</a>
+      </article>
+      <article class="tile rv" style="background:var(--bg-alt)">
+        <img class="icon" src="assets/smile-link-app.jpg" alt="Smile Link app icon" width="76" height="76">
+        <p class="kicker">Founder · Dental</p>
+        <h3 class="title">The dental office, in your pocket.</h3>
+        <p class="body">A patient app with end‑to‑end encrypted messaging and scheduling, built on live data from the practice's Open Dental system.</p>
+        <a class="more out" href="https://apps.apple.com/ca/app/smile-link/id1645696642" target="_blank" rel="noopener">View on the App Store</a>
+      </article>
+      <article class="tile rv" style="background:var(--bg-alt)">
+        <img class="icon" src="assets/gym-app.svg" alt="Gym app icon" width="76" height="76">
+        <p class="kicker">Core ML</p>
+        <h3 class="title">Machine learning, on device.</h3>
+        <p class="body">A gym app that runs Apple's Core ML models right on iPhone, so the smart parts work instantly and privately.</p>
+      </article>
+      <article class="tile rv" style="background:var(--bg-alt)">
+        <p class="kicker">Where it started</p>
+        <h3 class="title">Shipping iOS since co‑op.</h3>
+        <ol class="timeline" style="margin-top:14px">
+          <li><time>2018</time><b>Aterica Digital Health</b><span>iOS apps for embedded medical devices.</span></li>
+          <li><time>2018–2019</time><b>Stars Technologies</b><span>iOS and Android developer.</span></li>
+          <li><time>2020</time><b>Fleet Complete</b><span>iOS in Swift and Objective‑C.</span></li>
+        </ol>
+      </article>
     </div>
   </div>
 </section>
+
+<!-- toolkit -->
+<section class="alt">
+  <div class="wrap center">
+    <div class="rv">
+      <p class="kicker">Toolkit</p>
+      <h2 class="headline" style="margin-top:10px">Native, first.</h2>
+      <p class="lede" style="max-width:640px;margin:18px auto 0">The part I love most is the last mile: the moment an app feels right in your hand.</p>
+    </div>
+    <div class="chips rv">
+      <span>Swift</span><span>SwiftUI</span><span>UIKit</span><span>Objective‑C</span><span>Core ML</span>
+      <span>Passkeys</span><span>AuthenticationServices</span><span>Okta · OAuth 2.0</span><span>RxSwift</span><span>Firebase</span>
+    </div>
+    <div class="stat-row rv">
+      <div class="stat"><b>5 yrs</b><span>building for iPhone</span></div>
+      <div class="stat"><b>3</b><span>industries: banking, auto, health</span></div>
+      <div class="stat"><b>2018</b><span>first iOS app, in co‑op</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- beyond -->
+<section>
+  <div class="wrap">
+    <div class="center rv">
+      <p class="kicker">Beyond iOS</p>
+      <h2 class="headline" style="margin-top:10px">Also building.</h2>
+    </div>
+    <div class="beyond">
+      <a class="rv" href="https://leyoxa.com" target="_blank" rel="noopener" style="background:var(--bg-alt)">
+        <p class="kicker">Founder</p><h3>LEYOXA</h3>
+        <p>AI for dental practices, including a voice agent that answers and books patient calls.</p>
+        <span class="more out">leyoxa.com</span>
+      </a>
+      <a class="rv" href="moonbase/" style="background:var(--bg-alt)">
+        <p class="kicker">Playable</p><h3>Moon Base</h3>
+        <p>A real‑physics lunar drone you can fly, or hand to an AI that narrates every decision.</p>
+        <span class="more">Play Moon Base</span>
+      </a>
+      <a class="rv" href="https://github.com/sepehrafla" target="_blank" rel="noopener" style="background:var(--bg-alt)">
+        <p class="kicker">Earlier</p><h3>Machine learning</h3>
+        <p>Co‑founded SeedCI: unsupervised cyber‑attack detection, and a 97%‑accurate price model.</p>
+        <span class="more out">GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- about -->
+<section class="alt" id="about">
+  <div class="wrap about">
+    <img class="portrait rv" src="assets/sepehr-aflatounian.jpeg" alt="Portrait of Sepehr Aflatounian" width="798" height="984" loading="lazy">
+    <div class="rv">
+      <p class="kicker">About</p>
+      <h2 class="title" style="margin-top:10px">Engineer by training. App builder by choice.</h2>
+      <p class="lede">Computer Engineering at the <b>University of Waterloo</b>. Now in Toronto, building the app I'd want to use.</p>
+      <ul class="facts">
+        <li><b>1st place, Javan Music Festival</b><span>Flamenco guitar.</span></li>
+        <li><b>Led Watonomous</b><span>Waterloo's autonomous driving team.</span></li>
+        <li><b>4th, Persian Young Physicists</b><span>Physics came first.</span></li>
+        <li><b>Tennis &amp; basketball</b><span>Most weeks.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- contact -->
+<section class="contact center" id="contact">
+  <div class="wrap rv">
+    <h2 class="headline">Let's build something people love to use.</h2>
+    <div class="actions">
+      <a class="btn" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">Message me on LinkedIn</a>
+      <a class="more out" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub</a>
+      <a class="more" href="assets/Sepehr_Aflatounian_Resume.pdf">Résumé</a>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <footer>
   <div class="wrap">
-    <p>© <span id="year"></span> Sepehr Aflatounian · Greater Toronto Area, Canada</p>
-    <div class="foot-links">
-      <a href="https://leyoxa.com/blog.html" target="_blank" rel="noopener">Writing</a>
-    </div>
+    <p>© <span id="year">2026</span> Sepehr Aflatounian · Toronto, Canada</p>
+    <nav aria-label="Footer"><a href="moonbase/">Moon Base</a><a href="https://leyoxa.com/blog.html" target="_blank" rel="noopener">Writing</a><a href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn</a></nav>
   </div>
 </footer>
 
-<nav class="mobile-dock" aria-label="Mobile navigation">
-  <a href="#top" data-dock="top" class="active"><span class="dock-icon">⌂</span><span>Home</span></a>
-  <a href="#moon-base" data-dock="moon-base"><span class="dock-icon">◎</span><span>Play</span></a>
-  <a href="#projects" data-dock="projects"><span class="dock-icon">◇</span><span>Shipped</span></a>
-  <a href="#contact" data-dock="contact"><span class="dock-icon">✉</span><span>Contact</span></a>
-</nav>
-
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// Lead with the interactive work before the biography.
-const heroBlock = document.getElementById('top');
-const shippedSection = document.getElementById('projects');
-const moonBaseSection = document.getElementById('moon-base');
-const aboutSection = document.getElementById('about');
-heroBlock.insertAdjacentElement('afterend',shippedSection);
-aboutSection.insertAdjacentElement('afterend',moonBaseSection);
-if(location.hash){
-  requestAnimationFrame(()=>setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(),120));
-}
-
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-},{threshold:0.12});
-document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
-
-const dockLinks = [...document.querySelectorAll('[data-dock]')];
-const dockTargets = ['top','moon-base','projects','contact'];
-const dockObserver = new IntersectionObserver(entries=>{
-  const visible = entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-  if(!visible) return;
-  dockLinks.forEach(link=>link.classList.toggle('active',link.dataset.dock===visible.target.id));
-},{rootMargin:'-28% 0px -58% 0px',threshold:[0,.15,.5]});
-dockTargets.forEach(id=>dockObserver.observe(document.getElementById(id)));
-dockLinks.forEach(link=>link.addEventListener('click',()=>{
-  dockLinks.forEach(item=>item.classList.toggle('active',item===link));
-  if(navigator.vibrate) navigator.vibrate(8);
-}));
-
-const journeyWaypoints = [
-  {kicker:'Waypoint 01 · origin',title:'Curiosity before credentials.',copy:'The route usually begins with a question that is slightly too interesting to leave alone. Better questions have been the most reliable compass.'},
-  {kicker:'Waypoint 02 · systems',title:'Turn the question into a system.',copy:'Ideas become useful when they survive contact with constraints. Architecture, iteration, and an unreasonable affection for edge cases do the rest.'},
-  {kicker:'Waypoint 03 · field notes',title:'Go far enough to update the model.',copy:'Travel is useful because it interrupts certainty. New places create new defaults, and expose which assumptions were only local weather.'},
-  {kicker:'Waypoint 04 · production',title:'Ship where the stakes are real.',copy:'The most interesting work leaves the whiteboard, meets actual people, and becomes accountable to outcomes instead of applause.'},
-  {kicker:'Waypoint 05 · open horizon',title:'Keep one coordinate unresolved.',copy:'A finished map is just a museum piece. The next chapter stays deliberately open enough for surprise, conviction, and one excellent wrong turn.'}
-];
-const detours = [
-  'Detour unlocked: judged an entire city by one excellent coffee.',
-  'Explorer rule: walk until the map becomes a suggestion.',
-  'Souvenir acquired: a better question and no fridge magnet.',
-  'Plot twist: the backup plan also had a backup plan.',
-  'Local maximum escaped. Snacks were involved.',
-  'Scenic route selected. ETA remains emotionally unavailable.'
-];
-const journeyGame = document.getElementById('journey-game');
-const journeyNodes = [...document.querySelectorAll('[data-waypoint]')];
-const journeyStamps = [...document.querySelectorAll('#stamp-row i')];
-const journeyKicker = document.getElementById('journey-kicker');
-const journeyTitle = document.getElementById('journey-title');
-const journeyCopy = document.getElementById('journey-copy');
-const journeyPrev = document.getElementById('journey-prev');
-const journeyNext = document.getElementById('journey-next');
-const journeyDetour = document.getElementById('journey-detour');
-const journeyStatus = document.getElementById('journey-status');
-const detourMessage = document.getElementById('detour-message');
-let journeyStep = 0, detourIndex = 0;
-const visitedWaypoints = new Set([0]);
-function renderJourney(step){
-  journeyStep=Math.max(0,Math.min(journeyWaypoints.length-1,step));visitedWaypoints.add(journeyStep);
-  const waypoint=journeyWaypoints[journeyStep];journeyKicker.textContent=waypoint.kicker;journeyTitle.textContent=waypoint.title;journeyCopy.textContent=waypoint.copy;
-  journeyGame.style.setProperty('--journey-progress',(journeyStep*21)+'%');
-  journeyNodes.forEach((node,index)=>{node.classList.toggle('active',index===journeyStep);node.classList.toggle('visited',visitedWaypoints.has(index))});
-  journeyStamps.forEach((stamp,index)=>stamp.classList.toggle('collected',visitedWaypoints.has(index)));
-  journeyPrev.disabled=journeyStep===0;journeyNext.disabled=journeyStep===journeyWaypoints.length-1;journeyNext.textContent=journeyStep===journeyWaypoints.length-1?'Route complete ✓':'Next waypoint →';
-  journeyStatus.textContent=visitedWaypoints.size===journeyWaypoints.length?'route complete · still no final boss':'route quality · scenic';
-  if(navigator.vibrate)navigator.vibrate(6);
-}
-journeyNodes.forEach(node=>node.addEventListener('click',()=>renderJourney(Number(node.dataset.waypoint))));
-journeyPrev.addEventListener('click',()=>renderJourney(journeyStep-1));journeyNext.addEventListener('click',()=>renderJourney(journeyStep+1));
-journeyDetour.addEventListener('click',()=>{detourMessage.textContent=detours[detourIndex%detours.length];detourIndex++;detourMessage.classList.remove('pop');requestAnimationFrame(()=>detourMessage.classList.add('pop'));journeyStatus.textContent='detour · accepted';if(navigator.vibrate)navigator.vibrate([6,28,6])});
-
-window.addEventListener('mousemove', e=>{
-  document.body.style.setProperty('--mx', e.clientX+'px');
-  document.body.style.setProperty('--my', e.clientY+'px');
-});
-
-document.querySelectorAll('.proj-card').forEach(card=>{
-  card.addEventListener('mousemove', e=>{
-    const r = card.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    card.style.transform = `perspective(600px) rotateX(${(-py*8).toFixed(2)}deg) rotateY(${(px*8).toFixed(2)}deg) translateY(-4px)`;
-  });
-  card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
-});
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv, #phone').forEach(el => io.observe(el));
 </script>
-<!-- Moon Base runs as a standalone, static build embedded above. -->
 </body>
 </html>
