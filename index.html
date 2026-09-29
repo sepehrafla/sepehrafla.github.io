@@ -13,7 +13,7 @@
 <meta property="og:title" content="Sepehr Aflatounian · iOS Engineer">
 <meta property="og:description" content="Five years building iPhone apps, from bank sign-in to EV charging.">
 <meta property="og:url" content="https://sepehrafla.github.io/">
-<meta property="og:image" content="https://sepehrafla.github.io/assets/video/duo-poster.webp">
+<meta property="og:image" content="https://sepehrafla.github.io/assets/video/craft-poster.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%231d1d1f%22/><text x=%2250%22 y=%2268%22 font-family=%22-apple-system,Helvetica,Arial%22 font-size=%2252%22 font-weight=%22700%22 fill=%22white%22 text-anchor=%22middle%22>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,9 +68,6 @@
   .hero{padding:110px 0 0;text-align:center;overflow:hidden}
   .hero .eyebrow{margin-bottom:10px}
   .hero .lede{max-width:640px;margin:18px auto 30px}
-  .film{position:relative;max-width:1160px;margin:64px auto 0;padding:0 22px}
-  .film video{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--tile-r);background:#ece8f4;
-    transform:scale(var(--s,.94));transform-origin:50% 0;will-change:transform}
   .ctl{position:absolute;right:40px;bottom:18px;width:38px;height:38px;border-radius:50%;border:0;cursor:pointer;
     color:var(--ink);display:grid;place-items:center;transition:transform .35s var(--spring)}
   .ctl:active{transform:scale(.9)}
@@ -82,6 +79,44 @@
   .dock .icon{transition:transform .5s var(--spring)}
   @media (hover:hover){.dock figure:hover .icon{transform:translateY(-8px) scale(1.06)}}
   .hero-foot{height:110px}
+
+
+  /* ── live code hero ── */
+  .ide{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center;max-width:1100px;margin:64px auto 0;padding:0 22px;text-align:left}
+  .editor{border-radius:22px;overflow:hidden;background:#1c1c20;box-shadow:0 40px 80px -40px rgba(20,10,60,.55),0 0 0 .5px rgba(0,0,0,.2);min-height:470px}
+  .ed-bar{display:flex;align-items:center;gap:7px;padding:12px 14px;background:#26262b;border-bottom:1px solid rgba(255,255,255,.06)}
+  .ed-bar i{width:11px;height:11px;border-radius:50%}
+  .ed-bar span{margin-left:12px;font:500 12px var(--font);color:#a1a1a6;letter-spacing:0}
+  .code{margin:0;padding:16px 18px 20px;font:13px/1.62 ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;color:#e5e5ea;letter-spacing:0;overflow:hidden;counter-reset:ln}
+  .code .ln{display:block;white-space:pre;height:1.62em}
+  .code .ln::before{counter-increment:ln;content:counter(ln);display:inline-block;width:2.2em;margin-right:1em;text-align:right;color:#5a5a62}
+  .code .tx{display:inline-block;vertical-align:top;overflow:hidden;white-space:pre;width:0}
+  .code .ln.cur .tx{border-right:2px solid #0a84ff}
+  .code .kw{color:#ff7ab2;font-weight:600}.code .ty{color:#6bdfff}.code .st{color:#ff8170}.code .at{color:#ffa14f}.code .mb{color:#b281eb}.code .nu{color:#d9c97c}.code .cm{color:#7f8c98}
+  .preview{text-align:center}
+  .preview .phone{--pw:246px}
+  .pv-label{margin-top:14px;font-size:12px;color:var(--ink-3)}
+  .sv .screen{background:linear-gradient(180deg,#f2f5ff 0%,#fff 55%)}
+  .sv-body{margin-top:auto;margin-bottom:auto;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;padding:0 22px}
+  .sv-face{width:62px;height:62px;color:var(--blue)}
+  .sv-face .check{stroke-dasharray:40;stroke-dashoffset:40}
+  .sv-title{font-size:26px;font-weight:700;letter-spacing:-.02em}
+  .sv-btn{display:block;width:100%;background:var(--blue);color:#fff;border-radius:14px;padding:12px;font-size:14px;font-weight:600;transition:transform .25s var(--spring)}
+  .sv .s1,.sv .s2,.sv .s3{opacity:0;transform:translateY(10px) scale(.96);transition:opacity .5s var(--spring),transform .6s var(--spring)}
+  .sv .s1.on,.sv .s2.on,.sv .s3.on{opacity:1;transform:none}
+  .sv.tap .sv-btn{transform:scale(.95)}
+  .sv.done .sv-face{animation:bounce .6s var(--spring),tintg .3s forwards}
+  .sv.done .sv-face .face{opacity:0;transition:opacity .2s}
+  .sv.done .sv-face .check{transition:stroke-dashoffset .45s var(--ease) .15s;stroke-dashoffset:0}
+  @keyframes bounce{40%{transform:scale(1.18)}70%{transform:scale(.95)}}
+  @keyframes tintg{to{color:#34c759}}
+  .sv-toast{position:absolute;left:50%;top:48px;transform:translate(-50%,-30px);opacity:0;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
+    padding:8px 14px;border-radius:980px;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 8px 24px -8px rgba(0,0,0,.25);
+    transition:transform .6s var(--spring),opacity .4s}
+  .sv-toast svg{width:16px;height:16px}
+  .sv.done .sv-toast{transform:translate(-50%,0);opacity:1}
+  @media (max-width:880px){.ide{grid-template-columns:1fr;gap:28px}.editor{min-height:0}}
+  @media (max-width:640px){.ide{padding:0 14px;margin-top:44px}.code{font-size:10.5px;padding:12px 10px 14px}.code .ln::before{width:1.6em;margin-right:.7em}.preview .phone{--pw:196px}}
 
   /* ── phone (shared by every mock) ── */
   .phone{position:relative;width:var(--pw,272px);aspect-ratio:9/19.5;margin:0 auto;border-radius:calc(var(--pw,272px)*.19);padding:calc(var(--pw,272px)*.04);
@@ -392,8 +427,8 @@
   @media (max-width:640px){
     section{padding:84px 0}
     .hero{padding-top:92px}
-    .film,.band{padding:0 14px}.film{margin-top:44px}
-    .ctl{right:26px;bottom:12px}.band .ctl{right:26px;top:12px}
+    .band{padding:0 14px}
+    .band .ctl{right:26px;top:12px}
     .band .chips{position:static;transform:none;width:auto;max-width:none;margin:14px 0 0}
     .band .chips span{background:#fff;box-shadow:0 0 0 .5px var(--hair);-webkit-backdrop-filter:none;backdrop-filter:none}
     .stack-grid{grid-template-columns:1fr}
@@ -442,12 +477,27 @@
       <a class="more" href="#contact">Get in touch</a>
     </div>
   </div>
-  <div class="film rv">
-    <video class="autoplay" id="film" muted loop playsinline preload="metadata" poster="assets/video/hero-poster.webp" aria-label="An iPhone turning slowly in soft coloured light">
-      <source src="assets/video/hero-sm.mp4" type="video/mp4" media="(max-width: 700px)">
-      <source src="assets/video/hero.mp4" type="video/mp4">
-    </video>
-    <button class="ctl glass" type="button" data-for="film" aria-label="Pause video"></button>
+  <div class="ide rv" id="ide" aria-label="SwiftUI code typing itself while an iPhone preview builds the screen">
+    <div class="editor">
+      <div class="ed-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>SignInView.swift</span></div>
+      <pre class="code" id="code" aria-hidden="true"></pre>
+    </div>
+    <div class="preview">
+      <div class="phone sv" id="sv">
+        <div class="screen">
+          <div class="island"></div>
+          <div class="status"><span>9:41</span><i>●●●</i></div>
+          <div class="sv-body">
+            <svg class="sv-face s1" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17V12a6 6 0 0 1 6-6h5M39 6h5a6 6 0 0 1 6 6v5M50 39v5a6 6 0 0 1-6 6h-5M17 50h-5a6 6 0 0 1-6-6v-5"/><path class="face" d="M20 21v4M36 21v4M28 21v10h-2.5M21 37c3.8 3 10.2 3 14 0"/><path class="check" d="M19 29l6 6 12-13"/></svg>
+            <b class="sv-title s2">Welcome back</b>
+            <span class="sv-btn s3">Sign in with a passkey</span>
+          </div>
+          <div class="sv-toast"><svg viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Signed in</div>
+          <div class="home-bar"></div>
+        </div>
+      </div>
+      <p class="pv-label">Preview</p>
+    </div>
   </div>
   <div class="dock glass rv" aria-label="Apps I've built for">
     <figure><img class="icon" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon" width="84" height="84"><figcaption>EQ Bank</figcaption></figure>
@@ -629,21 +679,21 @@
   </div>
 </section>
 
-<!-- surfaces band -->
+<!-- craft band -->
 <section class="alt" style="padding-bottom:110px">
   <div class="wrap center rv">
-    <p class="kicker">Every surface</p>
-    <h2 class="headline" style="margin-top:10px">Designed for the whole iPhone.</h2>
-    <p class="lede" style="max-width:640px;margin:18px auto 48px">Not just screens: the Dynamic Island, the Lock Screen, notifications, and the moment of sign‑in.</p>
+    <p class="kicker">How I build</p>
+    <h2 class="headline" style="margin-top:10px">Built at the desk.<br>Tested in the world.</h2>
+    <p class="lede" style="max-width:660px;margin:18px auto 48px">Code is only half the job. I test on a real iPhone, in real hands, until every tap feels obvious, then keep watching how people actually use it.</p>
   </div>
   <div class="band rv">
-    <video class="autoplay" id="duo" muted loop playsinline preload="metadata" poster="assets/video/duo-poster.webp" aria-label="Two iPhones turning together with flowing colour on their screens">
-      <source src="assets/video/duo-sm.mp4" type="video/mp4" media="(max-width: 700px)">
-      <source src="assets/video/duo.mp4" type="video/mp4">
+    <video class="autoplay" id="craft" muted loop playsinline preload="metadata" poster="assets/video/craft-poster.webp" aria-label="A developer testing an app on an iPhone beside code on a laptop, then someone using an app on a city street">
+      <source src="assets/video/craft-sm.mp4" type="video/mp4" media="(max-width: 700px)">
+      <source src="assets/video/craft.mp4" type="video/mp4">
     </video>
-    <button class="ctl glass" type="button" data-for="duo" aria-label="Pause video"></button>
+    <button class="ctl glass" type="button" data-for="craft" aria-label="Pause video"></button>
     <div class="chips">
-      <span class="glass">Dynamic Island</span><span class="glass">Live Activities</span><span class="glass">Widgets</span><span class="glass">Notifications</span><span class="glass">Face ID</span><span class="glass">Haptics</span>
+      <span class="glass">SwiftUI previews</span><span class="glass">On‑device testing</span><span class="glass">Accessibility</span><span class="glass">TestFlight</span><span class="glass">Crash &amp; usage data</span><span class="glass">Iterate</span>
     </div>
   </div>
 </section>
@@ -851,16 +901,73 @@
     nav.classList.toggle('on-dark', darks.some(d => { const r = d.getBoundingClientRect(); return r.top < 40 && r.bottom > 40; }));
   };
 
-  // hero film grows to full size as it scrolls into place
-  const film = document.getElementById('film');
-  const grow = () => {
-    const r = film.getBoundingClientRect(), vh = innerHeight;
-    const t = Math.min(1, Math.max(0, (vh - r.top) / (vh * .7)));
-    film.style.setProperty('--s', (.94 + .06 * t).toFixed(4));
-  };
   let ticking = false;
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); if (!still) grow(); ticking = false; }); } }, { passive: true });
-  onScroll(); still ? film.style.setProperty('--s', 1) : grow();
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
+  onScroll();
+
+  // hero: SwiftUI types itself and the preview builds as each view appears
+  const SRC = [
+    'import SwiftUI',
+    'import AuthenticationServices',
+    '',
+    'struct SignInView: View {',
+    '    @State private var signedIn = false',
+    '',
+    '    var body: some View {',
+    '        VStack(spacing: 16) {',
+    '            Image(systemName: "faceid")',
+    '                .font(.system(size: 56))',
+    '                .symbolEffect(.bounce, value: signedIn)',
+    '            Text("Welcome back")',
+    '                .font(.largeTitle.bold())',
+    '            Button("Sign in with a passkey") {',
+    '                Task { signedIn = await passkeys.signIn() }',
+    '            }',
+    '            .buttonStyle(.borderedProminent)',
+    '        }',
+    '        .sensoryFeedback(.success, trigger: signedIn)',
+    '    }',
+    '}'
+  ];
+  const STEP = { 9: 's1', 12: 's2', 17: 's3' };           // line (1-based) at which a view appears
+  const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const paint = line => esc(line)
+    .replace(/("[^"]*")/g, '<span class="st">$1</span>')
+    .replace(/\b(import|struct|private|var|some|await|let|func|false|true)\b/g, '<span class="kw">$1</span>')
+    .replace(/(@State)/g, '<span class="at">$1</span>')
+    .replace(/\b(SwiftUI|AuthenticationServices|View|VStack|Image|Text|Button|Task|SignInView)\b/g, '<span class="ty">$1</span>')
+    .replace(/(\.[a-zA-Z]+)(?![^<]*>)/g, '<span class="mb">$1</span>')
+    .replace(/\b(\d+)\b(?![^<]*>)/g, '<span class="nu">$1</span>');
+  const codeEl = document.getElementById('code'), sv = document.getElementById('sv');
+  codeEl.innerHTML = SRC.map(l => `<span class="ln"><span class="tx" style="--n:${l.length}">${paint(l) || ' '}</span></span>`).join('');
+  const lines = [...codeEl.querySelectorAll('.ln')];
+  let hTimers = [];
+  const typeAll = () => {
+    hTimers.forEach(clearTimeout); hTimers = [];
+    sv.classList.remove('tap', 'done'); sv.querySelectorAll('.s1,.s2,.s3').forEach(e => e.classList.remove('on'));
+    lines.forEach(l => { l.classList.remove('cur'); const t = l.firstChild; t.style.transition = 'none'; t.style.width = '0'; });
+    let at = 250;
+    lines.forEach((l, i) => {
+      const n = SRC[i].length, dur = Math.max(80, n * 22);
+      hTimers.push(setTimeout(() => {
+        lines.forEach(x => x.classList.remove('cur')); l.classList.add('cur');
+        const t = l.firstChild; t.style.transition = `width ${dur}ms steps(${Math.max(1, n)})`; t.style.width = n + 'ch';
+      }, at));
+      at += dur + 70;
+      if (STEP[i + 1]) { const k = STEP[i + 1]; hTimers.push(setTimeout(() => sv.querySelector('.' + k).classList.add('on'), at)); }
+    });
+    hTimers.push(setTimeout(() => sv.classList.add('tap'), at + 500));
+    hTimers.push(setTimeout(() => { sv.classList.remove('tap'); sv.classList.add('done'); }, at + 750));
+    return at + 4200;
+  };
+  const showAll = () => { lines.forEach(l => { const t = l.firstChild; t.style.transition = 'none'; t.style.width = SRC[lines.indexOf(l)].length + 'ch'; }); sv.querySelectorAll('.s1,.s2,.s3').forEach(e => e.classList.add('on')); };
+  let heroLoop;
+  new IntersectionObserver(([e]) => {
+    clearTimeout(heroLoop);
+    if (still) { showAll(); return; }
+    if (e.isIntersecting) { const go = () => { heroLoop = setTimeout(go, typeAll()); }; go(); }
+    else hTimers.forEach(clearTimeout);
+  }, { threshold: 0.3 }).observe(document.getElementById('ide'));
 
   // reveal on scroll
   const io = new IntersectionObserver(es => es.forEach(e => {
