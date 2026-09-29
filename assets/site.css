@@ -10,7 +10,7 @@
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:56px}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.47;
   letter-spacing:-.022em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"kern"}
-img{display:block;max-width:100%}
+img{display:block;max-width:100%;height:auto}
 a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}

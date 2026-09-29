@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- An iOS-style folder: four of the everyday apps, drawn small. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef0f6"/><stop offset="1" stop-color="#d9dde8"/></linearGradient>
+    <linearGradient id="journal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9f0a"/><stop offset="1" stop-color="#ff6b00"/></linearGradient>
+    <linearGradient id="gym" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34c759"/><stop offset="1" stop-color="#0a9a52"/></linearGradient>
+    <linearGradient id="notes" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd60a"/><stop offset="1" stop-color="#ffb800"/></linearGradient>
+    <linearGradient id="ai" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5e5ce6"/><stop offset="1" stop-color="#bf5af2"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <!-- journal -->
+  <rect x="96" y="96" width="140" height="140" rx="32" fill="url(#journal)"/>
+  <rect x="136" y="126" width="60" height="80" rx="8" fill="#fff"/>
+  <rect x="148" y="146" width="36" height="6" rx="3" fill="#ff8a00"/>
+  <rect x="148" y="162" width="36" height="6" rx="3" fill="#ffb766"/>
+  <rect x="148" y="178" width="24" height="6" rx="3" fill="#ffb766"/>
+  <!-- gym -->
+  <rect x="276" y="96" width="140" height="140" rx="32" fill="url(#gym)"/>
+  <g fill="#fff" transform="rotate(-45 346 166)">
+    <rect x="296" y="146" width="14" height="40" rx="5"/><rect x="312" y="138" width="14" height="56" rx="5"/>
+    <rect x="326" y="160" width="40" height="12" rx="4"/>
+    <rect x="366" y="138" width="14" height="56" rx="5"/><rect x="382" y="146" width="14" height="40" rx="5"/>
+  </g>
+  <!-- notes -->
+  <rect x="96" y="276" width="140" height="140" rx="32" fill="url(#notes)"/>
+  <rect x="124" y="318" width="84" height="6" rx="3" fill="#fff"/>
+  <rect x="124" y="336" width="84" height="6" rx="3" fill="#fff" opacity=".85"/>
+  <rect x="124" y="354" width="56" height="6" rx="3" fill="#fff" opacity=".7"/>
+  <!-- ai sparkle -->
+  <rect x="276" y="276" width="140" height="140" rx="32" fill="url(#ai)"/>
+  <path fill="#fff" d="M346 306c4 22 14 32 36 36-22 4-32 14-36 36-4-22-14-32-36-36 22-4 32-14 36-36z"/>
+  <path fill="#fff" opacity=".8" d="M384 368c1.6 8 5 11.5 13 13-8 1.5-11.4 5-13 13-1.6-8-5-11.5-13-13 8-1.5 11.4-5 13-13z"/>
+</svg>
