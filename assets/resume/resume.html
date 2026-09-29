@@ -7,12 +7,12 @@
      applicant-tracking systems read it top to bottom without guessing. -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @page{size:Letter;margin:0}
+  @page{size:Letter;margin:.45in .55in .42in}
   *{box-sizing:border-box;margin:0;padding:0}
   :root{--ink:#1d1d1f;--ink2:#48484d;--ink3:#86868b;--blue:#0071e3;--hair:#e3e3e8}
-  body{font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);font-size:8.8pt;line-height:1.36;
+  body{font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);font-size:9pt;line-height:1.42;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;letter-spacing:-.005em}
-  .page{width:8.5in;height:11in;overflow:hidden;padding:.42in .55in .3in}
+  .page{width:auto}
   a{color:inherit;text-decoration:none}
 
   header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:10px;border-bottom:2px solid var(--ink)}
@@ -24,15 +24,15 @@
   .summary{margin-top:9px;font-size:9.3pt;line-height:1.45;color:var(--ink2)}
   .summary b{color:var(--ink);font-weight:600}
 
-  h2{margin-top:10px;margin-bottom:4px;font-size:8pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);
+  h2{margin-top:14px;margin-bottom:6px;break-after:avoid;font-size:8pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);
     display:flex;align-items:center;gap:8px}
   h2::after{content:"";flex:1;height:1px;background:var(--hair)}
 
-  .skills{font-size:8.5pt;color:var(--ink2)}
-  .skills p{margin-top:1.5px}
+  .skills{font-size:8.8pt;color:var(--ink2)}
+  .skills p{margin-top:2.5px}
   .skills b{color:var(--ink);font-weight:600}
 
-  .job{margin-top:7px;break-inside:avoid}
+  .job{margin-top:9px;break-inside:avoid}
   .job:first-of-type{margin-top:2px}
   .jh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
   .jh b{font-size:10.2pt;font-weight:700;letter-spacing:-.015em}
@@ -40,11 +40,16 @@
   .jt{font-size:9pt;color:var(--ink2);margin-top:1px}
   .jt i{font-style:normal;color:var(--ink3)}
   ul{margin-top:3px;padding-left:13px}
-  li{margin-top:1.6px;color:#2c2c2e}
+  li{margin-top:2.4px;color:#2c2c2e}
   li::marker{color:var(--ink3)}
   .stack{margin-top:3px;font-size:8.2pt;color:var(--ink3)}
   .stack b{font-weight:600;color:var(--ink2)}
 
+  .comp{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+  .comp div{font-size:8.8pt;color:var(--ink2);line-height:1.4}
+  .comp b{display:block;color:var(--ink);font-weight:600;font-size:9.1pt}
+  .jt2{font-size:8.5pt;color:var(--ink3);margin-top:4px}
+  .jt2 b{color:var(--ink2);font-weight:600}
   .early{display:grid;grid-template-columns:1fr auto;gap:2px 12px;margin-top:2px;font-size:8.6pt;align-items:baseline}
   .early span{color:var(--ink3);white-space:nowrap;font-size:8.6pt}
   .early em{font-style:normal;color:var(--ink2)}
@@ -60,7 +65,7 @@
 <header>
   <div>
     <h1>Sepehr Aflatounian</h1>
-    <div class="role">iOS Engineer · Swift · Identity &amp; Security · On-device AI</div>
+    <div class="role">Senior iOS Engineer · 8+ years · Swift, SwiftUI, Security, AI</div>
   </div>
   <div class="contact">
     <b>saflatounian@gmail.com</b><br>
@@ -70,10 +75,22 @@
   </div>
 </header>
 
-<p class="summary">iOS engineer <b>building iPhone apps since 2018</b> across banking, automotive, gaming and health. I ship
-secure, native experiences in Swift: <b>passkey sign-in at a bank</b>, <b>EV charging in FordPass</b>, and an
-<b>end-to-end encrypted patient app</b> on the App Store. I bring AI into apps with Core ML, Speech and LLM
-APIs, and own features from architecture to App Store.</p>
+<p class="summary">Senior iOS engineer with <b>8+ years building iPhone apps since 2018</b> across banking, automotive, gaming and
+health. I ship fast, secure, beautifully crafted native apps in Swift and care about the details users feel: a sign-in that is
+<b>3× faster</b>, an app that <b>opens in under a second</b>, animations and layouts that follow Apple's Human Interface Guidelines.
+I have built passkey authentication for a bank, EV charging for FordPass, and an end-to-end encrypted patient app on the
+App Store, and I bring AI into apps with Core ML, Speech and LLM APIs. I own features end to end, from architecture and
+product decisions to App Store release.</p>
+
+<h2>What I bring</h2>
+<div class="comp">
+  <div><b>Product and UI/UX craft</b>Strong design taste; pixel-level polish, fluid animation and interaction, native patterns from Apple's Human Interface Guidelines.</div>
+  <div><b>Performance</b>Measured, visible speed-ups: sign-in cut from 15 s to 5 s and app launch from 6 s to under 1 s.</div>
+  <div><b>Security and identity</b>Passkeys (WebAuthn / FIDO2), Face ID, Keychain, OAuth 2.0 and Okta, end-to-end encryption, work inside a bank's fraud and identity team.</div>
+  <div><b>Architecture at scale</b>Clean Architecture, MVVM, modular Swift packages and reactive data flow that keep large apps testable as teams grow.</div>
+  <div><b>AI in apps</b>On-device Core ML, Speech and NaturalLanguage, plus LLM and voice APIs (OpenAI Realtime, Gemini, ElevenLabs) shipped to real users.</div>
+  <div><b>Ownership</b>Founder and iOS lead: from idea, design and architecture to TestFlight, App Store release and support in production.</div>
+</div>
 
 <h2>Skills</h2>
 <div class="skills">
@@ -90,6 +107,7 @@ APIs, and own features from architecture to App Store.</p>
   <div class="jh"><b>EQ Bank · Equitable Bank</b><span>Apr 2025 – Present · Toronto</span></div>
   <div class="jt">Software Engineer, iOS · Security, Fraud &amp; Customer Identity (CIAM)</div>
   <ul>
+    <li>Made sign-in <b>3× faster, from 15 seconds to 5 seconds</b>, and cut <b>app launch time from 6 seconds to under 1 second</b>, improving the first experience for every customer.</li>
     <li>Built <b>passkey sign-in for the EQ Bank iOS app</b> with AuthenticationServices, Associated Domains and Face ID, replacing passwords with phishing-resistant, device-bound credentials.</li>
     <li>On the convergence team building the <b>unified iOS app for the EQ Bank and PC Financial merger</b>, while keeping the current app's sign-in and identity working for existing customers.</li>
     <li>Part of the identity migration from <b>HID to Okta</b> (OAuth 2.0), working across iOS, backend and security teams.</li>
@@ -97,12 +115,23 @@ APIs, and own features from architecture to App Store.</p>
 </div>
 
 <div class="job">
-  <div class="jh"><b>LEYOXA</b><span>May 2023 – Present · Founder</span></div>
-  <div class="jt">Founder &amp; iOS Lead · AI software for dental practices</div>
+  <div class="jh"><b>LEYOXA · Smile Link</b><span>May 2023 – Present · Founder</span></div>
+  <div class="jt">Founder &amp; iOS Lead · Smile Link patient app, live on the App Store</div>
   <ul>
-    <li>Built <b>Smile Link</b>, a patient iOS app live on the App Store: <b>end-to-end encrypted messaging</b> (Virgil E3Kit + Stream Chat) and appointment scheduling on live Open Dental practice data.</li>
-    <li>Architected it in <b>UIKit + RxSwift with Clean Architecture</b> split into Domain and Platform Swift packages, with Core Data caching, Alamofire networking, Firebase push, Keychain secrets, Face ID lock and background refresh.</li>
-    <li>Built <b>Praxis</b>, an AI voice receptionist (OpenAI Realtime API + ElevenLabs, integrated with NexHealth) that answers and books patient calls, plus AI agents that write SEO content, live with paying clinics.</li>
+    <li>Designed and built <b>Smile Link</b>, a patient app for dental practices: <b>end-to-end encrypted messaging</b> with the clinic, appointment booking and reminders, running on live Open Dental practice data.</li>
+    <li><b>Architecture:</b> UIKit with RxSwift and MVVM, organised with Clean Architecture into separate Domain and Platform Swift packages so business logic is independent of the UI and fully testable.</li>
+    <li><b>Security and privacy:</b> end-to-end encryption with Virgil E3Kit on top of Stream Chat, secrets in the Keychain, Face ID app lock (LocalAuthentication), built for healthcare privacy (HIPAA).</li>
+    <li><b>Data and networking:</b> Core Data offline cache, Alamofire networking, Firebase Cloud Messaging push, BackgroundTasks refresh; Lottie animations and custom UI for a calm, friendly experience.</li>
+    <li>Owned the full lifecycle: product, UI/UX, architecture, TestFlight betas and App Store releases.</li>
+  </ul>
+  <div class="jt2"><b>Stack:</b> Swift, UIKit, RxSwift, MVVM, Clean Architecture, Swift Package Manager, Core Data, Alamofire, Stream Chat, Virgil E3Kit, Firebase, Keychain, LocalAuthentication, BackgroundTasks, Lottie</div>
+</div>
+
+<div class="job">
+  <div class="jh"><b>LEYOXA · Praxis AI</b><span>Client: DDS Marketing</span></div>
+  <div class="jt">AI products for dental practices</div>
+  <ul>
+    <li>Built an <b>AI voice receptionist</b> (OpenAI Realtime API + ElevenLabs, integrated with the NexHealth practice system) that answers and books patient calls, plus AI agents that write SEO content; live with paying clinics.</li>
   </ul>
 </div>
 
