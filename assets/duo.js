@@ -30,6 +30,7 @@ const POSE = {
   ar:     { fold: 0,    rx: 0.05, ry: -0.16,    rz: 0,       px: 0,    py: 0 }
 };
 const DUR = { ask: 4.6, build: 6.8, gen: 6.0, edit: 6.5, ar: 10.5, fold: 1 };
+const SP = 1.7;                           // story speed: every scene timeline runs this much faster
 
 /* ───────────────────────── a tiny canvas UI kit ───────────────────────── */
 const FONT = '-apple-system, "SF Pro Text", "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-serif';
@@ -270,9 +271,10 @@ function buildBody() {
     return g;
   };
   const R = half(true);
-  const plateau = new THREE.Mesh(new THREE.ExtrudeGeometry(rrect(0.34, 0.5, 0.1), { depth: 0.02, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.008, bevelSegments: 4, curveSegments: 24 }), back);
-  plateau.position.set(W - 0.26, H / 2 - 0.34, -BEV - 0.03); R.add(plateau);
-  for (const [x, y] of [[W - 0.26, H / 2 - 0.2], [W - 0.26, H / 2 - 0.36], [W - 0.26, H / 2 - 0.52]]) {
+  // iPhone Duo: two cameras side by side in a horizontal bar across the top of the back
+  const plateau = new THREE.Mesh(new THREE.ExtrudeGeometry(rrect(0.5, 0.25, 0.12), { depth: 0.02, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.008, bevelSegments: 4, curveSegments: 24 }), back);
+  plateau.position.set(W - 0.35, H / 2 - 0.2, -BEV - 0.03); R.add(plateau);
+  for (const [x, y] of [[W - 0.46, H / 2 - 0.2], [W - 0.24, H / 2 - 0.2]]) {
     const r = new THREE.Mesh(new THREE.CylinderGeometry(0.058, 0.058, 0.024, 40), ring); r.rotation.x = PI / 2; r.position.set(x, y, -BEV - 0.042); R.add(r);
     const l = new THREE.Mesh(new THREE.CylinderGeometry(0.043, 0.043, 0.026, 40), lensGlass); l.rotation.x = PI / 2; l.position.set(x, y, -BEV - 0.044); R.add(l);
   }
@@ -401,6 +403,25 @@ export function mount({ stage, pills, slider, still }) {
   stage.addEventListener('pointerup', release); stage.addEventListener('pointercancel', release);
   stage.addEventListener('pointerleave', () => { par.x = par.y = 0; });
 
+  // phones: one caption card under the device, with ‹ › to step through (Apple's mobile layout)
+  const capWrap = stage.closest('.duo').querySelector('.duo-cap'), cap = capWrap && capWrap.querySelector('.cap-text');
+  const capOrder = ['ask', 'build', 'gen', 'edit', 'ar'];
+  const capFor = name => { const b = pills.find(x => x.dataset.scene === name); if (!b) return '';
+    const title = b.querySelector('.txt').firstChild.textContent.trim(), p = b.querySelector('.more-t p');
+    return `<b>${title}.</b> ${p ? p.textContent.replace(/^[A-Z][a-z]+\.\s*/, '') : ''}`; };
+  let capName = null;
+  const setCap = name => {
+    if (!cap || !capOrder.includes(name) || name === capName) return;
+    const dir = capName && capOrder.indexOf(name) < capOrder.indexOf(capName) ? -1 : 1; capName = name;
+    cap.style.transition = 'transform .28s cubic-bezier(.4,0,1,1), opacity .2s'; cap.style.transform = `translateX(${-40 * dir}px)`; cap.style.opacity = 0;
+    setTimeout(() => { cap.innerHTML = capFor(name); cap.style.transition = 'none'; cap.style.transform = `translateX(${40 * dir}px)`;
+      requestAnimationFrame(() => requestAnimationFrame(() => { cap.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1), opacity .35s'; cap.style.transform = 'none'; cap.style.opacity = 1; })); }, 220);
+  };
+  if (capWrap) {
+    capWrap.querySelector('.cap-prev').addEventListener('click', () => show(capOrder[(capOrder.indexOf(capName) + capOrder.length - 1) % capOrder.length], true));
+    capWrap.querySelector('.cap-next').addEventListener('click', () => show(capOrder[(capOrder.indexOf(capName) + 1) % capOrder.length], true));
+  }
+
   // scenes
   let scene = 'ask', t0 = performance.now(), arState = { t0: 0, on: false }, backTimer;
   const order = ['ask', 'build', 'gen', 'edit', 'ar'];
@@ -411,13 +432,14 @@ export function mount({ stage, pills, slider, still }) {
     Object.assign(tgt, POSE[name] || POSE.build);
     if (name === 'ar') {                                     // turn around: the camera lights up, then the room appears
       Object.assign(tgt, POSE.arBack);
-      arState = { t0: performance.now() + 1700, on: true };
-      backTimer = setTimeout(() => Object.assign(tgt, POSE.ar), 1700);
+      arState = { t0: performance.now() + 1700 / SP, on: true };
+      backTimer = setTimeout(() => Object.assign(tgt, POSE.ar), 1700 / SP);
     }
     grab.tx = grab.ty = 0;
     [sL, sR, sC].forEach(s => s.last = -1);
     pills.forEach(b => { const on = b.dataset.scene === name; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
-    if (auto) tour = setTimeout(() => show(order[(order.indexOf(name) + 1) % order.length]), DUR[name] * 1000);
+    setCap(name);
+    if (auto) tour = setTimeout(() => show(order[(order.indexOf(name) + 1) % order.length]), DUR[name] * 1000 / SP);
   };
   pills.forEach(b => b.addEventListener('click', e => { if (e.target === slider) return; show(b.dataset.scene, true); }));
   slider.addEventListener('input', () => {
@@ -449,14 +471,14 @@ export function mount({ stage, pills, slider, still }) {
   const frame = () => {
     if (!running) return;
     const dt = Math.min(clock.getDelta(), 0.25), t = clock.elapsedTime, now = performance.now();
-    const k = 1 - Math.exp(-dt * 3);
+    const k = 1 - Math.exp(-dt * 4.6);
     for (const key in tgt) cur[key] += (tgt[key] - cur[key]) * k;
     if (!dragging && now - releasedAt > 2600) { grab.tx *= 1 - k * 0.6; grab.ty *= 1 - k * 0.6; }
     grab.x += (grab.tx - grab.x) * (1 - Math.exp(-dt * 10)); grab.y += (grab.ty - grab.y) * (1 - Math.exp(-dt * 10));
     applyPose();
-    screens((now - t0) / 1000);
+    screens((now - t0) / 1000 * SP);
 
-    const since = (now - arState.t0) / 1000;
+    const since = (now - arState.t0) / 1000 * SP;
     body.lensGlass.emissiveIntensity += ((arState.on && since < 0 ? 0.9 + 0.3 * Math.sin(t * 9) : 0) - body.lensGlass.emissiveIntensity) * Math.min(1, k * 2);
     arPlane.material.opacity += ((arState.on && since > -0.2 ? 1 : 0) - arPlane.material.opacity) * (1 - Math.exp(-dt * 4));
     arPlane.visible = arPlane.material.opacity > 0.01;
@@ -486,6 +508,7 @@ export function mount({ stage, pills, slider, still }) {
   }, { threshold: 0.15 }).observe(stage);
 
   const start = () => { if (still) { show('build'); Object.assign(cur, POSE.build); } else show('ask'); applyPose(); };
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+  start();
+  document.fonts && document.fonts.ready.then(() => [sL, sR, sC].forEach(s => s.last = -1));   // repaint once web fonts land
   img.onload = () => [sL, sR, sC].forEach(s => s.last = -1);
 }

@@ -79,43 +79,6 @@
   .hero-foot{height:110px}
 
 
-  /* ── live code hero ── */
-  .ide{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center;max-width:1100px;margin:64px auto 0;padding:0 22px;text-align:left}
-  .editor{border-radius:22px;overflow:hidden;background:#1c1c20;box-shadow:0 40px 80px -40px rgba(20,10,60,.55),0 0 0 .5px rgba(0,0,0,.2);min-height:470px}
-  .ed-bar{display:flex;align-items:center;gap:7px;padding:12px 14px;background:#26262b;border-bottom:1px solid rgba(255,255,255,.06)}
-  .ed-bar i{width:11px;height:11px;border-radius:50%}
-  .ed-bar span{margin-left:12px;font:500 12px var(--font);color:#a1a1a6;letter-spacing:0}
-  .code{margin:0;padding:16px 18px 20px;font:13px/1.62 ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;color:#e5e5ea;letter-spacing:0;overflow:hidden;counter-reset:ln}
-  .code .ln{display:block;white-space:pre;height:1.62em}
-  .code .ln::before{counter-increment:ln;content:counter(ln);display:inline-block;width:2.2em;margin-right:1em;text-align:right;color:#5a5a62}
-  .code .tx{display:inline-block;vertical-align:top;overflow:hidden;white-space:pre;width:0}
-  .code .ln.cur .tx{border-right:2px solid #0a84ff}
-  .code .kw{color:#ff7ab2;font-weight:600}.code .ty{color:#6bdfff}.code .st{color:#ff8170}.code .at{color:#ffa14f}.code .mb{color:#b281eb}.code .nu{color:#d9c97c}.code .cm{color:#7f8c98}
-  .preview{text-align:center}
-  .preview .phone{--pw:246px}
-  .pv-label{margin-top:14px;font-size:12px;color:var(--ink-3)}
-  .sv .screen{background:linear-gradient(180deg,#f2f5ff 0%,#fff 55%)}
-  .sv-body{margin-top:auto;margin-bottom:auto;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;padding:0 22px}
-  .sv-face{width:62px;height:62px;color:var(--blue)}
-  .sv-face .check{stroke-dasharray:40;stroke-dashoffset:40}
-  .sv-title{font-size:26px;font-weight:700;letter-spacing:-.02em}
-  .sv-btn{display:block;width:100%;background:var(--blue);color:#fff;border-radius:14px;padding:12px;font-size:14px;font-weight:600;transition:transform .25s var(--spring)}
-  .sv .s1,.sv .s2,.sv .s3{opacity:0;transform:translateY(10px) scale(.96);transition:opacity .5s var(--spring),transform .6s var(--spring)}
-  .sv .s1.on,.sv .s2.on,.sv .s3.on{opacity:1;transform:none}
-  .sv.tap .sv-btn{transform:scale(.95)}
-  .sv.done .sv-face{animation:bounce .6s var(--spring),tintg .3s forwards}
-  .sv.done .sv-face .face{opacity:0;transition:opacity .2s}
-  .sv.done .sv-face .check{transition:stroke-dashoffset .45s var(--ease) .15s;stroke-dashoffset:0}
-  @keyframes bounce{40%{transform:scale(1.18)}70%{transform:scale(.95)}}
-  @keyframes tintg{to{color:#34c759}}
-  .sv-toast{position:absolute;left:50%;top:48px;transform:translate(-50%,-30px);opacity:0;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
-    padding:8px 14px;border-radius:980px;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 8px 24px -8px rgba(0,0,0,.25);
-    transition:transform .6s var(--spring),opacity .4s}
-  .sv-toast svg{width:16px;height:16px}
-  .sv.done .sv-toast{transform:translate(-50%,0);opacity:1}
-  @media (max-width:880px){.ide{grid-template-columns:1fr;gap:28px}.editor{min-height:0}}
-  @media (max-width:640px){.ide{padding:0 14px;margin-top:44px}.code{font-size:10.5px;padding:12px 10px 14px}.code .ln::before{width:1.6em;margin-right:.7em}.preview .phone{--pw:196px}}
-
   /* ── phone (shared by every mock) ── */
   .phone{position:relative;width:var(--pw,272px);aspect-ratio:9/19.5;margin:0 auto;border-radius:calc(var(--pw,272px)*.19);padding:calc(var(--pw,272px)*.04);
     background:linear-gradient(145deg,#3a3a3c,#0b0b0c);
@@ -323,7 +286,15 @@
   .fold-ctl input::-moz-range-thumb{width:64px;height:40px;border:0;border-radius:20px;background:var(--blue);cursor:grab}
   .fold-ctl input:active{cursor:grabbing}
   @media (max-width:980px){.duo{grid-template-columns:1fr;padding:22px}.duo-side{order:2}}
-  @media (max-width:640px){.duo{padding:14px;border-radius:26px;margin-top:40px}.pill{font-size:16px}}
+  .duo-cap{display:none}
+  @media (max-width:640px){.duo{padding:0;border-radius:0;margin-top:28px;gap:0;background:transparent}
+    .duo-side{display:none}
+    .duo-cap{display:flex;align-items:center;gap:10px;padding:4px 14px 0}
+    .duo-cap .cap-card{flex:1;height:150px;overflow:hidden;border-radius:24px;background:var(--bg-alt);padding:18px 20px;display:flex;align-items:center}
+    .duo-cap .cap-text{font-size:15px;line-height:1.45;color:var(--ink-2);letter-spacing:-.016em}
+    .duo-cap .cap-text b{color:var(--ink);font-weight:600}
+    .duo-cap button{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--bg-alt);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:transform .3s var(--spring)}
+    .duo-cap button:active{transform:scale(.9)}}
 
   /* ── security ── */
   .sec{background:#0b0b0f;color:#f5f5f7}
@@ -470,7 +441,6 @@
     <ul>
       <li class="hide-sm"><a href="#now">Now</a></li>
       <li class="hide-sm"><a href="#work">Work</a></li>
-      <li class="hide-sm"><a href="#adaptive">Agent</a></li>
       <li class="hide-sm"><a href="#security">Security</a></li>
       <li class="hide-sm"><a href="#stack">Stack</a></li>
       <li class="hide-sm"><a href="#products">Products</a></li>
@@ -493,27 +463,27 @@
       <a class="more" href="#contact">Get in touch</a>
     </div>
   </div>
-  <div class="ide rv" id="ide" aria-label="SwiftUI code typing itself while an iPhone preview builds the screen">
-    <div class="editor">
-      <div class="ed-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>SignInView.swift</span></div>
-      <pre class="code" id="code" aria-hidden="true"></pre>
+  <div class="duo rv" id="duo" style="margin-top:64px">
+    <div class="duo-side" role="group" aria-label="Choose what the agent does">
+      <button class="pill" data-scene="fold" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Fold<span class="more-t"><div><p><b style="color:var(--ink)">Foldable design.</b> Drag the hinge. The app follows it from the cover screen to the full canvas.</p>
+        <div class="fold-ctl"><small>Drag to open and close</small><input id="foldr" type="range" min="0" max="100" value="100" aria-label="Fold angle"></div><code>horizontalSizeClass</code></div></span></span></button>
+      <button class="pill" data-scene="ask" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Ask<span class="more-t"><div><p>Closed. A one‑handed chat on the cover screen: type the request, the agent starts planning.</p><code>@Environment(\.horizontalSizeClass)</code></div></span></span></button>
+      <button class="pill" data-scene="build" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Build<span class="more-t"><div><p>Landscape. The agent's plan on one half, the website it is building, live, on the other.</p><code>NavigationSplitView</code></div></span></span></button>
+      <button class="pill" data-scene="gen" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Generate<span class="more-t"><div><p>Portrait. The hero image resolves out of noise on the upper half, with variants below.</p><code>ViewThatFits</code></div></span></span></button>
+      <button class="pill" data-scene="edit" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Edit<span class="more-t"><div><p>Tabletop. The image stands up, a selection warms the light, and the controls lie flat under your hand.</p><code>GeometryReader</code></div></span></span></button>
+      <button class="pill" data-scene="ar" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Camera<span class="more-t"><div><p>Camera on. Point it at the wall and the sign the agent designed appears in the room, anchored in place as you move.</p></div></span></span></button>
     </div>
-    <div class="preview">
-      <div class="phone sv" id="sv">
-        <div class="screen">
-          <div class="island"></div>
-          <div class="status"><span>9:41</span><i>●●●</i></div>
-          <div class="sv-body">
-            <svg class="sv-face s1" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17V12a6 6 0 0 1 6-6h5M39 6h5a6 6 0 0 1 6 6v5M50 39v5a6 6 0 0 1-6 6h-5M17 50h-5a6 6 0 0 1-6-6v-5"/><path class="face" d="M20 21v4M36 21v4M28 21v10h-2.5M21 37c3.8 3 10.2 3 14 0"/><path class="check" d="M19 29l6 6 12-13"/></svg>
-            <b class="sv-title s2">Welcome back</b>
-            <span class="sv-btn s3">Sign in with a passkey</span>
-          </div>
-          <div class="sv-toast"><svg viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Signed in</div>
-          <div class="home-bar"></div>
-        </div>
-      </div>
-      <p class="pv-label">Preview</p>
+    <div class="duo-stage" id="stage" data-scene="build" aria-label="A foldable iPhone running an AI agent that builds a website, generates and edits an image, and previews it in 3D">
+      <div class="loading">Loading the 3D prototype…</div>
+      <p class="duo-note">Concept · a foldable iPhone · rendered live with three.js</p>
     </div>
+    <div class="duo-cap" aria-live="polite"><button class="cap-prev" type="button" aria-label="Previous">‹</button><div class="cap-card"><p class="cap-text"></p></div><button class="cap-next" type="button" aria-label="Next">›</button></div>
   </div>
   <div class="dock glass rv" aria-label="Apps I've built for">
     <figure><img class="icon" src="assets/eq-bank-app.jpg" alt="EQ Bank app icon" width="84" height="84"><figcaption>EQ Bank</figcaption></figure>
@@ -691,36 +661,6 @@
           </ol>
         </div>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- adaptive -->
-<section class="alt" id="adaptive">
-  <div class="wrap center rv">
-    <p class="kicker">Adaptive layouts</p>
-    <h2 class="headline" style="margin-top:10px">One agent. Every posture.</h2>
-    <p class="lede" style="max-width:700px;margin:18px auto 0">Ask on the cover screen. Open it and watch the agent build. Turn it to generate, stand it up to edit, then point the camera at the room to place what it made.</p>
-  </div>
-  <div class="duo rv" id="duo">
-    <div class="duo-side" role="group" aria-label="Choose what the agent does">
-      <button class="pill" data-scene="fold" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Fold<span class="more-t"><div><p><b style="color:var(--ink)">Foldable design.</b> Drag the hinge. The app follows it from the cover screen to the full canvas.</p>
-        <div class="fold-ctl"><small>Drag to open and close</small><input id="foldr" type="range" min="0" max="100" value="100" aria-label="Fold angle"></div><code>horizontalSizeClass</code></div></span></span></button>
-      <button class="pill" data-scene="ask" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Ask<span class="more-t"><div><p>Closed. A one‑handed chat on the cover screen: type the request, the agent starts planning.</p><code>@Environment(\.horizontalSizeClass)</code></div></span></span></button>
-      <button class="pill" data-scene="build" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Build<span class="more-t"><div><p>Landscape. The agent's plan on one half, the website it is building, live, on the other.</p><code>NavigationSplitView</code></div></span></span></button>
-      <button class="pill" data-scene="gen" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Generate<span class="more-t"><div><p>Portrait. The hero image resolves out of noise on the upper half, with variants below.</p><code>ViewThatFits</code></div></span></span></button>
-      <button class="pill" data-scene="edit" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Edit<span class="more-t"><div><p>Tabletop. The image stands up, a selection warms the light, and the controls lie flat under your hand.</p><code>GeometryReader</code></div></span></span></button>
-      <button class="pill" data-scene="ar" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Camera<span class="more-t"><div><p>Camera on. Point it at the wall and the sign the agent designed appears in the room, anchored in place as you move.</p></div></span></span></button>
-    </div>
-    <div class="duo-stage" id="stage" data-scene="build" aria-label="A foldable iPhone running an AI agent that builds a website, generates and edits an image, and previews it in 3D">
-      <div class="loading">Loading the 3D prototype…</div>
-      <p class="duo-note">Concept · a foldable iPhone · rendered live with three.js</p>
     </div>
   </div>
 </section>
@@ -931,70 +871,6 @@
   let ticking = false;
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
   onScroll();
-
-  // hero: SwiftUI types itself and the preview builds as each view appears
-  const SRC = [
-    'import SwiftUI',
-    'import AuthenticationServices',
-    '',
-    'struct SignInView: View {',
-    '    @State private var signedIn = false',
-    '',
-    '    var body: some View {',
-    '        VStack(spacing: 16) {',
-    '            Image(systemName: "faceid")',
-    '                .font(.system(size: 56))',
-    '                .symbolEffect(.bounce, value: signedIn)',
-    '            Text("Welcome back")',
-    '                .font(.largeTitle.bold())',
-    '            Button("Sign in with a passkey") {',
-    '                Task { signedIn = await passkeys.signIn() }',
-    '            }',
-    '            .buttonStyle(.borderedProminent)',
-    '        }',
-    '        .sensoryFeedback(.success, trigger: signedIn)',
-    '    }',
-    '}'
-  ];
-  const STEP = { 9: 's1', 12: 's2', 17: 's3' };           // line (1-based) at which a view appears
-  const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const paint = line => esc(line)
-    .replace(/("[^"]*")/g, '<span class="st">$1</span>')
-    .replace(/\b(import|struct|private|var|some|await|let|func|false|true)\b/g, '<span class="kw">$1</span>')
-    .replace(/(@State)/g, '<span class="at">$1</span>')
-    .replace(/\b(SwiftUI|AuthenticationServices|View|VStack|Image|Text|Button|Task|SignInView)\b/g, '<span class="ty">$1</span>')
-    .replace(/(\.[a-zA-Z]+)(?![^<]*>)/g, '<span class="mb">$1</span>')
-    .replace(/\b(\d+)\b(?![^<]*>)/g, '<span class="nu">$1</span>');
-  const codeEl = document.getElementById('code'), sv = document.getElementById('sv');
-  codeEl.innerHTML = SRC.map(l => `<span class="ln"><span class="tx" style="--n:${l.length}">${paint(l) || ' '}</span></span>`).join('');
-  const lines = [...codeEl.querySelectorAll('.ln')];
-  let hTimers = [];
-  const typeAll = () => {
-    hTimers.forEach(clearTimeout); hTimers = [];
-    sv.classList.remove('tap', 'done'); sv.querySelectorAll('.s1,.s2,.s3').forEach(e => e.classList.remove('on'));
-    lines.forEach(l => { l.classList.remove('cur'); const t = l.firstChild; t.style.transition = 'none'; t.style.width = '0'; });
-    let at = 250;
-    lines.forEach((l, i) => {
-      const n = SRC[i].length, dur = Math.max(40, n * 9);
-      hTimers.push(setTimeout(() => {
-        lines.forEach(x => x.classList.remove('cur')); l.classList.add('cur');
-        const t = l.firstChild; t.style.transition = `width ${dur}ms steps(${Math.max(1, n)})`; t.style.width = n + 'ch';
-      }, at));
-      at += dur + 25;
-      if (STEP[i + 1]) { const k = STEP[i + 1]; hTimers.push(setTimeout(() => sv.querySelector('.' + k).classList.add('on'), at)); }
-    });
-    hTimers.push(setTimeout(() => sv.classList.add('tap'), at + 350));
-    hTimers.push(setTimeout(() => { sv.classList.remove('tap'); sv.classList.add('done'); }, at + 550));
-    return at + 3400;
-  };
-  const showAll = () => { lines.forEach(l => { const t = l.firstChild; t.style.transition = 'none'; t.style.width = SRC[lines.indexOf(l)].length + 'ch'; }); sv.querySelectorAll('.s1,.s2,.s3').forEach(e => e.classList.add('on')); };
-  let heroLoop;
-  new IntersectionObserver(([e]) => {
-    clearTimeout(heroLoop);
-    if (still) { showAll(); return; }
-    if (e.isIntersecting) { const go = () => { heroLoop = setTimeout(go, typeAll()); }; go(); }
-    else hTimers.forEach(clearTimeout);
-  }, { threshold: 0.3 }).observe(document.getElementById('ide'));
 
   // reveal on scroll
   const io = new IntersectionObserver(es => es.forEach(e => {
