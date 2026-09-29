@@ -700,7 +700,7 @@
   <div class="wrap center rv">
     <p class="kicker">Adaptive layouts</p>
     <h2 class="headline" style="margin-top:10px">One agent. Every posture.</h2>
-    <p class="lede" style="max-width:700px;margin:18px auto 0">Ask on the cover screen. Open it and watch the agent build. Turn it to generate, stand it up to edit, lay it flat to see the result in 3D.</p>
+    <p class="lede" style="max-width:700px;margin:18px auto 0">Ask on the cover screen. Open it and watch the agent build. Turn it to generate, stand it up to edit, then point the camera at the room to place what it made.</p>
   </div>
   <div class="duo rv" id="duo">
     <div class="duo-side" role="group" aria-label="Choose what the agent does">
@@ -710,13 +710,13 @@
       <button class="pill" data-scene="ask" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
         <span class="txt">Ask<span class="more-t"><div><p>Closed. A one‑handed chat on the cover screen: type the request, the agent starts planning.</p><code>@Environment(\.horizontalSizeClass)</code></div></span></span></button>
       <button class="pill" data-scene="build" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Build<span class="more-t"><div><p>Open. The agent's plan on one half, the website it is building, live, on the other.</p><code>NavigationSplitView</code></div></span></span></button>
+        <span class="txt">Build<span class="more-t"><div><p>Landscape. The agent's plan on one half, the website it is building, live, on the other.</p><code>NavigationSplitView</code></div></span></span></button>
       <button class="pill" data-scene="gen" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Generate<span class="more-t"><div><p>Landscape. A wide canvas where the hero image resolves out of noise, with variants below.</p><code>ViewThatFits</code></div></span></span></button>
+        <span class="txt">Generate<span class="more-t"><div><p>Portrait. The hero image resolves out of noise on the upper half, with variants below.</p><code>ViewThatFits</code></div></span></span></button>
       <button class="pill" data-scene="edit" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
         <span class="txt">Edit<span class="more-t"><div><p>Tabletop. The image stands up, a selection warms the light, and the controls lie flat under your hand.</p><code>GeometryReader</code></div></span></span></button>
-      <button class="pill" data-scene="holo" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
-        <span class="txt">Hologram<span class="more-t"><div><p>Laid flat. The finished site rises out of the screen as layers you can see in 3D.</p></div></span></span></button>
+      <button class="pill" data-scene="ar" type="button"><span class="plus"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg></span>
+        <span class="txt">Camera<span class="more-t"><div><p>Camera on. Point it at the wall and the sign the agent designed appears in the room, anchored in place as you move.</p></div></span></span></button>
     </div>
     <div class="duo-stage" id="stage" data-scene="build" aria-label="A foldable iPhone running an AI agent that builds a website, generates and edits an image, and previews it in 3D">
       <div class="loading">Loading the 3D prototype…</div>
@@ -975,17 +975,17 @@
     lines.forEach(l => { l.classList.remove('cur'); const t = l.firstChild; t.style.transition = 'none'; t.style.width = '0'; });
     let at = 250;
     lines.forEach((l, i) => {
-      const n = SRC[i].length, dur = Math.max(80, n * 22);
+      const n = SRC[i].length, dur = Math.max(40, n * 9);
       hTimers.push(setTimeout(() => {
         lines.forEach(x => x.classList.remove('cur')); l.classList.add('cur');
         const t = l.firstChild; t.style.transition = `width ${dur}ms steps(${Math.max(1, n)})`; t.style.width = n + 'ch';
       }, at));
-      at += dur + 70;
+      at += dur + 25;
       if (STEP[i + 1]) { const k = STEP[i + 1]; hTimers.push(setTimeout(() => sv.querySelector('.' + k).classList.add('on'), at)); }
     });
-    hTimers.push(setTimeout(() => sv.classList.add('tap'), at + 500));
-    hTimers.push(setTimeout(() => { sv.classList.remove('tap'); sv.classList.add('done'); }, at + 750));
-    return at + 4200;
+    hTimers.push(setTimeout(() => sv.classList.add('tap'), at + 350));
+    hTimers.push(setTimeout(() => { sv.classList.remove('tap'); sv.classList.add('done'); }, at + 550));
+    return at + 3400;
   };
   const showAll = () => { lines.forEach(l => { const t = l.firstChild; t.style.transition = 'none'; t.style.width = SRC[lines.indexOf(l)].length + 'ch'; }); sv.querySelectorAll('.s1,.s2,.s3').forEach(e => e.classList.add('on')); };
   let heroLoop;
