@@ -371,7 +371,7 @@ export function mount({ stage, pills, slider, still }) {
   const size = () => {
     const w = stage.clientWidth, h = stage.clientHeight;
     renderer.setSize(w, h, false);
-    camera.aspect = w / h; camera.position.z = w < 520 ? 8.2 : w < 760 ? 7.2 : 6.3; camera.updateProjectionMatrix();
+    camera.aspect = w / h; camera.position.z = w < 520 ? 7.4 : w < 760 ? 7.0 : 6.3; camera.updateProjectionMatrix();
   };
   new ResizeObserver(size).observe(stage); size();
 
@@ -383,15 +383,21 @@ export function mount({ stage, pills, slider, still }) {
     dev.position.set(cur.px * Math.cos(cur.ry + grab.y), cur.py, 0);
     hinge.rotation.y = cur.fold;
   };
-  let auto = !still, tour;
+  let auto = true, tour;
   const stopAuto = () => { auto = false; clearTimeout(tour); };
+  // A touch only takes over once it moves sideways: a finger that lands on the
+  // device while scrolling the page past it must not stop the tour.
+  let downX = 0, downY = 0, pending = false;
   stage.addEventListener('pointerdown', e => {
     if (e.button !== 0) return;
-    dragging = true; lastX = e.clientX; lastY = e.clientY; stage.classList.add('dragging', 'touched');
-    stage.setPointerCapture(e.pointerId); stopAuto();
+    pending = true; downX = lastX = e.clientX; downY = lastY = e.clientY;
   });
   stage.addEventListener('pointermove', e => {
     const b = stage.getBoundingClientRect();
+    if (pending && !dragging && Math.abs(e.clientX - downX) > 8 && Math.abs(e.clientX - downX) > Math.abs(e.clientY - downY)) {
+      dragging = true; stage.classList.add('dragging', 'touched'); stopAuto();
+      try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+    }
     if (dragging) {
       grab.ty += (e.clientX - lastX) * 0.012; grab.tx = Math.max(-0.9, Math.min(0.9, grab.tx + (e.clientY - lastY) * 0.008));
       lastX = e.clientX; lastY = e.clientY; par.x = par.y = 0;
@@ -399,7 +405,7 @@ export function mount({ stage, pills, slider, still }) {
       par.x = ((e.clientX - b.left) / b.width - .5) * 0.2; par.y = ((e.clientY - b.top) / b.height - .5) * 0.12;
     }
   });
-  const release = () => { if (!dragging) return; dragging = false; releasedAt = performance.now(); stage.classList.remove('dragging'); };
+  const release = () => { pending = false; if (!dragging) return; dragging = false; releasedAt = performance.now(); stage.classList.remove('dragging'); };
   stage.addEventListener('pointerup', release); stage.addEventListener('pointercancel', release);
   stage.addEventListener('pointerleave', () => { par.x = par.y = 0; });
 
@@ -507,7 +513,7 @@ export function mount({ stage, pills, slider, still }) {
     else clearTimeout(tour);
   }, { threshold: 0.15 }).observe(stage);
 
-  const start = () => { if (still) { show('build'); Object.assign(cur, POSE.build); } else show('ask'); applyPose(); };
+  const start = () => { show('ask'); applyPose(); };
   start();
   document.fonts && document.fonts.ready.then(() => [sL, sR, sC].forEach(s => s.last = -1));   // repaint once web fonts land
   img.onload = () => [sL, sR, sC].forEach(s => s.last = -1);
