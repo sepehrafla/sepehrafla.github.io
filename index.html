@@ -41,7 +41,7 @@
     "Core ML", "NaturalLanguage", "Speech framework", "AVFoundation", "Swift Charts", "Core Data", "MapKit", "Core Location", "Core Motion",
     "PhotosUI", "PDFKit", "WebKit", "UserNotifications", "BackgroundTasks", "OSLog", "Network framework", "ActivityKit", "Live Activities", "WidgetKit",
     "AuthenticationServices", "ASAuthorizationController", "ASAuthorizationPlatformPublicKeyCredentialProvider", "Passkeys", "WebAuthn", "FIDO2",
-    "Associated Domains", "LocalAuthentication", "Face ID", "Keychain Services", "Okta", "OAuth 2.0", "Customer identity and access management (CIAM)",
+    "Associated Domains", "LocalAuthentication", "Face ID", "Keychain Services", "Okta", "Okta iOS SDK", "OAuth 2.0", "DPoP", "Session management", "Customer identity and access management (CIAM)",
     "End-to-end encryption", "Virgil E3Kit", "Stream Chat SDK", "Firebase Authentication", "Cloud Firestore", "Firebase Cloud Messaging",
     "RxSwift", "RxCocoa", "MVVM", "Clean Architecture", "Swift Package Manager", "Alamofire", "Lottie", "SnapKit",
     "Xcode Instruments", "Time Profiler", "Performance profiling", "App launch optimization", "XCTest", "Swift Testing", "TestFlight", "App Store Connect",
@@ -528,7 +528,7 @@
           </div>
           <div class="feature">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
-            <div><h3>Identity, migrated</h3><p>On the customer identity (CIAM) team moving sign‑in to Okta and OAuth 2.0.</p></div>
+            <div><h3>Identity, migrated</h3><p>On the customer identity (CIAM) team moving sign‑in from HID to Okta: the Okta iOS SDK, session management with tokens in the Keychain, and DPoP so a stolen token can't be replayed.</p></div>
           </div>
           <div class="feature">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="M17.5 14v7M14 17.5h7"/></svg>
@@ -536,7 +536,7 @@
           </div>
         </div>
         <div class="built" aria-label="Built with">
-          <span>Swift</span><span>AuthenticationServices</span><span>ASAuthorizationController</span><span>WebAuthn · FIDO2</span><span>Associated Domains</span><span>Okta</span><span>OAuth 2.0</span>
+          <span>Swift</span><span>AuthenticationServices</span><span>ASAuthorizationController</span><span>WebAuthn · FIDO2</span><span>Associated Domains</span><span>Okta iOS SDK</span><span>OAuth 2.0</span><span>DPoP</span><span>Keychain</span><span>Session management</span>
         </div>
         <div class="now-links">
           <a class="more out" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank on the App Store</a>
@@ -772,7 +772,7 @@
       <div class="stack-card rv lit"><h3><i style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></i>Apple frameworks</h3>
         <ul><li>Swift</li><li>SwiftUI</li><li>UIKit</li><li>Objective‑C</li><li>Combine</li><li>Swift Concurrency</li><li>Core Data</li><li>ActivityKit</li><li>WidgetKit</li><li>MapKit</li><li>Core Location</li><li>Core Motion</li><li>AVFoundation</li><li>PhotosUI</li><li>PDFKit</li><li>WebKit</li><li>UserNotifications</li><li>BackgroundTasks</li><li>Network</li><li>OSLog</li></ul></div>
       <div class="stack-card rv lit"><h3><i style="background:#30d158"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></i>Identity &amp; security</h3>
-        <ul><li>AuthenticationServices</li><li>ASAuthorizationController</li><li>Passkeys</li><li>WebAuthn · FIDO2</li><li>Associated Domains</li><li>LocalAuthentication</li><li>Face ID · Touch ID</li><li>Keychain Services</li><li>Okta</li><li>OAuth 2.0</li><li>CIAM</li><li>End‑to‑end encryption</li></ul></div>
+        <ul><li>AuthenticationServices</li><li>ASAuthorizationController</li><li>Passkeys</li><li>WebAuthn · FIDO2</li><li>Associated Domains</li><li>LocalAuthentication</li><li>Face ID · Touch ID</li><li>Keychain Services</li><li>Okta iOS SDK</li><li>OAuth 2.0</li><li>DPoP</li><li>Session management</li><li>CIAM</li><li>End‑to‑end encryption</li></ul></div>
       <div class="stack-card rv lit"><h3><i style="background:#bf5af2"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2c1 5.5 3.5 8 9 9-5.5 1-8 3.5-9 9-1-5.5-3.5-8-9-9 5.5-1 8-3.5 9-9z"/></svg></i>AI &amp; ML</h3>
         <ul><li>Core ML</li><li>NaturalLanguage</li><li>Speech</li><li>Google Speech‑to‑Text</li><li>Gemini API</li><li>OpenAI Realtime API</li><li>ElevenLabs</li><li>Voice agents</li></ul></div>
       <div class="stack-card rv lit"><h3><i style="background:#ff9f0a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></i>Architecture</h3>
