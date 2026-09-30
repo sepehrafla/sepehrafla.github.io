@@ -19,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/duo.css">
+<link rel="stylesheet" href="assets/site.css?v=d0d8d446">
+<link rel="stylesheet" href="assets/duo.css?v=a82c4620">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 
 <script type="application/ld+json">
@@ -451,7 +451,7 @@
       <li class="hide-sm"><a href="#stack">Stack</a></li>
       <li class="hide-sm"><a href="#products">Products</a></li>
       <li><a href="moonbase/">Moon Base</a></li>
-      <li><a class="pill press" href="assets/Sepehr_Aflatounian_Resume.pdf">Résumé</a></li>
+      <li><a class="pill press" href="assets/Sepehr_Aflatounian_Resume.pdf?v=68ecf9e7">Résumé</a></li>
     </ul>
   </div>
 </header>
@@ -857,7 +857,7 @@
     <div class="actions">
       <a class="btn" href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">Message me on LinkedIn</a>
       <a class="more out" href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub</a>
-      <a class="more" href="assets/Sepehr_Aflatounian_Resume.pdf">Résumé</a>
+      <a class="more" href="assets/Sepehr_Aflatounian_Resume.pdf?v=68ecf9e7">Résumé</a>
     </div>
   </div>
 </section>
@@ -927,7 +927,7 @@
   const stageEl = document.getElementById('stage');
   const lz = new IntersectionObserver(([e]) => {
     if (!e.isIntersecting) return; lz.disconnect();
-    import('./assets/duo.js').then(m => m.mount({ stage: stageEl, pills: [...document.querySelectorAll('#duo .pill')], slider: document.getElementById('foldr'), still }))
+    import('./assets/duo.js?v=6213eb29').then(m => m.mount({ stage: stageEl, pills: [...document.querySelectorAll('#duo .pill')], slider: document.getElementById('foldr'), still }))
       .catch(() => { stageEl.querySelector('.loading').textContent = 'The 3D prototype needs WebGL.'; });
   }, { rootMargin: '600px 0px' });
   lz.observe(stageEl);
