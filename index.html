@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <title>Sepehr Aflatounian · iOS Engineer</title>
-<meta name="description" content="Sepehr Aflatounian, iOS engineer in Toronto, building iPhone apps since 2018. Building the new EQ Bank and PC Financial iOS app, passkeys with AuthenticationServices, FordPass EV charging, PokerStars, Smile Link, and AI apps with Core ML, Speech and NaturalLanguage.">
+<meta name="description" content="Sepehr Aflatounian, senior iOS engineer in Toronto specialising in authentication and security, building iPhone apps since 2018. Building the new EQ Bank and PC Financial iOS app, passkeys with AuthenticationServices, FordPass EV charging, PokerStars, Smile Link, and AI apps with Core ML, Speech and NaturalLanguage.">
 <meta name="keywords" content="iOS engineer, IAM, CIAM, SSO, cybersecurity, threat detection, ezSec, Swift, SwiftUI, UIKit, The Composable Architecture, TCA, Combine, Swift Concurrency, Core ML, AuthenticationServices, ASAuthorization, passkeys, WebAuthn, LocalAuthentication, Face ID, Keychain, Okta, OAuth 2.0, ActivityKit, Live Activities, WidgetKit, RxSwift, MVVM, Clean Architecture, fintech, EV, gaming, PokerStars, Toronto">
 <meta name="author" content="Sepehr Aflatounian">
 <link rel="canonical" href="https://sepehrafla.github.io/">
@@ -69,7 +69,8 @@
   /* ── hero ── */
   .hero{padding:110px 0 0;text-align:center;overflow:hidden}
   .hero .eyebrow{margin-bottom:10px}
-  .hero .lede{max-width:640px;margin:18px auto 30px}
+  .hero .lede{max-width:640px;margin:14px auto 30px}
+  .role-line{display:inline-block;margin-top:14px;font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--blue);padding:7px 16px;border-radius:980px;background:rgba(0,113,227,.08)}
   .dock{display:flex;justify-content:center;align-items:flex-start;gap:clamp(12px,3vw,34px);
     margin:56px auto 0;padding:18px clamp(14px,3vw,30px) 14px;border-radius:34px;width:max-content;max-width:calc(100% - 32px)}
   .dock figure{width:clamp(56px,9vw,84px);text-align:center}
@@ -229,6 +230,10 @@
   /* ── now ── */
   .now-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;margin-top:56px}
   .now-copy .lede{margin:14px 0 26px}
+  .wins{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 26px}
+  .wins div{background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 0 0 .5px var(--hair)}
+  .wins b{display:block;font-size:28px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+  .wins span{font-size:13px;color:var(--ink-2)}
   .features{display:grid;gap:26px;margin-top:8px}
   .feature{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
   .feature svg{width:30px;height:30px;color:var(--blue)}
@@ -417,6 +422,7 @@
   @media (max-width:640px){
     section{padding:84px 0}
     .hero{padding-top:92px}
+    .role-line{font-size:13px;padding:6px 12px}
     .stack-grid{grid-template-columns:1fr}
     .tile .inner{padding:28px 22px 30px}
     .tile .stage{--pw:212px}
@@ -456,7 +462,8 @@
 <section class="hero" style="padding-bottom:0">
   <div class="wrap rv">
     <h1 class="display">iOS Engineer.</h1>
-    <p class="lede">Building iPhone apps people open every day since 2018. From bank sign‑in to EV charging.</p>
+    <p class="role-line">Senior iOS · Auth &amp; security · EQ Bank, Ford</p>
+    <p class="lede">8+ years building iPhone apps people open every day, since 2018. From bank sign‑in to EV charging.</p>
     <div class="actions">
       <a class="btn" href="#work">See the work</a>
       <a class="more" href="#contact">Get in touch</a>
@@ -498,12 +505,16 @@
 <section class="alt" id="now">
   <div class="wrap">
     <div class="center rv">
-      <p class="kicker">Now · EQ Bank × PC Financial</p>
+      <p class="kicker">Now · EQ Bank × PC Financial · Apr 2025 – present</p>
       <h2 class="headline" style="margin-top:10px">Two banks. One new app.</h2>
     </div>
     <div class="now-grid">
       <div class="now-copy rv">
         <p class="lede">As EQ Bank and PC Financial come together, I'm helping build <b>the new iOS app</b>, while keeping the sign‑in and identity customers rely on in today's app working all the way through.</p>
+        <div class="wins">
+          <div><b>15s → 5s</b><span>sign‑in, 3× faster</span></div>
+          <div><b>6s → &lt;1s</b><span>app launch</span></div>
+        </div>
         <div class="features">
           <div class="feature">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 9.5v1M15 9.5v1M12 9.5v3.5h-1M9.5 15.5c1.4 1 3.6 1 5 0"/></svg>
@@ -578,7 +589,7 @@
           <span class="concept">Concept · Live Activity</span>
         </div>
         <div class="inner">
-          <div class="head"><img class="icon" src="assets/ford-app.jpg" alt="Ford app icon" width="52" height="52"><p class="kicker">Avanade · Ford</p></div>
+          <div class="head"><img class="icon" src="assets/ford-app.jpg" alt="Ford app icon" width="52" height="52"><p class="kicker">Avanade · Ford · 2021 – 2023</p></div>
           <h3 class="title">Charging, on your schedule.</h3>
           <p class="body">Built intelligent and manual EV charging schedules into the FordPass iPhone app, used by Ford electric vehicle owners.</p>
           <div class="built"><span>Swift</span><span>iOS</span><span>EV charging scheduling</span><span>Client delivery</span></div>
@@ -608,7 +619,7 @@
           <span class="concept">Concept · encrypted chat</span>
         </div>
         <div class="inner">
-          <div class="head"><img class="icon" src="assets/smile-link-app.jpg" alt="Smile Link app icon" width="52" height="52"><p class="kicker">Founder · Dental</p></div>
+          <div class="head"><img class="icon" src="assets/smile-link-app.jpg" alt="Smile Link app icon" width="52" height="52"><p class="kicker">LEYOXA · Founder · 2023 – now</p></div>
           <h3 class="title">The dental office, in your pocket.</h3>
           <p class="body">A patient app with end‑to‑end encrypted messaging and scheduling, built on live data from the practice's Open Dental system.</p>
           <div class="built"><span>UIKit</span><span>RxSwift</span><span>Clean Architecture</span><span>Swift Packages</span><span>Stream Chat</span><span>Virgil E3Kit</span><span>Core Data</span><span>Alamofire</span><span>Firebase Messaging</span><span>Keychain</span><span>Face ID</span></div>
@@ -768,7 +779,7 @@
 
     <div class="stat-row rv">
       <div class="stat"><b>8 yrs</b><span>building for iPhone</span></div>
-      <div class="stat"><b>4</b><span>industries: banking, gaming, auto, health</span></div>
+      <div class="stat"><b>3×</b><span>faster bank sign‑in</span></div>
       <div class="stat"><b>2018</b><span>first iOS app, in co‑op, and building ever since</span></div>
     </div>
   </div>
@@ -791,7 +802,7 @@
         <img class="shot" src="assets/photos/ai-workflow.webp" alt="Glass nodes connected by flowing light, representing an AI workflow" width="1400" height="870" loading="lazy">
       </div>
       <div class="prod rv lit">
-        <p class="kicker">Praxis · AI for dental practices</p>
+        <p class="kicker">Praxis · built through LEYOXA for DDS Marketing</p>
         <h3>Six products, one practice.</h3>
         <p>AI agents that answer a practice's phone and run its marketing automatically.</p>
         <div class="six">
