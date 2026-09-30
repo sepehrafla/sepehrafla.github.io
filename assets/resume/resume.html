@@ -85,7 +85,7 @@ product decisions to App Store release.</p>
 <h2>What I bring</h2>
 <div class="comp">
   <div><b>Product and UI/UX craft</b>Strong design taste; pixel-level polish, fluid animation and interaction, native patterns from Apple's Human Interface Guidelines.</div>
-  <div><b>Performance</b>Measured, visible speed-ups: sign-in cut from 15 s to 5 s and app launch from 6 s to under 1 s.</div>
+  <div><b>Performance</b>Profiling with Xcode Instruments (Time Profiler, Network) to find and fix real bottlenecks: sign-in 15 s → 5 s, launch 6 s → under 1 s.</div>
   <div><b>Security and identity</b>Passkeys (WebAuthn / FIDO2), Face ID, Keychain, OAuth 2.0 and Okta, end-to-end encryption, work inside a bank's fraud and identity team.</div>
   <div><b>Architecture at scale</b>Clean Architecture, MVVM, modular Swift packages and reactive data flow that keep large apps testable as teams grow.</div>
   <div><b>AI in apps</b>On-device Core ML, Speech and NaturalLanguage, plus LLM and voice APIs (OpenAI Realtime, Gemini, ElevenLabs) shipped to real users.</div>
@@ -97,7 +97,7 @@ product decisions to App Store release.</p>
   <p><b>Languages &amp; UI:</b> Swift, Objective-C, SwiftUI, UIKit, Combine, Swift Concurrency (async/await, actors), RxSwift</p>
   <p><b>Identity &amp; security:</b> AuthenticationServices, passkeys (WebAuthn / FIDO2), Associated Domains, LocalAuthentication (Face ID), Keychain Services, Okta, OAuth 2.0, end-to-end encryption</p>
   <p><b>Apple frameworks:</b> Core Data, Core ML, NaturalLanguage, Speech, AVFoundation, Swift Charts, MapKit, Core Location, Core Motion, PhotosUI, PDFKit, UserNotifications, BackgroundTasks, WebKit</p>
-  <p><b>Architecture:</b> MVVM, Clean Architecture, modular Swift packages · XCTest, Swift Testing, UI tests, TestFlight, App Store Connect, CI</p>
+  <p><b>Architecture:</b> MVVM, Clean Architecture, modular Swift packages · Xcode Instruments (Time Profiler, Network), XCTest, Swift Testing, UI tests, TestFlight, App Store Connect, CI</p>
   <p><b>Services &amp; AI:</b> Firebase (Auth, Firestore, Messaging), Stream Chat, Virgil E3Kit, Alamofire; OpenAI Realtime API, Gemini, ElevenLabs</p>
 </div>
 
@@ -107,7 +107,7 @@ product decisions to App Store release.</p>
   <div class="jh"><b>EQ Bank · Equitable Bank</b><span>Apr 2025 – Present · Toronto</span></div>
   <div class="jt">Software Engineer, iOS · Security, Fraud &amp; Customer Identity (CIAM)</div>
   <ul>
-    <li>Made sign-in <b>3× faster, from 15 seconds to 5 seconds</b>, and cut <b>app launch time from 6 seconds to under 1 second</b>, improving the first experience for every customer.</li>
+    <li>Made sign-in <b>3× faster, from 15 seconds to 5 seconds</b>, and cut <b>app launch time from 6 seconds to under 1 second</b>: profiled with <b>Xcode Instruments</b> (Time Profiler and Network), timed every call on the critical path, found the bottlenecks and fixed them.</li>
     <li>Built <b>passkey sign-in for the EQ Bank iOS app</b> with AuthenticationServices, Associated Domains and Face ID; <b>adopted by 90% of 500K customers</b>, replacing passwords with phishing-resistant, device-bound credentials.</li>
     <li>On the convergence team building the <b>unified iOS app for the EQ Bank and PC Financial merger</b>, bringing passkeys and the new sign-in to <b>4.5M customers</b> while keeping today's app working for existing ones.</li>
     <li>Part of the identity migration from <b>HID to Okta</b> (OAuth 2.0), working across iOS, backend and security teams.</li>
