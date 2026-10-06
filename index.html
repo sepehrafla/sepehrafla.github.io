@@ -48,14 +48,10 @@
   .intro strong{color:var(--ink)}
   .find{margin-top:16px;color:var(--ink3)}
 
-  .logos{list-style:none;display:flex;flex-wrap:wrap;gap:18px 22px;margin-top:32px}
-  .logos li{display:flex;flex-direction:column;align-items:center;gap:8px;width:64px}
-  .logos img,.sl img{border-radius:22.5%;background:#fff;box-shadow:0 0 0 1px var(--line),0 6px 16px -10px rgba(0,0,0,.35);object-fit:cover;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-  .logos img{width:56px;height:56px}
-  .logos li:hover img{transform:translateY(-4px) scale(1.04)}
-  .logos span{font-size:12px;line-height:1.2;color:var(--ink3);text-align:center;letter-spacing:-.006em;white-space:nowrap}
-  .sl{display:flex;gap:8px;margin-bottom:16px}
-  .sl img{width:40px;height:40px}
+  .sh{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}
+  .sh h2{margin-bottom:0}
+  .sl{display:flex;gap:8px;flex:none}
+  .sl img{width:40px;height:40px;border-radius:22.5%;background:#fff;object-fit:cover;box-shadow:0 0 0 1px var(--line),0 6px 16px -10px rgba(0,0,0,.35)}
   section{margin-top:56px;padding-top:28px;border-top:1px solid var(--line)}
   h2{font-size:26px;line-height:1.2;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
   h2 .n{display:inline-block;min-width:1.6em;color:var(--accent)}
@@ -85,11 +81,8 @@
     .intro{font-size:19px}
     h2{font-size:22px}
     .big b{font-size:34px}
-    .logos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 8px}
-    .logos li{width:auto}
-    .logos img{width:48px;height:48px}
-    .logos span{font-size:11px}
     .big{grid-template-columns:1fr 1fr;gap:16px 20px}
+    .sl img{width:34px;height:34px}
   }
 </style>
 </head>
@@ -101,18 +94,9 @@
   </header>
   <p class="intro">I’m a software engineer in Toronto working on <strong>identity and access management</strong>, <strong>production AI agents</strong> and <strong>mobile platforms</strong>. A problem solver and a quick learner, I tie every system I build to a business result.</p>
   <p class="find">Find me on <a href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn</a> and <a href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub</a>, or read my <a href="assets/Sepehr_Aflatounian_Resume.pdf">résumé</a>.</p>
-  <ul class="logos" aria-label="Where I have worked">
-    <li><img src="assets/eq-bank-app.jpg" alt="" width="56" height="56"><span>EQ Bank</span></li>
-    <li><img src="assets/pc-financial-app.jpg" alt="" width="56" height="56"><span>PC Financial</span></li>
-    <li><img src="assets/ford-app.jpg" alt="" width="56" height="56"><span>Ford</span></li>
-    <li><img src="assets/praxis-app.png" alt="" width="56" height="56"><span>Praxis</span></li>
-    <li><img src="assets/smile-link-app.jpg" alt="" width="56" height="56"><span>Smile Link</span></li>
-    <li><img src="assets/uwaterloo-crest.png" alt="" width="56" height="56"><span>Waterloo</span></li>
-  </ul>
 
   <section>
-    <span class="sl"><img src="assets/eq-bank-app.jpg" alt="" width="40" height="40"><img src="assets/pc-financial-app.jpg" alt="" width="40" height="40"></span>
-    <h2><span class="n">01</span>Customer IAM for a bank merger</h2>
+    <div class="sh"><h2><span class="n">01</span>Customer IAM for a bank merger</h2><span class="sl"><img src="assets/eq-bank-app.jpg" alt="" width="40" height="40"><img src="assets/pc-financial-app.jpg" alt="" width="40" height="40"></span></div>
     <p class="hard"><b>The challenge.</b> Move <a href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank</a>’s customer identity platform from HID to Okta and roll out passwordless authentication, while EQ Bank and <a href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial</a> converge into one app, with zero lockouts.</p>
     <p>On the CIAM team I built FIDO2 passkey authentication on iOS (WebAuthn through AuthenticationServices, bound to the app with Associated Domains), and OAuth 2.0 session management on the Okta iOS SDK: tokens held in the Keychain, refreshed silently, and sender‑constrained with DPoP so a stolen token can’t be replayed. Then I traced the sign‑in and launch critical path with Instruments and removed the slow calls.</p>
     <div class="big">
@@ -126,8 +110,7 @@
   </section>
 
   <section>
-    <span class="sl"><img src="assets/praxis-app.png" alt="" width="40" height="40"></span>
-    <h2><span class="n">02</span>Production AI agents at Praxis</h2>
+    <div class="sh"><h2><span class="n">02</span>Production AI agents at Praxis</h2><span class="sl"><img src="assets/praxis-app.png" alt="" width="40" height="40"></span></div>
     <p class="hard"><b>The challenge.</b> Put LLM voice agents on live phone lines for dental practices: hold a real‑time conversation, read and write appointments in each practice’s own practice‑management system, and stay inside HIPAA, with protected health information under a business associate agreement.</p>
     <p>For a dental marketing company I architected and shipped <a href="https://itspraxis.ai" target="_blank" rel="noopener">Praxis</a>: real‑time voice agents with LLM tool calling over telephony, a scheduling layer that validates every slot before it books, read/write integrations with the practices’ systems, and agents for reputation, search visibility, call coaching and owner reporting. Every call is evaluated on what the agent actually did, not on a demo.</p>
     <div class="big">
@@ -139,8 +122,7 @@
   </section>
 
   <section>
-    <span class="sl"><img src="assets/ford-app.jpg" alt="" width="40" height="40"></span>
-    <h2><span class="n">03</span>Connected‑vehicle charging at Ford</h2>
+    <div class="sh"><h2><span class="n">03</span>Connected‑vehicle charging at Ford</h2><span class="sl"><img src="assets/ford-app.jpg" alt="" width="40" height="40"></span></div>
     <p class="hard"><b>The challenge.</b> Shift when EV owners charge to off‑peak hours without making them think about it, and prove whether they actually adopt it.</p>
     <p>At Avanade I built the iOS side of scheduled and manual charging in the <a href="https://apps.apple.com/ca/app/ford/id1095418609" target="_blank" rel="noopener">FordPass</a> app, against Ford’s connected‑vehicle services, and the analytics behind it: how many vehicles were enrolled and how many owners chose automatic over manual charging.</p>
     <p class="out"><b>The result.</b> Owners who opted in charged off‑peak, and Ford had measured adoption across its EV owners.</p>
@@ -148,16 +130,14 @@
   </section>
 
   <section>
-    <span class="sl"><img src="assets/leyoxa-app.svg" alt="" width="40" height="40"><img src="assets/smile-link-app.jpg" alt="" width="40" height="40"></span>
-    <h2><span class="n">04</span>Founder of Leyoxa</h2>
+    <div class="sh"><h2><span class="n">04</span>Founder of Leyoxa</h2><span class="sl"><img src="assets/leyoxa-app.svg" alt="" width="40" height="40"><img src="assets/smile-link-app.jpg" alt="" width="40" height="40"></span></div>
     <p class="hard"><b>The challenge.</b> A field I’m learning from scratch: electrical commissioning, where every connection in a data center has to be proven against NETA acceptance standards before it’s energized, and the crews who check them are scarce.</p>
     <p>At <a href="https://leyoxa.com" target="_blank" rel="noopener">Leyoxa</a> I’m building <strong>Leyoxa Verify</strong>: it parses test‑set results and flags peer outliers that still pass the limit, checks labels and torque marks against the one‑line diagram with computer vision, and catches hot joints with thermal imaging under first load. Before that I built <a href="https://apps.apple.com/ca/app/smile-link/id1645696642" target="_blank" rel="noopener">Smile Link</a>, an end‑to‑end encrypted iPhone app for patients and their dental practice.</p>
     <p class="stack"><span>Anomaly detection</span> · <span>Computer vision</span> · <span>Thermal imaging</span> · <span>NETA ATS</span> · <span>Edge deployment</span></p>
   </section>
 
   <section>
-    <span class="sl"><img src="assets/uwaterloo-crest.png" alt="" width="40" height="40"></span>
-    <h2><span class="n">05</span>Waterloo engineer</h2>
+    <div class="sh"><h2><span class="n">05</span>Waterloo engineer</h2><span class="sl"><img src="assets/uwaterloo-crest.png" alt="" width="40" height="40"></span></div>
     <p>I studied Computer Engineering at the University of Waterloo. I led <strong>Watonomous</strong>, the university’s autonomous driving team, and co‑founded <strong>SeedCI</strong>, which used unsupervised clustering to detect cyber‑attack campaigns in security‑operations data without labelled attacks. Co‑op put me on real products early: medical devices at Aterica, the PokerStars apps at Stars Technologies, fleet tracking at Fleet Complete.</p>
   </section>
 
