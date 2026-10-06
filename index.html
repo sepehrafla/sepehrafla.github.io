@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <title>Sepehr Aflatounian · Computer engineer and problem solver</title>
-<meta name="description" content="Sepehr Aflatounian, computer engineer from the University of Waterloo in Toronto. Hard problems with measured outcomes: 90% passkey adoption across 500K bank customers, 3× faster sign-in at EQ Bank, off-peak EV charging and adoption analytics for Ford, and six AI agents in production for a dental marketing company.">
+<meta name="description" content="Sepehr Aflatounian, computer engineer from the University of Waterloo in Toronto. Hard problems with measured outcomes: secure OAuth 2.0 sign-in and session management for 4.5M customers on the converged EQ Bank and PC Financial app, 90% passkey adoption, 3× faster sign-in, off-peak EV charging and adoption analytics for Ford, and six AI agents in production for a dental marketing company.">
 <meta name="keywords" content="iOS engineer, IAM, CIAM, SSO, cybersecurity, threat detection, ezSec, Swift, SwiftUI, UIKit, The Composable Architecture, TCA, Combine, Swift Concurrency, Core ML, AuthenticationServices, ASAuthorization, passkeys, WebAuthn, LocalAuthentication, Face ID, Keychain, Okta, OAuth 2.0, ActivityKit, Live Activities, WidgetKit, RxSwift, MVVM, Clean Architecture, fintech, EV, gaming, PokerStars, Toronto">
 <meta name="author" content="Sepehr Aflatounian">
 <link rel="canonical" href="https://sepehrafla.github.io/">
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Sepehr Aflatounian · Hard problems, measured outcomes">
-<meta property="og:description" content="Computer engineer, University of Waterloo. Banking, EV charging, dental tech and marketing, each with a number attached.">
+<meta property="og:description" content="Computer engineer, University of Waterloo. 4.5M customers on a converged banking app, 90% passkey adoption, and more, each with a number attached.">
 <meta property="og:url" content="https://sepehrafla.github.io/">
 <meta property="og:image" content="https://sepehrafla.github.io/assets/sepehr-aflatounian-2026.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -467,6 +467,9 @@
 
   .tile.span2{grid-column:1/-1}
   .side.three{grid-template-columns:repeat(3,1fr);margin-top:56px}
+  .side .card-static{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:18px;background:#fff;border-radius:22px;padding:24px 28px;color:var(--ink)}
+  .tag-static{font-style:normal;font-size:13px;font-weight:600;color:var(--ink-2);background:var(--bg-alt);padding:4px 11px;border-radius:980px}
+  .side.three a,.side.three .card-static{min-height:100%}
   .side.three a{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:18px}
   .craft{text-align:center}
   .about .headline{font-size:40px}
@@ -519,9 +522,9 @@
     <p class="role-line">Computer Engineering · University of Waterloo</p>
     <p class="lede">I learn a business fast, find what is really holding it back, and ship the fix with a number attached. In banking, EV charging, dental tech and marketing.</p>
     <div class="hero-wins" aria-label="Outcomes">
+      <div><b>4.5M</b><span>customers on the converged banking app I helped build</span></div>
       <div><b>90%</b><span>of 500K bank customers moved to passkeys</span></div>
       <div><b>3×</b><span>faster bank sign‑in, 15s to 5s</span></div>
-      <div><b>&lt;1s</b><span>app launch, down from 6s</span></div>
       <div><b>6</b><span>AI agents in production for a marketing company</span></div>
     </div>
     <div class="actions">
@@ -550,13 +553,13 @@
     <div class="case rv">
       <div class="case-copy">
         <p class="kicker">Banking · EQ Bank × PC Financial · 2025 – now</p>
-        <h3 class="title">Faster, safer sign‑in for 500K customers.</h3>
+        <h3 class="title">Secure sign‑in for two banks becoming one.</h3>
           <dl class="pdo">
-            <div><dt>Problem</dt><dd>Sign‑in took 15 seconds, the app took 6 seconds to open, and passwords were the weakest link, all while two banks were merging.</dd></div>
-            <div><dt>What I did</dt><dd>Profiled every call on the sign‑in and launch path with Xcode Instruments and fixed the slow ones. Built passkey sign‑in with Face ID, and helped move customer identity from HID to Okta, with sessions protected by DPoP.</dd></div>
-            <div><dt>Outcome</dt><dd><b>90% of 500K customers switched to passkeys.</b> Sign‑in became 3× faster, launch dropped under a second, and the bank could retire third‑party services it no longer needed.</dd></div>
+            <div><dt>Problem</dt><dd>Two banks were merging into one app. Sign‑in took 15 seconds, the app took 6 seconds to open, and passwords were the weakest link.</dd></div>
+            <div><dt>What I did</dt><dd>Built sign‑in on OAuth 2.0 with session management: tokens kept in the Keychain, refreshed safely, and bound to the device with DPoP so a stolen token can’t be replayed. Built passkey sign‑in with Face ID, helped move customer identity from HID to Okta, and helped build the converged app for both banks. Profiled the sign‑in and launch path with Xcode Instruments and fixed the slow calls.</dd></div>
+            <div><dt>Outcome</dt><dd><b>4.5M customers now sign in to the converged app.</b> Sign‑in is more secure and more reliable, with higher login uptime. 90% of 500K customers switched to passkeys, sign‑in became 3× faster, launch dropped under a second, and the bank retired third‑party services it no longer needed.</dd></div>
           </dl>
-          <div class="built" aria-label="Built with"><span>Swift</span><span>AuthenticationServices</span><span>Passkeys · FIDO2</span><span>Okta</span><span>OAuth 2.0</span><span>DPoP</span><span>Keychain</span><span>Instruments</span></div>
+          <div class="built" aria-label="Built with"><span>Swift</span><span>AuthenticationServices</span><span>Passkeys · FIDO2</span><span>Okta</span><span>OAuth 2.0</span><span>Session management</span><span>DPoP</span><span>Keychain</span><span>Instruments</span></div>
           <div class="now-links">
             <a class="more out" href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank on the App Store</a>
             <a class="more out" href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial on the App Store</a>
@@ -797,6 +800,7 @@
     <p class="kicker">Craft</p>
     <h2 class="headline" style="margin-top:10px">Detail, down to the hinge.</h2>
     <p class="lede" style="max-width:640px;margin:18px auto 0">A foldable iPhone concept, built in three.js: an AI agent whose interface adapts to every fold. Drag it to turn it.</p>
+    <p style="margin-top:14px"><a class="more" href="moonbase/">Also: Moon Base, a real‑physics lunar drone you can fly</a></p>
   </div>
   <div class="duo rv" id="duo">
     <div class="duo-side" role="group" aria-label="Choose what the agent does">
@@ -895,12 +899,12 @@
   <div class="wrap">
     <div class="center rv">
       <p class="kicker">Building now</p>
-      <h2 class="headline" style="margin-top:10px">Next hard problem.</h2>
+      <h2 class="headline" style="margin-top:10px">What I’m building now.</h2>
     </div>
     <div class="side three">
-      <a class="rv lit" href="https://leyoxa.com" target="_blank" rel="noopener"><div><b>Leyoxa Verify</b><span>AI commissioning QA: evidence for every electrical connection before a data center goes live.</span></div><em class="more out">leyoxa.com</em></a>
-      <a class="rv lit" href="moonbase/"><div><b>Moon Base</b><span>A real‑physics lunar drone, flown by you or by an AI.</span></div><em class="more">Play</em></a>
-      <a class="rv lit" href="https://github.com/sepehrafla" target="_blank" rel="noopener"><div><b>Machine learning</b><span>Co‑founded SeedCI: cyber‑attack detection and a 97%‑accurate price model.</span></div><em class="more out">GitHub</em></a>
+      <a class="rv lit" href="https://leyoxa.com" target="_blank" rel="noopener"><div><b>Leyoxa Verify</b><span>AI commissioning QA: test results, terminations and hot joints checked, so every electrical connection has evidence before a data center goes live.</span></div><em class="more out">leyoxa.com</em></a>
+      <a class="rv lit" href="https://itspraxis.ai" target="_blank" rel="noopener"><div><b>Praxis</b><span>Growing the AI platform for dental practices: more practices, more agents, less manual work.</span></div><em class="more out">itspraxis.ai</em></a>
+      <div class="rv lit card-static"><div><b>A private AI platform</b><span>My own self‑hosted cloud and AI stack, with a privacy gateway that strips personal data before any model sees it.</span></div><em class="tag-static">Self‑hosted</em></div>
     </div>
   </div>
 </section>
