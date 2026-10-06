@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <title>Sepehr Aflatounian</title>
-<meta name="description" content="Sepehr Aflatounian: software engineer in Toronto. Sign-in at EQ Bank and PC Financial, founder of Leyoxa, builder of the AI platform behind Praxis, EV charging in FordPass, Waterloo computer engineer.">
+<meta name="description" content="Sepehr Aflatounian, software engineer in Toronto: customer IAM at EQ Bank (Okta, OAuth 2.0, DPoP, FIDO2 passkeys; 90% adoption across 500K customers), production AI voice agents at Praxis, connected-vehicle charging at Ford, founder of Leyoxa.">
 <meta name="author" content="Sepehr Aflatounian">
 <link rel="canonical" href="https://sepehrafla.github.io/">
 <meta property="og:type" content="profile">
@@ -56,6 +56,8 @@
   .hard b,.out b{font-weight:700}
   .out{margin-top:16px!important}
   .out b{color:var(--accent)}
+  .stack span{white-space:nowrap}
+  .stack{margin-top:16px!important;font:500 13px/1.6 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:0;color:var(--ink3)!important}
 
   .big{display:grid;grid-template-columns:repeat(4,minmax(0,max-content));gap:16px 36px;margin:22px 0 4px}
   .big div{display:flex;flex-direction:column}
@@ -81,49 +83,53 @@
 <main>
   <img class="me" src="assets/sepehr-aflatounian-2026.jpg" alt="Sepehr Aflatounian" width="260" height="260">
   <h1 id="about">Sepehr Aflatounian</h1>
-  <p class="intro">I’m a software engineer in Toronto: a problem solver and a quick learner who ties every piece of work to a business result. I’ve made <strong>bank sign‑in faster and phishing‑proof</strong>, built the <strong>AI platform behind Praxis</strong>, shipped <strong>EV charging for Ford</strong>, and founded <strong>Leyoxa</strong>.</p>
+  <p class="intro">I’m a software engineer in Toronto working on <strong>identity and access management</strong>, <strong>production AI agents</strong> and <strong>mobile platforms</strong>. A problem solver and a quick learner, I tie every system I build to a business result.</p>
   <p class="find">Find me on <a href="https://www.linkedin.com/in/saflatounian" target="_blank" rel="noopener">LinkedIn</a> and <a href="https://github.com/sepehrafla" target="_blank" rel="noopener">GitHub</a>, or read my <a href="assets/Sepehr_Aflatounian_Resume.pdf">résumé</a>.</p>
 
   <section>
-    <h2><span class="n">01</span>Making bank sign‑in fast and phishing‑proof</h2>
-    <p class="hard"><b>The challenge.</b> Change how customers sign in to their money while two banks, <a href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank</a> and <a href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial</a>, merge into one app, without locking anyone out.</p>
-    <p>I built passkey sign‑in with Face ID, so there’s no password to steal. I profiled every call on the sign‑in and launch path and fixed the slow ones, and worked on OAuth 2.0 session management with tokens bound to the device.</p>
+    <h2><span class="n">01</span>Customer IAM for a bank merger</h2>
+    <p class="hard"><b>The challenge.</b> Move <a href="https://apps.apple.com/ca/app/eq-bank-mobile-banking/id1039432211" target="_blank" rel="noopener">EQ Bank</a>’s customer identity platform from HID to Okta and roll out passwordless authentication, while EQ Bank and <a href="https://apps.apple.com/ca/app/pc-financial-mobile/id1446078005" target="_blank" rel="noopener">PC Financial</a> converge into one app, with zero lockouts.</p>
+    <p>On the CIAM team I built FIDO2 passkey authentication on iOS (WebAuthn through AuthenticationServices, bound to the app with Associated Domains), and OAuth 2.0 session management on the Okta iOS SDK: tokens held in the Keychain, refreshed silently, and sender‑constrained with DPoP so a stolen token can’t be replayed. Then I traced the sign‑in and launch critical path with Instruments and removed the slow calls.</p>
     <div class="big">
-      <div><b>90%</b><span>of 500K customers moved to passkeys</span></div>
+      <div><b>90%</b><span>of 500K customers on passkeys</span></div>
       <div><b>3×</b><span>faster sign‑in, 15s&nbsp;to&nbsp;5s</span></div>
       <div><b>&lt;1s</b><span>app launch, down from&nbsp;6s</span></div>
       <div><b>4.5M</b><span>customers on the converged app</span></div>
     </div>
-    <p class="out"><b>The result.</b> Safer, faster sign‑in for millions of customers, and the bank dropped third‑party services it no longer needed.</p>
+    <p class="out"><b>The result.</b> Phishing‑resistant, faster authentication at bank scale, and the bank decommissioned third‑party services it no longer needed.</p>
+    <p class="stack"><span>CIAM</span> · <span>Okta</span> · <span>OAuth 2.0</span> · <span>DPoP</span> · <span>FIDO2 / WebAuthn</span> · <span>Passkeys</span> · <span>Keychain</span> · <span>Swift</span> · <span>Instruments</span></p>
   </section>
 
   <section>
-    <h2><span class="n">02</span>Builder of the AI platform behind Praxis</h2>
-    <p class="hard"><b>The challenge.</b> Put AI on the phone for real dental practices: answer patients live, book straight into decades‑old practice software, and handle patient data under HIPAA rules.</p>
-    <p>For a dental marketing company, I built <a href="https://itspraxis.ai" target="_blank" rel="noopener">Praxis</a>, shipping one agent after another until six were running in production: voice booking, reputation, search visibility, an assistant for owners and more.</p>
+    <h2><span class="n">02</span>Production AI agents at Praxis</h2>
+    <p class="hard"><b>The challenge.</b> Put LLM voice agents on live phone lines for dental practices: hold a real‑time conversation, read and write appointments in each practice’s own practice‑management system, and stay inside HIPAA, with protected health information under a business associate agreement.</p>
+    <p>For a dental marketing company I architected and shipped <a href="https://itspraxis.ai" target="_blank" rel="noopener">Praxis</a>: real‑time voice agents with LLM tool calling over telephony, a scheduling layer that validates every slot before it books, read/write integrations with the practices’ systems, and agents for reputation, search visibility, call coaching and owner reporting. Every call is evaluated on what the agent actually did, not on a demo.</p>
     <div class="big">
-      <div><b>6</b><span>AI agents in production</span></div>
-      <div><b>24/7</b><span>patient calls answered and booked</span></div>
+      <div><b>6</b><span>agents in production</span></div>
+      <div><b>24/7</b><span>calls answered and booked</span></div>
     </div>
     <p class="out"><b>The result.</b> Lower operating costs and more clients for the company. It started as a project and became a partnership.</p>
+    <p class="stack"><span>Voice AI</span> · <span>ElevenLabs</span> · <span>LLM tool calling</span> · <span>Telephony</span> · <span>PMS integrations</span> · <span>HIPAA</span> · <span>Evaluation</span></p>
   </section>
 
   <section>
-    <h2><span class="n">03</span>EV charging for Ford</h2>
-    <p class="hard"><b>The challenge.</b> Get drivers to charge when electricity is cheap, without making them think about it, and prove whether they actually do.</p>
-    <p>At Avanade, I built automatic and manual charging schedules into the <a href="https://apps.apple.com/ca/app/ford/id1095418609" target="_blank" rel="noopener">FordPass</a> iPhone app, and the measurement behind them: how many owners enrolled, and how many chose automatic over manual charging.</p>
-    <p class="out"><b>The result.</b> Owners who opted in charged off‑peak, and Ford could see real adoption across its EV owners.</p>
+    <h2><span class="n">03</span>Connected‑vehicle charging at Ford</h2>
+    <p class="hard"><b>The challenge.</b> Shift when EV owners charge to off‑peak hours without making them think about it, and prove whether they actually adopt it.</p>
+    <p>At Avanade I built the iOS side of scheduled and manual charging in the <a href="https://apps.apple.com/ca/app/ford/id1095418609" target="_blank" rel="noopener">FordPass</a> app, against Ford’s connected‑vehicle services, and the analytics behind it: how many vehicles were enrolled and how many owners chose automatic over manual charging.</p>
+    <p class="out"><b>The result.</b> Owners who opted in charged off‑peak, and Ford had measured adoption across its EV owners.</p>
+    <p class="stack"><span>Swift</span> · <span>Connected vehicle</span> · <span>Charge scheduling</span> · <span>Product analytics</span></p>
   </section>
 
   <section>
     <h2><span class="n">04</span>Founder of Leyoxa</h2>
-    <p class="hard"><b>The challenge.</b> A field I’m learning from scratch: electrical commissioning, where every connection in a data center has to be proven before it’s switched on, and the crews who check them are scarce.</p>
-    <p>At <a href="https://leyoxa.com" target="_blank" rel="noopener">Leyoxa</a> I’m building <strong>Leyoxa Verify</strong>: AI that reads test results and checks the installed work against the design. Before that, I built <a href="https://apps.apple.com/ca/app/smile-link/id1645696642" target="_blank" rel="noopener">Smile Link</a>, an encrypted iPhone app for patients to message and book with their dental practice.</p>
+    <p class="hard"><b>The challenge.</b> A field I’m learning from scratch: electrical commissioning, where every connection in a data center has to be proven against NETA acceptance standards before it’s energized, and the crews who check them are scarce.</p>
+    <p>At <a href="https://leyoxa.com" target="_blank" rel="noopener">Leyoxa</a> I’m building <strong>Leyoxa Verify</strong>: it parses test‑set results and flags peer outliers that still pass the limit, checks labels and torque marks against the one‑line diagram with computer vision, and catches hot joints with thermal imaging under first load. Before that I built <a href="https://apps.apple.com/ca/app/smile-link/id1645696642" target="_blank" rel="noopener">Smile Link</a>, an end‑to‑end encrypted iPhone app for patients and their dental practice.</p>
+    <p class="stack"><span>Anomaly detection</span> · <span>Computer vision</span> · <span>Thermal imaging</span> · <span>NETA ATS</span> · <span>Edge deployment</span></p>
   </section>
 
   <section>
     <h2><span class="n">05</span>Waterloo engineer</h2>
-    <p>I studied Computer Engineering at the University of Waterloo. I led <strong>Watonomous</strong>, the university’s autonomous driving team, and co‑founded <strong>SeedCI</strong>, which used unsupervised learning to spot cyber‑attack campaigns. Co‑op put me on real products early: medical devices at Aterica, the PokerStars apps at Stars Technologies, fleet tracking at Fleet Complete.</p>
+    <p>I studied Computer Engineering at the University of Waterloo. I led <strong>Watonomous</strong>, the university’s autonomous driving team, and co‑founded <strong>SeedCI</strong>, which used unsupervised clustering to detect cyber‑attack campaigns in security‑operations data without labelled attacks. Co‑op put me on real products early: medical devices at Aterica, the PokerStars apps at Stars Technologies, fleet tracking at Fleet Complete.</p>
   </section>
 
   <section>
